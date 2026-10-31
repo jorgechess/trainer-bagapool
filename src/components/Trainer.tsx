@@ -26,7 +26,8 @@ import {
   PEEK_COMMAND,
   SHORTCUTS_KEY,
   commandFor,
-  inputLabel,
+  inputShortLabel,
+  isTypingTarget,
   keyInput,
   mouseInput,
   parseBindings,
@@ -295,7 +296,7 @@ function TableSlot({
             >
               {keyboard === "choose" && (
                 <span className="mr-1 hidden opacity-60 sm:inline">
-                  {bindings[actionId] ? inputLabel(bindings[actionId]) : optionIndex + 1}
+                  {bindings[actionId] ? inputShortLabel(bindings[actionId]) : optionIndex + 1}
                 </span>
               )}
               {action?.label ?? actionId}
@@ -312,7 +313,7 @@ function TableSlot({
           <button className="btn-secondary" onClick={next}>
             Continuar
             {keyboard === "next" && bindings[CONTINUE_COMMAND] && (
-              <span className="text-xs opacity-60">{inputLabel(bindings[CONTINUE_COMMAND])}</span>
+              <span className="text-xs opacity-60">{inputShortLabel(bindings[CONTINUE_COMMAND])}</span>
             )}
           </button>
         </div>
@@ -536,8 +537,7 @@ export function Trainer({ drill, strategies, legend }: TrainerProps) {
       return false;
     }
     function onKey(event: KeyboardEvent) {
-      const target = event.target as HTMLElement | null;
-      if (target && (target.tagName === "INPUT" || target.tagName === "SELECT" || target.tagName === "TEXTAREA")) return;
+      if (isTypingTarget(event.target as HTMLInputElement | null)) return;
       if (event.repeat || event.ctrlKey || event.metaKey || event.altKey) return;
       const digitMatch = /^(?:Digit|Numpad)([1-9])$/.exec(event.code);
       if (run(keyInput(event), digitMatch ? Number(digitMatch[1]) : null, event)) event.preventDefault();

@@ -102,3 +102,21 @@ export function parseBindings(raw: string | null): Bindings {
     return { ...DEFAULT_BINDINGS };
   }
 }
+
+const MOUSE_SHORT: Record<string, string> = { "1": "Meio", "2": "Dir.", "3": "Lat.1", "4": "Lat.2" };
+
+/** Nome curto para mostrar dentro dos botões do treino. */
+export function inputShortLabel(input: string | undefined): string {
+  if (!input) return "";
+  if (input.startsWith("mouse:")) return MOUSE_SHORT[input.slice(6)] ?? `M${input.slice(6)}`;
+  return inputLabel(input);
+}
+
+/** Campos onde o jogador digita: teclas ali não disparam atalhos. */
+export function isTypingTarget(target: { tagName?: string; type?: string; isContentEditable?: boolean } | null): boolean {
+  if (!target) return false;
+  if (target.isContentEditable) return true;
+  if (target.tagName === "TEXTAREA" || target.tagName === "SELECT") return true;
+  if (target.tagName !== "INPUT") return false;
+  return !["checkbox", "radio", "button", "submit", "reset", "range", "color"].includes((target.type ?? "text").toLowerCase());
+}

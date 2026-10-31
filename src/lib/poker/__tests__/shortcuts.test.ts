@@ -50,3 +50,17 @@ test("leitura do que foi salvo tolera dados inválidos", () => {
     { fold: "mouse:3" },
   );
 });
+
+test("nomes curtos e campos de digitação", async () => {
+  const { inputShortLabel, isTypingTarget } = await import("../../shortcuts");
+  assert.equal(inputShortLabel("mouse:3"), "Lat.1");
+  assert.equal(inputShortLabel("mouse:1"), "Meio");
+  assert.equal(inputShortLabel("key:KeyF"), "F");
+  assert.equal(inputShortLabel(undefined), "");
+  assert.ok(isTypingTarget({ tagName: "INPUT", type: "text" }));
+  assert.ok(isTypingTarget({ tagName: "INPUT" }));
+  assert.ok(isTypingTarget({ tagName: "TEXTAREA" }));
+  assert.ok(!isTypingTarget({ tagName: "INPUT", type: "checkbox" }));
+  assert.ok(!isTypingTarget({ tagName: "BUTTON" }));
+  assert.ok(!isTypingTarget(null));
+});
