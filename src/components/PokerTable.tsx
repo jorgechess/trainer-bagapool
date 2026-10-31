@@ -15,6 +15,8 @@ interface PokerTableProps {
   rows?: number;
   /** Espaço vertical ocupado pelo resto da página, em px. */
   reservedHeight?: number;
+  /** Largura mínima para continuar legível (telas baixas rolam em vez de encolher demais). */
+  minWidth?: number;
 }
 
 const SEAT_COUNT = 9;
@@ -102,6 +104,7 @@ export function PokerTable({
   vertical = false,
   rows = 1,
   reservedHeight = 330,
+  minWidth = 0,
 }: PokerTableProps) {
   const shape = vertical ? TALL : WIDE;
   const seats = tableSeats(strategy);
@@ -113,7 +116,9 @@ export function PokerTable({
     <div
       className="@container mx-auto w-full select-none"
       // Cresce com a largura, mas nunca passa da altura disponível na tela
-      style={{ maxWidth: `min(100%, calc((100dvh - ${reservedHeight}px) / ${rows} * ${shape.aspect}))` }}
+      style={{
+        maxWidth: `min(100%, max(${minWidth}px, calc((100dvh - ${reservedHeight}px) / ${rows} * ${shape.aspect})))`,
+      }}
     >
       <div
         className="relative w-full"

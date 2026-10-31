@@ -255,7 +255,8 @@ function TableSlot({
         texture={texture}
         vertical={vertical}
         rows={rows}
-        reservedHeight={multi ? 360 + rows * 150 : 330}
+        reservedHeight={multi ? 250 + rows * 130 : 330}
+        minWidth={multi ? 420 : 0}
       />
 
       <div className={`grid gap-2 ${multi ? "grid-cols-2 lg:grid-cols-3" : "grid-cols-2 sm:grid-cols-3"}`} data-testid="actions">
@@ -514,6 +515,8 @@ export function Trainer({ drill, strategies, legend }: TrainerProps) {
   }
 
   const multi = tableCount > 1;
+  // Com várias mesas, o range fica embaixo (telas médias) ou numa coluna estreita: não precisa ocupar tudo.
+  const rangeMaxWidth = multi ? "min(100%, 520px, calc(100dvh - 290px))" : "min(100%, calc(100dvh - 290px))";
   const rangePanel = (
     <div className="card space-y-2">
       <div className="flex items-center justify-between gap-2">
@@ -534,7 +537,7 @@ export function Trainer({ drill, strategies, legend }: TrainerProps) {
         </button>
       </div>
       {showPanelRange && panel && panelRange && panelStrategy ? (
-        <div className="mx-auto w-full" style={{ maxWidth: "min(100%, calc(100dvh - 290px))" }}>
+        <div className="mx-auto w-full" style={{ maxWidth: rangeMaxWidth }}>
           <RangeGrid
             range={panelRange}
             defaultActionId={panelStrategy.defaultActionId}
@@ -546,7 +549,7 @@ export function Trainer({ drill, strategies, legend }: TrainerProps) {
       ) : (
         <div
           className="mx-auto flex aspect-square w-full items-center justify-center rounded-lg border border-dashed border-zinc-700 text-sm text-zinc-500"
-          style={{ maxWidth: "min(100%, calc(100dvh - 290px))" }}
+          style={{ maxWidth: rangeMaxWidth }}
         >
           Responda para ver o range
         </div>
