@@ -301,7 +301,7 @@ export function Trainer({ drill, strategies, legend }: TrainerProps) {
           <PokerTable strategy={strategy} heroCards={question.heroCards} board={step.board} />
           {texture && <p className="-mt-3 text-center text-xs text-zinc-500">{texture}</p>}
 
-          <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
+          <div className="grid grid-cols-2 gap-2 sm:grid-cols-3" data-testid="actions">
             {step.options.map((actionId, index) => {
               const action = findAction(legend, actionId);
               const isChosen = chosen === actionId;

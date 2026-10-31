@@ -148,7 +148,7 @@ async function main() {
       for (let guard = 0; guard < 3; guard++) {
         const flop = await page.getByTestId("board").isVisible();
         // Sempre escolhe a última opção (Open shove no pré-flop, Bet 33% no flop)
-        const options = page.locator("div.grid button:not([disabled])");
+        const options = page.locator("[data-testid=actions] button:not([disabled])");
         await options.last().click();
         decisions += 1;
         await page.getByRole("button", { name: "Continuar" }).waitFor();
@@ -224,7 +224,7 @@ async function main() {
     for (let hand = 0; hand < 14; hand++) {
       const spot = await page.getByText(/^RFI · \w+ · 30bb$/).textContent();
       positions.add(spot.split(" · ")[1]);
-      await page.locator("div.grid button:not([disabled])").first().click();
+      await page.locator("[data-testid=actions] button:not([disabled])").first().click();
       await page.getByRole("button", { name: "Continuar" }).click();
     }
     await shot(page, "treino-rfi-variacoes");
@@ -236,7 +236,7 @@ async function main() {
     await page.locator("[data-hand='AA']").first().waitFor();
     await shot(page, "treino-olho-aberto");
     for (let hand = 0; hand < 3; hand++) {
-      await page.locator("div.grid button:not([disabled])").first().click();
+      await page.locator("[data-testid=actions] button:not([disabled])").first().click();
       await page.getByRole("button", { name: "Continuar" }).click();
     }
     await page.waitForTimeout(1500);

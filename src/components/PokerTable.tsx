@@ -14,13 +14,17 @@ const SEAT_COUNT = 9;
 /** Posição do lugar na elipse; o herói fica embaixo, no centro, e a ação gira no sentido horário. */
 function seatPlacement(offset: number) {
   const angle = ((90 + (offset * 360) / SEAT_COUNT) * Math.PI) / 180;
-  return { left: 50 + 44 * Math.cos(angle), top: 50 + 40 * Math.sin(angle) };
+  return { x: 50 + 44 * Math.cos(angle), y: 50 + 40 * Math.sin(angle) };
+}
+
+function at(x: number, y: number) {
+  return { left: `${x}%`, top: `${y}%` };
 }
 
 /** Fichas e botão do dealer ficam entre o lugar e o centro da mesa. */
 function towardCenter(offset: number, factor: number) {
-  const { left, top } = seatPlacement(offset);
-  return { left: 50 + (left - 50) * factor, top: 50 + (top - 50) * factor };
+  const { x, y } = seatPlacement(offset);
+  return at(50 + (x - 50) * factor, 50 + (y - 50) * factor);
 }
 
 function CardBack() {
@@ -35,7 +39,7 @@ function SeatView({ seat, stack, heroCards }: { seat: Seat; stack: string; heroC
   return (
     <div
       className="absolute flex -translate-x-1/2 -translate-y-1/2 flex-col items-center gap-1"
-      style={seatPlacement(seat.offset)}
+      style={(({ x, y }) => at(x, y))(seatPlacement(seat.offset))}
     >
       {hero ? (
         <div className="flex gap-1" data-testid="hero-cards" aria-label="Sua mão">
