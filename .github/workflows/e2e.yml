@@ -58,6 +58,17 @@ jobs:
           for i in $(seq 1 60); do curl -sf -o /dev/null http://localhost:3000/login && break; sleep 1; done
           node scripts/e2e.mjs 2>&1 | tee e2e.log
 
+      - name: Diagnóstico de HTML (modo desenvolvimento)
+        if: always()
+        continue-on-error: true
+        run: |
+          PORT=3001 npx next dev -p 3001 > dev.log 2>&1 &
+          for i in $(seq 1 90); do curl -sf -o /dev/null http://localhost:3001/login && break; sleep 1; done
+          node scripts/hydration-check.mjs > hydration.log 2>&1 || true
+          msg=$(tail -c 3500 hydration.log | sed ':a;N;$!ba;s/%/%25/g;s/\r/%0D/g;s/\n/%0A/g')
+          echo "::warning title=hydration::$msg"
+          cp hydration.log e2e/screenshots/ 2>/dev/null || true
+
       - name: Resumo dos erros
         if: failure()
         run: |
