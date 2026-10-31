@@ -2,7 +2,7 @@
  * Drills (exercícios): o criador escolhe as estratégias em sequência — de onde começa e até onde vai
  * (só uma ação, só uma street ou até o river). O motor distribui mãos e corrige cada decisão.
  */
-import { type Card, fullDeck } from "./cards";
+import { type Card, fullDeck, isCard } from "./cards";
 import { type HandLabel, combosOf, handFromCards, ALL_HANDS } from "./hands";
 import { type Legend, continuesHand, findAction } from "./legend";
 import { borderHands } from "./range";
@@ -211,6 +211,38 @@ export function buildAttempt(
     correct: isCorrect(step, chosenActionId),
     createdAt: now.toISOString(),
   };
+}
+
+/**
+ * Corrige no servidor uma decisão enviada pelo navegador: refaz o cálculo da ação certa a partir
+ * das cartas, para que o leak finder não dependa do que o navegador diz.
+ */
+export function gradeSubmission(
+  drill: Drill,
+  strategy: Strategy,
+  heroCards: readonly string[],
+  board: readonly string[],
+  chosenActionId: string,
+  now: Date = new Date(),
+): Attempt {
+  if (!drill.steps.includes(strategy.id)) throw new Error("A estratégia não faz parte deste drill");
+  const cards = [...heroCards, ...board];
+  if (heroCards.length !== 2 || !cards.every(isCard)) throw new Error("Cartas inválidas");
+  if (new Set(cards).size !== cards.length) throw new Error("Cartas repetidas");
+  if (board.length !== BOARD_CARDS_BY_STREET[strategy.street]) throw new Error("Board incompatível com a street");
+  if (!strategy.actionIds.includes(chosenActionId)) throw new Error("Ação inválida para esta decisão");
+  const hero = heroCards as [Card, Card];
+  const hand = handFromCards(hero[0], hero[1]);
+  const correct = correctAction(strategy, hand, board as Card[]);
+  if (correct === null) throw new Error("A estratégia não cobre este board");
+  const step: QuestionStep = {
+    strategyId: strategy.id,
+    street: strategy.street,
+    board: [...board] as Card[],
+    options: strategy.actionIds,
+    correctActionId: correct,
+  };
+  return buildAttempt(drill, strategy, { heroCards: hero, hand, fullBoard: step.board, steps: [step] }, step, chosenActionId, now);
 }
 
 export interface SessionSummary {

@@ -2,7 +2,20 @@ import { test } from "node:test";
 import assert from "node:assert/strict";
 import type { Attempt } from "../drill";
 import { findLeaks, groupAttempts, mostMissedHands, overallAccuracy } from "../leaks";
-import { type StatStandard, buildMonthlyPlan, evaluateStat, planProgress, prioritize, validateStandard } from "../plan";
+import {
+  type StatStandard,
+  buildMonthlyPlan,
+  evaluateStat,
+  monthInBrasilia,
+  planProgress,
+  prioritize,
+  validateStandard,
+} from "../plan";
+
+test("mês no horário de Brasília", () => {
+  assert.equal(monthInBrasilia("2026-11-01T02:59:00.000Z"), "2026-10");
+  assert.equal(monthInBrasilia("2026-11-01T03:00:00.000Z"), "2026-11");
+});
 import { canManageContent, canManageMembers, canViewAllPerformance, canViewPerformance } from "../permissions";
 
 function attempt(overrides: Partial<Attempt>): Attempt {
@@ -137,6 +150,8 @@ test("progresso conta só as decisões do mês do plano", () => {
     attempt({ drillId: "d-rfi", createdAt: "2026-11-02T10:00:00.000Z" }),
     attempt({ drillId: "d-rfi", createdAt: "2026-11-03T10:00:00.000Z", correct: false }),
     attempt({ drillId: "d-rfi", createdAt: "2026-10-31T10:00:00.000Z" }),
+    // 01/11 às 02h UTC ainda é 31/10 em Brasília
+    attempt({ drillId: "d-rfi", createdAt: "2026-11-01T02:00:00.000Z" }),
     attempt({ drillId: "outro", createdAt: "2026-11-03T10:00:00.000Z" }),
   ];
   const [progress] = planProgress(plan, attempts);

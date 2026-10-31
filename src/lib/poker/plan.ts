@@ -148,9 +148,14 @@ export interface GoalProgress {
   completed: boolean;
 }
 
-/** Progresso das metas do mês, contando só as decisões daquele mês. */
+/** Mês ("AAAA-MM") de um instante no horário de Brasília (UTC-3, sem horário de verão). */
+export function monthInBrasilia(iso: string): string {
+  return new Date(Date.parse(iso) - 3 * 60 * 60 * 1000).toISOString().slice(0, 7);
+}
+
+/** Progresso das metas do mês, contando só as decisões daquele mês (horário de Brasília). */
 export function planProgress(plan: MonthlyPlan, attempts: readonly Attempt[]): GoalProgress[] {
-  const monthAttempts = attempts.filter((a) => a.createdAt.slice(0, 7) === plan.month);
+  const monthAttempts = attempts.filter((a) => monthInBrasilia(a.createdAt) === plan.month);
   const targets = new Map<string, number>();
   for (const focus of plan.focus)
     for (const goal of focus.goals) targets.set(goal.drillId, (targets.get(goal.drillId) ?? 0) + goal.targetDecisions);

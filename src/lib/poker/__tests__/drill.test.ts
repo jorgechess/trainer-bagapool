@@ -1,6 +1,6 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { buildAttempt, dealQuestion, drillScope, isCorrect, spotSummary, summarizeSession, validateDrill } from "../drill";
+import { buildAttempt, dealQuestion, drillScope, gradeSubmission, isCorrect, spotSummary, summarizeSession, validateDrill } from "../drill";
 import { combosOf } from "../hands";
 import { DEFAULT_LEGEND } from "../legend";
 import { borderHands } from "../range";
@@ -118,6 +118,24 @@ test("drill pós-flop sem textura compatível gera erro claro", () => {
     /Nenhuma textura/,
   );
   assert.throws(() => dealQuestion({ ...preflopDrill, steps: ["nao-existe"] }, map, DEFAULT_LEGEND), /não encontrada/);
+});
+
+test("correção no servidor refaz o cálculo a partir das cartas", () => {
+  const ok = gradeSubmission(preflopDrill, rfiBtn, ["As", "Ad"], [], "rfi");
+  assert.equal(ok.correct, true);
+  assert.equal(ok.hand, "AA");
+  const bad = gradeSubmission(preflopDrill, rfiBtn, ["7c", "2d"], [], "rfi");
+  assert.equal(bad.correct, false);
+  assert.equal(bad.correctActionId, "fold");
+  const flop = gradeSubmission(fullDrill, cbetFlop, ["Ah", "Ad"], ["Kc", "7d", "3s"], "bet-33");
+  assert.equal(flop.correct, true);
+  assert.throws(() => gradeSubmission(preflopDrill, cbetFlop, ["Ah", "Ad"], ["Kc", "7d", "3s"], "check"), /não faz parte/);
+  assert.throws(() => gradeSubmission(preflopDrill, rfiBtn, ["Ah", "Ah"], [], "rfi"), /repetidas/);
+  assert.throws(() => gradeSubmission(preflopDrill, rfiBtn, ["Xh", "Ah"], [], "rfi"), /inválidas/);
+  assert.throws(() => gradeSubmission(preflopDrill, rfiBtn, ["Kh", "Ah"], ["2c", "3c", "4c"], "rfi"), /street/);
+  assert.throws(() => gradeSubmission(preflopDrill, rfiBtn, ["Kh", "Ah"], [], "bet-75"), /Ação inválida/);
+  const onlyMono = { ...cbetFlop, textureRanges: [cbetFlop.textureRanges[0]] };
+  assert.throws(() => gradeSubmission(fullDrill, onlyMono, ["Ah", "Ad"], ["Kc", "7d", "3s"], "check"), /não cobre/);
 });
 
 test("correção, registro da tentativa e resumo da sessão", () => {

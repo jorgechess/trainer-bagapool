@@ -1,0 +1,101 @@
+"use client";
+
+import Link from "next/link";
+import { usePathname, useRouter } from "next/navigation";
+import { useState } from "react";
+import { createClient } from "@/lib/supabase/client";
+
+interface NavProps {
+  name: string;
+  canManageContent: boolean;
+  canManageMembers: boolean;
+}
+
+export function Nav({ name, canManageContent, canManageMembers }: NavProps) {
+  const pathname = usePathname();
+  const router = useRouter();
+  const [open, setOpen] = useState(false);
+
+  const links = [
+    { href: "/", label: "Início" },
+    { href: "/drills", label: "Drills" },
+    { href: "/desempenho", label: "Desempenho" },
+    { href: "/plano", label: "Plano do mês" },
+    ...(canManageContent
+      ? [
+          { href: "/estrategias", label: "Estratégias" },
+          { href: "/legenda", label: "Legenda" },
+          { href: "/admin/standards", label: "Standards" },
+          { href: "/admin/importar", label: "Importar" },
+        ]
+      : []),
+    ...(canManageMembers ? [{ href: "/admin/jogadores", label: "Jogadores" }] : []),
+  ];
+
+  const isActive = (href: string) => (href === "/" ? pathname === "/" : pathname.startsWith(href));
+
+  async function logout() {
+    await createClient().auth.signOut();
+    router.replace("/login");
+    router.refresh();
+  }
+
+  return (
+    <header className="sticky top-0 z-20 border-b border-zinc-800 bg-zinc-950/95 backdrop-blur">
+      <div className="mx-auto flex max-w-6xl items-center gap-4 px-4 py-3 sm:px-6">
+        <Link href="/" className="font-semibold text-orange-400">
+          Baga Pool
+        </Link>
+        <nav className="hidden flex-1 flex-wrap gap-1 lg:flex">
+          {links.map((link) => (
+            <Link
+              key={link.href}
+              href={link.href}
+              className={`rounded-md px-3 py-1.5 text-sm ${
+                isActive(link.href) ? "bg-zinc-800 text-white" : "text-zinc-400 hover:text-white"
+              }`}
+            >
+              {link.label}
+            </Link>
+          ))}
+        </nav>
+        <div className="ml-auto hidden items-center gap-3 lg:flex">
+          <span className="text-sm text-zinc-400">{name}</span>
+          <button onClick={logout} className="btn-secondary px-3 py-1.5">
+            Sair
+          </button>
+        </div>
+        <button
+          className="btn-secondary ml-auto px-3 py-1.5 lg:hidden"
+          onClick={() => setOpen((v) => !v)}
+          aria-expanded={open}
+          aria-label="Menu"
+        >
+          {open ? "Fechar" : "Menu"}
+        </button>
+      </div>
+      {open && (
+        <nav className="border-t border-zinc-800 px-4 py-2 lg:hidden">
+          {links.map((link) => (
+            <Link
+              key={link.href}
+              href={link.href}
+              onClick={() => setOpen(false)}
+              className={`block rounded-md px-3 py-2 text-sm ${
+                isActive(link.href) ? "bg-zinc-800 text-white" : "text-zinc-300"
+              }`}
+            >
+              {link.label}
+            </Link>
+          ))}
+          <div className="mt-2 flex items-center justify-between border-t border-zinc-800 px-3 pt-3 pb-1">
+            <span className="text-sm text-zinc-400">{name}</span>
+            <button onClick={logout} className="btn-secondary px-3 py-1.5">
+              Sair
+            </button>
+          </div>
+        </nav>
+      )}
+    </header>
+  );
+}
