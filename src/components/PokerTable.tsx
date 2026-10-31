@@ -150,7 +150,7 @@ export function PokerTable({ strategy, heroCards, board, texture, vertical = fal
             className="absolute flex h-[1.6em] w-[1.6em] -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-white font-bold text-black shadow"
             style={
               button.offset === 0
-                ? (({ x, y }) => at(x + (vertical ? 22 : 13), y - 10))(seatPlacement(shape, 0))
+                ? (({ x, y }) => (vertical ? at(x + 12, y - 24) : at(x + 13, y - 10)))(seatPlacement(shape, 0))
                 : towardCenter(shape, button.offset, 0.68)
             }
             title="Dealer"

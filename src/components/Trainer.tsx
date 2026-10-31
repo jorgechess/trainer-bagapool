@@ -66,8 +66,8 @@ export function Trainer({ drill, strategies, legend }: TrainerProps) {
   const [vertical, setVertical] = useState(false);
 
   useEffect(() => {
-    // Mesa em pé em telas estreitas ou em pé (celular, tablet na vertical)
-    const query = window.matchMedia("(max-width: 639px), (orientation: portrait) and (max-width: 1023px)");
+    // Mesa em pé no celular; tablets e telas maiores usam a mesa deitada
+    const query = window.matchMedia("(max-width: 639px)");
     const update = () => setVertical(query.matches);
     update();
     query.addEventListener("change", update);
