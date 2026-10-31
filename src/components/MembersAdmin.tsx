@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useTransition } from "react";
+import { useEffect, useState, useTransition } from "react";
 import {
   createMember,
   createPool,
@@ -58,7 +58,9 @@ function RoleSelect({ value, onChange }: { value: Role; onChange: (v: Role) => v
 function NewMemberForm({ pools }: { pools: Pool[] }) {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
-  const [password, setPassword] = useState(randomPassword);
+  // Gerada só no navegador, para o HTML do servidor e o do navegador baterem
+  const [password, setPassword] = useState("");
+  useEffect(() => setPassword(randomPassword()), []);
   const [role, setRole] = useState<Role>("jogador");
   const [poolId, setPoolId] = useState("");
   const [result, setResult] = useState<ActionResult | null>(null);

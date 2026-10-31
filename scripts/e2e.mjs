@@ -73,7 +73,11 @@ async function main() {
   await mkdir(OUT, { recursive: true });
   const browser = await chromium.launch();
   const page = await browser.newPage({ viewport: { width: 1280, height: 900 } });
-  page.on("pageerror", (error) => console.error("Erro na página:", error.message));
+  const pageErrors = [];
+  page.on("pageerror", (error) => {
+    console.error("Erro na página:", error.message);
+    pageErrors.push(`${page.url()}: ${error.message}`);
+  });
 
   try {
     // 1. Sem login, vai para o login
@@ -408,6 +412,7 @@ async function main() {
       await view.close();
     }
 
+    assert.deepEqual(pageErrors, [], "nenhum erro de JavaScript nas páginas");
     console.log("\nE2E: todos os passos passaram");
   } catch (error) {
     await page.screenshot({ path: `${OUT}/99-erro.png`, fullPage: true }).catch(() => {});
