@@ -51,7 +51,7 @@ export default async function StrategiesPage() {
                     return (
                       <tr key={s.id} className="hover:bg-zinc-900/60">
                         <td className="px-3 py-2">
-                          <Link href={`/estrategias/${s.id}`} className="font-medium text-orange-300 hover:underline">
+                          <Link href={`/estrategias/${s.id}`} className="font-medium text-baga-cream hover:underline">
                             {s.name}
                           </Link>
                         </td>

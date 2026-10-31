@@ -3,15 +3,18 @@
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useState } from "react";
+import { BagaWordmark } from "@/components/BagaWordmark";
+import { PoolChip, type PoolLook } from "@/components/PoolBadge";
 import { createClient } from "@/lib/supabase/client";
 
 interface NavProps {
   name: string;
+  pool: PoolLook | null;
   canManageContent: boolean;
   canManageMembers: boolean;
 }
 
-export function Nav({ name, canManageContent, canManageMembers }: NavProps) {
+export function Nav({ name, pool, canManageContent, canManageMembers }: NavProps) {
   const pathname = usePathname();
   const router = useRouter();
   const [open, setOpen] = useState(false);
@@ -41,10 +44,10 @@ export function Nav({ name, canManageContent, canManageMembers }: NavProps) {
   }
 
   return (
-    <header className="sticky top-0 z-20 border-b border-zinc-800 bg-zinc-950/95 backdrop-blur">
+    <header className="sticky top-0 z-20 border-b border-zinc-800 bg-baga-black/90 backdrop-blur">
       <div className="mx-auto flex max-w-6xl items-center gap-4 px-4 py-3 sm:px-6">
-        <Link href="/" className="font-semibold text-orange-400">
-          Baga Pool
+        <Link href="/" aria-label="Baga Trainer — início">
+          <BagaWordmark size="sm" />
         </Link>
         <nav className="hidden flex-1 flex-wrap gap-1 lg:flex">
           {links.map((link) => (
@@ -52,7 +55,7 @@ export function Nav({ name, canManageContent, canManageMembers }: NavProps) {
               key={link.href}
               href={link.href}
               className={`rounded-md px-3 py-1.5 text-sm ${
-                isActive(link.href) ? "bg-zinc-800 text-white" : "text-zinc-400 hover:text-white"
+                isActive(link.href) ? "bg-baga-red/15 text-baga-cream" : "text-zinc-400 hover:text-white"
               }`}
             >
               {link.label}
@@ -60,13 +63,17 @@ export function Nav({ name, canManageContent, canManageMembers }: NavProps) {
           ))}
         </nav>
         <div className="ml-auto hidden items-center gap-3 lg:flex">
-          <span className="text-sm text-zinc-400">{name}</span>
+          <span className="text-sm text-zinc-300">{name}</span>
+          <PoolChip pool={pool} />
           <button onClick={logout} className="btn-secondary px-3 py-1.5">
             Sair
           </button>
         </div>
+        <span className="ml-auto lg:hidden">
+          <PoolChip pool={pool} compact />
+        </span>
         <button
-          className="btn-secondary ml-auto px-3 py-1.5 lg:hidden"
+          className="btn-secondary px-3 py-1.5 lg:hidden"
           onClick={() => setOpen((v) => !v)}
           aria-expanded={open}
           aria-label="Menu"
@@ -88,8 +95,11 @@ export function Nav({ name, canManageContent, canManageMembers }: NavProps) {
               {link.label}
             </Link>
           ))}
-          <div className="mt-2 flex items-center justify-between border-t border-zinc-800 px-3 pt-3 pb-1">
-            <span className="text-sm text-zinc-400">{name}</span>
+          <div className="mt-2 flex items-center justify-between gap-2 border-t border-zinc-800 px-3 pt-3 pb-1">
+            <span className="flex items-center gap-2 text-sm text-zinc-300">
+              {name}
+              <PoolChip pool={pool} />
+            </span>
             <button onClick={logout} className="btn-secondary px-3 py-1.5">
               Sair
             </button>

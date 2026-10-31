@@ -1,17 +1,30 @@
 @import "tailwindcss";
 
+@theme inline {
+  --font-display: var(--font-bebas), "Arial Narrow", sans-serif;
+  --font-marker: var(--font-permanent-marker), cursive;
+  --color-baga-cream: #fbf3df;
+  --color-baga-red: #e63946;
+  --color-baga-red-light: #ff5a66;
+  --color-baga-black: #050505;
+}
+
 :root {
   color-scheme: dark;
 }
 
 body {
-  background-color: var(--color-zinc-950);
+  background-color: var(--color-baga-black);
+  background-image: url("/rede.svg");
+  background-size: cover;
+  background-attachment: fixed;
+  background-position: center;
   color: var(--color-zinc-100);
   -webkit-font-smoothing: antialiased;
 }
 
 @utility card {
-  @apply rounded-xl border border-zinc-800 bg-zinc-900 p-4;
+  @apply rounded-xl border border-zinc-800 bg-zinc-950/85 p-4 backdrop-blur-sm;
 }
 
 @utility btn {
@@ -19,7 +32,7 @@ body {
 }
 
 @utility btn-primary {
-  @apply btn bg-orange-500 text-black hover:bg-orange-400;
+  @apply btn bg-baga-red font-semibold text-baga-cream hover:bg-baga-red-light;
 }
 
 @utility btn-secondary {
@@ -31,7 +44,7 @@ body {
 }
 
 @utility input {
-  @apply w-full rounded-lg border border-zinc-700 bg-zinc-950 px-3 py-2 text-sm text-zinc-100 placeholder:text-zinc-500 focus:border-orange-500 focus:outline-none;
+  @apply w-full rounded-lg border border-zinc-700 bg-zinc-950 px-3 py-2 text-sm text-zinc-100 placeholder:text-zinc-500 focus:border-baga-red focus:outline-none;
 }
 
 @utility label {
@@ -39,7 +52,7 @@ body {
 }
 
 @utility page-title {
-  @apply text-2xl font-semibold tracking-tight;
+  @apply font-display text-4xl tracking-wide text-baga-cream;
 }
 
 @utility muted {

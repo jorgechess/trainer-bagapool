@@ -5,6 +5,7 @@ import { z } from "zod";
 import { requireAdmin } from "@/lib/data";
 import type { ActionResult } from "@/lib/format";
 import { ROLES } from "@/lib/poker/permissions";
+import { LOGO_OPTIONS } from "@/lib/pools";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { createClient } from "@/lib/supabase/server";
 
@@ -93,15 +94,20 @@ export async function createPool(name: string): Promise<ActionResult> {
   return { ok: true };
 }
 
-export async function renamePool(id: string, name: string): Promise<ActionResult> {
+export async function updatePool(
+  id: string,
+  input: { name: string; color: string; logo: string | null },
+): Promise<ActionResult> {
   await requireAdmin();
-  const clean = name.trim();
+  const clean = input.name.trim();
   if (!clean) return { ok: false, error: "Informe o nome da pool." };
+  if (!/^#[0-9a-fA-F]{6}$/.test(input.color)) return { ok: false, error: "Cor inválida." };
+  const logo = input.logo && LOGO_OPTIONS.some((o) => o.value === input.logo) ? input.logo : null;
   const supabase = await createClient();
-  const { error } = await supabase.from("pools").update({ name: clean }).eq("id", id);
+  const { error } = await supabase.from("pools").update({ name: clean, color: input.color, logo }).eq("id", id);
   if (error) return { ok: false, error: error.code === "23505" ? "Já existe uma pool com esse nome." : error.message };
-  revalidatePath("/admin/jogadores");
-  return { ok: true };
+  revalidatePath("/", "layout");
+  return { ok: true, message: "Pool salva." };
 }
 
 export async function deletePool(id: string): Promise<ActionResult> {

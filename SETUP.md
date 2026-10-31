@@ -13,6 +13,7 @@ Leva uns 15 minutos e é feito uma vez só. Você vai precisar de uma conta no [
 1. No menu da esquerda, abra **SQL Editor** e clique em **New query**.
 2. Copie todo o conteúdo do arquivo [`supabase/migrations/0001_inicial.sql`](supabase/migrations/0001_inicial.sql), cole e clique em **Run**.
 3. Deve aparecer "Success. No rows returned".
+4. Repita com cada arquivo seguinte da pasta [`supabase/migrations`](supabase/migrations), em ordem (`0002_...`, `0003_...`). Quando sair uma atualização com arquivo novo nessa pasta, rode só o arquivo novo.
 
 ## 3. Bloquear cadastros abertos
 

@@ -20,6 +20,8 @@ export interface Profile {
 export interface Pool {
   id: string;
   name: string;
+  color: string;
+  logo: string | null;
 }
 
 interface ProfileRow {
@@ -121,9 +123,16 @@ export async function getDrill(id: string): Promise<Drill | null> {
 
 export async function listPools(): Promise<Pool[]> {
   const supabase = await createClient();
-  const { data, error } = await supabase.from("pools").select("id, name").order("name");
+  const { data, error } = await supabase.from("pools").select("id, name, color, logo").order("name");
   if (error) throw new Error(error.message);
   return data as Pool[];
+}
+
+export async function getPool(id: string | null): Promise<Pool | null> {
+  if (!id) return null;
+  const supabase = await createClient();
+  const { data } = await supabase.from("pools").select("id, name, color, logo").eq("id", id).maybeSingle();
+  return (data as Pool | null) ?? null;
 }
 
 export async function listProfiles(): Promise<Profile[]> {

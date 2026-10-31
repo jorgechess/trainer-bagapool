@@ -173,7 +173,7 @@ export function DrillForm({ drill, strategies }: DrillFormProps) {
                       <span className="flex-1 text-sm">
                         {s ? (
                           <>
-                            <span className="text-orange-300">{STREET_LABELS[s.street]}</span> · {s.name}
+                            <span className="text-baga-cream">{STREET_LABELS[s.street]}</span> · {s.name}
                           </>
                         ) : (
                           <span className="text-red-400">Estratégia removida ({id})</span>

@@ -1,5 +1,6 @@
 import Link from "next/link";
-import { getAttempts, getPlan, listDrills, requireProfile } from "@/lib/data";
+import { PoolLogo } from "@/components/PoolBadge";
+import { getAttempts, getPlan, getPool, listDrills, requireProfile } from "@/lib/data";
 import { currentMonth, formatPercent, monthLabel, monthStartIso } from "@/lib/format";
 import { overallAccuracy, findLeaks, DIMENSION_LABELS } from "@/lib/poker/leaks";
 import { planProgress } from "@/lib/poker/plan";
@@ -8,10 +9,11 @@ import { ROLE_LABELS } from "@/lib/poker/permissions";
 export default async function HomePage() {
   const profile = await requireProfile();
   const month = currentMonth();
-  const [monthAttempts, plan, drills] = await Promise.all([
+  const [monthAttempts, plan, drills, pool] = await Promise.all([
     getAttempts(profile.id, monthStartIso(month)),
     getPlan(profile.id, month),
     listDrills(),
+    getPool(profile.poolId),
   ]);
   const drillName = new Map(drills.map((d) => [d.id, d.name]));
   const stats = overallAccuracy(monthAttempts);
@@ -20,11 +22,21 @@ export default async function HomePage() {
 
   return (
     <div className="space-y-6">
-      <div>
-        <h1 className="page-title">Olá, {profile.name.split(" ")[0]}</h1>
-        <p className="muted">
-          {ROLE_LABELS[profile.role]} · resumo de {monthLabel(month)}
-        </p>
+      <div className="flex items-center gap-4">
+        {pool && <PoolLogo pool={pool} size={88} />}
+        <div>
+          <h1 className="page-title">Olá, {profile.name.split(" ")[0]}</h1>
+          <p className="muted">
+            {ROLE_LABELS[profile.role]}
+            {pool && (
+              <>
+                {" · "}
+                <span style={{ color: pool.color }}>{pool.name}</span>
+              </>
+            )}{" "}
+            · resumo de {monthLabel(month)}
+          </p>
+        </div>
       </div>
 
       <div className="grid gap-4 sm:grid-cols-3">
@@ -45,7 +57,7 @@ export default async function HomePage() {
       <section className="card space-y-3">
         <div className="flex items-center justify-between">
           <h2 className="font-semibold">Metas do mês</h2>
-          <Link href="/plano" className="text-sm text-orange-400 hover:underline">
+          <Link href="/plano" className="text-sm text-baga-red hover:underline">
             Ver plano
           </Link>
         </div>
@@ -66,7 +78,7 @@ export default async function HomePage() {
                 </div>
                 <div className="h-2 overflow-hidden rounded-full bg-zinc-800">
                   <div
-                    className={`h-full ${goal.completed ? "bg-green-500" : "bg-orange-500"}`}
+                    className={`h-full ${goal.completed ? "bg-green-500" : "bg-baga-red"}`}
                     style={{ width: `${Math.min(100, (goal.done / goal.targetDecisions) * 100)}%` }}
                   />
                 </div>
@@ -79,7 +91,7 @@ export default async function HomePage() {
       <section className="card space-y-3">
         <div className="flex items-center justify-between">
           <h2 className="font-semibold">Principais leaks do mês</h2>
-          <Link href="/desempenho" className="text-sm text-orange-400 hover:underline">
+          <Link href="/desempenho" className="text-sm text-baga-red hover:underline">
             Ver desempenho
           </Link>
         </div>

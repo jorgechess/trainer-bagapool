@@ -279,7 +279,7 @@ export function Trainer({ drill, strategies, legend }: TrainerProps) {
 
       <div className="h-1.5 overflow-hidden rounded-full bg-zinc-800">
         <div
-          className="h-full bg-orange-500 transition-all"
+          className="h-full bg-baga-red transition-all"
           style={{ width: `${(handsPlayed / drill.handsPerSession) * 100}%` }}
         />
       </div>
@@ -296,7 +296,7 @@ export function Trainer({ drill, strategies, legend }: TrainerProps) {
           data-feedback={chosen === null ? undefined : isCorrect ? "certo" : "errado"}
         >
           <div className="flex flex-wrap items-center gap-2 text-sm">
-            <span className="rounded bg-orange-500/20 px-2 py-0.5 font-medium text-orange-300">
+            <span className="rounded bg-baga-red/20 px-2 py-0.5 font-medium text-baga-cream">
               {STREET_LABELS[step.street]}
             </span>
             <span className="text-zinc-300">{spotSummary(strategy)}</span>
@@ -354,7 +354,7 @@ export function Trainer({ drill, strategies, legend }: TrainerProps) {
               type="button"
               onClick={togglePeek}
               className={`flex items-center gap-1.5 rounded-md px-2 py-1 text-xs ${
-                peek ? "bg-orange-500/20 text-orange-300" : "text-zinc-400 hover:text-white"
+                peek ? "bg-baga-red/20 text-baga-cream" : "text-zinc-400 hover:text-white"
               }`}
               aria-pressed={peek}
               title={peek ? "Esconder a resposta antes de responder" : "Mostrar a resposta antes de responder"}

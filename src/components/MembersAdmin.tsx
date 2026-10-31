@@ -5,11 +5,13 @@ import {
   createMember,
   createPool,
   deletePool,
-  renamePool,
   resetPassword,
+  updatePool,
   updateMember,
 } from "@/app/(app)/admin/jogadores/actions";
+import { PoolChip, PoolLogo } from "@/components/PoolBadge";
 import type { Pool, Profile } from "@/lib/data";
+import { LOGO_OPTIONS } from "@/lib/pools";
 import type { ActionResult } from "@/lib/format";
 import { ROLES, ROLE_LABELS, type Role } from "@/lib/poker/permissions";
 
@@ -142,7 +144,10 @@ function MemberRow({ profile, pools, isMe }: { profile: Profile; pools: Pool[]; 
         </div>
         <div>
           <label className="label">E-mail</label>
-          <p className="truncate py-2 text-sm text-zinc-300">{profile.email}</p>
+          <p className="flex items-center gap-2 py-2 text-sm text-zinc-300">
+            <span className="truncate">{profile.email}</span>
+            <PoolChip pool={pools.find((p) => p.id === profile.poolId) ?? null} compact />
+          </p>
         </div>
         <div>
           <label className="label">Papel</label>
@@ -170,6 +175,58 @@ function MemberRow({ profile, pools, isMe }: { profile: Profile; pools: Pool[]; 
   );
 }
 
+function PoolRow({ pool, members }: { pool: Pool; members: number }) {
+  const [name, setName] = useState(pool.name);
+  const [color, setColor] = useState(pool.color);
+  const [logo, setLogo] = useState(pool.logo ?? "");
+  const [result, setResult] = useState<ActionResult | null>(null);
+  const [pending, startTransition] = useTransition();
+  const dirty = name !== pool.name || color !== pool.color || logo !== (pool.logo ?? "");
+  return (
+    <li className="flex flex-wrap items-center gap-3 rounded-lg bg-black/40 p-2">
+      <PoolLogo pool={{ name, color, logo: logo || null }} size={48} />
+      <input className="input max-w-48" value={name} onChange={(e) => setName(e.target.value)} />
+      <input
+        type="color"
+        className="h-9 w-12 cursor-pointer rounded border border-zinc-700 bg-transparent"
+        value={color}
+        onChange={(e) => setColor(e.target.value)}
+        title="Cor da pool"
+      />
+      <select className="input max-w-52" value={logo} onChange={(e) => setLogo(e.target.value)}>
+        <option value="">Sem logo (iniciais)</option>
+        {LOGO_OPTIONS.map((o) => (
+          <option key={o.value} value={o.value}>
+            {o.label}
+          </option>
+        ))}
+      </select>
+      <span className="text-xs text-zinc-500">{members} ativos</span>
+      <div className="ml-auto flex gap-2">
+        <button
+          className="btn-primary px-3 py-1.5"
+          disabled={!dirty || pending}
+          onClick={() =>
+            startTransition(async () => setResult(await updatePool(pool.id, { name, color, logo: logo || null })))
+          }
+        >
+          Salvar
+        </button>
+        <button
+          className="btn-danger px-2 py-1.5"
+          disabled={pending}
+          onClick={() => {
+            if (confirm(`Excluir a pool ${pool.name}?`)) startTransition(async () => setResult(await deletePool(pool.id)));
+          }}
+        >
+          Excluir
+        </button>
+      </div>
+      {result && <div className="w-full"><Feedback result={result} /></div>}
+    </li>
+  );
+}
+
 function PoolsCard({ pools, profiles }: { pools: Pool[]; profiles: Profile[] }) {
   const [name, setName] = useState("");
   const [result, setResult] = useState<ActionResult | null>(null);
@@ -181,31 +238,7 @@ function PoolsCard({ pools, profiles }: { pools: Pool[]; profiles: Profile[] }) 
       <h2 className="font-semibold">Pools</h2>
       <ul className="space-y-2">
         {pools.map((pool) => (
-          <li key={pool.id} className="flex flex-wrap items-center gap-2">
-            <span className="flex-1 text-sm">
-              {pool.name} <span className="text-zinc-500">· {count(pool.id)} ativos</span>
-            </span>
-            <button
-              className="btn-secondary px-2 py-1"
-              disabled={pending}
-              onClick={() => {
-                const newName = prompt("Novo nome da pool", pool.name);
-                if (newName) startTransition(async () => setResult(await renamePool(pool.id, newName)));
-              }}
-            >
-              Renomear
-            </button>
-            <button
-              className="btn-danger px-2 py-1"
-              disabled={pending}
-              onClick={() => {
-                if (confirm(`Excluir a pool ${pool.name}?`))
-                  startTransition(async () => setResult(await deletePool(pool.id)));
-              }}
-            >
-              Excluir
-            </button>
-          </li>
+          <PoolRow key={pool.id} pool={pool} members={count(pool.id)} />
         ))}
       </ul>
       <form

@@ -1,15 +1,17 @@
 import { Nav } from "@/components/Nav";
-import { requireProfile } from "@/lib/data";
+import { getPool, requireProfile } from "@/lib/data";
 import { canManageContent, canManageMembers } from "@/lib/poker/permissions";
 
 export const dynamic = "force-dynamic";
 
 export default async function AppLayout({ children }: { children: React.ReactNode }) {
   const profile = await requireProfile();
+  const pool = await getPool(profile.poolId);
   return (
     <div className="min-h-screen">
       <Nav
         name={profile.name}
+        pool={pool ? { name: pool.name, color: pool.color, logo: pool.logo } : null}
         canManageContent={canManageContent(profile.role)}
         canManageMembers={canManageMembers(profile.role)}
       />

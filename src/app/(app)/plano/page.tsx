@@ -136,7 +136,7 @@ export default async function PlanPage({
                           </div>
                           <div className="h-2 overflow-hidden rounded-full bg-zinc-800">
                             <div
-                              className={`h-full ${done >= goal.targetDecisions ? "bg-green-500" : "bg-orange-500"}`}
+                              className={`h-full ${done >= goal.targetDecisions ? "bg-green-500" : "bg-baga-red"}`}
                               style={{ width: `${Math.min(100, (done / goal.targetDecisions) * 100)}%` }}
                             />
                           </div>

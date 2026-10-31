@@ -93,6 +93,18 @@ async function main() {
     await createUser("admin@e2e.com", "senha-admin-123", "admin", "Jorge Admin");
     await login(page, "admin@e2e.com", "senha-admin-123");
     await page.getByText("Olá, Jorge").waitFor();
+    // Pools do Baga vêm cadastradas; o admin pertence ao Baga Low e o selo aparece no topo
+    assert.ok((await countRows("pools")) >= 9, "pools do Baga cadastradas pela migração");
+    const [low] = await rows("pools", "select=id&name=eq.Baga%20Low");
+    const [me] = await rows("profiles", "select=id&email=eq.admin@e2e.com");
+    const res = await fetch(`${API_URL}/rest/v1/profiles?id=eq.${me.id}`, {
+      method: "PATCH",
+      headers: adminHeaders,
+      body: JSON.stringify({ pool_id: low.id }),
+    });
+    assert.ok(res.ok, "admin entra no Baga Low");
+    await page.reload();
+    await page.locator("header [title='Baga Low']").first().waitFor();
     await shot(page, "inicio-admin");
     log("admin entra e vê o início");
 
@@ -254,7 +266,8 @@ async function main() {
     await page.goto(`${BASE_URL}/admin/jogadores`);
     await page.getByPlaceholder("Nome da nova pool").fill("Pool A");
     await page.getByRole("button", { name: "Criar pool" }).click();
-    await page.getByText("Pool A").first().waitFor();
+    for (let i = 0; i < 20 && (await countRows("pools", "&name=eq.Pool%20A")) === 0; i++) await page.waitForTimeout(250);
+    assert.equal(await countRows("pools", "&name=eq.Pool%20A"), 1);
     const form = page.locator("form").filter({ hasText: "Novo jogador" });
     await form.locator("input").nth(0).fill("Ana Jogadora");
     await form.locator("input").nth(1).fill("ana@e2e.com");

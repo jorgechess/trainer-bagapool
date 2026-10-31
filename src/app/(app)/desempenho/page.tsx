@@ -1,4 +1,5 @@
 import { AutoSubmitSelect } from "@/components/AutoSubmitSelect";
+import { PoolChip } from "@/components/PoolBadge";
 import { getAttempts, listPools, listProfiles, requireProfile } from "@/lib/data";
 import { currentMonth, formatPercent, monthStartIso } from "@/lib/format";
 import {
@@ -86,6 +87,9 @@ export default async function PerformancePage({
         <div className="card">
           <p className="label">Jogador</p>
           <p className="text-lg font-semibold">{target.name}</p>
+          <div className="mt-1">
+            <PoolChip pool={pools.find((p) => p.id === target.poolId) ?? null} />
+          </div>
         </div>
         <div className="card">
           <p className="label">Decisões</p>

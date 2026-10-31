@@ -59,13 +59,13 @@ function SeatView({ seat, stack, heroCards }: { seat: Seat; stack: string; heroC
       <div
         className={`min-w-14 rounded-lg border px-2 py-1 text-center leading-tight shadow sm:min-w-20 ${
           hero
-            ? "border-orange-400 bg-zinc-900"
+            ? "border-baga-red bg-zinc-900"
             : folded
               ? "border-zinc-800 bg-zinc-900/60 opacity-50"
               : "border-zinc-600 bg-zinc-900"
         }`}
       >
-        <p className={`text-[10px] font-semibold sm:text-xs ${hero ? "text-orange-300" : "text-zinc-200"}`}>
+        <p className={`text-[10px] font-semibold sm:text-xs ${hero ? "text-baga-cream" : "text-zinc-200"}`}>
           {seat.position}
           {hero && " (você)"}
         </p>
