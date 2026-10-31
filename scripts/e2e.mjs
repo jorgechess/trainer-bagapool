@@ -116,7 +116,7 @@ async function main() {
     await page.goto(`${BASE_URL}/admin/importar`);
     await page.getByRole("button", { name: "Carregar exemplo" }).click();
     await page.getByText("Tudo certo para importar.").waitFor();
-    await page.getByRole("button", { name: "Importar", exact: true }).click();
+    await page.getByRole("button", { name: "Importar arquivo" }).click();
     await page.getByText(/Importado:/).waitFor();
     await shot(page, "importar");
     assert.equal(await countRows("strategies"), 2);
@@ -230,7 +230,7 @@ async function main() {
     await page.goto(`${BASE_URL}/admin/importar`);
     await page.locator("textarea").fill(readFileSync("cargas/rfi-30bb-vanilla.json", "utf8"));
     await page.getByText("Tudo certo para importar.").waitFor();
-    await page.getByRole("button", { name: "Importar", exact: true }).click();
+    await page.getByRole("button", { name: "Importar arquivo" }).click();
     await page.getByText(/Importado:/).waitFor();
     assert.equal(await countRows("strategies"), 9);
     assert.equal(await countRows("drills"), 3);

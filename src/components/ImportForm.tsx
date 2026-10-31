@@ -107,7 +107,7 @@ export function ImportForm({ legend, strategies }: { legend: Legend; strategies:
         disabled={pending || !preview || preview.errors.length > 0}
         onClick={() => startTransition(async () => setResult(await importBundle(text)))}
       >
-        {pending ? "Importando..." : "Importar"}
+        {pending ? "Importando..." : "Importar arquivo"}
       </button>
     </div>
   );
