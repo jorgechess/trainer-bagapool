@@ -139,14 +139,14 @@ async function main() {
     // 7. Treina o drill de duas decisões
     const card = page.locator(".card").filter({ hasText: "RFI até o flop" });
     await card.getByRole("link", { name: "Treinar" }).click();
-    await page.getByText("Sua mão").waitFor();
+    await page.getByTestId("hero-cards").waitFor();
     await page.getByLabel("Avançar sozinho quando acertar").uncheck();
     await shot(page, "treino-pergunta");
     let decisions = 0;
     let flopShot = false;
     for (let hand = 0; hand < 8; hand++) {
       for (let guard = 0; guard < 3; guard++) {
-        const flop = await page.getByText("Board", { exact: true }).isVisible();
+        const flop = await page.getByTestId("board").isVisible();
         // Sempre escolhe a última opção (Open shove no pré-flop, Bet 33% no flop)
         const options = page.locator("div.grid button:not([disabled])");
         await options.last().click();
@@ -218,7 +218,7 @@ async function main() {
     const rfiCard = page.locator(".card").filter({ hasText: "RFI 30bb vanilla" });
     await rfiCard.getByText("(sorteado)").waitFor();
     await rfiCard.getByRole("link", { name: "Treinar" }).click();
-    await page.getByText("Sua mão").waitFor();
+    await page.getByTestId("hero-cards").waitFor();
     await page.getByLabel("Avançar sozinho quando acertar").uncheck();
     const positions = new Set();
     for (let hand = 0; hand < 14; hand++) {
@@ -228,6 +228,23 @@ async function main() {
       await page.getByRole("button", { name: "Continuar" }).click();
     }
     await shot(page, "treino-rfi-variacoes");
+
+    // Olho: com a resposta à mostra, o range aparece antes de responder e a decisão não conta
+    await page.waitForTimeout(1500);
+    const before = await countRows("attempts");
+    await page.getByRole("button", { name: "Mostrar resposta" }).click();
+    await page.locator("[data-hand='AA']").first().waitFor();
+    await shot(page, "treino-olho-aberto");
+    for (let hand = 0; hand < 3; hand++) {
+      await page.locator("div.grid button:not([disabled])").first().click();
+      await page.getByRole("button", { name: "Continuar" }).click();
+    }
+    await page.waitForTimeout(1500);
+    assert.equal(await countRows("attempts"), before, "decisões com a resposta à mostra não são salvas");
+    await page.getByText(/3 com resposta à mostra/).waitFor();
+    await page.getByRole("button", { name: "Resposta à mostra" }).click();
+    assert.equal(await page.locator("[data-hand='AA']").count(), 0, "range volta a ficar escondido");
+    log("olho mostra a resposta e essas decisões não contam");
     assert.ok(positions.size >= 3, `sorteou várias posições: ${[...positions].join(", ")}`);
     log(`carga RFI 30bb importada; drill sorteou ${[...positions].join(", ")}`);
 
@@ -275,7 +292,7 @@ async function main() {
     await mobile.context().addCookies(await page.context().cookies());
     await mobile.goto(`${BASE_URL}/drills`);
     await mobile.locator(".card").filter({ hasText: "RFI até o flop" }).getByRole("link", { name: "Treinar" }).click();
-    await mobile.getByText("Sua mão").waitFor();
+    await mobile.getByTestId("hero-cards").waitFor();
     await mobile.screenshot({ path: `${OUT}/90-celular-treino.png`, fullPage: true });
     await mobile.getByRole("button", { name: "Menu" }).click();
     await mobile.screenshot({ path: `${OUT}/91-celular-menu.png` });

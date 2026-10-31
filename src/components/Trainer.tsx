@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { recordDecisions } from "@/app/(app)/drills/actions";
-import { CardRow } from "@/components/PlayingCard";
+import { PokerTable } from "@/components/PokerTable";
 import { RangeGrid } from "@/components/RangeGrid";
 import { formatPercent } from "@/lib/format";
 import { type Drill, type HandQuestion, dealQuestion, spotSummary } from "@/lib/poker/drill";
@@ -24,9 +24,23 @@ interface Decision {
   chosenActionId: string;
   correctActionId: string;
   hand: string;
+  /** Respondida com a resposta à mostra: não conta no desempenho. */
+  peeked: boolean;
 }
 
-type Submission = { drillId: string; decisions: Omit<Decision, "correctActionId" | "hand">[] };
+type Submission = { drillId: string; decisions: Omit<Decision, "correctActionId" | "hand" | "peeked">[] };
+
+const PEEK_KEY = "trainer:mostrar-resposta";
+
+function EyeIcon({ open }: { open: boolean }) {
+  return (
+    <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
+      <path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z" />
+      <circle cx="12" cy="12" r="3" />
+      {!open && <path d="M3 3l18 18" />}
+    </svg>
+  );
+}
 
 export function Trainer({ drill, strategies, legend }: TrainerProps) {
   const strategyMap = useMemo(() => new Map(strategies.map((s) => [s.id, s])), [strategies]);
@@ -39,6 +53,7 @@ export function Trainer({ drill, strategies, legend }: TrainerProps) {
   const [finished, setFinished] = useState(false);
   const [autoAdvance, setAutoAdvance] = useState(true);
   const [dealError, setDealError] = useState<string | null>(null);
+  const [peek, setPeek] = useState(false);
   const [saveError, setSaveError] = useState<string | null>(null);
   const pending = useRef<Submission[]>([]);
 
@@ -56,6 +71,26 @@ export function Trainer({ drill, strategies, legend }: TrainerProps) {
   useEffect(() => {
     deal();
   }, [deal]);
+
+  useEffect(() => {
+    try {
+      setPeek(localStorage.getItem(PEEK_KEY) === "1");
+    } catch {
+      // armazenamento indisponível: começa fechado
+    }
+  }, []);
+
+  function togglePeek() {
+    setPeek((current) => {
+      const next = !current;
+      try {
+        localStorage.setItem(PEEK_KEY, next ? "1" : "0");
+      } catch {
+        // ignora
+      }
+      return next;
+    });
+  }
 
   const flush = useCallback(async () => {
     const queue = [...pending.current];
@@ -85,11 +120,12 @@ export function Trainer({ drill, strategies, legend }: TrainerProps) {
         chosenActionId: actionId,
         correctActionId: step.correctActionId,
         hand: question.hand,
+        peeked: peek,
       };
       setHandDecisions((d) => [...d, decision]);
       setDecisions((d) => [...d, decision]);
     },
-    [question, step, chosen],
+    [question, step, chosen, peek],
   );
 
   const next = useCallback(() => {
@@ -99,16 +135,19 @@ export function Trainer({ drill, strategies, legend }: TrainerProps) {
       setChosen(null);
       return;
     }
-    pending.current.push({
-      drillId: drill.id,
-      decisions: handDecisions.map(({ strategyId, heroCards, board, chosenActionId }) => ({
-        strategyId,
-        heroCards,
-        board,
-        chosenActionId,
-      })),
-    });
-    void flush();
+    const counted = handDecisions.filter((d) => !d.peeked);
+    if (counted.length > 0) {
+      pending.current.push({
+        drillId: drill.id,
+        decisions: counted.map(({ strategyId, heroCards, board, chosenActionId }) => ({
+          strategyId,
+          heroCards,
+          board,
+          chosenActionId,
+        })),
+      });
+      void flush();
+    }
     const played = handsPlayed + 1;
     setHandsPlayed(played);
     if (played >= drill.handsPerSession) setFinished(true);
@@ -146,8 +185,10 @@ export function Trainer({ drill, strategies, legend }: TrainerProps) {
     deal();
   }
 
-  const correctCount = decisions.filter((d) => d.chosenActionId === d.correctActionId).length;
-  const accuracy = decisions.length ? correctCount / decisions.length : 0;
+  const countedDecisions = decisions.filter((d) => !d.peeked);
+  const peekedCount = decisions.length - countedDecisions.length;
+  const correctCount = countedDecisions.filter((d) => d.chosenActionId === d.correctActionId).length;
+  const accuracy = countedDecisions.length ? correctCount / countedDecisions.length : 0;
 
   if (dealError) {
     return (
@@ -160,15 +201,20 @@ export function Trainer({ drill, strategies, legend }: TrainerProps) {
 
   if (finished) {
     const mistakes = decisions.filter((d) => d.chosenActionId !== d.correctActionId);
-    const passed = accuracy >= drill.passAccuracy;
+    const passed = countedDecisions.length > 0 && accuracy >= drill.passAccuracy;
     return (
       <div className="mx-auto max-w-2xl space-y-6">
         <div className="card space-y-2 text-center">
           <p className="label">Sessão concluída</p>
           <p className={`text-5xl font-bold ${passed ? "text-green-400" : "text-red-400"}`}>{formatPercent(accuracy)}</p>
           <p className="muted">
-            {correctCount} de {decisions.length} decisões certas · meta {formatPercent(drill.passAccuracy)}
+            {correctCount} de {countedDecisions.length} decisões certas · meta {formatPercent(drill.passAccuracy)}
           </p>
+          {peekedCount > 0 && (
+            <p className="text-xs text-zinc-500">
+              {peekedCount} respondida(s) com a resposta à mostra, fora da conta e do desempenho.
+            </p>
+          )}
           <p className={passed ? "text-green-400" : "text-red-400"}>{passed ? "Satisfatório" : "Abaixo da meta"}</p>
         </div>
         {saveError && <p className="text-sm text-amber-400">{saveError}</p>}
@@ -179,6 +225,7 @@ export function Trainer({ drill, strategies, legend }: TrainerProps) {
               {mistakes.map((m, i) => (
                 <li key={i} className="flex flex-wrap items-center justify-between gap-2 py-2">
                   <span className="font-mono">
+                    {m.peeked && <span className="mr-1" title="Com a resposta à mostra">👁</span>}
                     {m.hand}
                     {m.board.length > 0 && <span className="ml-2 text-zinc-400">{m.board.join(" ")}</span>}
                   </span>
@@ -219,8 +266,9 @@ export function Trainer({ drill, strategies, legend }: TrainerProps) {
         <div>
           <h1 className="text-lg font-semibold">{drill.name}</h1>
           <p className="muted">
-            Mão {handsPlayed + 1} de {drill.handsPerSession} · {decisions.length > 0 ? formatPercent(accuracy) : "—"}{" "}
-            de acerto
+            Mão {handsPlayed + 1} de {drill.handsPerSession} ·{" "}
+            {countedDecisions.length > 0 ? formatPercent(accuracy) : "—"} de acerto
+            {peekedCount > 0 && ` · ${peekedCount} com resposta à mostra`}
           </p>
         </div>
         <label className="flex items-center gap-2 text-sm text-zinc-400">
@@ -250,18 +298,8 @@ export function Trainer({ drill, strategies, legend }: TrainerProps) {
             )}
           </div>
 
-          {step.board.length > 0 && (
-            <div className="space-y-1">
-              <p className="label">Board</p>
-              <CardRow cards={step.board} />
-              {texture && <p className="text-xs text-zinc-500">{texture}</p>}
-            </div>
-          )}
-
-          <div className="space-y-1">
-            <p className="label">Sua mão</p>
-            <CardRow cards={question.heroCards} size="lg" />
-          </div>
+          <PokerTable strategy={strategy} heroCards={question.heroCards} board={step.board} />
+          {texture && <p className="-mt-3 text-center text-xs text-zinc-500">{texture}</p>}
 
           <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
             {step.options.map((actionId, index) => {
@@ -306,8 +344,22 @@ export function Trainer({ drill, strategies, legend }: TrainerProps) {
         </div>
 
         <div className="card space-y-2">
-          <p className="label">Range da estratégia</p>
-          {chosen && range ? (
+          <div className="flex items-center justify-between">
+            <p className="label mb-0">Range da estratégia</p>
+            <button
+              type="button"
+              onClick={togglePeek}
+              className={`flex items-center gap-1.5 rounded-md px-2 py-1 text-xs ${
+                peek ? "bg-orange-500/20 text-orange-300" : "text-zinc-400 hover:text-white"
+              }`}
+              aria-pressed={peek}
+              title={peek ? "Esconder a resposta antes de responder" : "Mostrar a resposta antes de responder"}
+            >
+              <EyeIcon open={peek} />
+              {peek ? "Resposta à mostra" : "Mostrar resposta"}
+            </button>
+          </div>
+          {(chosen || peek) && range ? (
             <RangeGrid
               range={range}
               defaultActionId={strategy.defaultActionId}
@@ -319,6 +371,9 @@ export function Trainer({ drill, strategies, legend }: TrainerProps) {
             <div className="flex aspect-square items-center justify-center rounded-lg border border-dashed border-zinc-700 text-sm text-zinc-500">
               Responda para ver o range
             </div>
+          )}
+          {peek && (
+            <p className="text-xs text-zinc-500">Com a resposta à mostra, as decisões não contam no desempenho.</p>
           )}
         </div>
       </div>
