@@ -45,7 +45,7 @@ export function Nav({ name, pool, canManageContent, canManageMembers }: NavProps
 
   return (
     <header className="sticky top-0 z-20 border-b border-zinc-800 bg-baga-black/90 backdrop-blur">
-      <div className="mx-auto flex max-w-6xl items-center gap-4 px-4 py-3 sm:px-6">
+      <div className="mx-auto flex max-w-[1800px] items-center gap-4 px-4 py-3 sm:px-6 2xl:px-10">
         <Link href="/" aria-label="Baga Trainer — início">
           <BagaWordmark size="sm" />
         </Link>

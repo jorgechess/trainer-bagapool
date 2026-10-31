@@ -340,6 +340,26 @@ async function main() {
     await mobile.screenshot({ path: `${OUT}/91-celular-menu.png` });
     log("treino e menu funcionam no celular");
 
+    // Telas grandes e verticais: a mesa e o range preenchem a tela sem sair da área visível
+    for (const [name, width, height] of [
+      ["92-wide-2560", 2560, 1300],
+      ["93-tablet-vertical", 820, 1180],
+      ["94-notebook", 1366, 768],
+    ]) {
+      const view = await browser.newPage({ viewport: { width, height } });
+      await view.context().addCookies(await page.context().cookies());
+      await view.goto(`${BASE_URL}/drills`);
+      await view.locator(".card").filter({ hasText: "RFI 30bb vanilla" }).getByRole("link", { name: "Treinar" }).click();
+      await view.getByTestId("hero-cards").waitFor();
+      await view.locator("[data-testid=actions] button").first().click();
+      await view.locator("[data-hand='AA']").first().waitFor();
+      const box = await view.getByTestId("hero-cards").boundingBox();
+      assert.ok(box && box.y + box.height <= height, `${name}: mão do herói visível sem rolar`);
+      await view.screenshot({ path: `${OUT}/${name}.png` });
+      await view.close();
+    }
+    log("mesa se adapta a tela wide, notebook e tablet vertical");
+
     console.log("\nE2E: todos os passos passaram");
   } catch (error) {
     await page.screenshot({ path: `${OUT}/99-erro.png`, fullPage: true }).catch(() => {});

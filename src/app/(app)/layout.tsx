@@ -15,7 +15,7 @@ export default async function AppLayout({ children }: { children: React.ReactNod
         canManageContent={canManageContent(profile.role)}
         canManageMembers={canManageMembers(profile.role)}
       />
-      <main className="mx-auto w-full max-w-6xl p-4 pb-16 sm:p-6">{children}</main>
+      <main className="mx-auto w-full max-w-[1800px] p-4 pb-16 sm:p-6 2xl:px-10">{children}</main>
     </div>
   );
 }

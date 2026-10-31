@@ -9,55 +9,70 @@ interface PokerTableProps {
   board: Card[];
   /** Descrição da textura, mostrada embaixo do board. */
   texture?: string | null;
+  /** Mesa em pé, para telas estreitas e verticais. */
+  vertical?: boolean;
 }
 
 const SEAT_COUNT = 9;
 
+interface Shape {
+  /** Proporção largura/altura da área da mesa. */
+  aspect: number;
+  /** Raios da elipse dos lugares, em % da largura e da altura. */
+  rx: number;
+  ry: number;
+  /** Margens do feltro (CSS inset). */
+  felt: string;
+}
+
+const WIDE: Shape = { aspect: 1.6, rx: 44, ry: 40, felt: "10% 8%" };
+const TALL: Shape = { aspect: 0.82, rx: 39, ry: 41, felt: "9% 13%" };
+
 /** Posição do lugar na elipse; o herói fica embaixo, no centro, e a ação gira no sentido horário. */
-function seatPlacement(offset: number) {
+function seatPlacement(shape: Shape, offset: number) {
   const angle = ((90 + (offset * 360) / SEAT_COUNT) * Math.PI) / 180;
-  return { x: 50 + 44 * Math.cos(angle), y: 50 + 40 * Math.sin(angle) };
+  return { x: 50 + shape.rx * Math.cos(angle), y: 50 + shape.ry * Math.sin(angle) };
 }
 
 function at(x: number, y: number) {
   return { left: `${x}%`, top: `${y}%` };
 }
 
-/** Fichas e botão do dealer ficam entre o lugar e o centro da mesa. */
-function towardCenter(offset: number, factor: number) {
-  const { x, y } = seatPlacement(offset);
+function towardCenter(shape: Shape, offset: number, factor: number) {
+  const { x, y } = seatPlacement(shape, offset);
   return at(50 + (x - 50) * factor, 50 + (y - 50) * factor);
 }
 
 function CardBack() {
   return (
-    <div className="h-7 w-5 rounded-sm border border-white/30 bg-gradient-to-br from-red-700 to-red-900 shadow sm:h-9 sm:w-6" />
+    <div className="h-[1.9em] w-[1.35em] rounded-[0.2em] border border-white/30 bg-gradient-to-br from-red-700 to-red-900 shadow" />
   );
 }
 
-function SeatView({ seat, stack, heroCards }: { seat: Seat; stack: string; heroCards: [Card, Card] }) {
+function SeatView({ seat, stack, heroCards, shape }: { seat: Seat; stack: string; heroCards: [Card, Card]; shape: Shape }) {
   const hero = seat.status === "hero";
   const folded = seat.status === "folded";
+  const { x, y } = seatPlacement(shape, seat.offset);
   return (
     <div
-      className={`absolute flex -translate-x-1/2 flex-col items-center gap-1 ${hero ? "-translate-y-[78%]" : "-translate-y-1/2"}`}
-      style={(({ x, y }) => at(x, y))(seatPlacement(seat.offset))}
+      className={`absolute flex -translate-x-1/2 flex-col items-center gap-[0.3em] ${hero ? "-translate-y-[78%]" : "-translate-y-1/2"}`}
+      style={at(x, y)}
     >
       {hero ? (
-        <div className="flex gap-1" data-testid="hero-cards" aria-label="Sua mão">
-          <PlayingCard card={heroCards[0]} size="md" />
-          <PlayingCard card={heroCards[1]} size="md" />
+        <div className="flex gap-[0.25em] text-[1.9em]" data-testid="hero-cards" aria-label="Sua mão">
+          <PlayingCard card={heroCards[0]} size="fluid" />
+          <PlayingCard card={heroCards[1]} size="fluid" />
         </div>
       ) : (
         !folded && (
-          <div className="flex gap-0.5">
+          <div className="flex gap-[0.15em]">
             <CardBack />
             <CardBack />
           </div>
         )
       )}
       <div
-        className={`min-w-14 rounded-lg border px-2 py-1 text-center leading-tight shadow sm:min-w-20 ${
+        className={`min-w-[5.5em] rounded-[0.5em] border px-[0.6em] py-[0.25em] text-center leading-tight shadow ${
           hero
             ? "border-baga-red bg-zinc-900"
             : folded
@@ -65,78 +80,89 @@ function SeatView({ seat, stack, heroCards }: { seat: Seat; stack: string; heroC
               : "border-zinc-600 bg-zinc-900"
         }`}
       >
-        <p className={`text-[10px] font-semibold sm:text-xs ${hero ? "text-baga-cream" : "text-zinc-200"}`}>
+        <p className={`font-semibold ${hero ? "text-baga-cream" : "text-zinc-200"}`}>
           {seat.position}
           {hero && " (você)"}
         </p>
-        <p className="text-[10px] text-zinc-400 sm:text-xs">
-          {folded ? "Fold" : seat.status === "raised" ? "Raise" : stack}
-        </p>
+        <p className="text-zinc-400">{folded ? "Fold" : seat.status === "raised" ? "Raise" : stack}</p>
       </div>
     </div>
   );
 }
 
-export function PokerTable({ strategy, heroCards, board, texture }: PokerTableProps) {
+export function PokerTable({ strategy, heroCards, board, texture, vertical = false }: PokerTableProps) {
+  const shape = vertical ? TALL : WIDE;
   const seats = tableSeats(strategy);
   const stack = formatNumberRange(strategy.stack, "bb");
   const pot = knownPot(strategy);
   const button = seats.find((s) => s.isButton);
 
   return (
-    <div className="relative mx-auto mb-2 aspect-[16/12] w-full max-w-2xl select-none sm:aspect-[16/10.5]">
-      {/* Mesa */}
-      <div className="absolute inset-[10%_8%] rounded-[50%] border-[6px] border-amber-950 bg-gradient-to-b from-emerald-800 to-emerald-950 shadow-[inset_0_0_40px_rgba(0,0,0,0.6)] sm:border-8" />
-
-      {/* Centro: board e pote */}
-      <div className="absolute top-1/2 left-1/2 flex -translate-x-1/2 -translate-y-1/2 flex-col items-center gap-1.5">
-        {board.length > 0 && (
-          <div className="flex gap-1" data-testid="board" aria-label="Board">
-            {board.map((card) => (
-              <PlayingCard key={card} card={card} size="sm" />
-            ))}
-          </div>
-        )}
-        {texture && <span className="text-[10px] text-emerald-100/70 sm:text-xs">{texture}</span>}
-        {pot !== null && (
-          <span className="rounded-full bg-black/40 px-2.5 py-0.5 text-[10px] text-zinc-100 sm:text-xs">
-            Pote: {pot.toLocaleString("pt-BR")}bb
-          </span>
-        )}
-      </div>
-
-      {/* Blinds colocados */}
-      {seats
-        .filter((s) => s.posted > 0)
-        .map((s) => (
-          <div
-            key={`chip-${s.position}`}
-            className="absolute flex -translate-x-1/2 -translate-y-1/2 items-center gap-1"
-            style={towardCenter(s.offset, 0.55)}
-          >
-            <span className="h-3 w-3 rounded-full border-2 border-dashed border-white bg-sky-600 sm:h-4 sm:w-4" />
-            <span className="text-[10px] font-semibold text-white sm:text-xs">{s.posted.toLocaleString("pt-BR")}</span>
-          </div>
-        ))}
-
-      {/* Botão do dealer */}
-      {button && (
+    <div
+      className="@container mx-auto w-full select-none"
+      // Cresce com a largura, mas nunca passa da altura disponível na tela
+      style={{ maxWidth: `min(100%, calc((100dvh - 330px) * ${shape.aspect}))` }}
+    >
+      <div
+        className="relative w-full"
+        style={{ aspectRatio: `${shape.aspect}`, fontSize: vertical ? "clamp(9px, 3.1cqw, 15px)" : "clamp(9px, 1.55cqw, 17px)" }}
+      >
+        {/* Mesa */}
         <div
-          className="absolute flex h-5 w-5 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-white text-[10px] font-bold text-black shadow sm:h-6 sm:w-6 sm:text-xs"
-          style={
-            button.offset === 0
-              ? (({ x, y }) => at(x + 13, y - 10))(seatPlacement(0))
-              : towardCenter(button.offset, 0.7)
-          }
-          title="Dealer"
-        >
-          D
-        </div>
-      )}
+          className="absolute rounded-[50%] border-[0.45em] border-amber-950 bg-gradient-to-b from-emerald-800 to-emerald-950 shadow-[inset_0_0_40px_rgba(0,0,0,0.6)]"
+          style={{ inset: shape.felt }}
+        />
 
-      {seats.map((seat) => (
-        <SeatView key={seat.position} seat={seat} stack={stack} heroCards={heroCards} />
-      ))}
+        {/* Centro: board, textura e pote */}
+        <div className="absolute top-1/2 left-1/2 flex -translate-x-1/2 -translate-y-1/2 flex-col items-center gap-[0.4em]">
+          {board.length > 0 && (
+            <div className="flex gap-[0.2em] text-[1.45em]" data-testid="board" aria-label="Board">
+              {board.map((card) => (
+                <PlayingCard key={card} card={card} size="fluid" />
+              ))}
+            </div>
+          )}
+          {texture && <span className="text-emerald-100/70">{texture}</span>}
+          {pot !== null && (
+            <span className="rounded-full bg-black/40 px-[0.8em] py-[0.15em] text-zinc-100">
+              Pote: {pot.toLocaleString("pt-BR")}bb
+            </span>
+          )}
+        </div>
+
+        {/* Blinds colocados */}
+        {seats
+          .filter((s) => s.posted > 0)
+          .map((s) => (
+            <div
+              key={`chip-${s.position}`}
+              className="absolute flex -translate-x-1/2 -translate-y-1/2 items-center gap-[0.3em]"
+              style={towardCenter(shape, s.offset, 0.55)}
+            >
+              <span className="h-[1.1em] w-[1.1em] rounded-full border-2 border-dashed border-white bg-sky-600" />
+              <span className="font-semibold text-white">{s.posted.toLocaleString("pt-BR")}</span>
+            </div>
+          ))}
+
+        {/* Botão do dealer */}
+        {button && (
+          <div
+            className="absolute flex h-[1.6em] w-[1.6em] -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-white font-bold text-black shadow"
+            style={
+              button.offset === 0
+                ? (({ x, y }) => at(x + (vertical ? 22 : 13), y - 10))(seatPlacement(shape, 0))
+                : towardCenter(shape, button.offset, 0.68)
+            }
+            title="Dealer"
+          >
+            D
+          </div>
+        )}
+
+        {seats.map((seat) => (
+          <SeatView key={seat.position} seat={seat} stack={stack} heroCards={heroCards} shape={shape} />
+        ))}
+      </div>
     </div>
   );
 }

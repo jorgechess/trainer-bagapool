@@ -63,6 +63,16 @@ export function Trainer({ drill, strategies, legend }: TrainerProps) {
   const [dealError, setDealError] = useState<string | null>(null);
   const [peek, setPeek] = useState(false);
   const [positions, setPositions] = useState<string[]>([]);
+  const [vertical, setVertical] = useState(false);
+
+  useEffect(() => {
+    // Mesa em pé em telas estreitas ou em pé (celular, tablet na vertical)
+    const query = window.matchMedia("(max-width: 639px), (orientation: portrait) and (max-width: 1023px)");
+    const update = () => setVertical(query.matches);
+    update();
+    query.addEventListener("change", update);
+    return () => query.removeEventListener("change", update);
+  }, []);
   const positionsKey = `trainer:posicoes:${drill.id}`;
   const availablePositions = useMemo(() => drillPositions(drill, strategyMap), [drill, strategyMap]);
   /** Drill com o filtro de posições do jogador (não muda o drill de ninguém). */
@@ -288,7 +298,7 @@ export function Trainer({ drill, strategies, legend }: TrainerProps) {
   const correctAction = findAction(legend, step.correctActionId);
 
   return (
-    <div className="mx-auto max-w-5xl space-y-4">
+    <div className="w-full space-y-4">
       <div className="flex flex-wrap items-center justify-between gap-2">
         <div>
           <h1 className="text-lg font-semibold">{drill.name}</h1>
@@ -320,7 +330,7 @@ export function Trainer({ drill, strategies, legend }: TrainerProps) {
         />
       </div>
 
-      <div className="grid gap-4 lg:grid-cols-[1fr_minmax(0,420px)]">
+      <div className="grid items-start gap-4 lg:grid-cols-[minmax(0,3fr)_minmax(0,2fr)]">
         <div
           className={`card space-y-5 transition-shadow ${
             chosen === null
@@ -343,7 +353,13 @@ export function Trainer({ drill, strategies, legend }: TrainerProps) {
             )}
           </div>
 
-          <PokerTable strategy={strategy} heroCards={question.heroCards} board={step.board} texture={texture} />
+          <PokerTable
+            strategy={strategy}
+            heroCards={question.heroCards}
+            board={step.board}
+            texture={texture}
+            vertical={vertical}
+          />
 
           <div className="grid grid-cols-2 gap-2 sm:grid-cols-3" data-testid="actions">
             {step.options.map((actionId, index) => {
@@ -400,6 +416,7 @@ export function Trainer({ drill, strategies, legend }: TrainerProps) {
             </button>
           </div>
           {(chosen || peek) && range ? (
+            <div className="mx-auto w-full" style={{ maxWidth: "min(100%, calc(100dvh - 290px))" }}>
             <RangeGrid
               range={range}
               defaultActionId={strategy.defaultActionId}
@@ -407,8 +424,12 @@ export function Trainer({ drill, strategies, legend }: TrainerProps) {
               highlight={question.hand}
               compact
             />
+            </div>
           ) : (
-            <div className="flex aspect-square items-center justify-center rounded-lg border border-dashed border-zinc-700 text-sm text-zinc-500">
+            <div
+              className="mx-auto flex aspect-square w-full items-center justify-center rounded-lg border border-dashed border-zinc-700 text-sm text-zinc-500"
+              style={{ maxWidth: "min(100%, calc(100dvh - 290px))" }}
+            >
               Responda para ver o range
             </div>
           )}

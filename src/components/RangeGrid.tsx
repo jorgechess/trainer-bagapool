@@ -31,6 +31,7 @@ export function RangeGrid({ range, defaultActionId, legend, highlight, onPaint, 
   }
 
   return (
+    <div className="@container w-full">
     <div
       className={`grid select-none gap-px rounded-lg bg-zinc-800 p-px ${onPaint ? "cursor-crosshair touch-none" : ""}`}
       style={{ gridTemplateColumns: "repeat(13, minmax(0, 1fr))" }}
@@ -62,14 +63,19 @@ export function RangeGrid({ range, defaultActionId, legend, highlight, onPaint, 
             data-hand={hand}
             title={`${hand}: ${action?.label ?? "?"}`}
             className={`flex aspect-square items-center justify-center font-mono leading-none ${
-              compact ? "text-[8px] sm:text-[9px]" : "text-[9px] sm:text-xs"
-            } ${isHighlight ? "relative z-10 ring-2 ring-white ring-offset-1 ring-offset-black" : ""}`}
-            style={{ backgroundColor: background, color: textColorFor(background) }}
+              isHighlight ? "relative z-10 ring-2 ring-white ring-offset-1 ring-offset-black" : ""
+            }`}
+            style={{
+              backgroundColor: background,
+              color: textColorFor(background),
+              fontSize: compact ? "clamp(7px, 2cqw, 15px)" : "clamp(8px, 2.2cqw, 16px)",
+            }}
           >
             {hand}
           </div>
         );
       })}
+    </div>
     </div>
   );
 }
