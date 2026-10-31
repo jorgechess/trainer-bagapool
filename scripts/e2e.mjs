@@ -295,8 +295,17 @@ async function main() {
     await page.waitForTimeout(300);
     assert.equal(await page.getByTestId("table-slot").count(), 2);
     await page.getByRole("button", { name: "1 mesa", exact: true }).click();
-    await page.waitForTimeout(300);
-    assert.equal(await page.getByTestId("table-slot").count(), 1);
+    await page.waitForTimeout(1000);
+    const slots = await page.getByTestId("table-slot").count();
+    if (slots !== 1) {
+      const pressed = await page.locator("[aria-label='Mesas'] button").evaluateAll((els) =>
+        els.map((e) => `${e.textContent}:${e.getAttribute("aria-pressed")}`),
+      );
+      const html = await page.locator("main").innerHTML();
+      console.error("DEBUG mesas:", pressed.join(" "), "slots:", slots);
+      console.error("DEBUG html:", html.slice(0, 3000));
+    }
+    assert.equal(slots, 1);
     log("treino com 1, 2 e 4 mesas");
 
     // Drill novo escolhendo spot e posições pelos botões
