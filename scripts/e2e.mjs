@@ -355,8 +355,18 @@ async function main() {
     await page.keyboard.press("KeyE");
     await page.locator("[data-feedback]").waitFor({ state: "detached" });
     assert.match(await page.getByTestId("hand-counter").innerText(), /2\/50/);
+    await page.evaluate(() => {
+      window.__md = [];
+      window.addEventListener("mousedown", (e) => window.__md.push(`${e.button}:${e.defaultPrevented}`));
+    });
     await page.mouse.click(30, 500, { button: "middle" });
-    await page.locator("[data-feedback]").waitFor();
+    try {
+      await page.locator("[data-feedback]").waitFor({ timeout: 4000 });
+    } catch (error) {
+      const stored = await page.evaluate(() => localStorage.getItem("trainer:atalhos"));
+      console.error("DEBUG mousedown:", await page.evaluate(() => window.__md), "atalhos:", stored);
+      throw error;
+    }
     const lastChoice = await rows("attempts", "select=data&order=id.desc&limit=1");
     await page.keyboard.press("KeyE");
     await page.waitForTimeout(1500);
