@@ -285,7 +285,16 @@ export function Trainer({ drill, strategies, legend }: TrainerProps) {
       </div>
 
       <div className="grid gap-4 lg:grid-cols-[1fr_minmax(0,420px)]">
-        <div className="card space-y-5">
+        <div
+          className={`card space-y-5 transition-shadow ${
+            chosen === null
+              ? ""
+              : isCorrect
+                ? "border-green-500 ring-2 ring-green-500"
+                : "border-red-500 ring-2 ring-red-500"
+          }`}
+          data-feedback={chosen === null ? undefined : isCorrect ? "certo" : "errado"}
+        >
           <div className="flex flex-wrap items-center gap-2 text-sm">
             <span className="rounded bg-orange-500/20 px-2 py-0.5 font-medium text-orange-300">
               {STREET_LABELS[step.street]}
@@ -326,13 +335,9 @@ export function Trainer({ drill, strategies, legend }: TrainerProps) {
           </div>
 
           {chosen && (
-            <div
-              className={`flex flex-wrap items-center justify-between gap-3 rounded-lg p-3 ${
-                isCorrect ? "bg-green-950 text-green-200" : "bg-red-950 text-red-200"
-              }`}
-            >
-              <span className="font-medium">
-                {isCorrect ? "Certo!" : `Errado. A ação correta é ${correctAction?.label ?? step.correctActionId}.`}
+            <div className="flex flex-wrap items-center justify-between gap-3">
+              <span className={`text-sm font-medium ${isCorrect ? "text-green-400" : "text-red-400"}`}>
+                {isCorrect ? "Certo" : `Correta: ${correctAction?.label ?? step.correctActionId}`}
               </span>
               <button className="btn-secondary" onClick={next}>
                 Continuar

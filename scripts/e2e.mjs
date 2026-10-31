@@ -152,6 +152,8 @@ async function main() {
         await options.last().click();
         decisions += 1;
         await page.getByRole("button", { name: "Continuar" }).waitFor();
+        const feedback = await page.locator("[data-feedback]").getAttribute("data-feedback");
+        assert.ok(feedback === "certo" || feedback === "errado", "exercício fica contornado de verde ou vermelho");
         if (hand === 0 && guard === 0) await shot(page, "treino-resposta");
         if (flop && !flopShot) {
           flopShot = true;
