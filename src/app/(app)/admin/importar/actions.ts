@@ -4,6 +4,7 @@ import { revalidatePath } from "next/cache";
 import { getLegend, listStrategies, requireContentManager } from "@/lib/data";
 import type { ActionResult } from "@/lib/format";
 import { parseImportBundle } from "@/lib/poker/importer";
+import { CARGAS } from "@/lib/cargas";
 import { createClient } from "@/lib/supabase/server";
 
 /** Importa legenda, estratégias e drills de uma vez. Itens com o mesmo id são substituídos. */
@@ -57,4 +58,11 @@ export async function importBundle(json: string): Promise<ActionResult> {
     ok: true,
     message: `Importado: ${result.legend ? "legenda, " : ""}${result.strategies.length} estratégia(s) e ${result.drills.length} drill(s).`,
   };
+}
+
+/** Importa uma das cargas prontas do repositório. */
+export async function importCarga(id: string): Promise<ActionResult> {
+  const carga = CARGAS.find((c) => c.id === id);
+  if (!carga) return { ok: false, error: "Carga não encontrada." };
+  return importBundle(JSON.stringify(carga.bundle));
 }

@@ -390,10 +390,10 @@ async function main() {
 
     // Carga vs 3-bet: mãos só do range de open, mesa mostra o 3-bet
     await page.goto(`${BASE_URL}/admin/importar`);
-    await page.locator("textarea").fill(readFileSync("cargas/vs3bet-30bb-vanilla.json", "utf8"));
-    await page.getByText("Tudo certo para importar.").waitFor();
-    await page.getByRole("button", { name: "Importar", exact: true }).click();
-    await page.getByText(/Importado:/).waitFor();
+    await page.getByTestId("carga-rfi-30bb-vanilla").getByText("importada").waitFor();
+    await page.getByTestId("carga-vs3bet-30bb-vanilla").getByRole("button", { name: "Importar" }).click();
+    await page.getByTestId("carga-vs3bet-30bb-vanilla").getByText(/Importado:/).waitFor();
+    await shot(page, "cargas-prontas");
     assert.equal(await countRows("strategies"), 44);
     const rfiRanges = Object.fromEntries(
       (await rows("strategies", "select=id,data&situation=eq.RFI&id=like.rfi-30bb-*")).map((s) => [s.data.heroPosition, s.data.range]),
