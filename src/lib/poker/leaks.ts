@@ -102,3 +102,52 @@ export function overallAccuracy(attempts: readonly Attempt[]): { total: number; 
   const correct = attempts.filter((a) => a.correct).length;
   return { total: attempts.length, correct, accuracy: attempts.length ? correct / attempts.length : 0 };
 }
+
+export interface DrillReport {
+  drillId: string;
+  total: number;
+  correct: number;
+  errors: number;
+  accuracy: number;
+  /** Resultado por estratégia dentro do drill (normalmente uma por posição), do pior para o melhor. */
+  byStrategy: GroupStats[];
+  /** Mãos mais erradas no drill, somando as estratégias. */
+  missedHands: { hand: string; strategyName: string; total: number; errors: number }[];
+  lastAt: string;
+}
+
+/** Desempenho organizado por drill, do pior acerto para o melhor (empate: mais decisões primeiro). */
+export function reportByDrill(attempts: readonly Attempt[], missedLimit = 8): DrillReport[] {
+  const byDrill = new Map<string, Attempt[]>();
+  for (const attempt of attempts) {
+    const list = byDrill.get(attempt.drillId) ?? [];
+    list.push(attempt);
+    byDrill.set(attempt.drillId, list);
+  }
+  return [...byDrill.entries()]
+    .map(([drillId, list]) => {
+      const correct = list.filter((a) => a.correct).length;
+      const missed = new Map<string, { hand: string; strategyName: string; total: number; errors: number }>();
+      for (const a of list) {
+        const key = `${a.strategyId}|${a.hand}`;
+        const entry = missed.get(key) ?? { hand: a.hand, strategyName: a.strategyName, total: 0, errors: 0 };
+        entry.total += 1;
+        if (!a.correct) entry.errors += 1;
+        missed.set(key, entry);
+      }
+      return {
+        drillId,
+        total: list.length,
+        correct,
+        errors: list.length - correct,
+        accuracy: list.length ? correct / list.length : 0,
+        byStrategy: groupAttempts(list, "estrategia"),
+        missedHands: [...missed.values()]
+          .filter((m) => m.errors > 0)
+          .sort((a, b) => b.errors - a.errors || a.total - b.total)
+          .slice(0, missedLimit),
+        lastAt: list.reduce((max, a) => (a.createdAt > max ? a.createdAt : max), ""),
+      };
+    })
+    .sort((a, b) => a.accuracy - b.accuracy || b.total - a.total);
+}

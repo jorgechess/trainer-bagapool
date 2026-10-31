@@ -2,7 +2,7 @@ import Link from "next/link";
 import { PoolLogo } from "@/components/PoolBadge";
 import { getAttempts, getPlan, getPool, listDrills, requireProfile } from "@/lib/data";
 import { currentMonth, formatPercent, monthLabel, monthStartIso } from "@/lib/format";
-import { overallAccuracy, findLeaks, DIMENSION_LABELS } from "@/lib/poker/leaks";
+import { overallAccuracy, reportByDrill } from "@/lib/poker/leaks";
 import { planProgress } from "@/lib/poker/plan";
 import { ROLE_LABELS } from "@/lib/poker/permissions";
 
@@ -18,7 +18,10 @@ export default async function HomePage() {
   const drillName = new Map(drills.map((d) => [d.id, d.name]));
   const stats = overallAccuracy(monthAttempts);
   const progress = plan ? planProgress(plan.plan, monthAttempts) : [];
-  const leaks = findLeaks(monthAttempts).slice(0, 3);
+  const drillById = new Map(drills.map((d) => [d.id, d]));
+  const belowGoal = reportByDrill(monthAttempts)
+    .filter((r) => r.accuracy < (drillById.get(r.drillId)?.passAccuracy ?? 0.9))
+    .slice(0, 3);
 
   return (
     <div className="space-y-6">
@@ -90,22 +93,22 @@ export default async function HomePage() {
 
       <section className="card space-y-3">
         <div className="flex items-center justify-between">
-          <h2 className="font-semibold">Principais leaks do mês</h2>
+          <h2 className="font-semibold">Drills abaixo da meta no mês</h2>
           <Link href="/desempenho" className="text-sm text-baga-red hover:underline">
             Ver desempenho
           </Link>
         </div>
-        {leaks.length === 0 ? (
-          <p className="muted">Nenhum leak com amostra suficiente (mínimo de 20 decisões por grupo).</p>
+        {belowGoal.length === 0 ? (
+          <p className="muted">Nenhum drill abaixo da meta neste mês.</p>
         ) : (
           <ul className="space-y-2 text-sm">
-            {leaks.map((leak) => (
-              <li key={`${leak.dimension}-${leak.key}`} className="flex justify-between">
-                <span>
-                  <span className="text-zinc-400">{DIMENSION_LABELS[leak.dimension]}:</span> {leak.key}
-                </span>
+            {belowGoal.map((r) => (
+              <li key={r.drillId} className="flex justify-between gap-2">
+                <Link href={`/drills/${r.drillId}/treinar`} className="hover:underline">
+                  {drillById.get(r.drillId)?.name ?? "Drill arquivado"}
+                </Link>
                 <span className="text-red-400">
-                  {formatPercent(leak.accuracy)} em {leak.total}
+                  {formatPercent(r.accuracy)} em {r.total}
                 </span>
               </li>
             ))}

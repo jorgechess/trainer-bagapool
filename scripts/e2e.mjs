@@ -197,7 +197,8 @@ async function main() {
 
     // 8. Desempenho
     await page.goto(`${BASE_URL}/desempenho`);
-    await page.getByText("Leak finder").waitFor();
+    await page.getByTestId("drill-report").first().waitFor();
+    assert.equal(await page.getByTestId("drill-report").count(), 1, "um bloco por drill treinado");
     await page.getByText(String(decisions), { exact: true }).first().waitFor();
     await shot(page, "desempenho");
     log("desempenho mostra as decisões");

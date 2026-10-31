@@ -187,3 +187,23 @@ test("permissões por papel", () => {
   assert.ok(!canViewPerformance(semPool, outroSemPool));
   assert.ok(canViewPerformance(coach, caio));
 });
+
+test("relatório por drill: acerto, estratégias e mãos mais erradas", async () => {
+  const { reportByDrill } = await import("../leaks");
+  const data = [
+    ...many(8, { drillId: "a", strategyId: "co", strategyName: "RFI CO", correct: true }),
+    ...many(2, { drillId: "a", strategyId: "co", strategyName: "RFI CO", hand: "T8o", correct: false }),
+    ...many(5, { drillId: "a", strategyId: "btn", strategyName: "RFI BTN", correct: true }),
+    attempt({ drillId: "b", correct: false, hand: "72o", createdAt: "2026-10-20T10:00:00.000Z" }),
+    attempt({ drillId: "b", correct: true }),
+  ];
+  const report = reportByDrill(data);
+  assert.deepEqual(report.map((r) => r.drillId), ["b", "a"], "pior acerto primeiro");
+  const a = report.find((r) => r.drillId === "a")!;
+  assert.equal(a.total, 15);
+  assert.equal(a.errors, 2);
+  assert.deepEqual(a.byStrategy.map((s) => s.key), ["RFI CO", "RFI BTN"]);
+  assert.deepEqual(a.missedHands, [{ hand: "T8o", strategyName: "RFI CO", total: 2, errors: 2 }]);
+  assert.equal(report[0].lastAt, "2026-10-20T10:00:00.000Z");
+  assert.deepEqual(reportByDrill([]), []);
+});
