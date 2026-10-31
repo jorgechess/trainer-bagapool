@@ -9,7 +9,7 @@ export function PlayingCard({ card, size = "md" }: { card: Card; size?: "sm" | "
   const dims = size === "lg" ? "h-20 w-14 text-2xl" : size === "sm" ? "h-10 w-7 text-sm" : "h-14 w-10 text-lg";
   return (
     <div
-      className={`flex flex-col items-center justify-center rounded-md font-bold text-white shadow ${dims}`}
+      className={`flex flex-col items-center justify-center rounded-md font-bold text-white shadow ring-1 ring-white/25 ${dims}`}
       style={{ backgroundColor: SUIT_COLORS[suit] }}
       aria-label={card}
     >
