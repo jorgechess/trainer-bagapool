@@ -146,10 +146,10 @@ function MemberRow({ profile, pools, isMe }: { profile: Profile; pools: Pool[]; 
         </div>
         <div>
           <label className="label">E-mail</label>
-          <p className="flex items-center gap-2 py-2 text-sm text-zinc-300">
+          <div className="flex items-center gap-2 py-2 text-sm text-zinc-300">
             <span className="truncate">{profile.email}</span>
             <PoolChip pool={pools.find((p) => p.id === profile.poolId) ?? null} compact />
-          </p>
+          </div>
         </div>
         <div>
           <label className="label">Papel</label>

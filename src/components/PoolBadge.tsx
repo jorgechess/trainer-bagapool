@@ -25,8 +25,8 @@ function SuitCross({ className }: { className?: string }) {
 export function PoolLogo({ pool, size = 96, mini = false }: { pool: PoolLook; size?: number; mini?: boolean }) {
   if (pool.logo && BAGA_MARKS[pool.logo]) {
     return (
-      <div
-        className="flex flex-col items-center justify-center leading-none text-white"
+      <span
+        className="inline-flex flex-col items-center justify-center leading-none text-white"
         style={{ width: size, height: size }}
         aria-label={pool.name}
       >
@@ -40,7 +40,7 @@ export function PoolLogo({ pool, size = 96, mini = false }: { pool: PoolLook; si
         >
           {BAGA_MARKS[pool.logo]}
         </span>
-      </div>
+      </span>
     );
   }
   if (pool.logo && IMAGE_LOGOS[pool.logo]) {
@@ -50,13 +50,13 @@ export function PoolLogo({ pool, size = 96, mini = false }: { pool: PoolLook; si
     );
   }
   return (
-    <div
-      className="font-display flex items-center justify-center rounded-full border-2 bg-black"
+    <span
+      className="font-display inline-flex items-center justify-center rounded-full border-2 bg-black"
       style={{ width: size, height: size, borderColor: pool.color, color: pool.color, fontSize: size * 0.42 }}
       aria-label={pool.name}
     >
       {initials(pool.name)}
-    </div>
+    </span>
   );
 }
 
