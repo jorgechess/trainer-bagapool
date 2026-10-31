@@ -2,6 +2,7 @@ import { test } from "node:test";
 import assert from "node:assert/strict";
 import { parseImportBundle, slugify } from "../importer";
 import { DEFAULT_LEGEND } from "../legend";
+import { IMPORT_EXAMPLE } from "../../import-example";
 
 const bundle = {
   strategies: [
@@ -31,6 +32,13 @@ const bundle = {
   ],
   drills: [{ name: "RFI até flop", steps: ["RFI BTN 2:1 ≤15bb", "cbet-btn"] }],
 };
+
+test("o exemplo da tela Importar é válido", () => {
+  const result = parseImportBundle(IMPORT_EXAMPLE, DEFAULT_LEGEND);
+  assert.deepEqual(result.errors, []);
+  assert.equal(result.strategies.length, 2);
+  assert.equal(result.drills.length, 1);
+});
 
 test("slugify remove acentos e símbolos", () => {
   assert.equal(slugify("Ação Pré-flop ≤15bb"), "acao-pre-flop-15bb");
