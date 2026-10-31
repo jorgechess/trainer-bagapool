@@ -1,0 +1,85 @@
+name: E2E
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  ponta-a-ponta:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+      - uses: supabase/setup-cli@v1
+        with:
+          version: latest
+
+      - name: Subir Supabase local
+        run: |
+          [ -f supabase/config.toml ] || supabase init < /dev/null
+          supabase start -x studio,imgproxy,realtime,storage-api,edge-runtime,logflare,vector 2>&1 | tee supabase.log
+          supabase status -o env > supabase.env
+          set -a; source supabase.env; set +a
+          ANON="${ANON_KEY:-$PUBLISHABLE_KEY}"
+          SERVICE="${SERVICE_ROLE_KEY:-$SECRET_KEY}"
+          {
+            echo "API_URL=$API_URL"
+            echo "NEXT_PUBLIC_SUPABASE_URL=$API_URL"
+            echo "NEXT_PUBLIC_SUPABASE_ANON_KEY=$ANON"
+            echo "SUPABASE_SERVICE_ROLE_KEY=$SERVICE"
+            echo "SERVICE_ROLE_KEY=$SERVICE"
+          } >> "$GITHUB_ENV"
+
+      - name: Instalar e compilar
+        env:
+          NEXT_TELEMETRY_DISABLED: "1"
+        run: |
+          npm install --no-audit --no-fund
+          npm install --no-save --no-audit --no-fund playwright@1
+          npx playwright install --with-deps chromium
+          npm run build 2>&1 | tee build.log
+
+      - name: Teste de ponta a ponta
+        env:
+          BASE_URL: http://localhost:3000
+        run: |
+          npm run start > server.log 2>&1 &
+          for i in $(seq 1 60); do curl -sf -o /dev/null http://localhost:3000/login && break; sleep 1; done
+          node scripts/e2e.mjs 2>&1 | tee e2e.log
+
+      - name: Resumo dos erros
+        if: failure()
+        run: |
+          for f in supabase build e2e server; do
+            if [ -f "$f.log" ]; then
+              msg=$(tail -c 3500 "$f.log" | sed ':a;N;$!ba;s/%/%25/g;s/\r/%0D/g;s/\n/%0A/g')
+              echo "::error title=$f::$msg"
+            fi
+          done
+
+      - name: Publicar capturas de tela
+        if: always()
+        run: |
+          [ -d e2e/screenshots ] || exit 0
+          cp -r e2e/screenshots /tmp/capturas
+          cp e2e.log /tmp/capturas/ 2>/dev/null || true
+          git config user.name "github-actions"
+          git config user.email "github-actions@users.noreply.github.com"
+          git checkout --orphan ci-capturas
+          git rm -rfq --cached .
+          find . -mindepth 1 -maxdepth 1 ! -name .git -exec rm -rf {} +
+          cp -r /tmp/capturas/* .
+          git add -A
+          git commit -qm "Capturas do teste E2E de ${GITHUB_SHA::7}"
+          git push -qf origin ci-capturas
