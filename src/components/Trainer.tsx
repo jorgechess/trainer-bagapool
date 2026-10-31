@@ -4,9 +4,17 @@ import Link from "next/link";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { recordDecisions } from "@/app/(app)/drills/actions";
 import { PokerTable } from "@/components/PokerTable";
+import { PositionChips } from "@/components/PositionChips";
 import { RangeGrid } from "@/components/RangeGrid";
 import { formatPercent } from "@/lib/format";
-import { type Drill, type HandQuestion, dealQuestion, spotSummary } from "@/lib/poker/drill";
+import {
+  type Drill,
+  type HandQuestion,
+  dealQuestion,
+  drillPositions,
+  filterDrillByPositions,
+  spotSummary,
+} from "@/lib/poker/drill";
 import { type Legend, findAction, textColorFor } from "@/lib/poker/legend";
 import { STREET_LABELS, type Strategy, resolveRange } from "@/lib/poker/strategy";
 import { boardTexture, describeFlop } from "@/lib/poker/texture";
@@ -54,19 +62,27 @@ export function Trainer({ drill, strategies, legend }: TrainerProps) {
   const [autoAdvance, setAutoAdvance] = useState(true);
   const [dealError, setDealError] = useState<string | null>(null);
   const [peek, setPeek] = useState(false);
+  const [positions, setPositions] = useState<string[]>([]);
+  const positionsKey = `trainer:posicoes:${drill.id}`;
+  const availablePositions = useMemo(() => drillPositions(drill, strategyMap), [drill, strategyMap]);
+  /** Drill com o filtro de posições do jogador (não muda o drill de ninguém). */
+  const activeDrill = useMemo(
+    () => filterDrillByPositions(drill, strategyMap, positions),
+    [drill, strategyMap, positions],
+  );
   const [saveError, setSaveError] = useState<string | null>(null);
   const pending = useRef<Submission[]>([]);
 
   const deal = useCallback(() => {
     try {
-      setQuestion(dealQuestion(drill, strategyMap, legend));
+      setQuestion(dealQuestion(activeDrill, strategyMap, legend));
       setStepIndex(0);
       setChosen(null);
       setHandDecisions([]);
     } catch (error) {
       setDealError((error as Error).message);
     }
-  }, [drill, strategyMap, legend]);
+  }, [activeDrill, strategyMap, legend]);
 
   useEffect(() => {
     deal();
@@ -75,10 +91,21 @@ export function Trainer({ drill, strategies, legend }: TrainerProps) {
   useEffect(() => {
     try {
       setPeek(localStorage.getItem(PEEK_KEY) === "1");
+      const saved = JSON.parse(localStorage.getItem(positionsKey) ?? "[]");
+      if (Array.isArray(saved)) setPositions(saved.filter((p) => availablePositions.includes(p)));
     } catch {
-      // armazenamento indisponível: começa fechado
+      // armazenamento indisponível: começa com os padrões
     }
-  }, []);
+  }, [positionsKey, availablePositions]);
+
+  function changePositions(next: string[]) {
+    setPositions(next);
+    try {
+      localStorage.setItem(positionsKey, JSON.stringify(next));
+    } catch {
+      // ignora
+    }
+  }
 
   function togglePeek() {
     setPeek((current) => {
@@ -276,6 +303,15 @@ export function Trainer({ drill, strategies, legend }: TrainerProps) {
           Avançar sozinho quando acertar
         </label>
       </div>
+
+      {availablePositions.length > 1 && (
+        <div className="card py-3">
+          <PositionChips available={availablePositions} selected={positions} onChange={changePositions} />
+          <p className="mt-1.5 text-xs text-zinc-500">
+            Filtro só seu: escolha as posições que quer treinar agora. O drill continua igual para o time.
+          </p>
+        </div>
+      )}
 
       <div className="h-1.5 overflow-hidden rounded-full bg-zinc-800">
         <div

@@ -1,6 +1,6 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { buildAttempt, dealQuestion, drillScope, drillStrategyIds, gradeSubmission, isCorrect, spotSummary, summarizeSession, validateDrill } from "../drill";
+import { buildAttempt, dealQuestion, drillPositions, drillScope, drillStrategyIds, filterDrillByPositions, gradeSubmission, isCorrect, strategyFamilies, spotSummary, summarizeSession, validateDrill } from "../drill";
 import { combosOf } from "../hands";
 import { DEFAULT_LEGEND } from "../legend";
 import { borderHands } from "../range";
@@ -180,4 +180,30 @@ test("variações: cada mão sorteia uma das sequências", () => {
   assert.ok(errors.some((e) => e.startsWith("Variação 3:") && e.includes("fora de ordem")));
   // escopo combina as variações
   assert.equal(drillScope({ ...drill, variants: [[rfiBtn.id], [rfiBtn.id, cbetFlop.id]] }, map), "Do pré-flop ao flop");
+});
+
+test("posições do drill, filtro do jogador e famílias de estratégias", () => {
+  const rfiCo = { ...rfiBtn, id: "rfi-co", name: "RFI CO", heroPosition: "CO" as const };
+  const rfiUtg = { ...rfiBtn, id: "rfi-utg", name: "RFI UTG", heroPosition: "UTG" as const };
+  const map = new Map([...strategies, [rfiCo.id, rfiCo], [rfiUtg.id, rfiUtg]]);
+  const drill = { ...preflopDrill, steps: [rfiBtn.id], variants: [[rfiBtn.id], [rfiCo.id], [rfiUtg.id]] };
+  assert.deepEqual(drillPositions(drill, map), ["UTG", "CO", "BTN"]);
+
+  const onlyCo = filterDrillByPositions(drill, map, ["CO"]);
+  assert.deepEqual(onlyCo.variants, [[rfiCo.id]]);
+  assert.deepEqual(onlyCo.steps, [rfiCo.id]);
+  assert.deepEqual(drill.variants?.length, 3, "o drill original não muda");
+  assert.equal(filterDrillByPositions(drill, map, []), drill);
+  assert.equal(filterDrillByPositions(drill, map, ["SB"]), drill, "posição sem variação = drill inteiro");
+  const rng = seededRng(2);
+  for (let i = 0; i < 30; i++)
+    assert.equal(dealQuestion(filterDrillByPositions(drill, map, ["UTG", "BTN"]), map, DEFAULT_LEGEND, rng).steps[0].strategyId === rfiCo.id, false);
+
+  const families = strategyFamilies([rfiBtn, rfiCo, rfiUtg, cbetFlop]);
+  const rfi = families.find((f) => f.label.startsWith("RFI"))!;
+  assert.equal(rfi.label, "RFI · 10–15bb · 2:1 (pré-flop)");
+  assert.deepEqual(rfi.byPosition, { BTN: rfiBtn.id, CO: rfiCo.id, UTG: rfiUtg.id });
+  assert.equal(families.length, 2);
+  const otherStack = strategyFamilies([rfiBtn, { ...rfiCo, stack: { min: 20, max: 20 } }]);
+  assert.equal(otherStack.length, 2, "stack diferente = família diferente");
 });

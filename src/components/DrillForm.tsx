@@ -9,9 +9,11 @@ import {
   SAMPLING_LABELS,
   drillScope,
   drillVariants,
+  strategyFamilies,
   validateDrill,
 } from "@/lib/poker/drill";
-import { STREET_LABELS, type Strategy } from "@/lib/poker/strategy";
+import { PositionChips } from "@/components/PositionChips";
+import { POSITIONS, STREET_LABELS, type Strategy } from "@/lib/poker/strategy";
 
 interface DrillFormProps {
   drill?: Drill;
@@ -32,6 +34,34 @@ export function DrillForm({ drill, strategies }: DrillFormProps) {
   const [error, setError] = useState<string | null>(null);
 
   const strategyMap = new Map(strategies.map((s) => [s.id, s]));
+  const families = strategyFamilies(strategies);
+  const [familyKey, setFamilyKey] = useState(() => {
+    const current = drill ? drillVariants(drill) : [];
+    return (
+      families.find(
+        (f) => current.length > 0 && current.every((v) => v.length === 1 && Object.values(f.byPosition).includes(v[0])),
+      )?.key ?? ""
+    );
+  });
+  const [advanced, setAdvanced] = useState(() => Boolean(drill) && !familyKey);
+  const family = families.find((f) => f.key === familyKey);
+  const familyPositions = family ? POSITIONS.filter((p) => family.byPosition[p]) : [];
+  const selectedPositions = family
+    ? familyPositions.filter((p) => variants.some((v) => v.length === 1 && v[0] === family.byPosition[p]))
+    : [];
+
+  function chooseFamily(key: string) {
+    setFamilyKey(key);
+    const f = families.find((x) => x.key === key);
+    if (!f) return;
+    // Começa com todas as posições disponíveis
+    setVariants(POSITIONS.filter((p) => f.byPosition[p]).map((p) => [f.byPosition[p]!]));
+  }
+
+  function choosePositions(next: string[]) {
+    if (!family) return;
+    setVariants(next.map((p) => [family.byPosition[p]!]).filter((v) => v[0]));
+  }
   const draft: Drill = {
     id: drill?.id ?? "novo",
     name,
@@ -149,6 +179,38 @@ export function DrillForm({ drill, strategies }: DrillFormProps) {
             delas (ex.: RFI de todas as posições).
           </p>
         </div>
+        <div className="space-y-3 rounded-lg border border-zinc-800 bg-black/30 p-3">
+          <div>
+            <label className="label">Spot</label>
+            <select className="input" value={familyKey} onChange={(e) => chooseFamily(e.target.value)}>
+              <option value="">Escolha o spot...</option>
+              {families.map((f) => (
+                <option key={f.key} value={f.key}>
+                  {f.label}
+                </option>
+              ))}
+            </select>
+          </div>
+          {family && (
+            <PositionChips
+              available={familyPositions}
+              selected={selectedPositions}
+              onChange={choosePositions}
+              allowAll={false}
+            />
+          )}
+          {family && (
+            <p className="text-xs text-zinc-500">
+              Cada mão sorteia uma das posições marcadas. O jogador ainda pode filtrar as posições na hora de treinar.
+            </p>
+          )}
+        </div>
+
+        <button type="button" className="text-sm text-zinc-400 underline" onClick={() => setAdvanced((v) => !v)}>
+          {advanced ? "Esconder modo avançado" : "Modo avançado: sequências de decisões (ex.: pré-flop até o river)"}
+        </button>
+        {advanced && (
+          <div className="space-y-3">
         {variants.map((steps, variantIndex) => (
           <div key={variantIndex} className="space-y-2 rounded-lg border border-zinc-800 p-3">
             {variants.length > 1 && (
@@ -239,6 +301,8 @@ export function DrillForm({ drill, strategies }: DrillFormProps) {
         <button type="button" className="btn-secondary" onClick={() => setVariants((c) => [...c, []])}>
           Adicionar variação
         </button>
+          </div>
+        )}
         {hasSteps && <p className="text-sm text-zinc-400">Escopo: {drillScope(draft, strategyMap)}</p>}
         {problems.length > 0 && (
           <ul className="list-disc pl-5 text-sm text-amber-400">

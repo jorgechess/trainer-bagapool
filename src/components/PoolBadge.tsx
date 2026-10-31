@@ -22,7 +22,7 @@ function SuitCross({ className }: { className?: string }) {
 }
 
 /** Logo grande da pool. */
-export function PoolLogo({ pool, size = 96 }: { pool: PoolLook; size?: number }) {
+export function PoolLogo({ pool, size = 96, mini = false }: { pool: PoolLook; size?: number; mini?: boolean }) {
   if (pool.logo && BAGA_MARKS[pool.logo]) {
     return (
       <div
@@ -30,11 +30,14 @@ export function PoolLogo({ pool, size = 96 }: { pool: PoolLook; size?: number })
         style={{ width: size, height: size }}
         aria-label={pool.name}
       >
-        <SuitCross className="text-white/80" />
-        <span className="font-black tracking-tight" style={{ fontSize: size * 0.27 }}>
+        {!mini && <SuitCross className="text-white/80" />}
+        <span className="font-black tracking-tight" style={{ fontSize: size * (mini ? 0.34 : 0.27) }}>
           BAGA
         </span>
-        <span className="font-marker -mt-[0.1em] -rotate-6" style={{ fontSize: size * 0.24, color: pool.color }}>
+        <span
+          className="font-marker -mt-[0.1em] -rotate-6"
+          style={{ fontSize: size * (mini ? 0.3 : 0.24), color: pool.color }}
+        >
           {BAGA_MARKS[pool.logo]}
         </span>
       </div>
@@ -57,27 +60,16 @@ export function PoolLogo({ pool, size = 96 }: { pool: PoolLook; size?: number })
   );
 }
 
-/** Selo pequeno com o nome, para listas e para o topo do site. */
+/** Selo pequeno com o mini logo e o nome, para listas e para o topo do site. */
 export function PoolChip({ pool, compact }: { pool: PoolLook | null; compact?: boolean }) {
   if (!pool) return <span className="text-xs text-zinc-500">Sem pool</span>;
-  const image = pool.logo ? IMAGE_LOGOS[pool.logo] : undefined;
   return (
     <span
-      className="inline-flex items-center gap-1.5 rounded-full border bg-black/60 py-0.5 pr-2.5 pl-0.5 text-xs font-semibold whitespace-nowrap"
+      className="inline-flex items-center gap-1.5 rounded-full border bg-black/70 py-0.5 pr-2.5 pl-1 text-xs font-semibold whitespace-nowrap"
       style={{ borderColor: `${pool.color}88`, color: pool.color }}
       title={pool.name}
     >
-      {image ? (
-        // eslint-disable-next-line @next/next/no-img-element
-        <img src={image} alt="" width={20} height={20} className="h-5 w-5 rounded-full object-contain" />
-      ) : (
-        <span
-          className="flex h-5 w-5 items-center justify-center rounded-full text-[11px] font-black text-black"
-          style={{ backgroundColor: pool.color }}
-        >
-          {pool.logo && BAGA_MARKS[pool.logo] ? "B" : initials(pool.name).slice(0, 1)}
-        </span>
-      )}
+      <PoolLogo pool={pool} size={26} mini />
       {!compact && pool.name}
     </span>
   );

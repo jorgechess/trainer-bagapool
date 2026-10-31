@@ -134,6 +134,7 @@ async function main() {
     // 6. Cria um drill pelo formulário (pré-flop até o flop)
     await page.goto(`${BASE_URL}/drills/novo`);
     await page.locator("input").first().fill("RFI até o flop");
+    await page.getByRole("button", { name: /Modo avançado/ }).click();
     const select = page.locator("select").filter({ hasText: "Escolha uma estratégia" });
     await select.selectOption({ label: "Pré-flop · RFI BTN max late 2:1" });
     await page.getByRole("button", { name: "Adicionar", exact: true }).click();
@@ -261,6 +262,32 @@ async function main() {
     log("olho mostra a resposta e essas decisões não contam");
     assert.ok(positions.size >= 3, `sorteou várias posições: ${[...positions].join(", ")}`);
     log(`carga RFI 30bb importada; drill sorteou ${[...positions].join(", ")}`);
+
+    // Filtro de posições do jogador: só BTN, sem mudar o drill
+    await page.getByRole("button", { name: "BTN", exact: true }).click();
+    await page.waitForTimeout(300);
+    for (let hand = 0; hand < 6; hand++) {
+      await page.getByText("RFI · BTN · 30bb", { exact: true }).waitFor();
+      await page.locator("[data-testid=actions] button:not([disabled])").first().click();
+      await page.getByRole("button", { name: "Continuar" }).click();
+    }
+    await shot(page, "treino-filtro-posicao");
+    const [rfiDrill] = await rows("drills", "select=data&id=eq.rfi-30bb-vanilla-todas");
+    assert.equal(rfiDrill.data.variants.length, 7, "filtro do jogador não altera o drill");
+    await page.getByRole("button", { name: "Todas", exact: true }).click();
+    log("filtro de posição do jogador funciona e não altera o drill");
+
+    // Drill novo escolhendo spot e posições pelos botões
+    await page.goto(`${BASE_URL}/drills/novo`);
+    await page.locator("input").first().fill("RFI 30bb CO e BTN");
+    await page.locator("select").filter({ hasText: "Escolha o spot" }).selectOption({ label: "RFI · 30bb (pré-flop)" });
+    for (const pos of ["UTG", "UTG1", "MP", "LJ", "HJ"]) await page.getByRole("button", { name: pos, exact: true }).click();
+    await shot(page, "novo-drill-posicoes");
+    await page.getByRole("button", { name: "Salvar drill" }).click();
+    await page.waitForURL(`${BASE_URL}/drills`);
+    const [coBtn] = await rows("drills", "select=data&name=eq.RFI%2030bb%20CO%20e%20BTN");
+    assert.deepEqual(coBtn.data.variants, [["rfi-30bb-vanilla-co"], ["rfi-30bb-vanilla-btn"]]);
+    log("drill criado escolhendo spot e posições pelos botões");
 
     // 10. Cadastra pool e jogador
     await page.goto(`${BASE_URL}/admin/jogadores`);

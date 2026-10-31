@@ -9,6 +9,7 @@ import { borderHands } from "./range";
 import { type Rng, defaultRng, pickOne, pickWeighted, shuffle } from "./rng";
 import {
   BOARD_CARDS_BY_STREET,
+  POSITIONS,
   STREETS,
   type Street,
   type Strategy,
@@ -283,4 +284,61 @@ export function summarizeSession(attempts: readonly Attempt[], passAccuracy: num
   const correct = attempts.filter((a) => a.correct).length;
   const accuracy = attempts.length ? correct / attempts.length : 0;
   return { decisions: attempts.length, correct, accuracy, passed: attempts.length > 0 && accuracy >= passAccuracy };
+}
+
+// ---------------------------------------------------------------------------
+// Posições do drill
+// ---------------------------------------------------------------------------
+
+/** Posições do herói na primeira decisão de cada variação, na ordem da mesa. */
+export function drillPositions(drill: Drill, strategies: Map<string, Strategy>): string[] {
+  const found = new Set(
+    drillVariants(drill)
+      .map((v) => strategies.get(v[0] ?? "")?.heroPosition)
+      .filter((p): p is NonNullable<typeof p> => Boolean(p)),
+  );
+  return POSITIONS.filter((p) => found.has(p));
+}
+
+/**
+ * Drill só com as variações que começam nas posições escolhidas pelo jogador.
+ * Não altera o drill original; lista vazia ou sem nenhuma variação compatível = drill inteiro.
+ */
+export function filterDrillByPositions(drill: Drill, strategies: Map<string, Strategy>, positions: readonly string[]): Drill {
+  if (positions.length === 0) return drill;
+  const kept = drillVariants(drill).filter((v) => {
+    const position = strategies.get(v[0] ?? "")?.heroPosition;
+    return position !== undefined && positions.includes(position);
+  });
+  if (kept.length === 0) return drill;
+  return { ...drill, steps: kept[0], variants: kept };
+}
+
+export interface StrategyFamily {
+  key: string;
+  label: string;
+  /** Posição do herói → id da estratégia. */
+  byPosition: Partial<Record<string, string>>;
+}
+
+/**
+ * Agrupa estratégias que são o mesmo spot em posições diferentes (mesma street, situação, stack,
+ * proporção, bolha e vilão), para montar drills escolhendo as posições.
+ */
+export function strategyFamilies(strategies: readonly Strategy[]): StrategyFamily[] {
+  const families = new Map<string, StrategyFamily>();
+  for (const s of strategies) {
+    const ratio = s.ratio ? formatRatio(s.ratio) : "";
+    const key = [s.street, s.situation.toLowerCase(), s.stack.min, s.stack.max, ratio, s.bubble ?? "", s.villainPosition ?? ""].join("|");
+    let family = families.get(key);
+    if (!family) {
+      const parts = [s.situation, formatNumberRange(s.stack, "bb")];
+      if (ratio) parts.push(ratio);
+      if (s.villainPosition) parts.push(`vs ${s.villainPosition}`);
+      family = { key, label: `${parts.join(" · ")} (${s.street === "preflop" ? "pré-flop" : s.street})`, byPosition: {} };
+      families.set(key, family);
+    }
+    if (!family.byPosition[s.heroPosition]) family.byPosition[s.heroPosition] = s.id;
+  }
+  return [...families.values()].sort((a, b) => a.label.localeCompare(b.label));
 }
