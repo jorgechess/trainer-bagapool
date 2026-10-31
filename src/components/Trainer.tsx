@@ -204,10 +204,17 @@ function TableSlot({
 
   if (done) {
     return (
-      <div className="card flex min-h-40 items-center justify-center text-sm text-zinc-500">Mesa encerrada</div>
+      <div className="card flex min-h-40 items-center justify-center text-sm text-zinc-500" data-testid="table-slot">
+        Mesa encerrada
+      </div>
     );
   }
-  if (!question || !step || !strategy) return <div className="card muted">Distribuindo cartas...</div>;
+  if (!question || !step || !strategy)
+    return (
+      <div className="card muted" data-testid="table-slot">
+        Distribuindo cartas...
+      </div>
+    );
 
   const texture = step.board.length >= 3 ? describeFlop(boardTexture(step.board).flop) : null;
   const correctAction = findAction(legend, step.correctActionId);

@@ -295,6 +295,7 @@ async function main() {
     await page.waitForTimeout(300);
     assert.equal(await page.getByTestId("table-slot").count(), 2);
     await page.getByRole("button", { name: "1 mesa", exact: true }).click();
+    await page.waitForTimeout(300);
     assert.equal(await page.getByTestId("table-slot").count(), 1);
     log("treino com 1, 2 e 4 mesas");
 
