@@ -63,7 +63,7 @@ export function Nav({ name, pool, canManageContent, canManageMembers }: NavProps
           ))}
         </nav>
         <div className="ml-auto hidden items-center gap-3 xl:flex">
-          <span className="text-sm text-zinc-300">{name}</span>
+          <span className="text-sm whitespace-nowrap text-zinc-300">{name}</span>
           <PoolChip pool={pool} />
           <button onClick={logout} className="btn-secondary px-3 py-1.5">
             Sair
