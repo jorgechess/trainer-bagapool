@@ -20,6 +20,17 @@ import type { Card } from "@/lib/poker/cards";
 import { type Legend, findAction, textColorFor } from "@/lib/poker/legend";
 import { STREET_LABELS, type Strategy, resolveRange } from "@/lib/poker/strategy";
 import { boardTexture, describeFlop } from "@/lib/poker/texture";
+import {
+  type Bindings,
+  CONTINUE_COMMAND,
+  PEEK_COMMAND,
+  SHORTCUTS_KEY,
+  commandFor,
+  inputLabel,
+  keyInput,
+  mouseInput,
+  parseBindings,
+} from "@/lib/shortcuts";
 
 interface TrainerProps {
   drill: Drill;
@@ -46,6 +57,13 @@ interface SlotState {
   board: string[];
   hand: string;
   chosen: string | null;
+}
+
+/** O que o treino pode pedir para cada mesa (atalhos de teclado e mouse). */
+interface SlotApi {
+  choose: (actionId: string) => void;
+  next: () => void;
+  options: string[];
 }
 
 const PEEK_KEY = "trainer:mostrar-resposta";
@@ -91,8 +109,10 @@ interface TableSlotProps {
   vertical: boolean;
   peek: boolean;
   autoAdvance: boolean;
-  /** Este slot recebe o atalho do teclado: "choose" (1, 2, 3...) ou "next" (Enter). */
+  /** Este slot recebe os atalhos: "choose" (ações) ou "next" (continuar). */
   keyboard: "choose" | "next" | null;
+  bindings: Bindings;
+  register: (index: number, api: SlotApi | null) => void;
   onDecision: (decision: Decision) => void;
   /** Avisa que a mão acabou; devolve se a sessão continua (e a mesa recebe outra mão). */
   onHandComplete: (decisions: Decision[]) => boolean;
@@ -111,6 +131,8 @@ function TableSlot({
   peek,
   autoAdvance,
   keyboard,
+  bindings,
+  register,
   onDecision,
   onHandComplete,
   onState,
@@ -191,20 +213,10 @@ function TableSlot({
   }, [chosen, isCorrect, autoAdvance, next]);
 
   useEffect(() => {
-    if (!keyboard || !step) return;
-    function onKey(event: KeyboardEvent) {
-      if (event.target instanceof HTMLInputElement || event.target instanceof HTMLSelectElement) return;
-      if (keyboard === "choose" && !chosen) {
-        const i = Number(event.key) - 1;
-        if (step && i >= 0 && i < step.options.length) choose(step.options[i]);
-      } else if (keyboard === "next" && chosen && (event.key === "Enter" || event.key === " ")) {
-        event.preventDefault();
-        next();
-      }
-    }
-    window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
-  }, [keyboard, step, chosen, choose, next]);
+    register(index, step && !done ? { choose, next, options: step.options } : null);
+  }, [index, step, done, choose, next, register]);
+
+  useEffect(() => () => register(index, null), [index, register]);
 
   if (done) {
     return (
@@ -281,7 +293,11 @@ function TableSlot({
                 color: textColorFor(action?.color ?? "#3f3f46"),
               }}
             >
-              {keyboard === "choose" && <span className="mr-1 hidden opacity-60 sm:inline">{optionIndex + 1}</span>}
+              {keyboard === "choose" && (
+                <span className="mr-1 hidden opacity-60 sm:inline">
+                  {bindings[actionId] ? inputLabel(bindings[actionId]) : optionIndex + 1}
+                </span>
+              )}
               {action?.label ?? actionId}
             </button>
           );
@@ -295,6 +311,9 @@ function TableSlot({
           </span>
           <button className="btn-secondary" onClick={next}>
             Continuar
+            {keyboard === "next" && bindings[CONTINUE_COMMAND] && (
+              <span className="text-xs opacity-60">{inputLabel(bindings[CONTINUE_COMMAND])}</span>
+            )}
           </button>
         </div>
       )}
@@ -324,6 +343,11 @@ export function Trainer({ drill, strategies, legend }: TrainerProps) {
   const [panelSlot, setPanelSlot] = useState(0);
   const pending = useRef<Submission[]>([]);
   const handsRef = useRef(0);
+  const [bindings, setBindings] = useState<Bindings>({});
+  const slotApis = useRef<(SlotApi | null)[]>([]);
+  const register = useCallback((index: number, api: SlotApi | null) => {
+    slotApis.current[index] = api;
+  }, []);
 
   const positionsKey = `trainer:posicoes:${drill.id}`;
   const availablePositions = useMemo(() => drillPositions(drill, strategyMap), [drill, strategyMap]);
@@ -344,6 +368,7 @@ export function Trainer({ drill, strategies, legend }: TrainerProps) {
 
   useEffect(() => {
     setPeek(readStorage(PEEK_KEY) === "1");
+    setBindings(parseBindings(readStorage(SHORTCUTS_KEY)));
     const length = Number(readStorage(LENGTH_KEY));
     if ((LENGTH_OPTIONS as readonly number[]).includes(length)) setLengthChoice(length);
     const tables = Number(readStorage(TABLES_KEY));
@@ -470,6 +495,75 @@ export function Trainer({ drill, strategies, legend }: TrainerProps) {
   const panelStrategy = panel ? strategyMap.get(panel.strategyId) : undefined;
   const panelRange = panel && panelStrategy ? resolveRange(panelStrategy, panel.board as Card[]) : null;
   const showPanelRange = Boolean(panel && panelRange && (panel.chosen || peek));
+
+  // Atalhos: teclado e botões do mouse, definidos pelo jogador na tela Atalhos.
+  const targetsRef = useRef({ choose: -1, next: -1 });
+  targetsRef.current = { choose: chooseTarget, next: nextTarget };
+  const togglePeekRef = useRef(togglePeek);
+  togglePeekRef.current = togglePeek;
+  useEffect(() => {
+    if (finished) return;
+    function run(input: string, digit: number | null, event: Event): boolean {
+      const { choose, next } = targetsRef.current;
+      const command = commandFor(bindings, input);
+      if (command === CONTINUE_COMMAND) {
+        if (next < 0) return false;
+        slotApis.current[next]?.next();
+        return true;
+      }
+      if (command === PEEK_COMMAND) {
+        togglePeekRef.current();
+        return true;
+      }
+      const api = choose >= 0 ? slotApis.current[choose] : null;
+      if (command) {
+        if (api?.options.includes(command)) {
+          api.choose(command);
+          return true;
+        }
+        return false;
+      }
+      // Sem atalho definido: números escolhem as ações na ordem; Enter/Espaço continuam
+      if (digit !== null && api && digit >= 1 && digit <= api.options.length && !Object.values(bindings).includes(input)) {
+        api.choose(api.options[digit - 1]);
+        return true;
+      }
+      if (event instanceof KeyboardEvent && (event.code === "Space" || event.code === "Enter") && !bindings[CONTINUE_COMMAND]) {
+        if (next < 0) return false;
+        slotApis.current[next]?.next();
+        return true;
+      }
+      return false;
+    }
+    function onKey(event: KeyboardEvent) {
+      const target = event.target as HTMLElement | null;
+      if (target && (target.tagName === "INPUT" || target.tagName === "SELECT" || target.tagName === "TEXTAREA")) return;
+      if (event.repeat || event.ctrlKey || event.metaKey || event.altKey) return;
+      const digitMatch = /^(?:Digit|Numpad)([1-9])$/.exec(event.code);
+      if (run(keyInput(event), digitMatch ? Number(digitMatch[1]) : null, event)) event.preventDefault();
+    }
+    function onMouseDown(event: MouseEvent) {
+      if (event.button === 0) return;
+      if (run(mouseInput(event), null, event)) event.preventDefault();
+    }
+    // Botões laterais não voltam/avançam a página quando têm atalho
+    function onMouseUp(event: MouseEvent) {
+      if ((event.button === 3 || event.button === 4) && commandFor(bindings, mouseInput(event))) event.preventDefault();
+    }
+    function onContextMenu(event: MouseEvent) {
+      if (commandFor(bindings, "mouse:2")) event.preventDefault();
+    }
+    window.addEventListener("keydown", onKey);
+    window.addEventListener("mousedown", onMouseDown);
+    window.addEventListener("mouseup", onMouseUp);
+    window.addEventListener("contextmenu", onContextMenu);
+    return () => {
+      window.removeEventListener("keydown", onKey);
+      window.removeEventListener("mousedown", onMouseDown);
+      window.removeEventListener("mouseup", onMouseUp);
+      window.removeEventListener("contextmenu", onContextMenu);
+    };
+  }, [bindings, finished]);
 
   if (dealError) {
     return (
@@ -694,6 +788,8 @@ export function Trainer({ drill, strategies, legend }: TrainerProps) {
               peek={peek}
               autoAdvance={autoAdvance}
               keyboard={index === chooseTarget ? "choose" : index === nextTarget ? "next" : null}
+              bindings={bindings}
+              register={register}
               onDecision={makeOnDecision(index)}
               onHandComplete={onHandComplete}
               onState={onState}

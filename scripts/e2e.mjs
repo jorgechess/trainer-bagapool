@@ -334,6 +334,37 @@ async function main() {
     await page.getByRole("button", { name: /\(padrão\)/ }).click();
     log(`sessão sem limite encerrada pelo botão (${mistakeRows} erros no relatório)`);
 
+    // Atalhos do jogador: F = fold, E = continuar, botão do meio do mouse = raise
+    await page.goto(`${BASE_URL}/atalhos`);
+    await page.getByTestId("atalho-fold").getByRole("button", { name: "Definir" }).click();
+    await page.keyboard.press("KeyF");
+    await page.getByTestId("atalho-fold").getByText("F", { exact: true }).waitFor();
+    await page.getByTestId("atalho-continuar").getByRole("button", { name: "Definir" }).click();
+    await page.keyboard.press("KeyE");
+    await page.getByTestId("atalho-continuar").getByText("E", { exact: true }).waitFor();
+    await page.getByTestId("atalho-rfi").getByRole("button", { name: "Definir" }).click();
+    await page.mouse.click(30, 300, { button: "middle" });
+    await page.getByTestId("atalho-rfi").getByText("Botão do meio").waitFor();
+    await shot(page, "atalhos");
+    await page.goto(`${BASE_URL}/drills/rfi-30bb-vanilla-todas/treinar`);
+    await page.getByTestId("hero-cards").waitFor();
+    await page.getByLabel("Avançar sozinho quando acertar").uncheck();
+    await page.keyboard.press("KeyF");
+    await page.locator("[data-feedback]").waitFor();
+    await page.getByTestId("table-slot").getByRole("button", { name: /Continuar/ }).getByText("E").waitFor();
+    await page.keyboard.press("KeyE");
+    await page.locator("[data-feedback]").waitFor({ state: "detached" });
+    assert.match(await page.getByTestId("hand-counter").innerText(), /2\/50/);
+    await page.mouse.click(30, 500, { button: "middle" });
+    await page.locator("[data-feedback]").waitFor();
+    const lastChoice = await rows("attempts", "select=data&order=id.desc&limit=1");
+    await page.keyboard.press("KeyE");
+    await page.waitForTimeout(1500);
+    const [newest] = await rows("attempts", "select=data&order=id.desc&limit=1");
+    assert.equal(newest.data.chosenActionId, "rfi", "botão do meio escolheu raise");
+    void lastChoice;
+    log("atalhos de teclado e mouse definidos pelo jogador funcionam");
+
     // Drill novo escolhendo spot e posições pelos botões
     await page.goto(`${BASE_URL}/drills/novo`);
     await page.locator("input").first().fill("RFI 30bb CO e BTN");

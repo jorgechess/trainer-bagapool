@@ -24,6 +24,7 @@ export function Nav({ name, pool, canManageContent, canManageMembers }: NavProps
     { href: "/drills", label: "Drills" },
     { href: "/desempenho", label: "Desempenho" },
     { href: "/plano", label: "Plano do mês" },
+    { href: "/atalhos", label: "Atalhos" },
     ...(canManageContent
       ? [
           { href: "/estrategias", label: "Estratégias" },
