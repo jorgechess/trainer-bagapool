@@ -388,6 +388,34 @@ async function main() {
     assert.deepEqual(coBtn.data.variants, [["rfi-30bb-vanilla-co"], ["rfi-30bb-vanilla-btn"]]);
     log("drill criado escolhendo spot e posições pelos botões");
 
+    // Carga vs 3-bet: mãos só do range de open, mesa mostra o 3-bet
+    await page.goto(`${BASE_URL}/admin/importar`);
+    await page.locator("textarea").fill(readFileSync("cargas/vs3bet-30bb-vanilla.json", "utf8"));
+    await page.getByText("Tudo certo para importar.").waitFor();
+    await page.getByRole("button", { name: "Importar", exact: true }).click();
+    await page.getByText(/Importado:/).waitFor();
+    assert.equal(await countRows("strategies"), 44);
+    const rfiRanges = Object.fromEntries(
+      (await rows("strategies", "select=id,data&situation=eq.RFI&id=like.rfi-30bb-*")).map((s) => [s.data.heroPosition, s.data.range]),
+    );
+    await page.goto(`${BASE_URL}/drills/vs3bet-30bb-vanilla-todas/treinar`);
+    await page.getByTestId("hero-cards").waitFor();
+    await page.getByText("3-bet", { exact: true }).first().waitFor();
+    await shot(page, "treino-vs-3bet");
+    const before3bet = await countRows("attempts");
+    for (let hand = 0; hand < 8; hand++) {
+      await page.locator("[data-testid=actions] button").first().click();
+      await page.getByRole("button", { name: /Continuar/ }).click();
+    }
+    await page.waitForTimeout(1500);
+    const dealt = await rows("attempts", `select=data&order=id.desc&limit=8`);
+    assert.equal(dealt.length, 8);
+    assert.ok((await countRows("attempts")) >= before3bet + 8);
+    for (const a of dealt) {
+      assert.equal(rfiRanges[a.data.heroPosition]?.[a.data.hand], "rfi", `${a.data.hand} está no open do ${a.data.heroPosition}`);
+    }
+    log("drill vs 3-bet sorteia só mãos do range de open");
+
     // 10. Cadastra pool e jogador
     await page.goto(`${BASE_URL}/admin/jogadores`);
     await page.getByPlaceholder("Nome da nova pool").fill("Pool A");

@@ -39,6 +39,8 @@ export interface ImportStrategy {
   actionIds: string[];
   defaultActionId: string;
   entryActionIds?: string[];
+  /** Sorteia mãos só onde outra estratégia (id ou nome) tem uma destas ações. */
+  dealFrom?: { strategy: string; actionIds: string[] } | null;
   range?: Record<string, string>;
   textureRanges?: ImportTextureRange[];
 }
@@ -163,6 +165,7 @@ export function parseImportBundle(
       actionIds: raw.actionIds ?? [],
       defaultActionId: raw.defaultActionId,
       entryActionIds: raw.entryActionIds ?? [],
+      dealFrom: raw.dealFrom ? { strategyId: String(raw.dealFrom.strategy ?? ""), actionIds: raw.dealFrom.actionIds ?? [] } : null,
       range: compactRange(toRange(raw.range, where, errors), raw.defaultActionId),
       textureRanges,
     };
@@ -174,6 +177,16 @@ export function parseImportBundle(
   const all = [...existingStrategies, ...strategies];
   const byId = new Map(all.map((s) => [s.id, s]));
   const byName = new Map(all.map((s) => [s.name.toLowerCase(), s]));
+
+  // Resolve "sortear só do range de" (pode apontar para estratégias do arquivo ou já cadastradas)
+  for (const strategy of strategies) {
+    if (!strategy.dealFrom) continue;
+    const ref = strategy.dealFrom.strategyId;
+    const source = byId.get(ref) ?? byName.get(ref.toLowerCase());
+    if (!source) errors.push(`Estratégia "${strategy.name}": sorteia mãos de "${ref}", que não foi encontrada.`);
+    else if (source.street !== "preflop") errors.push(`Estratégia "${strategy.name}": "${source.name}" não é de pré-flop.`);
+    else strategy.dealFrom = { ...strategy.dealFrom, strategyId: source.id };
+  }
   const drills: Drill[] = [];
   const drillIds = new Set<string>();
   for (const [index, raw] of (bundle.drills ?? []).entries()) {

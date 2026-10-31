@@ -5,7 +5,7 @@
 import { type Card, fullDeck, isCard } from "./cards";
 import { type HandLabel, combosOf, handFromCards, ALL_HANDS } from "./hands";
 import { type Legend, continuesHand, findAction } from "./legend";
-import { borderHands } from "./range";
+import { actionOf, borderHands } from "./range";
 import { type Rng, defaultRng, pickOne, pickWeighted, shuffle } from "./rng";
 import {
   BOARD_CARDS_BY_STREET,
@@ -89,6 +89,12 @@ export function validateDrill(drill: Drill, strategies: Map<string, Strategy>): 
         errors.push(`${prefix}Estratégia não encontrada: ${id}.`);
         continue;
       }
+      if (strategy.dealFrom && steps[0] === id) {
+        const source = strategies.get(strategy.dealFrom.strategyId);
+        if (!source) errors.push(`${prefix}"${strategy.name}" sorteia mãos de uma estratégia que não existe.`);
+        else if (source.street !== "preflop")
+          errors.push(`${prefix}"${strategy.name}" só pode sortear mãos de uma estratégia de pré-flop.`);
+      }
       const streetIndex = STREETS.indexOf(strategy.street);
       if (streetIndex < lastStreet)
         errors.push(
@@ -125,6 +131,26 @@ export function spotSummary(strategy: Strategy): string {
   return parts.join(" · ");
 }
 
+/** Mãos que a estratégia pode receber (respeita "sortear só do range de"), ou null = todas. */
+export function allowedHands(strategy: Strategy, strategies: Map<string, Strategy>): Set<HandLabel> | null {
+  if (!strategy.dealFrom) return null;
+  const source = strategies.get(strategy.dealFrom.strategyId);
+  if (!source) throw new Error(`"${strategy.name}" sorteia mãos de uma estratégia que não existe mais.`);
+  if (source.street !== "preflop") throw new Error(`"${strategy.name}" só pode sortear mãos de uma estratégia de pré-flop.`);
+  const actions = new Set(strategy.dealFrom.actionIds);
+  return new Set(ALL_HANDS.filter((hand) => actions.has(actionOf(source.range, hand, source.defaultActionId))));
+}
+
+/** Estratégias que o drill precisa para funcionar: as das variações e as usadas em "sortear só do range de". */
+export function drillDependencyIds(drill: Drill, strategies: Map<string, Strategy>): string[] {
+  const ids = new Set(drillStrategyIds(drill));
+  for (const id of [...ids]) {
+    const from = strategies.get(id)?.dealFrom?.strategyId;
+    if (from) ids.add(from);
+  }
+  return [...ids];
+}
+
 const FRONTEIRA_WEIGHT = 4;
 const MAX_BOARD_TRIES = 200;
 
@@ -158,7 +184,9 @@ export function dealQuestion(
     if (!firstRange) continue;
 
     const border = drill.sampling === "fronteira" ? new Set(borderHands(firstRange, first.defaultActionId)) : null;
-    const available = ALL_HANDS.flatMap((hand) =>
+    const allowed = allowedHands(first, strategies);
+    if (allowed && allowed.size === 0) throw new Error(`"${first.name}" não tem mãos para sortear no range escolhido.`);
+    const available = (allowed ? ALL_HANDS.filter((h) => allowed.has(h)) : ALL_HANDS).flatMap((hand) =>
       combosOf(hand)
         .filter(([a, b]) => !used.has(a) && !used.has(b))
         .map((combo) => ({ hand, combo })),

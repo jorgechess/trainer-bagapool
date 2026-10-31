@@ -1,7 +1,7 @@
 import { PlayingCard } from "@/components/PlayingCard";
 import type { Card } from "@/lib/poker/cards";
 import { formatNumberRange, type Strategy } from "@/lib/poker/strategy";
-import { type Seat, knownPot, tableSeats } from "@/lib/poker/table";
+import { type Seat, facesThreeBet, knownPot, tableSeats } from "@/lib/poker/table";
 
 interface PokerTableProps {
   strategy: Strategy;
@@ -55,7 +55,19 @@ function CardBack() {
   );
 }
 
-function SeatView({ seat, stack, heroCards, shape }: { seat: Seat; stack: string; heroCards: [Card, Card]; shape: Shape }) {
+function SeatView({
+  seat,
+  stack,
+  heroCards,
+  shape,
+  raiseLabel,
+}: {
+  seat: Seat;
+  stack: string;
+  heroCards: [Card, Card];
+  shape: Shape;
+  raiseLabel: string;
+}) {
   const hero = seat.status === "hero";
   const folded = seat.status === "folded";
   const { x, y } = seatPlacement(shape, seat.offset);
@@ -90,7 +102,7 @@ function SeatView({ seat, stack, heroCards, shape }: { seat: Seat; stack: string
           {seat.position}
           {hero && " (você)"}
         </p>
-        <p className="text-zinc-400">{folded ? "Fold" : seat.status === "raised" ? "Raise" : stack}</p>
+        <p className="text-zinc-400">{folded ? "Fold" : seat.status === "raised" ? raiseLabel : hero && raiseLabel === "3-bet" ? "Abriu" : stack}</p>
       </div>
     </div>
   );
@@ -177,7 +189,14 @@ export function PokerTable({
         )}
 
         {seats.map((seat) => (
-          <SeatView key={seat.position} seat={seat} stack={stack} heroCards={heroCards} shape={shape} />
+          <SeatView
+            key={seat.position}
+            seat={seat}
+            stack={stack}
+            heroCards={heroCards}
+            shape={shape}
+            raiseLabel={facesThreeBet(strategy) ? "3-bet" : "Raise"}
+          />
         ))}
       </div>
     </div>

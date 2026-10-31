@@ -151,7 +151,16 @@ function TextureMatchEditor({ match, onChange }: { match: TextureMatch; onChange
   );
 }
 
-export function StrategyEditor({ legend, strategy }: { legend: Legend; strategy?: Strategy }) {
+export function StrategyEditor({
+  legend,
+  strategy,
+  strategies = [],
+}: {
+  legend: Legend;
+  strategy?: Strategy;
+  /** Outras estratégias, para "sortear só do range de". */
+  strategies?: Strategy[];
+}) {
   const router = useRouter();
   const [pending, startTransition] = useTransition();
   const [s, setS] = useState<Strategy>(strategy ?? emptyStrategy(legend));
@@ -405,6 +414,56 @@ export function StrategyEditor({ legend, strategy }: { legend: Legend; strategy?
             </p>
           </div>
         </div>
+      </div>
+
+      <div className="card space-y-3">
+        <div>
+          <h2 className="font-semibold">Mãos sorteadas</h2>
+          <p className="muted">
+            Para spots que só acontecem com parte das mãos (ex.: vs 3-bet só com o que você abriu), sorteie apenas do
+            range de outra estratégia.
+          </p>
+        </div>
+        <select
+          className="input max-w-lg"
+          value={s.dealFrom?.strategyId ?? ""}
+          onChange={(e) => {
+            const source = strategies.find((x) => x.id === e.target.value);
+            update({
+              dealFrom: source
+                ? { strategyId: source.id, actionIds: source.actionIds.filter((id) => id !== source.defaultActionId) }
+                : null,
+            });
+          }}
+        >
+          <option value="">Todas as mãos</option>
+          {strategies
+            .filter((x) => x.street === "preflop" && x.id !== s.id)
+            .map((x) => (
+              <option key={x.id} value={x.id}>
+                Só do range de: {x.name}
+              </option>
+            ))}
+        </select>
+        {s.dealFrom && (
+          <div className="flex flex-wrap items-center gap-2">
+            <span className="text-xs text-zinc-400">Com as ações:</span>
+            {legend
+              .filter((a) => strategies.find((x) => x.id === s.dealFrom?.strategyId)?.actionIds.includes(a.id))
+              .map((action) => (
+                <label key={action.id} className="flex items-center gap-1.5 rounded-md bg-zinc-950 px-2 py-1 text-xs">
+                  <input
+                    type="checkbox"
+                    checked={s.dealFrom?.actionIds.includes(action.id) ?? false}
+                    onChange={() =>
+                      s.dealFrom && update({ dealFrom: { ...s.dealFrom, actionIds: toggle(s.dealFrom.actionIds, action.id) } })
+                    }
+                  />
+                  {action.label}
+                </label>
+              ))}
+          </div>
+        )}
       </div>
 
       {s.street === "preflop" ? (

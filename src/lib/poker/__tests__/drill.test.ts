@@ -207,3 +207,43 @@ test("posições do drill, filtro do jogador e famílias de estratégias", () =>
   const otherStack = strategyFamilies([rfiBtn, { ...rfiCo, stack: { min: 20, max: 20 } }]);
   assert.equal(otherStack.length, 2, "stack diferente = família diferente");
 });
+
+test("sortear só do range de outra estratégia (vs 3-bet com o range de open)", async () => {
+  const { allowedHands, drillDependencyIds } = await import("../drill");
+  const { tableSeats, facesThreeBet, knownPot } = await import("../table");
+  const vs3bet = {
+    ...rfiBtn,
+    id: "vs3bet-btn-bb",
+    name: "vs 3-bet BTN vs BB",
+    situation: "vs 3-bet",
+    villainPosition: "BB" as const,
+    actionIds: ["fold", "call", "shove"],
+    defaultActionId: "fold",
+    range: {},
+    dealFrom: { strategyId: rfiBtn.id, actionIds: ["rfi"] },
+  };
+  const map = new Map([...strategies, [vs3bet.id, vs3bet]]);
+  const allowed = allowedHands(vs3bet, map)!;
+  assert.ok(allowed.has("AA"));
+  assert.ok(!allowed.has("72o"), "não sorteia mão que não abre");
+  assert.ok(!allowed.has("44"), "44 é shove no RFI, não rfi");
+  const drill = { ...preflopDrill, steps: [vs3bet.id] };
+  assert.deepEqual(validateDrill(drill, map), []);
+  assert.deepEqual(drillDependencyIds(drill, map).sort(), [rfiBtn.id, vs3bet.id].sort());
+  const rng = seededRng(11);
+  for (let i = 0; i < 300; i++) assert.ok(allowed.has(dealQuestion(drill, map, DEFAULT_LEGEND, rng).hand));
+  assert.equal(allowedHands(rfiBtn, map), null);
+  // estratégia de origem ausente ou pós-flop
+  assert.ok(validateDrill(drill, new Map([[vs3bet.id, vs3bet]])).some((e) => e.includes("não existe")));
+  const fromFlop = { ...vs3bet, dealFrom: { strategyId: cbetFlop.id, actionIds: ["bet-33"] } };
+  assert.ok(validateDrill({ ...drill, steps: [fromFlop.id] }, new Map([...map, [fromFlop.id, fromFlop]])).some((e) => e.includes("pré-flop")));
+  // validação da própria estratégia
+  assert.ok(validateStrategy({ ...vs3bet, dealFrom: { strategyId: "", actionIds: [] } }, DEFAULT_LEGEND).length >= 2);
+  // mesa: herói abriu, vilão deu 3-bet, o resto foldou
+  assert.ok(facesThreeBet(vs3bet));
+  assert.ok(!facesThreeBet({ ...vs3bet, heroPosition: "BB", villainPosition: "BTN" }));
+  const seats = tableSeats(vs3bet);
+  assert.equal(seats.find((s) => s.position === "BB")!.status, "raised");
+  assert.equal(seats.find((s) => s.position === "SB")!.status, "folded");
+  assert.equal(knownPot(vs3bet), null);
+});

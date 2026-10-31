@@ -1,14 +1,14 @@
 import { notFound } from "next/navigation";
 import { Trainer } from "@/components/Trainer";
 import { getDrill, getLegend, listStrategies, requireProfile } from "@/lib/data";
-import { drillStrategyIds, validateDrill } from "@/lib/poker/drill";
+import { drillDependencyIds, validateDrill } from "@/lib/poker/drill";
 
 export default async function TrainPage({ params }: { params: Promise<{ id: string }> }) {
   await requireProfile();
   const { id } = await params;
   const [drill, strategyList, legend] = await Promise.all([getDrill(id), listStrategies(), getLegend()]);
   if (!drill) notFound();
-  const ids = drillStrategyIds(drill);
+  const ids = drillDependencyIds(drill, new Map(strategyList.map((s) => [s.id, s])));
   const strategies = strategyList.filter((s) => ids.includes(s.id));
   const errors = validateDrill(drill, new Map(strategies.map((s) => [s.id, s])));
   if (errors.length) {

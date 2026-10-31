@@ -1,0 +1,1386 @@
+{
+  "strategies": [
+    {
+      "id": "vs3bet-30bb-vanilla-utg-vs-utg1",
+      "name": "vs 3-bet UTG vs UTG1 30bb vanilla",
+      "description": "Abriu e levou 3-bet (vanilla, 30bb). Mãos sorteadas só do range de open.",
+      "street": "preflop",
+      "situation": "vs 3-bet",
+      "heroPosition": "UTG",
+      "villainPosition": "UTG1",
+      "stack": {
+        "min": 30,
+        "max": 30
+      },
+      "ratio": null,
+      "bubble": null,
+      "tags": [
+        "vs-3bet",
+        "mid-stack",
+        "vanilla"
+      ],
+      "actionIds": [
+        "fold",
+        "call",
+        "shove"
+      ],
+      "defaultActionId": "fold",
+      "dealFrom": {
+        "strategy": "rfi-30bb-vanilla-utg",
+        "actionIds": [
+          "rfi"
+        ]
+      },
+      "range": {
+        "shove": "AA, AKs, AKo, KK, QQ",
+        "call": "AQs, JJ"
+      }
+    },
+    {
+      "id": "vs3bet-30bb-vanilla-utg-vs-mp",
+      "name": "vs 3-bet UTG vs MP 30bb vanilla",
+      "description": "Abriu e levou 3-bet (vanilla, 30bb). Mãos sorteadas só do range de open.",
+      "street": "preflop",
+      "situation": "vs 3-bet",
+      "heroPosition": "UTG",
+      "villainPosition": "MP",
+      "stack": {
+        "min": 30,
+        "max": 30
+      },
+      "ratio": null,
+      "bubble": null,
+      "tags": [
+        "vs-3bet",
+        "mid-stack",
+        "vanilla"
+      ],
+      "actionIds": [
+        "fold",
+        "call",
+        "shove"
+      ],
+      "defaultActionId": "fold",
+      "dealFrom": {
+        "strategy": "rfi-30bb-vanilla-utg",
+        "actionIds": [
+          "rfi"
+        ]
+      },
+      "range": {
+        "shove": "AA, AKs, AKo, KK, QQ, JJ",
+        "call": "AQs, TT"
+      }
+    },
+    {
+      "id": "vs3bet-30bb-vanilla-utg-vs-lj",
+      "name": "vs 3-bet UTG vs LJ 30bb vanilla",
+      "description": "Abriu e levou 3-bet (vanilla, 30bb). Mãos sorteadas só do range de open.",
+      "street": "preflop",
+      "situation": "vs 3-bet",
+      "heroPosition": "UTG",
+      "villainPosition": "LJ",
+      "stack": {
+        "min": 30,
+        "max": 30
+      },
+      "ratio": null,
+      "bubble": null,
+      "tags": [
+        "vs-3bet",
+        "mid-stack",
+        "vanilla"
+      ],
+      "actionIds": [
+        "fold",
+        "call",
+        "shove"
+      ],
+      "defaultActionId": "fold",
+      "dealFrom": {
+        "strategy": "rfi-30bb-vanilla-utg",
+        "actionIds": [
+          "rfi"
+        ]
+      },
+      "range": {
+        "shove": "AA, AKs, AKo, KK, QQ, JJ",
+        "call": "AQs, TT"
+      }
+    },
+    {
+      "id": "vs3bet-30bb-vanilla-utg-vs-hj",
+      "name": "vs 3-bet UTG vs HJ 30bb vanilla",
+      "description": "Abriu e levou 3-bet (vanilla, 30bb). Mãos sorteadas só do range de open.",
+      "street": "preflop",
+      "situation": "vs 3-bet",
+      "heroPosition": "UTG",
+      "villainPosition": "HJ",
+      "stack": {
+        "min": 30,
+        "max": 30
+      },
+      "ratio": null,
+      "bubble": null,
+      "tags": [
+        "vs-3bet",
+        "mid-stack",
+        "vanilla"
+      ],
+      "actionIds": [
+        "fold",
+        "call",
+        "shove"
+      ],
+      "defaultActionId": "fold",
+      "dealFrom": {
+        "strategy": "rfi-30bb-vanilla-utg",
+        "actionIds": [
+          "rfi"
+        ]
+      },
+      "range": {
+        "shove": "AA, AKs, AKo, KK, QQ, JJ",
+        "call": "AQs, KQs, TT"
+      }
+    },
+    {
+      "id": "vs3bet-30bb-vanilla-utg-vs-co",
+      "name": "vs 3-bet UTG vs CO 30bb vanilla",
+      "description": "Abriu e levou 3-bet (vanilla, 30bb). Mãos sorteadas só do range de open.",
+      "street": "preflop",
+      "situation": "vs 3-bet",
+      "heroPosition": "UTG",
+      "villainPosition": "CO",
+      "stack": {
+        "min": 30,
+        "max": 30
+      },
+      "ratio": null,
+      "bubble": null,
+      "tags": [
+        "vs-3bet",
+        "mid-stack",
+        "vanilla"
+      ],
+      "actionIds": [
+        "fold",
+        "call",
+        "shove"
+      ],
+      "defaultActionId": "fold",
+      "dealFrom": {
+        "strategy": "rfi-30bb-vanilla-utg",
+        "actionIds": [
+          "rfi"
+        ]
+      },
+      "range": {
+        "shove": "AA, AKs, AKo, KK, QQ, JJ, TT",
+        "call": "AQs, AJs, KQs, KJs"
+      }
+    },
+    {
+      "id": "vs3bet-30bb-vanilla-utg-vs-btn",
+      "name": "vs 3-bet UTG vs BTN 30bb vanilla",
+      "description": "Abriu e levou 3-bet (vanilla, 30bb). Mãos sorteadas só do range de open.",
+      "street": "preflop",
+      "situation": "vs 3-bet",
+      "heroPosition": "UTG",
+      "villainPosition": "BTN",
+      "stack": {
+        "min": 30,
+        "max": 30
+      },
+      "ratio": null,
+      "bubble": null,
+      "tags": [
+        "vs-3bet",
+        "mid-stack",
+        "vanilla"
+      ],
+      "actionIds": [
+        "fold",
+        "call",
+        "shove"
+      ],
+      "defaultActionId": "fold",
+      "dealFrom": {
+        "strategy": "rfi-30bb-vanilla-utg",
+        "actionIds": [
+          "rfi"
+        ]
+      },
+      "range": {
+        "shove": "AA, AKs, AKo, KK, QQ, JJ",
+        "call": "AQs, AJs, KQs, TT"
+      }
+    },
+    {
+      "id": "vs3bet-30bb-vanilla-utg-vs-sb",
+      "name": "vs 3-bet UTG vs SB 30bb vanilla",
+      "description": "Abriu e levou 3-bet (vanilla, 30bb). Mãos sorteadas só do range de open.",
+      "street": "preflop",
+      "situation": "vs 3-bet",
+      "heroPosition": "UTG",
+      "villainPosition": "SB",
+      "stack": {
+        "min": 30,
+        "max": 30
+      },
+      "ratio": null,
+      "bubble": null,
+      "tags": [
+        "vs-3bet",
+        "mid-stack",
+        "vanilla"
+      ],
+      "actionIds": [
+        "fold",
+        "call",
+        "shove"
+      ],
+      "defaultActionId": "fold",
+      "dealFrom": {
+        "strategy": "rfi-30bb-vanilla-utg",
+        "actionIds": [
+          "rfi"
+        ]
+      },
+      "range": {
+        "shove": "AA, AKs, AKo, KK, QQ",
+        "call": "AQs, JJ"
+      }
+    },
+    {
+      "id": "vs3bet-30bb-vanilla-utg-vs-bb",
+      "name": "vs 3-bet UTG vs BB 30bb vanilla",
+      "description": "Abriu e levou 3-bet (vanilla, 30bb). Mãos sorteadas só do range de open.",
+      "street": "preflop",
+      "situation": "vs 3-bet",
+      "heroPosition": "UTG",
+      "villainPosition": "BB",
+      "stack": {
+        "min": 30,
+        "max": 30
+      },
+      "ratio": null,
+      "bubble": null,
+      "tags": [
+        "vs-3bet",
+        "mid-stack",
+        "vanilla"
+      ],
+      "actionIds": [
+        "fold",
+        "call",
+        "shove"
+      ],
+      "defaultActionId": "fold",
+      "dealFrom": {
+        "strategy": "rfi-30bb-vanilla-utg",
+        "actionIds": [
+          "rfi"
+        ]
+      },
+      "range": {
+        "shove": "AA, KK",
+        "call": "AKs, AQs, AKo, QQ, JJ"
+      }
+    },
+    {
+      "id": "vs3bet-30bb-vanilla-utg1-vs-mp",
+      "name": "vs 3-bet UTG1 vs MP 30bb vanilla",
+      "description": "Abriu e levou 3-bet (vanilla, 30bb). Mãos sorteadas só do range de open.",
+      "street": "preflop",
+      "situation": "vs 3-bet",
+      "heroPosition": "UTG1",
+      "villainPosition": "MP",
+      "stack": {
+        "min": 30,
+        "max": 30
+      },
+      "ratio": null,
+      "bubble": null,
+      "tags": [
+        "vs-3bet",
+        "mid-stack",
+        "vanilla"
+      ],
+      "actionIds": [
+        "fold",
+        "call",
+        "shove"
+      ],
+      "defaultActionId": "fold",
+      "dealFrom": {
+        "strategy": "rfi-30bb-vanilla-utg1",
+        "actionIds": [
+          "rfi"
+        ]
+      },
+      "range": {
+        "shove": "AA, AKs, AKo, KK, QQ, JJ",
+        "call": "AQs, TT"
+      }
+    },
+    {
+      "id": "vs3bet-30bb-vanilla-utg1-vs-lj",
+      "name": "vs 3-bet UTG1 vs LJ 30bb vanilla",
+      "description": "Abriu e levou 3-bet (vanilla, 30bb). Mãos sorteadas só do range de open.",
+      "street": "preflop",
+      "situation": "vs 3-bet",
+      "heroPosition": "UTG1",
+      "villainPosition": "LJ",
+      "stack": {
+        "min": 30,
+        "max": 30
+      },
+      "ratio": null,
+      "bubble": null,
+      "tags": [
+        "vs-3bet",
+        "mid-stack",
+        "vanilla"
+      ],
+      "actionIds": [
+        "fold",
+        "call",
+        "shove"
+      ],
+      "defaultActionId": "fold",
+      "dealFrom": {
+        "strategy": "rfi-30bb-vanilla-utg1",
+        "actionIds": [
+          "rfi"
+        ]
+      },
+      "range": {
+        "shove": "AA, AKs, AKo, KK, QQ, JJ",
+        "call": "AQs, TT"
+      }
+    },
+    {
+      "id": "vs3bet-30bb-vanilla-utg1-vs-hj",
+      "name": "vs 3-bet UTG1 vs HJ 30bb vanilla",
+      "description": "Abriu e levou 3-bet (vanilla, 30bb). Mãos sorteadas só do range de open.",
+      "street": "preflop",
+      "situation": "vs 3-bet",
+      "heroPosition": "UTG1",
+      "villainPosition": "HJ",
+      "stack": {
+        "min": 30,
+        "max": 30
+      },
+      "ratio": null,
+      "bubble": null,
+      "tags": [
+        "vs-3bet",
+        "mid-stack",
+        "vanilla"
+      ],
+      "actionIds": [
+        "fold",
+        "call",
+        "shove"
+      ],
+      "defaultActionId": "fold",
+      "dealFrom": {
+        "strategy": "rfi-30bb-vanilla-utg1",
+        "actionIds": [
+          "rfi"
+        ]
+      },
+      "range": {
+        "shove": "AA, AKs, AKo, KK, QQ, JJ",
+        "call": "AQs, KQs, TT"
+      }
+    },
+    {
+      "id": "vs3bet-30bb-vanilla-utg1-vs-co",
+      "name": "vs 3-bet UTG1 vs CO 30bb vanilla",
+      "description": "Abriu e levou 3-bet (vanilla, 30bb). Mãos sorteadas só do range de open.",
+      "street": "preflop",
+      "situation": "vs 3-bet",
+      "heroPosition": "UTG1",
+      "villainPosition": "CO",
+      "stack": {
+        "min": 30,
+        "max": 30
+      },
+      "ratio": null,
+      "bubble": null,
+      "tags": [
+        "vs-3bet",
+        "mid-stack",
+        "vanilla"
+      ],
+      "actionIds": [
+        "fold",
+        "call",
+        "shove"
+      ],
+      "defaultActionId": "fold",
+      "dealFrom": {
+        "strategy": "rfi-30bb-vanilla-utg1",
+        "actionIds": [
+          "rfi"
+        ]
+      },
+      "range": {
+        "shove": "AA, AKs, AKo, KK, QQ, JJ, TT",
+        "call": "AQs, AJs, KQs, KJs"
+      }
+    },
+    {
+      "id": "vs3bet-30bb-vanilla-utg1-vs-btn",
+      "name": "vs 3-bet UTG1 vs BTN 30bb vanilla",
+      "description": "Abriu e levou 3-bet (vanilla, 30bb). Mãos sorteadas só do range de open.",
+      "street": "preflop",
+      "situation": "vs 3-bet",
+      "heroPosition": "UTG1",
+      "villainPosition": "BTN",
+      "stack": {
+        "min": 30,
+        "max": 30
+      },
+      "ratio": null,
+      "bubble": null,
+      "tags": [
+        "vs-3bet",
+        "mid-stack",
+        "vanilla"
+      ],
+      "actionIds": [
+        "fold",
+        "call",
+        "shove"
+      ],
+      "defaultActionId": "fold",
+      "dealFrom": {
+        "strategy": "rfi-30bb-vanilla-utg1",
+        "actionIds": [
+          "rfi"
+        ]
+      },
+      "range": {
+        "shove": "AA, AKs, AKo, KK, QQ, JJ",
+        "call": "AQs, AJs, KQs, TT"
+      }
+    },
+    {
+      "id": "vs3bet-30bb-vanilla-utg1-vs-sb",
+      "name": "vs 3-bet UTG1 vs SB 30bb vanilla",
+      "description": "Abriu e levou 3-bet (vanilla, 30bb). Mãos sorteadas só do range de open.",
+      "street": "preflop",
+      "situation": "vs 3-bet",
+      "heroPosition": "UTG1",
+      "villainPosition": "SB",
+      "stack": {
+        "min": 30,
+        "max": 30
+      },
+      "ratio": null,
+      "bubble": null,
+      "tags": [
+        "vs-3bet",
+        "mid-stack",
+        "vanilla"
+      ],
+      "actionIds": [
+        "fold",
+        "call",
+        "shove"
+      ],
+      "defaultActionId": "fold",
+      "dealFrom": {
+        "strategy": "rfi-30bb-vanilla-utg1",
+        "actionIds": [
+          "rfi"
+        ]
+      },
+      "range": {
+        "shove": "AA, AKs, AKo, KK, QQ",
+        "call": "AQs, JJ"
+      }
+    },
+    {
+      "id": "vs3bet-30bb-vanilla-utg1-vs-bb",
+      "name": "vs 3-bet UTG1 vs BB 30bb vanilla",
+      "description": "Abriu e levou 3-bet (vanilla, 30bb). Mãos sorteadas só do range de open.",
+      "street": "preflop",
+      "situation": "vs 3-bet",
+      "heroPosition": "UTG1",
+      "villainPosition": "BB",
+      "stack": {
+        "min": 30,
+        "max": 30
+      },
+      "ratio": null,
+      "bubble": null,
+      "tags": [
+        "vs-3bet",
+        "mid-stack",
+        "vanilla"
+      ],
+      "actionIds": [
+        "fold",
+        "call",
+        "shove"
+      ],
+      "defaultActionId": "fold",
+      "dealFrom": {
+        "strategy": "rfi-30bb-vanilla-utg1",
+        "actionIds": [
+          "rfi"
+        ]
+      },
+      "range": {
+        "shove": "AA, KK",
+        "call": "AKs, AQs, AKo, QQ, JJ"
+      }
+    },
+    {
+      "id": "vs3bet-30bb-vanilla-mp-vs-lj",
+      "name": "vs 3-bet MP vs LJ 30bb vanilla",
+      "description": "Abriu e levou 3-bet (vanilla, 30bb). Mãos sorteadas só do range de open.",
+      "street": "preflop",
+      "situation": "vs 3-bet",
+      "heroPosition": "MP",
+      "villainPosition": "LJ",
+      "stack": {
+        "min": 30,
+        "max": 30
+      },
+      "ratio": null,
+      "bubble": null,
+      "tags": [
+        "vs-3bet",
+        "mid-stack",
+        "vanilla"
+      ],
+      "actionIds": [
+        "fold",
+        "call",
+        "shove"
+      ],
+      "defaultActionId": "fold",
+      "dealFrom": {
+        "strategy": "rfi-30bb-vanilla-mp",
+        "actionIds": [
+          "rfi"
+        ]
+      },
+      "range": {
+        "shove": "AA, AKs, AKo, KK, QQ, JJ, TT",
+        "call": "AQs"
+      }
+    },
+    {
+      "id": "vs3bet-30bb-vanilla-mp-vs-hj",
+      "name": "vs 3-bet MP vs HJ 30bb vanilla",
+      "description": "Abriu e levou 3-bet (vanilla, 30bb). Mãos sorteadas só do range de open.",
+      "street": "preflop",
+      "situation": "vs 3-bet",
+      "heroPosition": "MP",
+      "villainPosition": "HJ",
+      "stack": {
+        "min": 30,
+        "max": 30
+      },
+      "ratio": null,
+      "bubble": null,
+      "tags": [
+        "vs-3bet",
+        "mid-stack",
+        "vanilla"
+      ],
+      "actionIds": [
+        "fold",
+        "call",
+        "shove"
+      ],
+      "defaultActionId": "fold",
+      "dealFrom": {
+        "strategy": "rfi-30bb-vanilla-mp",
+        "actionIds": [
+          "rfi"
+        ]
+      },
+      "range": {
+        "shove": "AA, AKs, AKo, KK, QQ, JJ, TT",
+        "call": "AQs, KQs"
+      }
+    },
+    {
+      "id": "vs3bet-30bb-vanilla-mp-vs-co",
+      "name": "vs 3-bet MP vs CO 30bb vanilla",
+      "description": "Abriu e levou 3-bet (vanilla, 30bb). Mãos sorteadas só do range de open.",
+      "street": "preflop",
+      "situation": "vs 3-bet",
+      "heroPosition": "MP",
+      "villainPosition": "CO",
+      "stack": {
+        "min": 30,
+        "max": 30
+      },
+      "ratio": null,
+      "bubble": null,
+      "tags": [
+        "vs-3bet",
+        "mid-stack",
+        "vanilla"
+      ],
+      "actionIds": [
+        "fold",
+        "call",
+        "shove"
+      ],
+      "defaultActionId": "fold",
+      "dealFrom": {
+        "strategy": "rfi-30bb-vanilla-mp",
+        "actionIds": [
+          "rfi"
+        ]
+      },
+      "range": {
+        "shove": "AA, AKs, AKo, KK, QQ, JJ, TT",
+        "call": "AQs, AJs, KQs"
+      }
+    },
+    {
+      "id": "vs3bet-30bb-vanilla-mp-vs-btn",
+      "name": "vs 3-bet MP vs BTN 30bb vanilla",
+      "description": "Abriu e levou 3-bet (vanilla, 30bb). Mãos sorteadas só do range de open.",
+      "street": "preflop",
+      "situation": "vs 3-bet",
+      "heroPosition": "MP",
+      "villainPosition": "BTN",
+      "stack": {
+        "min": 30,
+        "max": 30
+      },
+      "ratio": null,
+      "bubble": null,
+      "tags": [
+        "vs-3bet",
+        "mid-stack",
+        "vanilla"
+      ],
+      "actionIds": [
+        "fold",
+        "call",
+        "shove"
+      ],
+      "defaultActionId": "fold",
+      "dealFrom": {
+        "strategy": "rfi-30bb-vanilla-mp",
+        "actionIds": [
+          "rfi"
+        ]
+      },
+      "range": {
+        "shove": "AA, AKs, AKo, KK, QQ, JJ",
+        "call": "AQs, AJs, KQs, TT"
+      }
+    },
+    {
+      "id": "vs3bet-30bb-vanilla-mp-vs-sb",
+      "name": "vs 3-bet MP vs SB 30bb vanilla",
+      "description": "Abriu e levou 3-bet (vanilla, 30bb). Mãos sorteadas só do range de open.",
+      "street": "preflop",
+      "situation": "vs 3-bet",
+      "heroPosition": "MP",
+      "villainPosition": "SB",
+      "stack": {
+        "min": 30,
+        "max": 30
+      },
+      "ratio": null,
+      "bubble": null,
+      "tags": [
+        "vs-3bet",
+        "mid-stack",
+        "vanilla"
+      ],
+      "actionIds": [
+        "fold",
+        "call",
+        "shove"
+      ],
+      "defaultActionId": "fold",
+      "dealFrom": {
+        "strategy": "rfi-30bb-vanilla-mp",
+        "actionIds": [
+          "rfi"
+        ]
+      },
+      "range": {
+        "shove": "AA, AKs, AKo, KK, QQ",
+        "call": "AQs, JJ, TT"
+      }
+    },
+    {
+      "id": "vs3bet-30bb-vanilla-mp-vs-bb",
+      "name": "vs 3-bet MP vs BB 30bb vanilla",
+      "description": "Abriu e levou 3-bet (vanilla, 30bb). Mãos sorteadas só do range de open.",
+      "street": "preflop",
+      "situation": "vs 3-bet",
+      "heroPosition": "MP",
+      "villainPosition": "BB",
+      "stack": {
+        "min": 30,
+        "max": 30
+      },
+      "ratio": null,
+      "bubble": null,
+      "tags": [
+        "vs-3bet",
+        "mid-stack",
+        "vanilla"
+      ],
+      "actionIds": [
+        "fold",
+        "call",
+        "shove"
+      ],
+      "defaultActionId": "fold",
+      "dealFrom": {
+        "strategy": "rfi-30bb-vanilla-mp",
+        "actionIds": [
+          "rfi"
+        ]
+      },
+      "range": {
+        "shove": "AA, KK",
+        "call": "AKs, AQs, AKo, QQ, JJ"
+      }
+    },
+    {
+      "id": "vs3bet-30bb-vanilla-lj-vs-hj",
+      "name": "vs 3-bet LJ vs HJ 30bb vanilla",
+      "description": "Abriu e levou 3-bet (vanilla, 30bb). Mãos sorteadas só do range de open.",
+      "street": "preflop",
+      "situation": "vs 3-bet",
+      "heroPosition": "LJ",
+      "villainPosition": "HJ",
+      "stack": {
+        "min": 30,
+        "max": 30
+      },
+      "ratio": null,
+      "bubble": null,
+      "tags": [
+        "vs-3bet",
+        "mid-stack",
+        "vanilla"
+      ],
+      "actionIds": [
+        "fold",
+        "call",
+        "shove"
+      ],
+      "defaultActionId": "fold",
+      "dealFrom": {
+        "strategy": "rfi-30bb-vanilla-lj",
+        "actionIds": [
+          "rfi"
+        ]
+      },
+      "range": {
+        "shove": "AA, AKs, AKo, KK, QQ, JJ, TT",
+        "call": "AQs"
+      }
+    },
+    {
+      "id": "vs3bet-30bb-vanilla-lj-vs-co",
+      "name": "vs 3-bet LJ vs CO 30bb vanilla",
+      "description": "Abriu e levou 3-bet (vanilla, 30bb). Mãos sorteadas só do range de open.",
+      "street": "preflop",
+      "situation": "vs 3-bet",
+      "heroPosition": "LJ",
+      "villainPosition": "CO",
+      "stack": {
+        "min": 30,
+        "max": 30
+      },
+      "ratio": null,
+      "bubble": null,
+      "tags": [
+        "vs-3bet",
+        "mid-stack",
+        "vanilla"
+      ],
+      "actionIds": [
+        "fold",
+        "call",
+        "shove"
+      ],
+      "defaultActionId": "fold",
+      "dealFrom": {
+        "strategy": "rfi-30bb-vanilla-lj",
+        "actionIds": [
+          "rfi"
+        ]
+      },
+      "range": {
+        "shove": "AA, AKs, AKo, KK, QQ, JJ, TT",
+        "call": "AQs"
+      }
+    },
+    {
+      "id": "vs3bet-30bb-vanilla-lj-vs-btn",
+      "name": "vs 3-bet LJ vs BTN 30bb vanilla",
+      "description": "Abriu e levou 3-bet (vanilla, 30bb). Mãos sorteadas só do range de open.",
+      "street": "preflop",
+      "situation": "vs 3-bet",
+      "heroPosition": "LJ",
+      "villainPosition": "BTN",
+      "stack": {
+        "min": 30,
+        "max": 30
+      },
+      "ratio": null,
+      "bubble": null,
+      "tags": [
+        "vs-3bet",
+        "mid-stack",
+        "vanilla"
+      ],
+      "actionIds": [
+        "fold",
+        "call",
+        "shove"
+      ],
+      "defaultActionId": "fold",
+      "dealFrom": {
+        "strategy": "rfi-30bb-vanilla-lj",
+        "actionIds": [
+          "rfi"
+        ]
+      },
+      "range": {
+        "shove": "AA, AKs, AKo, KK, QQ, JJ, TT",
+        "call": "AQs, AJs, KQs"
+      }
+    },
+    {
+      "id": "vs3bet-30bb-vanilla-lj-vs-sb",
+      "name": "vs 3-bet LJ vs SB 30bb vanilla",
+      "description": "Abriu e levou 3-bet (vanilla, 30bb). Mãos sorteadas só do range de open.",
+      "street": "preflop",
+      "situation": "vs 3-bet",
+      "heroPosition": "LJ",
+      "villainPosition": "SB",
+      "stack": {
+        "min": 30,
+        "max": 30
+      },
+      "ratio": null,
+      "bubble": null,
+      "tags": [
+        "vs-3bet",
+        "mid-stack",
+        "vanilla"
+      ],
+      "actionIds": [
+        "fold",
+        "call",
+        "shove"
+      ],
+      "defaultActionId": "fold",
+      "dealFrom": {
+        "strategy": "rfi-30bb-vanilla-lj",
+        "actionIds": [
+          "rfi"
+        ]
+      },
+      "range": {
+        "shove": "AA, AKs, AKo, KK, QQ, JJ",
+        "call": "AQs, TT"
+      }
+    },
+    {
+      "id": "vs3bet-30bb-vanilla-lj-vs-bb",
+      "name": "vs 3-bet LJ vs BB 30bb vanilla",
+      "description": "Abriu e levou 3-bet (vanilla, 30bb). Mãos sorteadas só do range de open.",
+      "street": "preflop",
+      "situation": "vs 3-bet",
+      "heroPosition": "LJ",
+      "villainPosition": "BB",
+      "stack": {
+        "min": 30,
+        "max": 30
+      },
+      "ratio": null,
+      "bubble": null,
+      "tags": [
+        "vs-3bet",
+        "mid-stack",
+        "vanilla"
+      ],
+      "actionIds": [
+        "fold",
+        "call",
+        "shove"
+      ],
+      "defaultActionId": "fold",
+      "dealFrom": {
+        "strategy": "rfi-30bb-vanilla-lj",
+        "actionIds": [
+          "rfi"
+        ]
+      },
+      "range": {
+        "shove": "AA, AKo, KK",
+        "call": "AKs, AQs, QQ, JJ"
+      }
+    },
+    {
+      "id": "vs3bet-30bb-vanilla-hj-vs-co",
+      "name": "vs 3-bet HJ vs CO 30bb vanilla",
+      "description": "Abriu e levou 3-bet (vanilla, 30bb). Mãos sorteadas só do range de open.",
+      "street": "preflop",
+      "situation": "vs 3-bet",
+      "heroPosition": "HJ",
+      "villainPosition": "CO",
+      "stack": {
+        "min": 30,
+        "max": 30
+      },
+      "ratio": null,
+      "bubble": null,
+      "tags": [
+        "vs-3bet",
+        "mid-stack",
+        "vanilla"
+      ],
+      "actionIds": [
+        "fold",
+        "call",
+        "shove"
+      ],
+      "defaultActionId": "fold",
+      "dealFrom": {
+        "strategy": "rfi-30bb-vanilla-hj",
+        "actionIds": [
+          "rfi"
+        ]
+      },
+      "range": {
+        "shove": "AA, AKs, AQs, AKo, KK, KQs, KJs, KTs, AQo, QQ, QJs, JJ, TT, 99, 88, 77, 66, 55",
+        "call": "AJs, ATs"
+      }
+    },
+    {
+      "id": "vs3bet-30bb-vanilla-hj-vs-btn",
+      "name": "vs 3-bet HJ vs BTN 30bb vanilla",
+      "description": "Abriu e levou 3-bet (vanilla, 30bb). Mãos sorteadas só do range de open.",
+      "street": "preflop",
+      "situation": "vs 3-bet",
+      "heroPosition": "HJ",
+      "villainPosition": "BTN",
+      "stack": {
+        "min": 30,
+        "max": 30
+      },
+      "ratio": null,
+      "bubble": null,
+      "tags": [
+        "vs-3bet",
+        "mid-stack",
+        "vanilla"
+      ],
+      "actionIds": [
+        "fold",
+        "call",
+        "shove"
+      ],
+      "defaultActionId": "fold",
+      "dealFrom": {
+        "strategy": "rfi-30bb-vanilla-hj",
+        "actionIds": [
+          "rfi"
+        ]
+      },
+      "range": {
+        "shove": "AA, AKs, AQs, AKo, KK, AQo, QQ, JJ, TT, 99, 88",
+        "call": "AJs, ATs, KQs, KJs, QJs"
+      }
+    },
+    {
+      "id": "vs3bet-30bb-vanilla-hj-vs-sb",
+      "name": "vs 3-bet HJ vs SB 30bb vanilla",
+      "description": "Abriu e levou 3-bet (vanilla, 30bb). Mãos sorteadas só do range de open.",
+      "street": "preflop",
+      "situation": "vs 3-bet",
+      "heroPosition": "HJ",
+      "villainPosition": "SB",
+      "stack": {
+        "min": 30,
+        "max": 30
+      },
+      "ratio": null,
+      "bubble": null,
+      "tags": [
+        "vs-3bet",
+        "mid-stack",
+        "vanilla"
+      ],
+      "actionIds": [
+        "fold",
+        "call",
+        "shove"
+      ],
+      "defaultActionId": "fold",
+      "dealFrom": {
+        "strategy": "rfi-30bb-vanilla-hj",
+        "actionIds": [
+          "rfi"
+        ]
+      },
+      "range": {
+        "shove": "AA, AKs, AQs, AKo, KK, KQs, AQo, QQ, JJ, TT, 99",
+        "call": "AJs, ATs, KJs, KTs, QJs, AJo, 88, 77, 66"
+      }
+    },
+    {
+      "id": "vs3bet-30bb-vanilla-hj-vs-bb",
+      "name": "vs 3-bet HJ vs BB 30bb vanilla",
+      "description": "Abriu e levou 3-bet (vanilla, 30bb). Mãos sorteadas só do range de open.",
+      "street": "preflop",
+      "situation": "vs 3-bet",
+      "heroPosition": "HJ",
+      "villainPosition": "BB",
+      "stack": {
+        "min": 30,
+        "max": 30
+      },
+      "ratio": null,
+      "bubble": null,
+      "tags": [
+        "vs-3bet",
+        "mid-stack",
+        "vanilla"
+      ],
+      "actionIds": [
+        "fold",
+        "call",
+        "shove"
+      ],
+      "defaultActionId": "fold",
+      "dealFrom": {
+        "strategy": "rfi-30bb-vanilla-hj",
+        "actionIds": [
+          "rfi"
+        ]
+      },
+      "range": {
+        "shove": "AKs, AKo, KK, QQ",
+        "call": "AA, AQs, AJs, ATs, KQs, KJs, AQo, JJ, TT, 99, 88"
+      }
+    },
+    {
+      "id": "vs3bet-30bb-vanilla-co-vs-btn",
+      "name": "vs 3-bet CO vs BTN 30bb vanilla",
+      "description": "Abriu e levou 3-bet (vanilla, 30bb). Mãos sorteadas só do range de open.",
+      "street": "preflop",
+      "situation": "vs 3-bet",
+      "heroPosition": "CO",
+      "villainPosition": "BTN",
+      "stack": {
+        "min": 30,
+        "max": 30
+      },
+      "ratio": null,
+      "bubble": null,
+      "tags": [
+        "vs-3bet",
+        "mid-stack",
+        "vanilla"
+      ],
+      "actionIds": [
+        "fold",
+        "call",
+        "shove"
+      ],
+      "defaultActionId": "fold",
+      "dealFrom": {
+        "strategy": "rfi-30bb-vanilla-co",
+        "actionIds": [
+          "rfi"
+        ]
+      },
+      "range": {
+        "shove": "AA, AKs, AQs, AJs, A9s, A8s, A5s, A4s, A3s, AKo, KK, KQs, KTs, AQo, QQ, AJo, JJ, TT, 99, 88, 77, 66, 55",
+        "call": "ATs, KJs, QJs"
+      }
+    },
+    {
+      "id": "vs3bet-30bb-vanilla-co-vs-sb",
+      "name": "vs 3-bet CO vs SB 30bb vanilla",
+      "description": "Abriu e levou 3-bet (vanilla, 30bb). Mãos sorteadas só do range de open.",
+      "street": "preflop",
+      "situation": "vs 3-bet",
+      "heroPosition": "CO",
+      "villainPosition": "SB",
+      "stack": {
+        "min": 30,
+        "max": 30
+      },
+      "ratio": null,
+      "bubble": null,
+      "tags": [
+        "vs-3bet",
+        "mid-stack",
+        "vanilla"
+      ],
+      "actionIds": [
+        "fold",
+        "call",
+        "shove"
+      ],
+      "defaultActionId": "fold",
+      "dealFrom": {
+        "strategy": "rfi-30bb-vanilla-co",
+        "actionIds": [
+          "rfi"
+        ]
+      },
+      "range": {
+        "shove": "AKs, AQs, AJs, A5s, A4s, A3s, AKo, KK, KQs, AQo, QQ, AJo, JJ, ATo, TT, 99, 88, 77, 66, 55, 44",
+        "call": "AA, ATs, A9s, A8s, KJs, KTs, KQo, QJs, JTs"
+      }
+    },
+    {
+      "id": "vs3bet-30bb-vanilla-co-vs-bb",
+      "name": "vs 3-bet CO vs BB 30bb vanilla",
+      "description": "Abriu e levou 3-bet (vanilla, 30bb). Mãos sorteadas só do range de open.",
+      "street": "preflop",
+      "situation": "vs 3-bet",
+      "heroPosition": "CO",
+      "villainPosition": "BB",
+      "stack": {
+        "min": 30,
+        "max": 30
+      },
+      "ratio": null,
+      "bubble": null,
+      "tags": [
+        "vs-3bet",
+        "mid-stack",
+        "vanilla"
+      ],
+      "actionIds": [
+        "fold",
+        "call",
+        "shove"
+      ],
+      "defaultActionId": "fold",
+      "dealFrom": {
+        "strategy": "rfi-30bb-vanilla-co",
+        "actionIds": [
+          "rfi"
+        ]
+      },
+      "range": {
+        "shove": "AKs, AQs, AJs, ATs, AKo, KK, AQo, QQ, AJo, JJ",
+        "call": "AA, A9s, A8s, A7s, A6s, A5s, A4s, A3s, KQs, KJs, KTs, KQo, QJs, ATo, TT, 99, 88, 77, 66"
+      }
+    },
+    {
+      "id": "vs3bet-30bb-vanilla-btn-vs-sb",
+      "name": "vs 3-bet BTN vs SB 30bb vanilla",
+      "description": "Abriu e levou 3-bet (vanilla, 30bb). Mãos sorteadas só do range de open.",
+      "street": "preflop",
+      "situation": "vs 3-bet",
+      "heroPosition": "BTN",
+      "villainPosition": "SB",
+      "stack": {
+        "min": 30,
+        "max": 30
+      },
+      "ratio": null,
+      "bubble": null,
+      "tags": [
+        "vs-3bet",
+        "mid-stack",
+        "vanilla"
+      ],
+      "actionIds": [
+        "fold",
+        "call",
+        "shove"
+      ],
+      "defaultActionId": "fold",
+      "dealFrom": {
+        "strategy": "rfi-30bb-vanilla-btn",
+        "actionIds": [
+          "rfi"
+        ]
+      },
+      "range": {
+        "shove": "AA, AKs, AQs, AJs, A7s, A6s, A5s, A4s, A3s, AKo, KK, KQs, KJs, KTs, AQo, KQo, QQ, QTs, AJo, JJ, JTs, ATo, TT, 99, 88, 77, 66, 55, 44, 33",
+        "call": "ATs, A9s, A8s, QJs, KJo, T9s"
+      }
+    },
+    {
+      "id": "vs3bet-30bb-vanilla-btn-vs-bb",
+      "name": "vs 3-bet BTN vs BB 30bb vanilla",
+      "description": "Abriu e levou 3-bet (vanilla, 30bb). Mãos sorteadas só do range de open.",
+      "street": "preflop",
+      "situation": "vs 3-bet",
+      "heroPosition": "BTN",
+      "villainPosition": "BB",
+      "stack": {
+        "min": 30,
+        "max": 30
+      },
+      "ratio": null,
+      "bubble": null,
+      "tags": [
+        "vs-3bet",
+        "mid-stack",
+        "vanilla"
+      ],
+      "actionIds": [
+        "fold",
+        "call",
+        "shove"
+      ],
+      "defaultActionId": "fold",
+      "dealFrom": {
+        "strategy": "rfi-30bb-vanilla-btn",
+        "actionIds": [
+          "rfi"
+        ]
+      },
+      "range": {
+        "shove": "AKs, AQs, AKo, KK, AQo, QQ, JJ, TT, 99",
+        "call": "AA, AJs, ATs, A9s, A8s, KQs, KJs, KTs, K9s, KQo, QJs, QTs, AJo, JTs, T9s, 98s, 88, 77, 66, 55"
+      }
+    }
+  ],
+  "drills": [
+    {
+      "id": "vs3bet-30bb-vanilla-todas",
+      "name": "vs 3-bet 30bb vanilla — todas as posições",
+      "description": "Você abriu e levou 3-bet. Cada mão sorteia quem abriu e quem deu 3-bet; só aparecem mãos do seu range de open.",
+      "variants": [
+        [
+          "vs3bet-30bb-vanilla-utg-vs-utg1"
+        ],
+        [
+          "vs3bet-30bb-vanilla-utg-vs-mp"
+        ],
+        [
+          "vs3bet-30bb-vanilla-utg-vs-lj"
+        ],
+        [
+          "vs3bet-30bb-vanilla-utg-vs-hj"
+        ],
+        [
+          "vs3bet-30bb-vanilla-utg-vs-co"
+        ],
+        [
+          "vs3bet-30bb-vanilla-utg-vs-btn"
+        ],
+        [
+          "vs3bet-30bb-vanilla-utg-vs-sb"
+        ],
+        [
+          "vs3bet-30bb-vanilla-utg-vs-bb"
+        ],
+        [
+          "vs3bet-30bb-vanilla-utg1-vs-mp"
+        ],
+        [
+          "vs3bet-30bb-vanilla-utg1-vs-lj"
+        ],
+        [
+          "vs3bet-30bb-vanilla-utg1-vs-hj"
+        ],
+        [
+          "vs3bet-30bb-vanilla-utg1-vs-co"
+        ],
+        [
+          "vs3bet-30bb-vanilla-utg1-vs-btn"
+        ],
+        [
+          "vs3bet-30bb-vanilla-utg1-vs-sb"
+        ],
+        [
+          "vs3bet-30bb-vanilla-utg1-vs-bb"
+        ],
+        [
+          "vs3bet-30bb-vanilla-mp-vs-lj"
+        ],
+        [
+          "vs3bet-30bb-vanilla-mp-vs-hj"
+        ],
+        [
+          "vs3bet-30bb-vanilla-mp-vs-co"
+        ],
+        [
+          "vs3bet-30bb-vanilla-mp-vs-btn"
+        ],
+        [
+          "vs3bet-30bb-vanilla-mp-vs-sb"
+        ],
+        [
+          "vs3bet-30bb-vanilla-mp-vs-bb"
+        ],
+        [
+          "vs3bet-30bb-vanilla-lj-vs-hj"
+        ],
+        [
+          "vs3bet-30bb-vanilla-lj-vs-co"
+        ],
+        [
+          "vs3bet-30bb-vanilla-lj-vs-btn"
+        ],
+        [
+          "vs3bet-30bb-vanilla-lj-vs-sb"
+        ],
+        [
+          "vs3bet-30bb-vanilla-lj-vs-bb"
+        ],
+        [
+          "vs3bet-30bb-vanilla-hj-vs-co"
+        ],
+        [
+          "vs3bet-30bb-vanilla-hj-vs-btn"
+        ],
+        [
+          "vs3bet-30bb-vanilla-hj-vs-sb"
+        ],
+        [
+          "vs3bet-30bb-vanilla-hj-vs-bb"
+        ],
+        [
+          "vs3bet-30bb-vanilla-co-vs-btn"
+        ],
+        [
+          "vs3bet-30bb-vanilla-co-vs-sb"
+        ],
+        [
+          "vs3bet-30bb-vanilla-co-vs-bb"
+        ],
+        [
+          "vs3bet-30bb-vanilla-btn-vs-sb"
+        ],
+        [
+          "vs3bet-30bb-vanilla-btn-vs-bb"
+        ]
+      ],
+      "sampling": "fronteira",
+      "tags": [
+        "vs-3bet",
+        "mid-stack",
+        "vanilla"
+      ],
+      "handsPerSession": 50,
+      "passAccuracy": 0.9
+    }
+  ]
+}

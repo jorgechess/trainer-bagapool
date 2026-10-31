@@ -33,6 +33,11 @@ export interface NumberRange {
   max: number;
 }
 
+export interface DealFrom {
+  strategyId: string;
+  actionIds: string[];
+}
+
 export interface TextureRange {
   id: string;
   label: string;
@@ -64,6 +69,11 @@ export interface Strategy {
    * for uma destas (ex.: segundo barril só depois de cbet). Vazio = qualquer ação que continue a mão.
    */
   entryActionIds?: string[];
+  /**
+   * Só sorteia mãos em que outra estratégia (pré-flop) tem uma destas ações.
+   * Ex.: vs 3-bet do CO só com mãos que o CO abre (RFI CO: "rfi").
+   */
+  dealFrom?: DealFrom | null;
   /** Range do pré-flop. */
   range: Range;
   /** Ranges do pós-flop por textura; vale a primeira textura que combinar com o board. */
@@ -112,6 +122,11 @@ export function validateStrategy(strategy: Strategy, legend: Legend): string[] {
   }
   for (const id of strategy.entryActionIds ?? []) {
     if (!findAction(legend, id)) errors.push(`A ação de entrada "${id}" não existe na legenda.`);
+  }
+  if (strategy.dealFrom) {
+    if (!strategy.dealFrom.strategyId) errors.push("Escolha a estratégia de onde as mãos são sorteadas.");
+    if (strategy.dealFrom.strategyId === strategy.id) errors.push("A estratégia não pode sortear mãos dela mesma.");
+    if (strategy.dealFrom.actionIds.length === 0) errors.push("Escolha as ações do range de onde as mãos são sorteadas.");
   }
   if (!strategy.actionIds.includes(strategy.defaultActionId))
     errors.push("A ação padrão precisa estar entre os botões do exercício.");

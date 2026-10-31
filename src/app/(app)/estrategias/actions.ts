@@ -1,7 +1,7 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
-import { getLegend, listDrills, requireContentManager } from "@/lib/data";
+import { getLegend, listDrills, listStrategies, requireContentManager } from "@/lib/data";
 import type { ActionResult } from "@/lib/format";
 import { drillStrategyIds } from "@/lib/poker/drill";
 import { slugify } from "@/lib/poker/importer";
@@ -66,6 +66,12 @@ export async function saveStrategy(input: Strategy, isNew: boolean): Promise<Act
 export async function deleteStrategy(id: string): Promise<ActionResult> {
   await requireContentManager();
   const usedBy = (await listDrills()).filter((d) => drillStrategyIds(d).includes(id));
+  const dependents = (await listStrategies()).filter((s) => s.dealFrom?.strategyId === id);
+  if (dependents.length)
+    return {
+      ok: false,
+      error: `As estratégias ${dependents.map((s) => s.name).join(", ")} sorteiam mãos do range desta. Ajuste-as antes.`,
+    };
   if (usedBy.length)
     return {
       ok: false,

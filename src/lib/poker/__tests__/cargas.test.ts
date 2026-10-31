@@ -33,3 +33,37 @@ test("carga RFI 30bb vanilla: válida e com as porcentagens do print do time", (
   assert.equal(btn.range["72o"], undefined);
   assert.equal(result.drills[0].variants?.length, 7);
 });
+
+test("carga vs 3-bet 30bb vanilla: válida, coerente com o open e com as porcentagens dos prints", () => {
+  const rfi = parseImportBundle(load("rfi-30bb-vanilla.json"), DEFAULT_LEGEND);
+  const result = parseImportBundle(load("vs3bet-30bb-vanilla.json"), DEFAULT_LEGEND, rfi.strategies);
+  assert.deepEqual(result.errors, []);
+  assert.equal(result.strategies.length, 35);
+  assert.equal(result.drills[0].variants?.length, 35);
+  const pct = (hero: string, villain: string, action: string) => {
+    const s = result.strategies.find((x) => x.heroPosition === hero && x.villainPosition === villain)!;
+    return rangeBreakdown(s.range, s.defaultActionId).find((b) => b.actionId === action)?.percent ?? 0;
+  };
+  // Porcentagens que aparecem nos prints (arredondadas para 1 casa)
+  const expected: [string, string, string, number][] = [
+    ["BTN", "SB", "shove", 13.9],
+    ["BTN", "SB", "call", 2.4],
+    ["BTN", "BB", "shove", 4.7],
+    ["BTN", "BB", "call", 8.0],
+    ["CO", "BTN", "shove", 10.3],
+    ["CO", "BTN", "call", 0.9],
+    ["HJ", "CO", "shove", 8.1],
+    ["LJ", "HJ", "shove", 3.5],
+    ["UTG", "UTG1", "shove", 2.6],
+    ["UTG", "UTG1", "call", 0.8],
+    ["UTG", "BB", "call", 2.4],
+  ];
+  for (const [hero, villain, action, value] of expected)
+    assert.equal(pct(hero, villain, action), value, `${hero} vs ${villain} ${action}`);
+  // toda mão de call/all-in está no range de open da posição
+  for (const s of result.strategies) {
+    const open = rfi.strategies.find((x) => x.id === s.dealFrom?.strategyId)!;
+    for (const [hand, action] of Object.entries(s.range))
+      if (action !== "fold") assert.equal(open.range[hand], "rfi", `${s.name}: ${hand} fora do open`);
+  }
+});

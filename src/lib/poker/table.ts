@@ -19,14 +19,21 @@ const BLINDS: Partial<Record<Position, number>> = { SB: 0.5, BB: 1 };
  * Pré-flop: quem age antes do herói já foldou (menos o vilão, que aumentou); quem age depois espera.
  * Pós-flop: só herói e vilão seguem na mão.
  */
+/** Pré-flop com vilão agindo depois do herói: o herói abriu e o vilão deu 3-bet. */
+export function facesThreeBet(strategy: Strategy): boolean {
+  if (strategy.street !== "preflop" || !strategy.villainPosition) return false;
+  return POSITIONS.indexOf(strategy.villainPosition) > POSITIONS.indexOf(strategy.heroPosition);
+}
+
 export function tableSeats(strategy: Strategy): Seat[] {
   const heroIndex = POSITIONS.indexOf(strategy.heroPosition);
   const preflop = strategy.street === "preflop";
+  const threeBet = facesThreeBet(strategy);
   return POSITIONS.map((position, index) => {
     let status: SeatStatus;
     if (position === strategy.heroPosition) status = "hero";
     else if (position === strategy.villainPosition) status = preflop ? "raised" : "active";
-    else if (!preflop) status = "folded";
+    else if (!preflop || threeBet) status = "folded";
     else status = index < heroIndex ? "folded" : "waiting";
     return {
       position,
