@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { recordDecisions } from "@/app/(app)/drills/actions";
+import { CardRow } from "@/components/PlayingCard";
 import { PokerTable } from "@/components/PokerTable";
 import { PositionChips } from "@/components/PositionChips";
 import { RangeGrid } from "@/components/RangeGrid";
@@ -49,6 +50,9 @@ interface SlotState {
 
 const PEEK_KEY = "trainer:mostrar-resposta";
 const TABLES_KEY = "trainer:mesas";
+const LENGTH_KEY = "trainer:maos";
+/** 0 = padrão do drill; -1 = sem limite (até clicar em "Encerrar sessão"). */
+const LENGTH_OPTIONS = [0, 10, 25, 50, 100, -1] as const;
 export const TABLE_OPTIONS = [1, 2, 4] as const;
 type TableCount = (typeof TABLE_OPTIONS)[number];
 
@@ -310,6 +314,11 @@ export function Trainer({ drill, strategies, legend }: TrainerProps) {
   const [peek, setPeek] = useState(false);
   const [positions, setPositions] = useState<string[]>([]);
   const [tableCount, setTableCount] = useState<TableCount>(1);
+  const [lengthChoice, setLengthChoice] = useState<number>(0);
+  /** Mãos da sessão; null = sem limite. */
+  const sessionLength = lengthChoice === -1 ? null : lengthChoice === 0 ? drill.handsPerSession : lengthChoice;
+  const lengthRef = useRef<number | null>(sessionLength);
+  lengthRef.current = sessionLength;
   const [vertical, setVertical] = useState(false);
   const [slotStates, setSlotStates] = useState<(SlotState | null)[]>([]);
   const [panelSlot, setPanelSlot] = useState(0);
@@ -335,6 +344,8 @@ export function Trainer({ drill, strategies, legend }: TrainerProps) {
 
   useEffect(() => {
     setPeek(readStorage(PEEK_KEY) === "1");
+    const length = Number(readStorage(LENGTH_KEY));
+    if ((LENGTH_OPTIONS as readonly number[]).includes(length)) setLengthChoice(length);
     const tables = Number(readStorage(TABLES_KEY));
     if ((TABLE_OPTIONS as readonly number[]).includes(tables)) setTableCount(tables as TableCount);
     try {
@@ -355,6 +366,18 @@ export function Trainer({ drill, strategies, legend }: TrainerProps) {
   function changePositions(next: string[]) {
     setPositions(next);
     writeStorage(positionsKey, JSON.stringify(next));
+  }
+
+  function changeLength(choice: number) {
+    setLengthChoice(choice);
+    writeStorage(LENGTH_KEY, String(choice));
+    const limit = choice === -1 ? null : choice === 0 ? drill.handsPerSession : choice;
+    if (limit !== null && handsRef.current >= limit) setFinished(true);
+  }
+
+  function endSession() {
+    void flush();
+    setFinished(true);
   }
 
   function changeTables(count: TableCount) {
@@ -410,7 +433,7 @@ export function Trainer({ drill, strategies, legend }: TrainerProps) {
       }
       handsRef.current += 1;
       setHandsPlayed(handsRef.current);
-      if (handsRef.current >= drill.handsPerSession) {
+      if (lengthRef.current !== null && handsRef.current >= lengthRef.current) {
         setFinished(true);
         return false;
       }
@@ -482,14 +505,18 @@ export function Trainer({ drill, strategies, legend }: TrainerProps) {
             <ul className="divide-y divide-zinc-800 text-sm">
               {mistakes.map((m, i) => (
                 <li key={i} className="flex flex-wrap items-center justify-between gap-2 py-2">
-                  <span className="font-mono">
+                  <span className="flex items-center gap-2" data-testid="mistake-cards" title={m.hand}>
                     {m.peeked && (
-                      <span className="mr-1" title="Com a resposta à mostra">
+                      <span title="Com a resposta à mostra">
                         👁
                       </span>
                     )}
-                    {m.hand}
-                    {m.board.length > 0 && <span className="ml-2 text-zinc-400">{m.board.join(" ")}</span>}
+                    <CardRow cards={m.heroCards as Card[]} size="xs" />
+                    {m.board.length > 0 && (
+                      <span className="flex items-center gap-1 border-l border-zinc-700 pl-2">
+                        <CardRow cards={m.board as Card[]} size="xs" />
+                      </span>
+                    )}
                   </span>
                   <span className="text-zinc-400">{strategyMap.get(m.strategyId)?.name}</span>
                   <span>
@@ -564,18 +591,43 @@ export function Trainer({ drill, strategies, legend }: TrainerProps) {
         <div>
           <h1 className="text-lg font-semibold">{drill.name}</h1>
           <p className="muted">
-            Mão {Math.min(handsPlayed + 1, drill.handsPerSession)} de {drill.handsPerSession} ·{" "}
+            {sessionLength === null
+              ? `Mão ${handsPlayed + 1} · sem limite`
+              : `Mão ${Math.min(handsPlayed + 1, sessionLength)} de ${sessionLength}`}{" "}
+            ·{" "}
             {countedDecisions.length > 0 ? formatPercent(accuracy) : "—"} de acerto
             {peekedCount > 0 && ` · ${peekedCount} com resposta à mostra`}
           </p>
         </div>
-        <label className="flex items-center gap-2 text-sm text-zinc-400">
-          <input type="checkbox" checked={autoAdvance} onChange={(e) => setAutoAdvance(e.target.checked)} />
-          Avançar sozinho quando acertar
-        </label>
+        <div className="flex flex-wrap items-center gap-3">
+          <label className="flex items-center gap-2 text-sm text-zinc-400">
+            <input type="checkbox" checked={autoAdvance} onChange={(e) => setAutoAdvance(e.target.checked)} />
+            Avançar sozinho quando acertar
+          </label>
+          <button type="button" className="btn-secondary px-3 py-1.5" onClick={endSession}>
+            Encerrar sessão
+          </button>
+        </div>
       </div>
 
       <div className="card flex flex-wrap items-center gap-x-6 gap-y-2 py-3">
+        <div className="flex flex-wrap items-center gap-1.5" role="group" aria-label="Mãos da sessão">
+          <span className="mr-1 text-xs text-zinc-400">Mãos</span>
+          {LENGTH_OPTIONS.filter((o) => o === 0 || o === -1 || o !== drill.handsPerSession).map((option) => (
+            <button
+              key={option}
+              type="button"
+              onClick={() => changeLength(option)}
+              aria-pressed={lengthChoice === option}
+              title={option === 0 ? "Quantidade definida no drill" : option === -1 ? "Até clicar em Encerrar sessão" : undefined}
+              className={`rounded-md px-2.5 py-1 text-xs font-semibold transition ${
+                lengthChoice === option ? "bg-zinc-200 text-black" : "bg-zinc-800 text-zinc-200 hover:bg-zinc-700"
+              }`}
+            >
+              {option === 0 ? `${drill.handsPerSession} (padrão)` : option === -1 ? "Sem limite" : option}
+            </button>
+          ))}
+        </div>
         <div className="flex items-center gap-1.5" role="group" aria-label="Mesas">
           <span className="mr-1 text-xs text-zinc-400">Mesas</span>
           {TABLE_OPTIONS.map((count) => (
@@ -601,12 +653,14 @@ export function Trainer({ drill, strategies, legend }: TrainerProps) {
         </p>
       </div>
 
-      <div className="h-1.5 overflow-hidden rounded-full bg-zinc-800">
-        <div
-          className="h-full bg-baga-red transition-all"
-          style={{ width: `${(handsPlayed / drill.handsPerSession) * 100}%` }}
-        />
-      </div>
+      {sessionLength !== null && (
+        <div className="h-1.5 overflow-hidden rounded-full bg-zinc-800">
+          <div
+            className="h-full bg-baga-red transition-all"
+            style={{ width: `${Math.min(100, (handsPlayed / sessionLength) * 100)}%` }}
+          />
+        </div>
+      )}
       {saveError && <p className="text-xs text-amber-400">{saveError}</p>}
 
       <div

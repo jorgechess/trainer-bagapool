@@ -312,6 +312,26 @@ async function main() {
     assert.equal(slots, 1);
     log("treino com 1, 2 e 4 mesas");
 
+    // Sessão sem limite, encerrada pelo botão; relatório com as cartas em miniatura
+    await page.getByRole("button", { name: "Sem limite" }).click();
+    await page.getByText(/sem limite/).first().waitFor();
+    for (let hand = 0; hand < 6; hand++) {
+      // Sempre "Raise": erra os folds, garantindo erros no relatório
+      await page.locator("[data-testid=actions] button").last().click();
+      await page.getByRole("button", { name: "Continuar" }).click();
+    }
+    await page.getByRole("button", { name: "Encerrar sessão" }).click();
+    await page.getByText("Sessão concluída").waitFor();
+    const mistakeRows = await page.getByTestId("mistake-cards").count();
+    if (mistakeRows > 0) {
+      assert.ok((await page.getByTestId("mistake-cards").first().locator("[aria-label]").count()) >= 2, "erro mostra as cartas");
+    }
+    await shot(page, "relatorio-sessao");
+    await page.getByRole("button", { name: "Nova sessão" }).click();
+    await page.getByTestId("hero-cards").waitFor();
+    await page.getByRole("button", { name: /\(padrão\)/ }).click();
+    log(`sessão sem limite encerrada pelo botão (${mistakeRows} erros no relatório)`);
+
     // Drill novo escolhendo spot e posições pelos botões
     await page.goto(`${BASE_URL}/drills/novo`);
     await page.locator("input").first().fill("RFI 30bb CO e BTN");

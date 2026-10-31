@@ -4,7 +4,7 @@ import { SUIT_SYMBOLS, type Card, cardRank, cardSuit } from "@/lib/poker/cards";
 const SUIT_COLORS = { s: "#111827", h: "#dc2626", d: "#2563eb", c: "#16a34a" } as const;
 
 /** `fluid`: o tamanho acompanha a fonte do elemento pai (usado na mesa, que cresce com a tela). */
-export function PlayingCard({ card, size = "md" }: { card: Card; size?: "sm" | "md" | "lg" | "fluid" }) {
+export function PlayingCard({ card, size = "md" }: { card: Card; size?: "xs" | "sm" | "md" | "lg" | "fluid" }) {
   const suit = cardSuit(card);
   const rank = cardRank(card);
   const dims =
@@ -14,6 +14,8 @@ export function PlayingCard({ card, size = "md" }: { card: Card; size?: "sm" | "
         ? "h-20 w-14 text-2xl"
         : size === "sm"
           ? "h-10 w-7 text-sm"
+          : size === "xs"
+            ? "h-8 w-6 rounded text-xs"
           : "h-14 w-10 text-lg";
   return (
     <div
@@ -27,9 +29,9 @@ export function PlayingCard({ card, size = "md" }: { card: Card; size?: "sm" | "
   );
 }
 
-export function CardRow({ cards, size }: { cards: readonly Card[]; size?: "sm" | "md" | "lg" | "fluid" }) {
+export function CardRow({ cards, size }: { cards: readonly Card[]; size?: "xs" | "sm" | "md" | "lg" | "fluid" }) {
   return (
-    <div className="flex gap-1.5">
+    <div className={`flex ${size === "xs" ? "gap-0.5" : "gap-1.5"}`}>
       {cards.map((card) => (
         <PlayingCard key={card} card={card} size={size} />
       ))}
