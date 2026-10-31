@@ -22,7 +22,7 @@ async function createUser(email, password, role, name) {
     headers: adminHeaders,
     body: JSON.stringify({ email, password, email_confirm: true, app_metadata: { role }, user_metadata: { name } }),
   });
-  assert.ok(res.ok, `Falha ao criar usuário: ${res.status} ${await res.text()}`);
+  if (!res.ok) throw new Error(`Falha ao criar usuário: ${res.status} ${await res.text()}`);
   return res.json();
 }
 
@@ -36,7 +36,7 @@ async function countRows(table, filter = "") {
 
 async function rows(table, query) {
   const res = await fetch(`${API_URL}/rest/v1/${table}?${query}`, { headers: adminHeaders });
-  assert.ok(res.ok, `Falha ao ler ${table}: ${res.status}`);
+  if (!res.ok) throw new Error(`Falha ao ler ${table}: ${res.status} ${await res.text()}`);
   return res.json();
 }
 
