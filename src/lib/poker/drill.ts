@@ -6,7 +6,7 @@ import { type Card, fullDeck, isCard } from "./cards";
 import { type HandLabel, combosOf, handFromCards, ALL_HANDS } from "./hands";
 import { type Legend, continuesHand, findAction } from "./legend";
 import { borderHands } from "./range";
-import { type Rng, defaultRng, pickWeighted, shuffle } from "./rng";
+import { type Rng, defaultRng, pickOne, pickWeighted, shuffle } from "./rng";
 import {
   BOARD_CARDS_BY_STREET,
   STREETS,
@@ -31,6 +31,11 @@ export interface Drill {
   description?: string;
   /** Ids das estratégias, na ordem em que as decisões acontecem. */
   steps: string[];
+  /**
+   * Variações: cada mão sorteia uma delas (ex.: RFI de todas as posições).
+   * Quando existe, substitui `steps` (que fica igual à primeira variação).
+   */
+  variants?: string[][];
   sampling: HandSampling;
   tags: string[];
   /** Mãos sugeridas por sessão. */
@@ -56,36 +61,56 @@ export interface HandQuestion {
   steps: QuestionStep[];
 }
 
+/** Variações do drill (sempre pelo menos uma). */
+export function drillVariants(drill: Drill): string[][] {
+  return drill.variants?.length ? drill.variants : [drill.steps];
+}
+
+/** Todas as estratégias usadas pelo drill, sem repetição. */
+export function drillStrategyIds(drill: Drill): string[] {
+  return [...new Set(drillVariants(drill).flat())];
+}
+
 export function validateDrill(drill: Drill, strategies: Map<string, Strategy>): string[] {
   const errors: string[] = [];
   if (!drill.name.trim()) errors.push("O drill precisa de um nome.");
-  if (drill.steps.length === 0) errors.push("Escolha pelo menos uma estratégia.");
   if (!(drill.handsPerSession >= 1 && drill.handsPerSession <= 500))
     errors.push("Mãos por sessão deve ficar entre 1 e 500.");
   if (!(drill.passAccuracy > 0 && drill.passAccuracy <= 1)) errors.push("Acerto mínimo deve ficar entre 1% e 100%.");
-  let lastStreet = -1;
-  for (const id of drill.steps) {
-    const strategy = strategies.get(id);
-    if (!strategy) {
-      errors.push(`Estratégia não encontrada: ${id}.`);
-      continue;
+  const variants = drillVariants(drill);
+  variants.forEach((steps, index) => {
+    const prefix = variants.length > 1 ? `Variação ${index + 1}: ` : "";
+    if (steps.length === 0) errors.push(`${prefix}escolha pelo menos uma estratégia.`);
+    let lastStreet = -1;
+    for (const id of steps) {
+      const strategy = strategies.get(id);
+      if (!strategy) {
+        errors.push(`${prefix}Estratégia não encontrada: ${id}.`);
+        continue;
+      }
+      const streetIndex = STREETS.indexOf(strategy.street);
+      if (streetIndex < lastStreet)
+        errors.push(
+          `${prefix}"${strategy.name}" está fora de ordem: as streets precisam seguir pré-flop → flop → turn → river.`,
+        );
+      lastStreet = Math.max(lastStreet, streetIndex);
     }
-    const streetIndex = STREETS.indexOf(strategy.street);
-    if (streetIndex < lastStreet)
-      errors.push(`"${strategy.name}" está fora de ordem: as streets precisam seguir pré-flop → flop → turn → river.`);
-    lastStreet = Math.max(lastStreet, streetIndex);
-  }
-  return errors;
+  });
+  return [...new Set(errors)];
 }
 
 /** Escopo do drill, para mostrar ao jogador: "Só pré-flop", "Pré-flop até river"... */
 export function drillScope(drill: Drill, strategies: Map<string, Strategy>): string {
-  const streets = drill.steps.map((id) => strategies.get(id)?.street).filter((s): s is Street => Boolean(s));
-  if (streets.length === 0) return "—";
   const labels: Record<Street, string> = { preflop: "pré-flop", flop: "flop", turn: "turn", river: "river" };
-  const first = streets[0];
-  const last = streets[streets.length - 1];
-  if (drill.steps.length === 1) return `Uma decisão (${labels[first]})`;
+  const variants = drillVariants(drill)
+    .map((steps) => steps.map((id) => strategies.get(id)?.street).filter((s): s is Street => Boolean(s)))
+    .filter((streets) => streets.length > 0);
+  if (variants.length === 0) return "—";
+  const firsts = variants.map((v) => STREETS.indexOf(v[0]));
+  const lasts = variants.map((v) => STREETS.indexOf(v[v.length - 1]));
+  const first = STREETS[Math.min(...firsts)];
+  const last = STREETS[Math.max(...lasts)];
+  if (variants.every((v) => v.length === 1) && first === last) return `Uma decisão (${labels[first]})`;
   if (first === last) return `Só ${labels[first]}`;
   return `Do ${labels[first]} ao ${labels[last]}`;
 }
@@ -112,7 +137,9 @@ export function dealQuestion(
   legend: Legend,
   rng: Rng = defaultRng,
 ): HandQuestion {
-  const stepStrategies = drill.steps.map((id) => {
+  const variants = drillVariants(drill);
+  const chosenSteps = variants.length > 1 ? pickOne(rng, variants) : variants[0];
+  const stepStrategies = chosenSteps.map((id) => {
     const strategy = strategies.get(id);
     if (!strategy) throw new Error(`Estratégia não encontrada: ${id}`);
     return strategy;
@@ -225,7 +252,7 @@ export function gradeSubmission(
   chosenActionId: string,
   now: Date = new Date(),
 ): Attempt {
-  if (!drill.steps.includes(strategy.id)) throw new Error("A estratégia não faz parte deste drill");
+  if (!drillStrategyIds(drill).includes(strategy.id)) throw new Error("A estratégia não faz parte deste drill");
   const cards = [...heroCards, ...board];
   if (heroCards.length !== 2 || !cards.every(isCard)) throw new Error("Cartas inválidas");
   if (new Set(cards).size !== cards.length) throw new Error("Cartas repetidas");

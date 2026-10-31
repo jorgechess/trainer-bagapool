@@ -1,7 +1,7 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
-import { getLegend, requireContentManager } from "@/lib/data";
+import { getLegend, listStrategies, requireContentManager } from "@/lib/data";
 import type { ActionResult } from "@/lib/format";
 import { parseImportBundle } from "@/lib/poker/importer";
 import { createClient } from "@/lib/supabase/server";
@@ -15,7 +15,8 @@ export async function importBundle(json: string): Promise<ActionResult> {
   } catch {
     return { ok: false, error: "JSON inválido." };
   }
-  const result = parseImportBundle(input, await getLegend());
+  const [legend, existing] = await Promise.all([getLegend(), listStrategies()]);
+  const result = parseImportBundle(input, legend, existing);
   if (result.errors.length) return { ok: false, error: result.errors.slice(0, 10).join(" ") };
 
   const supabase = await createClient();

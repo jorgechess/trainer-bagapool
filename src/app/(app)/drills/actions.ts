@@ -60,6 +60,7 @@ const drillSchema = z.object({
   name: z.string().trim().min(1, "Informe o nome do drill."),
   description: z.string().optional(),
   steps: z.array(z.string()).min(1, "Escolha pelo menos uma estratégia."),
+  variants: z.array(z.array(z.string())).optional(),
   sampling: z.enum(["uniforme", "fronteira"]),
   tags: z.array(z.string().trim().min(1)).default([]),
   handsPerSession: z.coerce.number().int(),
@@ -72,7 +73,15 @@ export async function saveDrill(input: z.input<typeof drillSchema>): Promise<Act
   if (!parsed.success) return { ok: false, error: parsed.error.issues[0]?.message ?? "Dados inválidos." };
   const strategies = new Map((await listStrategies()).map((s) => [s.id, s]));
   const id = parsed.data.id || `${slugify(parsed.data.name) || "drill"}-${Date.now().toString(36)}`;
-  const drill: Drill = { ...parsed.data, id, tags: [...new Set(parsed.data.tags)] };
+  const variants = parsed.data.variants?.filter((v) => v.length > 0);
+  const drill: Drill = {
+    ...parsed.data,
+    id,
+    tags: [...new Set(parsed.data.tags)],
+    steps: variants?.length ? variants[0] : parsed.data.steps,
+    variants: variants && variants.length > 1 ? variants : undefined,
+  };
+  if (!drill.variants) delete drill.variants;
   const errors = validateDrill(drill, strategies);
   if (errors.length) return { ok: false, error: errors.join(" ") };
 

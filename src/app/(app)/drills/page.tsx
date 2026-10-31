@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { listDrills, listStrategies, requireProfile } from "@/lib/data";
 import { formatPercent } from "@/lib/format";
-import { drillScope, spotSummary } from "@/lib/poker/drill";
+import { drillScope, drillVariants, spotSummary } from "@/lib/poker/drill";
 import { canManageContent } from "@/lib/poker/permissions";
 
 export default async function DrillsPage() {
@@ -32,7 +32,11 @@ export default async function DrillsPage() {
       ) : (
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {drills.map((drill) => {
-            const first = strategies.get(drill.steps[0]);
+            const variants = drillVariants(drill);
+            const first = strategies.get(variants[0]?.[0] ?? "");
+            const firstPositions = [
+              ...new Set(variants.map((v) => strategies.get(v[0] ?? "")?.heroPosition).filter(Boolean)),
+            ];
             return (
               <div key={drill.id} className="card flex flex-col gap-3">
                 <div>
@@ -42,7 +46,13 @@ export default async function DrillsPage() {
                 <dl className="space-y-1 text-sm">
                   <div className="flex justify-between gap-2">
                     <dt className="text-zinc-400">Spot inicial</dt>
-                    <dd className="text-right">{first ? spotSummary(first) : "—"}</dd>
+                    <dd className="text-right">
+                      {variants.length > 1
+                        ? `${first?.situation ?? ""} · ${firstPositions.join(", ")} (sorteado)`
+                        : first
+                          ? spotSummary(first)
+                          : "—"}
+                    </dd>
                   </div>
                   <div className="flex justify-between gap-2">
                     <dt className="text-zinc-400">Escopo</dt>

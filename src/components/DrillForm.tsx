@@ -3,7 +3,14 @@
 import { useRouter } from "next/navigation";
 import { useState, useTransition } from "react";
 import { archiveDrill, saveDrill } from "@/app/(app)/drills/actions";
-import { type Drill, type HandSampling, SAMPLING_LABELS, drillScope, validateDrill } from "@/lib/poker/drill";
+import {
+  type Drill,
+  type HandSampling,
+  SAMPLING_LABELS,
+  drillScope,
+  drillVariants,
+  validateDrill,
+} from "@/lib/poker/drill";
 import { STREET_LABELS, type Strategy } from "@/lib/poker/strategy";
 
 interface DrillFormProps {
@@ -16,12 +23,12 @@ export function DrillForm({ drill, strategies }: DrillFormProps) {
   const [pending, startTransition] = useTransition();
   const [name, setName] = useState(drill?.name ?? "");
   const [description, setDescription] = useState(drill?.description ?? "");
-  const [steps, setSteps] = useState<string[]>(drill?.steps ?? []);
+  const [variants, setVariants] = useState<string[][]>(drill ? drillVariants(drill) : [[]]);
   const [sampling, setSampling] = useState<HandSampling>(drill?.sampling ?? "uniforme");
   const [tags, setTags] = useState((drill?.tags ?? []).join(", "));
   const [handsPerSession, setHandsPerSession] = useState(drill?.handsPerSession ?? 50);
   const [passPercent, setPassPercent] = useState(Math.round((drill?.passAccuracy ?? 0.9) * 100));
-  const [toAdd, setToAdd] = useState("");
+  const [toAdd, setToAdd] = useState<string[]>([]);
   const [error, setError] = useState<string | null>(null);
 
   const strategyMap = new Map(strategies.map((s) => [s.id, s]));
@@ -29,7 +36,8 @@ export function DrillForm({ drill, strategies }: DrillFormProps) {
     id: drill?.id ?? "novo",
     name,
     description,
-    steps,
+    steps: variants[0] ?? [],
+    ...(variants.length > 1 ? { variants } : {}),
     sampling,
     tags: tags
       .split(",")
@@ -38,10 +46,15 @@ export function DrillForm({ drill, strategies }: DrillFormProps) {
     handsPerSession,
     passAccuracy: passPercent / 100,
   };
-  const problems = steps.length ? validateDrill(draft, strategyMap).filter((p) => !p.includes("nome")) : [];
+  const hasSteps = variants.some((v) => v.length > 0);
+  const problems = hasSteps ? validateDrill(draft, strategyMap).filter((p) => !p.includes("nome")) : [];
 
-  function move(index: number, delta: number) {
-    setSteps((current) => {
+  function setVariant(index: number, update: (steps: string[]) => string[]) {
+    setVariants((current) => current.map((v, i) => (i === index ? update(v) : v)));
+  }
+
+  function move(variant: number, index: number, delta: number) {
+    setVariant(variant, (current) => {
       const copy = [...current];
       const target = index + delta;
       if (target < 0 || target >= copy.length) return current;
@@ -54,7 +67,7 @@ export function DrillForm({ drill, strategies }: DrillFormProps) {
     event.preventDefault();
     setError(null);
     startTransition(async () => {
-      const result = await saveDrill({ ...draft, id: drill?.id });
+      const result = await saveDrill({ ...draft, id: drill?.id, variants: variants.length > 1 ? variants : undefined });
       if (!result.ok) setError(result.error);
       else router.push("/drills");
     });
@@ -132,65 +145,101 @@ export function DrillForm({ drill, strategies }: DrillFormProps) {
           <h2 className="font-semibold">Decisões do drill</h2>
           <p className="muted">
             Escolha as estratégias na ordem em que as decisões acontecem. Uma estratégia só = treino de uma ação;
-            várias = a mão continua pela linha correta até a última.
+            várias = a mão continua pela linha correta até a última. Com mais de uma variação, cada mão sorteia uma
+            delas (ex.: RFI de todas as posições).
           </p>
         </div>
-        {steps.length > 0 && (
-          <ol className="space-y-2">
-            {steps.map((id, index) => {
-              const s = strategyMap.get(id);
-              return (
-                <li key={`${id}-${index}`} className="flex items-center gap-2 rounded-lg bg-zinc-950 p-2">
-                  <span className="w-6 text-center text-sm text-zinc-500">{index + 1}</span>
-                  <span className="flex-1 text-sm">
-                    {s ? (
-                      <>
-                        <span className="text-orange-300">{STREET_LABELS[s.street]}</span> · {s.name}
-                      </>
-                    ) : (
-                      <span className="text-red-400">Estratégia removida ({id})</span>
-                    )}
-                  </span>
-                  <button type="button" className="btn-secondary px-2 py-1" onClick={() => move(index, -1)}>
-                    ↑
-                  </button>
-                  <button type="button" className="btn-secondary px-2 py-1" onClick={() => move(index, 1)}>
-                    ↓
-                  </button>
-                  <button
-                    type="button"
-                    className="btn-danger px-2 py-1"
-                    onClick={() => setSteps((c) => c.filter((_, i) => i !== index))}
-                  >
-                    ✕
-                  </button>
-                </li>
-              );
-            })}
-          </ol>
-        )}
-        <div className="flex gap-2">
-          <select className="input" value={toAdd} onChange={(e) => setToAdd(e.target.value)}>
-            <option value="">Escolha uma estratégia...</option>
-            {strategies.map((s) => (
-              <option key={s.id} value={s.id}>
-                {STREET_LABELS[s.street]} · {s.name}
-              </option>
-            ))}
-          </select>
-          <button
-            type="button"
-            className="btn-secondary"
-            disabled={!toAdd}
-            onClick={() => {
-              setSteps((c) => [...c, toAdd]);
-              setToAdd("");
-            }}
-          >
-            Adicionar
-          </button>
-        </div>
-        {steps.length > 0 && <p className="text-sm text-zinc-400">Escopo: {drillScope(draft, strategyMap)}</p>}
+        {variants.map((steps, variantIndex) => (
+          <div key={variantIndex} className="space-y-2 rounded-lg border border-zinc-800 p-3">
+            {variants.length > 1 && (
+              <div className="flex items-center justify-between">
+                <span className="text-sm font-medium text-zinc-300">Variação {variantIndex + 1}</span>
+                <button
+                  type="button"
+                  className="btn-danger px-2 py-1"
+                  onClick={() => setVariants((c) => c.filter((_, i) => i !== variantIndex))}
+                >
+                  Remover variação
+                </button>
+              </div>
+            )}
+            {steps.length > 0 && (
+              <ol className="space-y-2">
+                {steps.map((id, index) => {
+                  const s = strategyMap.get(id);
+                  return (
+                    <li key={`${id}-${index}`} className="flex items-center gap-2 rounded-lg bg-zinc-950 p-2">
+                      <span className="w-6 text-center text-sm text-zinc-500">{index + 1}</span>
+                      <span className="flex-1 text-sm">
+                        {s ? (
+                          <>
+                            <span className="text-orange-300">{STREET_LABELS[s.street]}</span> · {s.name}
+                          </>
+                        ) : (
+                          <span className="text-red-400">Estratégia removida ({id})</span>
+                        )}
+                      </span>
+                      <button type="button" className="btn-secondary px-2 py-1" onClick={() => move(variantIndex, index, -1)}>
+                        ↑
+                      </button>
+                      <button type="button" className="btn-secondary px-2 py-1" onClick={() => move(variantIndex, index, 1)}>
+                        ↓
+                      </button>
+                      <button
+                        type="button"
+                        className="btn-danger px-2 py-1"
+                        onClick={() => setVariant(variantIndex, (c) => c.filter((_, i) => i !== index))}
+                      >
+                        ✕
+                      </button>
+                    </li>
+                  );
+                })}
+              </ol>
+            )}
+            <div className="flex gap-2">
+              <select
+                className="input"
+                value={toAdd[variantIndex] ?? ""}
+                onChange={(e) =>
+                  setToAdd((c) => {
+                    const copy = [...c];
+                    copy[variantIndex] = e.target.value;
+                    return copy;
+                  })
+                }
+              >
+                <option value="">Escolha uma estratégia...</option>
+                {strategies.map((s) => (
+                  <option key={s.id} value={s.id}>
+                    {STREET_LABELS[s.street]} · {s.name}
+                  </option>
+                ))}
+              </select>
+              <button
+                type="button"
+                className="btn-secondary"
+                disabled={!toAdd[variantIndex]}
+                onClick={() => {
+                  const id = toAdd[variantIndex];
+                  if (!id) return;
+                  setVariant(variantIndex, (c) => [...c, id]);
+                  setToAdd((c) => {
+                    const copy = [...c];
+                    copy[variantIndex] = "";
+                    return copy;
+                  });
+                }}
+              >
+                Adicionar
+              </button>
+            </div>
+          </div>
+        ))}
+        <button type="button" className="btn-secondary" onClick={() => setVariants((c) => [...c, []])}>
+          Adicionar variação
+        </button>
+        {hasSteps && <p className="text-sm text-zinc-400">Escopo: {drillScope(draft, strategyMap)}</p>}
         {problems.length > 0 && (
           <ul className="list-disc pl-5 text-sm text-amber-400">
             {problems.map((p) => (

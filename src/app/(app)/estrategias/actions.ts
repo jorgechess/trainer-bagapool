@@ -3,6 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { getLegend, listDrills, requireContentManager } from "@/lib/data";
 import type { ActionResult } from "@/lib/format";
+import { drillStrategyIds } from "@/lib/poker/drill";
 import { slugify } from "@/lib/poker/importer";
 import { compactRange } from "@/lib/poker/range";
 import { POSITIONS, STREETS, type Strategy, validateStrategy } from "@/lib/poker/strategy";
@@ -64,7 +65,7 @@ export async function saveStrategy(input: Strategy, isNew: boolean): Promise<Act
 
 export async function deleteStrategy(id: string): Promise<ActionResult> {
   await requireContentManager();
-  const usedBy = (await listDrills()).filter((d) => d.steps.includes(id));
+  const usedBy = (await listDrills()).filter((d) => drillStrategyIds(d).includes(id));
   if (usedBy.length)
     return {
       ok: false,

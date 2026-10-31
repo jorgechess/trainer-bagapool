@@ -1,9 +1,9 @@
 import { ImportForm } from "@/components/ImportForm";
-import { getLegend, requireContentManager } from "@/lib/data";
+import { getLegend, listStrategies, requireContentManager } from "@/lib/data";
 
 export default async function ImportPage() {
   await requireContentManager();
-  const legend = await getLegend();
+  const [legend, strategies] = await Promise.all([getLegend(), listStrategies()]);
   return (
     <div className="space-y-6">
       <div>
@@ -13,7 +13,7 @@ export default async function ImportPage() {
           id são substituídos, então dá para importar de novo depois de corrigir.
         </p>
       </div>
-      <ImportForm legend={legend} />
+      <ImportForm legend={legend} strategies={strategies} />
     </div>
   );
 }

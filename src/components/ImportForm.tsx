@@ -6,9 +6,9 @@ import { IMPORT_EXAMPLE } from "@/lib/import-example";
 import type { ActionResult } from "@/lib/format";
 import { parseImportBundle } from "@/lib/poker/importer";
 import type { Legend } from "@/lib/poker/legend";
-import { STREET_LABELS } from "@/lib/poker/strategy";
+import { STREET_LABELS, type Strategy } from "@/lib/poker/strategy";
 
-export function ImportForm({ legend }: { legend: Legend }) {
+export function ImportForm({ legend, strategies }: { legend: Legend; strategies: Strategy[] }) {
   const [text, setText] = useState("");
   const [result, setResult] = useState<ActionResult | null>(null);
   const [pending, startTransition] = useTransition();
@@ -16,11 +16,11 @@ export function ImportForm({ legend }: { legend: Legend }) {
   const preview = useMemo(() => {
     if (!text.trim()) return null;
     try {
-      return parseImportBundle(JSON.parse(text), legend);
+      return parseImportBundle(JSON.parse(text), legend, strategies);
     } catch {
       return { legend: null, strategies: [], drills: [], errors: ["JSON inválido: confira vírgulas, aspas e chaves."] };
     }
-  }, [text, legend]);
+  }, [text, legend, strategies]);
 
   return (
     <div className="space-y-4">
@@ -87,7 +87,7 @@ export function ImportForm({ legend }: { legend: Legend }) {
               <ul className="pl-4">
                 {preview.drills.map((d) => (
                   <li key={d.id}>
-                    {d.name} <span className="text-zinc-500">({d.steps.length} decisão/ões)</span>
+                    {d.name} <span className="text-zinc-500">({d.variants ? `${d.variants.length} variações` : `${d.steps.length} decisão/ões`})</span>
                   </li>
                 ))}
               </ul>

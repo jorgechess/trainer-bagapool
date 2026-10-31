@@ -1,6 +1,7 @@
 // Teste de ponta a ponta: sobe o site contra um Supabase local e usa o navegador como um jogador faria.
 // Uso: BASE_URL=http://localhost:3000 API_URL=... SERVICE_ROLE_KEY=... node scripts/e2e.mjs
 import { mkdir } from "node:fs/promises";
+import { readFileSync } from "node:fs";
 import assert from "node:assert/strict";
 import { chromium } from "playwright";
 
@@ -123,9 +124,9 @@ async function main() {
     await page.locator("input").first().fill("RFI até o flop");
     const select = page.locator("select").filter({ hasText: "Escolha uma estratégia" });
     await select.selectOption({ label: "Pré-flop · RFI BTN max late 2:1" });
-    await page.getByRole("button", { name: "Adicionar" }).click();
+    await page.getByRole("button", { name: "Adicionar", exact: true }).click();
     await select.selectOption({ label: "Flop · Cbet BTN vs BB" });
-    await page.getByRole("button", { name: "Adicionar" }).click();
+    await page.getByRole("button", { name: "Adicionar", exact: true }).click();
     await page.getByText("Escopo: Do pré-flop ao flop").waitFor();
     await shot(page, "novo-drill");
     await page.getByRole("button", { name: "Salvar drill" }).click();
@@ -204,6 +205,31 @@ async function main() {
     await page.getByText(/Muito fora · abaixo/).waitFor();
     await shot(page, "plano");
     log("plano do mês gerado a partir dos standards");
+
+    // 9b. Carga real: RFI 30bb vanilla (7 posições) e drill com variações
+    await page.goto(`${BASE_URL}/admin/importar`);
+    await page.locator("textarea").fill(readFileSync("cargas/rfi-30bb-vanilla.json", "utf8"));
+    await page.getByText("Tudo certo para importar.").waitFor();
+    await page.getByRole("button", { name: "Importar", exact: true }).click();
+    await page.getByText(/Importado:/).waitFor();
+    assert.equal(await countRows("strategies"), 9);
+    assert.equal(await countRows("drills"), 3);
+    await page.goto(`${BASE_URL}/drills`);
+    const rfiCard = page.locator(".card").filter({ hasText: "RFI 30bb vanilla" });
+    await rfiCard.getByText("(sorteado)").waitFor();
+    await rfiCard.getByRole("link", { name: "Treinar" }).click();
+    await page.getByText("Sua mão").waitFor();
+    await page.getByLabel("Avançar sozinho quando acertar").uncheck();
+    const positions = new Set();
+    for (let hand = 0; hand < 14; hand++) {
+      const spot = await page.getByText(/^RFI · \w+ · 30bb$/).textContent();
+      positions.add(spot.split(" · ")[1]);
+      await page.locator("div.grid button:not([disabled])").first().click();
+      await page.getByRole("button", { name: "Continuar" }).click();
+    }
+    await shot(page, "treino-rfi-variacoes");
+    assert.ok(positions.size >= 3, `sorteou várias posições: ${[...positions].join(", ")}`);
+    log(`carga RFI 30bb importada; drill sorteou ${[...positions].join(", ")}`);
 
     // 10. Cadastra pool e jogador
     await page.goto(`${BASE_URL}/admin/jogadores`);

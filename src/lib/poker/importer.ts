@@ -48,7 +48,9 @@ export interface ImportDrill {
   name: string;
   description?: string;
   /** Ids ou nomes das estratégias, em ordem. */
-  steps: string[];
+  steps?: string[];
+  /** Variações: cada mão sorteia uma (lista de sequências de ids ou nomes). */
+  variants?: string[][];
   sampling?: HandSampling;
   tags?: string[];
   handsPerSession?: number;
@@ -98,9 +100,14 @@ function toRange(notation: unknown, where: string, errors: string[]): Range {
 
 /**
  * Converte o JSON da carga inicial em estratégias e drills validados.
- * `legend` é a legenda atual do time, usada se o arquivo não trouxer uma.
+ * `currentLegend` é a legenda atual do time, usada se o arquivo não trouxer uma;
+ * `existingStrategies` são as já cadastradas, que os drills do arquivo podem usar.
  */
-export function parseImportBundle(input: unknown, currentLegend: Legend): ImportResult {
+export function parseImportBundle(
+  input: unknown,
+  currentLegend: Legend,
+  existingStrategies: readonly Strategy[] = [],
+): ImportResult {
   const errors: string[] = [];
   if (!isObject(input)) return { legend: null, strategies: [], drills: [], errors: ["O arquivo precisa ser um objeto JSON."] };
   const bundle = input as ImportBundle;
@@ -163,14 +170,21 @@ export function parseImportBundle(input: unknown, currentLegend: Legend): Import
     strategies.push(strategy);
   }
 
-  const byId = new Map(strategies.map((s) => [s.id, s]));
-  const byName = new Map(strategies.map((s) => [s.name.toLowerCase(), s]));
+  // Drills podem usar estratégias do arquivo ou já cadastradas (as do arquivo têm preferência).
+  const all = [...existingStrategies, ...strategies];
+  const byId = new Map(all.map((s) => [s.id, s]));
+  const byName = new Map(all.map((s) => [s.name.toLowerCase(), s]));
   const drills: Drill[] = [];
   const drillIds = new Set<string>();
   for (const [index, raw] of (bundle.drills ?? []).entries()) {
     const where = `Drill ${index + 1}${raw && isObject(raw) && raw.name ? ` ("${raw.name}")` : ""}`;
-    if (!isObject(raw) || !Array.isArray(raw.steps)) {
-      errors.push(`${where}: formato inválido (precisa de "steps").`);
+    const rawVariants: unknown[] | null = Array.isArray(raw?.variants) && raw.variants.length
+      ? raw.variants
+      : Array.isArray(raw?.steps)
+        ? [raw.steps]
+        : null;
+    if (!isObject(raw) || !rawVariants || !rawVariants.every(Array.isArray)) {
+      errors.push(`${where}: formato inválido (precisa de "steps" ou "variants").`);
       continue;
     }
     const id = raw.id ? String(raw.id) : slugify(String(raw.name ?? `drill-${index + 1}`));
@@ -179,16 +193,19 @@ export function parseImportBundle(input: unknown, currentLegend: Legend): Import
       continue;
     }
     drillIds.add(id);
-    const steps = raw.steps.map((ref) => {
-      const strategy = byId.get(ref) ?? byName.get(String(ref).toLowerCase());
-      if (!strategy) errors.push(`${where}: estratégia "${ref}" não encontrada no arquivo.`);
+    const resolve = (ref: unknown) => {
+      const strategy = byId.get(String(ref)) ?? byName.get(String(ref).toLowerCase());
+      if (!strategy) errors.push(`${where}: estratégia "${ref}" não encontrada.`);
       return strategy?.id ?? String(ref);
-    });
+    };
+    const variants = (rawVariants as unknown[][]).map((line) => line.map(resolve));
+    const steps = variants[0];
     const drill: Drill = {
       id,
       name: String(raw.name ?? ""),
       description: raw.description,
       steps,
+      ...(variants.length > 1 ? { variants } : {}),
       sampling: raw.sampling ?? "uniforme",
       tags: raw.tags ?? [],
       handsPerSession: raw.handsPerSession ?? 50,
@@ -196,7 +213,7 @@ export function parseImportBundle(input: unknown, currentLegend: Legend): Import
     };
     errors.push(
       ...validateDrill(drill, byId)
-        .filter((e) => !e.startsWith("Estratégia não encontrada"))
+        .filter((e) => !e.includes("Estratégia não encontrada"))
         .map((e) => `${where}: ${e}`),
     );
     drills.push(drill);

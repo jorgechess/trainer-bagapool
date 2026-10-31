@@ -1,6 +1,6 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { buildAttempt, dealQuestion, drillScope, gradeSubmission, isCorrect, spotSummary, summarizeSession, validateDrill } from "../drill";
+import { buildAttempt, dealQuestion, drillScope, drillStrategyIds, gradeSubmission, isCorrect, spotSummary, summarizeSession, validateDrill } from "../drill";
 import { combosOf } from "../hands";
 import { DEFAULT_LEGEND } from "../legend";
 import { borderHands } from "../range";
@@ -157,4 +157,27 @@ test("correção, registro da tentativa e resumo da sessão", () => {
   assert.equal(summary.accuracy, 0.75);
   assert.equal(summary.passed, true);
   assert.equal(summarizeSession([], 0.5).passed, false);
+});
+
+test("variações: cada mão sorteia uma das sequências", () => {
+  const rfiCo = { ...rfiBtn, id: "rfi-co", name: "RFI CO", heroPosition: "CO" as const };
+  const map = new Map([...strategies, [rfiCo.id, rfiCo]]);
+  const drill = { ...preflopDrill, steps: [rfiBtn.id], variants: [[rfiBtn.id], [rfiCo.id]] };
+  assert.deepEqual(validateDrill(drill, map), []);
+  assert.deepEqual(drillStrategyIds(drill).sort(), [rfiBtn.id, rfiCo.id].sort());
+  assert.equal(drillScope(drill, map), "Uma decisão (pré-flop)");
+  const rng = seededRng(5);
+  const seen = new Set<string>();
+  for (let i = 0; i < 200; i++) seen.add(dealQuestion(drill, map, DEFAULT_LEGEND, rng).steps[0].strategyId);
+  assert.deepEqual([...seen].sort(), [rfiBtn.id, rfiCo.id].sort());
+  // a correção aceita qualquer estratégia de qualquer variação, e só delas
+  assert.equal(gradeSubmission(drill, rfiCo, ["As", "Ad"], [], "rfi").correct, true);
+  assert.throws(() => gradeSubmission(drill, cbetFlop, ["As", "Ad"], ["2c", "3c", "4d"], "check"), /não faz parte/);
+  // variação vazia ou fora de ordem é apontada com o número da variação
+  const bad = { ...drill, variants: [[rfiBtn.id], [], [turnBarrel.id, rfiBtn.id]] };
+  const errors = validateDrill(bad, map);
+  assert.ok(errors.some((e) => e.startsWith("Variação 2:")));
+  assert.ok(errors.some((e) => e.startsWith("Variação 3:") && e.includes("fora de ordem")));
+  // escopo combina as variações
+  assert.equal(drillScope({ ...drill, variants: [[rfiBtn.id], [rfiBtn.id, cbetFlop.id]] }, map), "Do pré-flop ao flop");
 });

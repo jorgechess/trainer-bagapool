@@ -84,3 +84,19 @@ test("aceita legenda própria e valida", () => {
   assert.ok(bad.errors.some((e) => e.startsWith("Legenda:")));
   assert.equal(bad.legend, null);
 });
+
+test("importa drill com variações e usa estratégias já cadastradas", () => {
+  const first = parseImportBundle(bundle, DEFAULT_LEGEND);
+  const result = parseImportBundle(
+    { drills: [{ name: "Mix", variants: [["RFI BTN 2:1 ≤15bb"], ["cbet-btn"]] }] },
+    DEFAULT_LEGEND,
+    first.strategies,
+  );
+  assert.deepEqual(result.errors, []);
+  assert.equal(result.drills[0].variants?.length, 2);
+  assert.deepEqual(result.drills[0].steps, [first.strategies[0].id]);
+  const missing = parseImportBundle({ drills: [{ name: "X", variants: [["nada"]] }] }, DEFAULT_LEGEND);
+  assert.ok(missing.errors.some((e) => e.includes('"nada" não encontrada')));
+  const malformed = parseImportBundle({ drills: [{ name: "Y", variants: ["nao-e-lista"] }] }, DEFAULT_LEGEND);
+  assert.ok(malformed.errors.some((e) => e.includes("formato inválido")));
+});
