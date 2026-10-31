@@ -7,6 +7,8 @@ interface PokerTableProps {
   strategy: Strategy;
   heroCards: [Card, Card];
   board: Card[];
+  /** Descrição da textura, mostrada embaixo do board. */
+  texture?: string | null;
 }
 
 const SEAT_COUNT = 9;
@@ -38,7 +40,7 @@ function SeatView({ seat, stack, heroCards }: { seat: Seat; stack: string; heroC
   const folded = seat.status === "folded";
   return (
     <div
-      className="absolute flex -translate-x-1/2 -translate-y-1/2 flex-col items-center gap-1"
+      className={`absolute flex -translate-x-1/2 flex-col items-center gap-1 ${hero ? "-translate-y-[78%]" : "-translate-y-1/2"}`}
       style={(({ x, y }) => at(x, y))(seatPlacement(seat.offset))}
     >
       {hero ? (
@@ -75,14 +77,14 @@ function SeatView({ seat, stack, heroCards }: { seat: Seat; stack: string; heroC
   );
 }
 
-export function PokerTable({ strategy, heroCards, board }: PokerTableProps) {
+export function PokerTable({ strategy, heroCards, board, texture }: PokerTableProps) {
   const seats = tableSeats(strategy);
   const stack = formatNumberRange(strategy.stack, "bb");
   const pot = knownPot(strategy);
   const button = seats.find((s) => s.isButton);
 
   return (
-    <div className="relative mx-auto aspect-[16/11] w-full max-w-2xl select-none sm:aspect-[16/10]">
+    <div className="relative mx-auto mb-2 aspect-[16/12] w-full max-w-2xl select-none sm:aspect-[16/10.5]">
       {/* Mesa */}
       <div className="absolute inset-[10%_8%] rounded-[50%] border-[6px] border-amber-950 bg-gradient-to-b from-emerald-800 to-emerald-950 shadow-[inset_0_0_40px_rgba(0,0,0,0.6)] sm:border-8" />
 
@@ -95,6 +97,7 @@ export function PokerTable({ strategy, heroCards, board }: PokerTableProps) {
             ))}
           </div>
         )}
+        {texture && <span className="text-[10px] text-emerald-100/70 sm:text-xs">{texture}</span>}
         {pot !== null && (
           <span className="rounded-full bg-black/40 px-2.5 py-0.5 text-[10px] text-zinc-100 sm:text-xs">
             Pote: {pot.toLocaleString("pt-BR")}bb
@@ -120,7 +123,11 @@ export function PokerTable({ strategy, heroCards, board }: PokerTableProps) {
       {button && (
         <div
           className="absolute flex h-5 w-5 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-white text-[10px] font-bold text-black shadow sm:h-6 sm:w-6 sm:text-xs"
-          style={towardCenter(button.offset, button.offset === 0 ? 0.62 : 0.7)}
+          style={
+            button.offset === 0
+              ? (({ x, y }) => at(x + 13, y - 10))(seatPlacement(0))
+              : towardCenter(button.offset, 0.7)
+          }
           title="Dealer"
         >
           D
