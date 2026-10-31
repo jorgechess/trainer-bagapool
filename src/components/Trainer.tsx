@@ -65,6 +65,8 @@ interface SlotApi {
   choose: (actionId: string) => void;
   next: () => void;
   options: string[];
+  /** A decisão atual desta mesa já foi respondida. */
+  answered: boolean;
 }
 
 const PEEK_KEY = "trainer:mostrar-resposta";
@@ -214,8 +216,8 @@ function TableSlot({
   }, [chosen, isCorrect, autoAdvance, next]);
 
   useEffect(() => {
-    register(index, step && !done ? { choose, next, options: step.options } : null);
-  }, [index, step, done, choose, next, register]);
+    register(index, step && !done ? { choose, next, options: step.options, answered: chosen !== null } : null);
+  }, [index, step, done, chosen, choose, next, register]);
 
   useEffect(() => () => register(index, null), [index, register]);
 
@@ -498,14 +500,17 @@ export function Trainer({ drill, strategies, legend }: TrainerProps) {
   const showPanelRange = Boolean(panel && panelRange && (panel.chosen || peek));
 
   // Atalhos: teclado e botões do mouse, definidos pelo jogador na tela Atalhos.
-  const targetsRef = useRef({ choose: -1, next: -1 });
-  targetsRef.current = { choose: chooseTarget, next: nextTarget };
+  const tableCountRef = useRef(tableCount);
+  tableCountRef.current = tableCount;
   const togglePeekRef = useRef(togglePeek);
   togglePeekRef.current = togglePeek;
   useEffect(() => {
     if (finished) return;
     function run(input: string, digit: number | null, event: Event): boolean {
-      const { choose, next } = targetsRef.current;
+      // Consulta as mesas na hora: a primeira sem resposta recebe a ação; a primeira respondida, o "continuar".
+      const apis = slotApis.current.slice(0, tableCountRef.current);
+      const choose = apis.findIndex((a) => a && !a.answered);
+      const next = apis.findIndex((a) => a?.answered);
       const command = commandFor(bindings, input);
       if (command === CONTINUE_COMMAND) {
         if (next < 0) return false;
@@ -517,8 +522,6 @@ export function Trainer({ drill, strategies, legend }: TrainerProps) {
         return true;
       }
       const api = choose >= 0 ? slotApis.current[choose] : null;
-      if ((window as unknown as { __trainerDebug?: boolean }).__trainerDebug)
-        console.info("atalho", input, command, choose, next, api ? api.options.join(",") : "sem mesa");
       if (command) {
         if (api?.options.includes(command)) {
           api.choose(command);
