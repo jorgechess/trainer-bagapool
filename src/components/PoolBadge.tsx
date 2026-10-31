@@ -72,7 +72,7 @@ export function PoolChip({ pool, compact }: { pool: PoolLook | null; compact?: b
         <img src={image} alt="" width={20} height={20} className="h-5 w-5 rounded-full object-contain" />
       ) : (
         <span
-          className="font-display flex h-5 w-5 items-center justify-center rounded-full text-[11px] text-black"
+          className="flex h-5 w-5 items-center justify-center rounded-full text-[11px] font-black text-black"
           style={{ backgroundColor: pool.color }}
         >
           {pool.logo && BAGA_MARKS[pool.logo] ? "B" : initials(pool.name).slice(0, 1)}

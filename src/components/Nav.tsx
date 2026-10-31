@@ -49,12 +49,12 @@ export function Nav({ name, pool, canManageContent, canManageMembers }: NavProps
         <Link href="/" aria-label="Baga Trainer — início">
           <BagaWordmark size="sm" />
         </Link>
-        <nav className="hidden flex-1 flex-wrap gap-1 lg:flex">
+        <nav className="hidden flex-1 gap-0.5 xl:flex">
           {links.map((link) => (
             <Link
               key={link.href}
               href={link.href}
-              className={`rounded-md px-3 py-1.5 text-sm ${
+              className={`rounded-md px-2.5 py-1.5 text-sm whitespace-nowrap ${
                 isActive(link.href) ? "bg-baga-red/15 text-baga-cream" : "text-zinc-400 hover:text-white"
               }`}
             >
@@ -62,18 +62,18 @@ export function Nav({ name, pool, canManageContent, canManageMembers }: NavProps
             </Link>
           ))}
         </nav>
-        <div className="ml-auto hidden items-center gap-3 lg:flex">
+        <div className="ml-auto hidden items-center gap-3 xl:flex">
           <span className="text-sm text-zinc-300">{name}</span>
           <PoolChip pool={pool} />
           <button onClick={logout} className="btn-secondary px-3 py-1.5">
             Sair
           </button>
         </div>
-        <span className="ml-auto lg:hidden">
+        <span className="ml-auto xl:hidden">
           <PoolChip pool={pool} compact />
         </span>
         <button
-          className="btn-secondary px-3 py-1.5 lg:hidden"
+          className="btn-secondary px-3 py-1.5 xl:hidden"
           onClick={() => setOpen((v) => !v)}
           aria-expanded={open}
           aria-label="Menu"
@@ -82,7 +82,7 @@ export function Nav({ name, pool, canManageContent, canManageMembers }: NavProps
         </button>
       </div>
       {open && (
-        <nav className="border-t border-zinc-800 px-4 py-2 lg:hidden">
+        <nav className="border-t border-zinc-800 px-4 py-2 xl:hidden">
           {links.map((link) => (
             <Link
               key={link.href}
