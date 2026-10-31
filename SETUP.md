@@ -29,8 +29,13 @@ Só o admin cadastra jogadores, então ninguém pode criar conta sozinho:
 3. Volte ao **SQL Editor** e rode, trocando pelo seu e-mail:
 
    ```sql
-   update public.profiles set role = 'admin', name = 'Jorge' where email = 'seu-email@exemplo.com';
+   update public.profiles
+   set role = 'admin', name = 'Jorge'
+   where lower(email) = lower('seu-email@exemplo.com')
+   returning email, name, role;
    ```
+
+   O resultado precisa mostrar uma linha com `role = admin`. Se vier vazio, o e-mail não bate com o cadastrado: confira com `select email, role from public.profiles;`.
 
 Depois disso, todos os outros jogadores são cadastrados pelo próprio site, na tela **Jogadores**.
 
