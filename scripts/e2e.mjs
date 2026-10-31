@@ -355,7 +355,11 @@ async function main() {
     await page.keyboard.press("KeyE");
     await page.locator("[data-feedback]").waitFor({ state: "detached" });
     assert.match(await page.getByTestId("hand-counter").innerText(), /2\/50/);
+    page.on("console", (m) => {
+      if (m.text().startsWith("atalho")) console.error("DEBUG", m.text());
+    });
     await page.evaluate(() => {
+      window.__trainerDebug = true;
       window.__md = [];
       window.addEventListener("mousedown", (e) => window.__md.push(`${e.button}:${e.defaultPrevented}`));
     });

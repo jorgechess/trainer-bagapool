@@ -517,6 +517,8 @@ export function Trainer({ drill, strategies, legend }: TrainerProps) {
         return true;
       }
       const api = choose >= 0 ? slotApis.current[choose] : null;
+      if ((window as unknown as { __trainerDebug?: boolean }).__trainerDebug)
+        console.info("atalho", input, command, choose, next, api ? api.options.join(",") : "sem mesa");
       if (command) {
         if (api?.options.includes(command)) {
           api.choose(command);
