@@ -15,6 +15,7 @@ import {
   filterDrillByPositions,
   spotSummary,
 } from "@/lib/poker/drill";
+import type { Card } from "@/lib/poker/cards";
 import { type Legend, findAction, textColorFor } from "@/lib/poker/legend";
 import { STREET_LABELS, type Strategy, resolveRange } from "@/lib/poker/strategy";
 import { boardTexture, describeFlop } from "@/lib/poker/texture";
@@ -38,7 +39,18 @@ interface Decision {
 
 type Submission = { drillId: string; decisions: Omit<Decision, "correctActionId" | "hand" | "peeked">[] };
 
+/** O que cada mesa está mostrando agora (para o painel de range e o teclado). */
+interface SlotState {
+  strategyId: string;
+  board: string[];
+  hand: string;
+  chosen: string | null;
+}
+
 const PEEK_KEY = "trainer:mostrar-resposta";
+const TABLES_KEY = "trainer:mesas";
+export const TABLE_OPTIONS = [1, 2, 4] as const;
+type TableCount = (typeof TABLE_OPTIONS)[number];
 
 function EyeIcon({ open }: { open: boolean }) {
   return (
@@ -50,20 +62,259 @@ function EyeIcon({ open }: { open: boolean }) {
   );
 }
 
-export function Trainer({ drill, strategies, legend }: TrainerProps) {
-  const strategyMap = useMemo(() => new Map(strategies.map((s) => [s.id, s])), [strategies]);
+function readStorage(key: string): string | null {
+  try {
+    return localStorage.getItem(key);
+  } catch {
+    return null;
+  }
+}
+
+function writeStorage(key: string, value: string) {
+  try {
+    localStorage.setItem(key, value);
+  } catch {
+    // armazenamento indisponível: a preferência vale só nesta visita
+  }
+}
+
+interface TableSlotProps {
+  index: number;
+  tableCount: TableCount;
+  drill: Drill;
+  strategyMap: Map<string, Strategy>;
+  legend: Legend;
+  vertical: boolean;
+  peek: boolean;
+  autoAdvance: boolean;
+  /** Este slot recebe o atalho do teclado: "choose" (1, 2, 3...) ou "next" (Enter). */
+  keyboard: "choose" | "next" | null;
+  onDecision: (decision: Decision) => void;
+  /** Avisa que a mão acabou; devolve se a sessão continua (e a mesa recebe outra mão). */
+  onHandComplete: (decisions: Decision[]) => boolean;
+  onState: (index: number, state: SlotState | null) => void;
+  onError: (message: string) => void;
+}
+
+/** Uma mesa com a sua própria mão. */
+function TableSlot({
+  index,
+  tableCount,
+  drill,
+  strategyMap,
+  legend,
+  vertical,
+  peek,
+  autoAdvance,
+  keyboard,
+  onDecision,
+  onHandComplete,
+  onState,
+  onError,
+}: TableSlotProps) {
   const [question, setQuestion] = useState<HandQuestion | null>(null);
   const [stepIndex, setStepIndex] = useState(0);
   const [chosen, setChosen] = useState<string | null>(null);
-  const [decisions, setDecisions] = useState<Decision[]>([]);
   const [handDecisions, setHandDecisions] = useState<Decision[]>([]);
+  const [done, setDone] = useState(false);
+
+  const deal = useCallback(() => {
+    try {
+      setQuestion(dealQuestion(drill, strategyMap, legend));
+      setStepIndex(0);
+      setChosen(null);
+      setHandDecisions([]);
+    } catch (error) {
+      onError((error as Error).message);
+    }
+  }, [drill, strategyMap, legend, onError]);
+
+  useEffect(() => {
+    deal();
+  }, [deal]);
+
+  const step = question?.steps[stepIndex];
+  const strategy = step ? strategyMap.get(step.strategyId) : undefined;
+
+  useEffect(() => {
+    onState(
+      index,
+      question && step && !done
+        ? { strategyId: step.strategyId, board: step.board, hand: question.hand, chosen }
+        : null,
+    );
+  }, [index, question, step, chosen, done, onState]);
+
+  useEffect(() => () => onState(index, null), [index, onState]);
+
+  const choose = useCallback(
+    (actionId: string) => {
+      if (!question || !step || chosen || done) return;
+      setChosen(actionId);
+      const decision: Decision = {
+        strategyId: step.strategyId,
+        heroCards: question.heroCards,
+        board: step.board,
+        chosenActionId: actionId,
+        correctActionId: step.correctActionId,
+        hand: question.hand,
+        peeked: peek,
+      };
+      setHandDecisions((d) => [...d, decision]);
+      onDecision(decision);
+    },
+    [question, step, chosen, done, peek, onDecision],
+  );
+
+  const next = useCallback(() => {
+    if (!question || !chosen || done) return;
+    if (stepIndex + 1 < question.steps.length) {
+      setStepIndex((i) => i + 1);
+      setChosen(null);
+      return;
+    }
+    if (onHandComplete(handDecisions)) deal();
+    else setDone(true);
+  }, [question, chosen, done, stepIndex, handDecisions, onHandComplete, deal]);
+
+  const isCorrect = chosen !== null && step !== undefined && chosen === step.correctActionId;
+
+  useEffect(() => {
+    if (chosen && isCorrect && autoAdvance) {
+      const timer = setTimeout(next, 700);
+      return () => clearTimeout(timer);
+    }
+  }, [chosen, isCorrect, autoAdvance, next]);
+
+  useEffect(() => {
+    if (!keyboard || !step) return;
+    function onKey(event: KeyboardEvent) {
+      if (event.target instanceof HTMLInputElement || event.target instanceof HTMLSelectElement) return;
+      if (keyboard === "choose" && !chosen) {
+        const i = Number(event.key) - 1;
+        if (step && i >= 0 && i < step.options.length) choose(step.options[i]);
+      } else if (keyboard === "next" && chosen && (event.key === "Enter" || event.key === " ")) {
+        event.preventDefault();
+        next();
+      }
+    }
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [keyboard, step, chosen, choose, next]);
+
+  if (done) {
+    return (
+      <div className="card flex min-h-40 items-center justify-center text-sm text-zinc-500">Mesa encerrada</div>
+    );
+  }
+  if (!question || !step || !strategy) return <div className="card muted">Distribuindo cartas...</div>;
+
+  const texture = step.board.length >= 3 ? describeFlop(boardTexture(step.board).flop) : null;
+  const correctAction = findAction(legend, step.correctActionId);
+  const multi = tableCount > 1;
+  const rows = tableCount === 4 ? 2 : 1;
+
+  return (
+    <div
+      className={`card space-y-4 transition-shadow ${multi ? "p-3" : ""} ${
+        chosen === null
+          ? keyboard === "choose" && multi
+            ? "border-zinc-600"
+            : ""
+          : isCorrect
+            ? "border-green-500 ring-2 ring-green-500"
+            : "border-red-500 ring-2 ring-red-500"
+      }`}
+      data-feedback={chosen === null ? undefined : isCorrect ? "certo" : "errado"}
+      data-testid="table-slot"
+    >
+      <div className="flex flex-wrap items-center gap-2 text-sm">
+        {multi && <span className="text-xs text-zinc-500">Mesa {index + 1}</span>}
+        <span className="rounded bg-baga-red/20 px-2 py-0.5 font-medium text-baga-cream">
+          {STREET_LABELS[step.street]}
+        </span>
+        <span className="text-zinc-300">{spotSummary(strategy)}</span>
+        {question.steps.length > 1 && (
+          <span className="text-zinc-500">
+            · decisão {stepIndex + 1} de {question.steps.length}
+          </span>
+        )}
+      </div>
+
+      <PokerTable
+        strategy={strategy}
+        heroCards={question.heroCards}
+        board={step.board}
+        texture={texture}
+        vertical={vertical}
+        rows={rows}
+        reservedHeight={multi ? 360 + rows * 150 : 330}
+      />
+
+      <div className={`grid gap-2 ${multi ? "grid-cols-2 lg:grid-cols-3" : "grid-cols-2 sm:grid-cols-3"}`} data-testid="actions">
+        {step.options.map((actionId, optionIndex) => {
+          const action = findAction(legend, actionId);
+          const isChosen = chosen === actionId;
+          const isRight = chosen !== null && actionId === step.correctActionId;
+          return (
+            <button
+              key={actionId}
+              onClick={() => choose(actionId)}
+              disabled={chosen !== null}
+              className={`rounded-lg px-3 text-sm font-semibold transition disabled:cursor-default ${multi ? "py-2" : "py-3"} ${
+                chosen !== null && !isChosen && !isRight ? "opacity-40" : ""
+              } ${isRight ? "ring-2 ring-green-400" : ""} ${isChosen && !isRight ? "ring-2 ring-red-500" : ""}`}
+              style={{
+                backgroundColor: action?.color ?? "#3f3f46",
+                color: textColorFor(action?.color ?? "#3f3f46"),
+              }}
+            >
+              {keyboard === "choose" && <span className="mr-1 hidden opacity-60 sm:inline">{optionIndex + 1}</span>}
+              {action?.label ?? actionId}
+            </button>
+          );
+        })}
+      </div>
+
+      {chosen && (
+        <div className="flex flex-wrap items-center justify-between gap-3">
+          <span className={`text-sm font-medium ${isCorrect ? "text-green-400" : "text-red-400"}`}>
+            {isCorrect ? "Certo" : `Correta: ${correctAction?.label ?? step.correctActionId}`}
+          </span>
+          <button className="btn-secondary" onClick={next}>
+            Continuar
+          </button>
+        </div>
+      )}
+    </div>
+  );
+}
+
+export function Trainer({ drill, strategies, legend }: TrainerProps) {
+  const strategyMap = useMemo(() => new Map(strategies.map((s) => [s.id, s])), [strategies]);
+  const [decisions, setDecisions] = useState<Decision[]>([]);
   const [handsPlayed, setHandsPlayed] = useState(0);
   const [finished, setFinished] = useState(false);
+  const [session, setSession] = useState(0);
   const [autoAdvance, setAutoAdvance] = useState(true);
   const [dealError, setDealError] = useState<string | null>(null);
+  const [saveError, setSaveError] = useState<string | null>(null);
   const [peek, setPeek] = useState(false);
   const [positions, setPositions] = useState<string[]>([]);
+  const [tableCount, setTableCount] = useState<TableCount>(1);
   const [vertical, setVertical] = useState(false);
+  const [slotStates, setSlotStates] = useState<(SlotState | null)[]>([]);
+  const [panelSlot, setPanelSlot] = useState(0);
+  const pending = useRef<Submission[]>([]);
+  const handsRef = useRef(0);
+
+  const positionsKey = `trainer:posicoes:${drill.id}`;
+  const availablePositions = useMemo(() => drillPositions(drill, strategyMap), [drill, strategyMap]);
+  /** Drill com o filtro de posições do jogador (não muda o drill de ninguém). */
+  const activeDrill = useMemo(
+    () => filterDrillByPositions(drill, strategyMap, positions),
+    [drill, strategyMap, positions],
+  );
 
   useEffect(() => {
     // Mesa em pé no celular; tablets e telas maiores usam a mesa deitada
@@ -73,60 +324,35 @@ export function Trainer({ drill, strategies, legend }: TrainerProps) {
     query.addEventListener("change", update);
     return () => query.removeEventListener("change", update);
   }, []);
-  const positionsKey = `trainer:posicoes:${drill.id}`;
-  const availablePositions = useMemo(() => drillPositions(drill, strategyMap), [drill, strategyMap]);
-  /** Drill com o filtro de posições do jogador (não muda o drill de ninguém). */
-  const activeDrill = useMemo(
-    () => filterDrillByPositions(drill, strategyMap, positions),
-    [drill, strategyMap, positions],
-  );
-  const [saveError, setSaveError] = useState<string | null>(null);
-  const pending = useRef<Submission[]>([]);
-
-  const deal = useCallback(() => {
-    try {
-      setQuestion(dealQuestion(activeDrill, strategyMap, legend));
-      setStepIndex(0);
-      setChosen(null);
-      setHandDecisions([]);
-    } catch (error) {
-      setDealError((error as Error).message);
-    }
-  }, [activeDrill, strategyMap, legend]);
 
   useEffect(() => {
-    deal();
-  }, [deal]);
-
-  useEffect(() => {
+    setPeek(readStorage(PEEK_KEY) === "1");
+    const tables = Number(readStorage(TABLES_KEY));
+    if ((TABLE_OPTIONS as readonly number[]).includes(tables)) setTableCount(tables as TableCount);
     try {
-      setPeek(localStorage.getItem(PEEK_KEY) === "1");
-      const saved = JSON.parse(localStorage.getItem(positionsKey) ?? "[]");
+      const saved = JSON.parse(readStorage(positionsKey) ?? "[]");
       if (Array.isArray(saved)) setPositions(saved.filter((p) => availablePositions.includes(p)));
     } catch {
-      // armazenamento indisponível: começa com os padrões
+      // preferência inválida: começa com todas as posições
     }
   }, [positionsKey, availablePositions]);
 
-  function changePositions(next: string[]) {
-    setPositions(next);
-    try {
-      localStorage.setItem(positionsKey, JSON.stringify(next));
-    } catch {
-      // ignora
-    }
-  }
-
   function togglePeek() {
     setPeek((current) => {
-      const next = !current;
-      try {
-        localStorage.setItem(PEEK_KEY, next ? "1" : "0");
-      } catch {
-        // ignora
-      }
-      return next;
+      writeStorage(PEEK_KEY, current ? "0" : "1");
+      return !current;
     });
+  }
+
+  function changePositions(next: string[]) {
+    setPositions(next);
+    writeStorage(positionsKey, JSON.stringify(next));
+  }
+
+  function changeTables(count: TableCount) {
+    setTableCount(count);
+    setPanelSlot(0);
+    writeStorage(TABLES_KEY, String(count));
   }
 
   const flush = useCallback(async () => {
@@ -143,89 +369,76 @@ export function Trainer({ drill, strategies, legend }: TrainerProps) {
     }
   }, []);
 
-  const step = question?.steps[stepIndex];
-  const strategy = step ? strategyMap.get(step.strategyId) : undefined;
+  const onState = useCallback((index: number, state: SlotState | null) => {
+    setSlotStates((current) => {
+      const copy = [...current];
+      copy[index] = state;
+      return copy;
+    });
+  }, []);
 
-  const choose = useCallback(
-    (actionId: string) => {
-      if (!question || !step || chosen) return;
-      setChosen(actionId);
-      const decision: Decision = {
-        strategyId: step.strategyId,
-        heroCards: question.heroCards,
-        board: step.board,
-        chosenActionId: actionId,
-        correctActionId: step.correctActionId,
-        hand: question.hand,
-        peeked: peek,
-      };
-      setHandDecisions((d) => [...d, decision]);
+  const makeOnDecision = useCallback(
+    (index: number) => (decision: Decision) => {
       setDecisions((d) => [...d, decision]);
+      setPanelSlot(index);
     },
-    [question, step, chosen, peek],
+    [],
   );
 
-  const next = useCallback(() => {
-    if (!question || !chosen) return;
-    if (stepIndex + 1 < question.steps.length) {
-      setStepIndex((i) => i + 1);
-      setChosen(null);
-      return;
-    }
-    const counted = handDecisions.filter((d) => !d.peeked);
-    if (counted.length > 0) {
-      pending.current.push({
-        drillId: drill.id,
-        decisions: counted.map(({ strategyId, heroCards, board, chosenActionId }) => ({
-          strategyId,
-          heroCards,
-          board,
-          chosenActionId,
-        })),
-      });
-      void flush();
-    }
-    const played = handsPlayed + 1;
-    setHandsPlayed(played);
-    if (played >= drill.handsPerSession) setFinished(true);
-    else deal();
-  }, [question, chosen, stepIndex, drill, handDecisions, handsPlayed, flush, deal]);
-
-  const isCorrect = chosen !== null && step !== undefined && chosen === step.correctActionId;
-
-  useEffect(() => {
-    if (chosen && isCorrect && autoAdvance) {
-      const timer = setTimeout(next, 700);
-      return () => clearTimeout(timer);
-    }
-  }, [chosen, isCorrect, autoAdvance, next]);
-
-  useEffect(() => {
-    function onKey(event: KeyboardEvent) {
-      if (!step || finished) return;
-      if (!chosen) {
-        const index = Number(event.key) - 1;
-        if (index >= 0 && index < step.options.length) choose(step.options[index]);
-      } else if (event.key === "Enter" || event.key === " ") {
-        event.preventDefault();
-        next();
+  const onHandComplete = useCallback(
+    (handDecisions: Decision[]) => {
+      const counted = handDecisions.filter((d) => !d.peeked);
+      if (counted.length > 0) {
+        pending.current.push({
+          drillId: drill.id,
+          decisions: counted.map(({ strategyId, heroCards, board, chosenActionId }) => ({
+            strategyId,
+            heroCards,
+            board,
+            chosenActionId,
+          })),
+        });
+        void flush();
       }
-    }
-    window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
-  }, [step, chosen, finished, choose, next]);
+      handsRef.current += 1;
+      setHandsPlayed(handsRef.current);
+      if (handsRef.current >= drill.handsPerSession) {
+        setFinished(true);
+        return false;
+      }
+      return true;
+    },
+    [drill, flush],
+  );
+
+  const onError = useCallback((message: string) => setDealError(message), []);
 
   function restart() {
+    handsRef.current = 0;
     setDecisions([]);
     setHandsPlayed(0);
     setFinished(false);
-    deal();
+    setSlotStates([]);
+    setPanelSlot(0);
+    setSession((s) => s + 1);
   }
 
   const countedDecisions = decisions.filter((d) => !d.peeked);
   const peekedCount = decisions.length - countedDecisions.length;
   const correctCount = countedDecisions.filter((d) => d.chosenActionId === d.correctActionId).length;
   const accuracy = countedDecisions.length ? correctCount / countedDecisions.length : 0;
+
+  // Teclado: números respondem a primeira mesa sem resposta; Enter continua a primeira já respondida.
+  const visibleStates = slotStates.slice(0, tableCount);
+  const chooseTarget = visibleStates.findIndex((s) => s !== null && s !== undefined && s.chosen === null);
+  const nextTarget = visibleStates.findIndex((s) => s?.chosen != null);
+
+  // Painel de range: a última mesa respondida (ou, com o olho aberto, a mesa que espera resposta).
+  const panelIndex = peek && chooseTarget >= 0 && !visibleStates[panelSlot]?.chosen ? chooseTarget : panelSlot;
+  const panel = visibleStates[panelIndex] ?? null;
+  const panelStrategy = panel ? strategyMap.get(panel.strategyId) : undefined;
+  const panelRange = panel && panelStrategy ? resolveRange(panelStrategy, panel.board as Card[]) : null;
+  const showPanelRange = Boolean(panel && panelRange && (panel.chosen || peek));
 
   if (dealError) {
     return (
@@ -262,7 +475,11 @@ export function Trainer({ drill, strategies, legend }: TrainerProps) {
               {mistakes.map((m, i) => (
                 <li key={i} className="flex flex-wrap items-center justify-between gap-2 py-2">
                   <span className="font-mono">
-                    {m.peeked && <span className="mr-1" title="Com a resposta à mostra">👁</span>}
+                    {m.peeked && (
+                      <span className="mr-1" title="Com a resposta à mostra">
+                        👁
+                      </span>
+                    )}
                     {m.hand}
                     {m.board.length > 0 && <span className="ml-2 text-zinc-400">{m.board.join(" ")}</span>}
                   </span>
@@ -289,13 +506,47 @@ export function Trainer({ drill, strategies, legend }: TrainerProps) {
     );
   }
 
-  if (!question || !step || !strategy) {
-    return <p className="muted">Distribuindo cartas...</p>;
-  }
-
-  const range = resolveRange(strategy, step.board);
-  const texture = step.board.length >= 3 ? describeFlop(boardTexture(step.board).flop) : null;
-  const correctAction = findAction(legend, step.correctActionId);
+  const multi = tableCount > 1;
+  const rangePanel = (
+    <div className="card space-y-2">
+      <div className="flex items-center justify-between gap-2">
+        <p className="label mb-0">
+          Range da estratégia{multi && panel ? ` · mesa ${panelIndex + 1}` : ""}
+        </p>
+        <button
+          type="button"
+          onClick={togglePeek}
+          className={`flex items-center gap-1.5 rounded-md px-2 py-1 text-xs ${
+            peek ? "bg-baga-red/20 text-baga-cream" : "text-zinc-400 hover:text-white"
+          }`}
+          aria-pressed={peek}
+          title={peek ? "Esconder a resposta antes de responder" : "Mostrar a resposta antes de responder"}
+        >
+          <EyeIcon open={peek} />
+          {peek ? "Resposta à mostra" : "Mostrar resposta"}
+        </button>
+      </div>
+      {showPanelRange && panel && panelRange && panelStrategy ? (
+        <div className="mx-auto w-full" style={{ maxWidth: "min(100%, calc(100dvh - 290px))" }}>
+          <RangeGrid
+            range={panelRange}
+            defaultActionId={panelStrategy.defaultActionId}
+            legend={legend}
+            highlight={panel.hand}
+            compact
+          />
+        </div>
+      ) : (
+        <div
+          className="mx-auto flex aspect-square w-full items-center justify-center rounded-lg border border-dashed border-zinc-700 text-sm text-zinc-500"
+          style={{ maxWidth: "min(100%, calc(100dvh - 290px))" }}
+        >
+          Responda para ver o range
+        </div>
+      )}
+      {peek && <p className="text-xs text-zinc-500">Com a resposta à mostra, as decisões não contam no desempenho.</p>}
+    </div>
+  );
 
   return (
     <div className="w-full space-y-4">
@@ -303,7 +554,7 @@ export function Trainer({ drill, strategies, legend }: TrainerProps) {
         <div>
           <h1 className="text-lg font-semibold">{drill.name}</h1>
           <p className="muted">
-            Mão {handsPlayed + 1} de {drill.handsPerSession} ·{" "}
+            Mão {Math.min(handsPlayed + 1, drill.handsPerSession)} de {drill.handsPerSession} ·{" "}
             {countedDecisions.length > 0 ? formatPercent(accuracy) : "—"} de acerto
             {peekedCount > 0 && ` · ${peekedCount} com resposta à mostra`}
           </p>
@@ -314,14 +565,31 @@ export function Trainer({ drill, strategies, legend }: TrainerProps) {
         </label>
       </div>
 
-      {availablePositions.length > 1 && (
-        <div className="card py-3">
-          <PositionChips available={availablePositions} selected={positions} onChange={changePositions} />
-          <p className="mt-1.5 text-xs text-zinc-500">
-            Filtro só seu: escolha as posições que quer treinar agora. O drill continua igual para o time.
-          </p>
+      <div className="card flex flex-wrap items-center gap-x-6 gap-y-2 py-3">
+        <div className="flex items-center gap-1.5" role="group" aria-label="Mesas">
+          <span className="mr-1 text-xs text-zinc-400">Mesas</span>
+          {TABLE_OPTIONS.map((count) => (
+            <button
+              key={count}
+              type="button"
+              onClick={() => changeTables(count)}
+              aria-pressed={tableCount === count}
+              aria-label={`${count} ${count === 1 ? "mesa" : "mesas"}`}
+              className={`rounded-md px-2.5 py-1 text-xs font-semibold transition ${
+                tableCount === count ? "bg-zinc-200 text-black" : "bg-zinc-800 text-zinc-200 hover:bg-zinc-700"
+              }`}
+            >
+              {count}
+            </button>
+          ))}
         </div>
-      )}
+        {availablePositions.length > 1 && (
+          <PositionChips available={availablePositions} selected={positions} onChange={changePositions} />
+        )}
+        <p className="w-full text-xs text-zinc-500">
+          Filtros só seus: o drill continua igual para o time.
+        </p>
+      </div>
 
       <div className="h-1.5 overflow-hidden rounded-full bg-zinc-800">
         <div
@@ -329,114 +597,34 @@ export function Trainer({ drill, strategies, legend }: TrainerProps) {
           style={{ width: `${(handsPlayed / drill.handsPerSession) * 100}%` }}
         />
       </div>
+      {saveError && <p className="text-xs text-amber-400">{saveError}</p>}
 
-      <div className="grid items-start gap-4 lg:grid-cols-[minmax(0,3fr)_minmax(0,2fr)]">
-        <div
-          className={`card space-y-5 transition-shadow ${
-            chosen === null
-              ? ""
-              : isCorrect
-                ? "border-green-500 ring-2 ring-green-500"
-                : "border-red-500 ring-2 ring-red-500"
-          }`}
-          data-feedback={chosen === null ? undefined : isCorrect ? "certo" : "errado"}
-        >
-          <div className="flex flex-wrap items-center gap-2 text-sm">
-            <span className="rounded bg-baga-red/20 px-2 py-0.5 font-medium text-baga-cream">
-              {STREET_LABELS[step.street]}
-            </span>
-            <span className="text-zinc-300">{spotSummary(strategy)}</span>
-            {question.steps.length > 1 && (
-              <span className="text-zinc-500">
-                · decisão {stepIndex + 1} de {question.steps.length}
-              </span>
-            )}
-          </div>
-
-          <PokerTable
-            strategy={strategy}
-            heroCards={question.heroCards}
-            board={step.board}
-            texture={texture}
-            vertical={vertical}
-          />
-
-          <div className="grid grid-cols-2 gap-2 sm:grid-cols-3" data-testid="actions">
-            {step.options.map((actionId, index) => {
-              const action = findAction(legend, actionId);
-              const isChosen = chosen === actionId;
-              const isRight = chosen !== null && actionId === step.correctActionId;
-              return (
-                <button
-                  key={actionId}
-                  onClick={() => choose(actionId)}
-                  disabled={chosen !== null}
-                  className={`rounded-lg px-3 py-3 text-sm font-semibold transition disabled:cursor-default ${
-                    chosen !== null && !isChosen && !isRight ? "opacity-40" : ""
-                  } ${isRight ? "ring-2 ring-green-400" : ""} ${isChosen && !isRight ? "ring-2 ring-red-500" : ""}`}
-                  style={{
-                    backgroundColor: action?.color ?? "#3f3f46",
-                    color: textColorFor(action?.color ?? "#3f3f46"),
-                  }}
-                >
-                  <span className="mr-1 hidden opacity-60 sm:inline">{index + 1}</span>
-                  {action?.label ?? actionId}
-                </button>
-              );
-            })}
-          </div>
-
-          {chosen && (
-            <div className="flex flex-wrap items-center justify-between gap-3">
-              <span className={`text-sm font-medium ${isCorrect ? "text-green-400" : "text-red-400"}`}>
-                {isCorrect ? "Certo" : `Correta: ${correctAction?.label ?? step.correctActionId}`}
-              </span>
-              <button className="btn-secondary" onClick={next}>
-                Continuar
-              </button>
-            </div>
-          )}
-          {saveError && <p className="text-xs text-amber-400">{saveError}</p>}
-        </div>
-
-        <div className="card space-y-2">
-          <div className="flex items-center justify-between">
-            <p className="label mb-0">Range da estratégia</p>
-            <button
-              type="button"
-              onClick={togglePeek}
-              className={`flex items-center gap-1.5 rounded-md px-2 py-1 text-xs ${
-                peek ? "bg-baga-red/20 text-baga-cream" : "text-zinc-400 hover:text-white"
-              }`}
-              aria-pressed={peek}
-              title={peek ? "Esconder a resposta antes de responder" : "Mostrar a resposta antes de responder"}
-            >
-              <EyeIcon open={peek} />
-              {peek ? "Resposta à mostra" : "Mostrar resposta"}
-            </button>
-          </div>
-          {(chosen || peek) && range ? (
-            <div className="mx-auto w-full" style={{ maxWidth: "min(100%, calc(100dvh - 290px))" }}>
-            <RangeGrid
-              range={range}
-              defaultActionId={strategy.defaultActionId}
+      <div
+        className={`grid items-start gap-4 ${
+          multi ? "2xl:grid-cols-[minmax(0,3fr)_minmax(0,1fr)]" : "lg:grid-cols-[minmax(0,3fr)_minmax(0,2fr)]"
+        }`}
+      >
+        <div className={`grid items-start gap-3 ${multi ? "md:grid-cols-2" : ""}`}>
+          {Array.from({ length: tableCount }, (_, index) => (
+            <TableSlot
+              key={`${session}-${tableCount}-${index}`}
+              index={index}
+              tableCount={tableCount}
+              drill={activeDrill}
+              strategyMap={strategyMap}
               legend={legend}
-              highlight={question.hand}
-              compact
+              vertical={vertical}
+              peek={peek}
+              autoAdvance={autoAdvance}
+              keyboard={index === chooseTarget ? "choose" : index === nextTarget ? "next" : null}
+              onDecision={makeOnDecision(index)}
+              onHandComplete={onHandComplete}
+              onState={onState}
+              onError={onError}
             />
-            </div>
-          ) : (
-            <div
-              className="mx-auto flex aspect-square w-full items-center justify-center rounded-lg border border-dashed border-zinc-700 text-sm text-zinc-500"
-              style={{ maxWidth: "min(100%, calc(100dvh - 290px))" }}
-            >
-              Responda para ver o range
-            </div>
-          )}
-          {peek && (
-            <p className="text-xs text-zinc-500">Com a resposta à mostra, as decisões não contam no desempenho.</p>
-          )}
+          ))}
         </div>
+        {rangePanel}
       </div>
     </div>
   );

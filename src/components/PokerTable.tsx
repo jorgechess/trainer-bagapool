@@ -11,6 +11,10 @@ interface PokerTableProps {
   texture?: string | null;
   /** Mesa em pé, para telas estreitas e verticais. */
   vertical?: boolean;
+  /** Linhas de mesas na tela (2 = grade 2×2): divide a altura disponível. */
+  rows?: number;
+  /** Espaço vertical ocupado pelo resto da página, em px. */
+  reservedHeight?: number;
 }
 
 const SEAT_COUNT = 9;
@@ -90,7 +94,15 @@ function SeatView({ seat, stack, heroCards, shape }: { seat: Seat; stack: string
   );
 }
 
-export function PokerTable({ strategy, heroCards, board, texture, vertical = false }: PokerTableProps) {
+export function PokerTable({
+  strategy,
+  heroCards,
+  board,
+  texture,
+  vertical = false,
+  rows = 1,
+  reservedHeight = 330,
+}: PokerTableProps) {
   const shape = vertical ? TALL : WIDE;
   const seats = tableSeats(strategy);
   const stack = formatNumberRange(strategy.stack, "bb");
@@ -101,7 +113,7 @@ export function PokerTable({ strategy, heroCards, board, texture, vertical = fal
     <div
       className="@container mx-auto w-full select-none"
       // Cresce com a largura, mas nunca passa da altura disponível na tela
-      style={{ maxWidth: `min(100%, calc((100dvh - 330px) * ${shape.aspect}))` }}
+      style={{ maxWidth: `min(100%, calc((100dvh - ${reservedHeight}px) / ${rows} * ${shape.aspect}))` }}
     >
       <div
         className="relative w-full"

@@ -277,6 +277,27 @@ async function main() {
     await page.getByRole("button", { name: "Todas", exact: true }).click();
     log("filtro de posição do jogador funciona e não altera o drill");
 
+    // Várias mesas ao mesmo tempo: 4 mesas, cada uma com a sua mão
+    await page.waitForTimeout(1500);
+    const beforeMulti = await countRows("attempts");
+    await page.getByRole("button", { name: "4 mesas" }).click();
+    await page.waitForTimeout(300);
+    assert.equal(await page.getByTestId("table-slot").count(), 4);
+    for (let table = 0; table < 4; table++) {
+      const slot = page.getByTestId("table-slot").nth(table);
+      await slot.locator("[data-testid=actions] button").first().click();
+      await slot.getByRole("button", { name: "Continuar" }).click();
+    }
+    await shot(page, "treino-4-mesas");
+    await page.waitForTimeout(1500);
+    assert.equal(await countRows("attempts"), beforeMulti + 4, "decisões das 4 mesas salvas");
+    await page.getByRole("button", { name: "2 mesas" }).click();
+    await page.waitForTimeout(300);
+    assert.equal(await page.getByTestId("table-slot").count(), 2);
+    await page.getByRole("button", { name: "1 mesa", exact: true }).click();
+    assert.equal(await page.getByTestId("table-slot").count(), 1);
+    log("treino com 1, 2 e 4 mesas");
+
     // Drill novo escolhendo spot e posições pelos botões
     await page.goto(`${BASE_URL}/drills/novo`);
     await page.locator("input").first().fill("RFI 30bb CO e BTN");
@@ -359,6 +380,23 @@ async function main() {
       await view.close();
     }
     log("mesa se adapta a tela wide, notebook e tablet vertical");
+
+    {
+      const view = await browser.newPage({ viewport: { width: 2560, height: 1300 } });
+      await view.context().addCookies(await page.context().cookies());
+      await view.goto(`${BASE_URL}/drills`);
+      await view.locator(".card").filter({ hasText: "RFI 30bb vanilla" }).getByRole("link", { name: "Treinar" }).click();
+      await view.getByRole("button", { name: "4 mesas" }).click();
+      await view.getByTestId("table-slot").nth(3).locator("[data-testid=hero-cards]").waitFor();
+      const last = await view.getByTestId("table-slot").nth(3).getByTestId("hero-cards").boundingBox();
+      assert.ok(last && last.y + last.height <= 1300, "4 mesas cabem na tela wide");
+      await view.screenshot({ path: `${OUT}/95-wide-4-mesas.png` });
+      await view.getByRole("button", { name: "2 mesas" }).click();
+      await view.getByTestId("table-slot").nth(1).locator("[data-testid=hero-cards]").waitFor();
+      await view.screenshot({ path: `${OUT}/96-wide-2-mesas.png` });
+      await view.getByRole("button", { name: "1 mesa", exact: true }).click();
+      await view.close();
+    }
 
     console.log("\nE2E: todos os passos passaram");
   } catch (error) {
