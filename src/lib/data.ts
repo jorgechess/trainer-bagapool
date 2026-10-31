@@ -17,6 +17,8 @@ export interface Profile {
   active: boolean;
 }
 
+const DEFAULT_POOL_COLOR = "#a1a1aa";
+
 export interface Pool {
   id: string;
   name: string;
@@ -124,15 +126,20 @@ export async function getDrill(id: string): Promise<Drill | null> {
 export async function listPools(): Promise<Pool[]> {
   const supabase = await createClient();
   const { data, error } = await supabase.from("pools").select("id, name, color, logo").order("name");
-  if (error) throw new Error(error.message);
-  return data as Pool[];
+  if (!error) return data as Pool[];
+  // Banco sem a migração 0002 (cor e logo): segue com o básico em vez de derrubar a tela.
+  const fallback = await supabase.from("pools").select("id, name").order("name");
+  if (fallback.error) throw new Error(fallback.error.message);
+  return (fallback.data as { id: string; name: string }[]).map((p) => ({ ...p, color: DEFAULT_POOL_COLOR, logo: null }));
 }
 
 export async function getPool(id: string | null): Promise<Pool | null> {
   if (!id) return null;
   const supabase = await createClient();
-  const { data } = await supabase.from("pools").select("id, name, color, logo").eq("id", id).maybeSingle();
-  return (data as Pool | null) ?? null;
+  const { data, error } = await supabase.from("pools").select("id, name, color, logo").eq("id", id).maybeSingle();
+  if (!error) return (data as Pool | null) ?? null;
+  const fallback = await supabase.from("pools").select("id, name").eq("id", id).maybeSingle();
+  return fallback.data ? { ...(fallback.data as { id: string; name: string }), color: DEFAULT_POOL_COLOR, logo: null } : null;
 }
 
 export async function listProfiles(): Promise<Profile[]> {
