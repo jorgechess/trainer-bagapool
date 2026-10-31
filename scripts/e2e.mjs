@@ -239,6 +239,7 @@ async function main() {
     await rfiCard.getByRole("link", { name: "Treinar" }).click();
     await page.getByTestId("hero-cards").waitFor();
     await page.getByLabel("Avançar sozinho quando acertar").uncheck();
+    assert.match(await page.getByTestId("hand-counter").innerText(), /1\/50/);
     const positions = new Set();
     for (let hand = 0; hand < 14; hand++) {
       const spot = await page.getByText(/^RFI · \w+ · 30bb$/).textContent();
@@ -246,6 +247,7 @@ async function main() {
       await page.locator("[data-testid=actions] button:not([disabled])").first().click();
       await page.getByRole("button", { name: "Continuar" }).click();
     }
+    assert.match(await page.getByTestId("hand-counter").innerText(), /15\/50/, "contador mostra a mão atual da sessão");
     await shot(page, "treino-rfi-variacoes");
 
     // Olho: com a resposta à mostra, o range aparece antes de responder e a decisão não conta
@@ -314,7 +316,7 @@ async function main() {
 
     // Sessão sem limite, encerrada pelo botão; relatório com as cartas em miniatura
     await page.getByRole("button", { name: "Sem limite" }).click();
-    await page.getByText(/sem limite/).first().waitFor();
+    await page.getByTestId("hand-counter").getByText("sem limite").waitFor();
     for (let hand = 0; hand < 6; hand++) {
       // Sempre "Raise": erra os folds, garantindo erros no relatório
       await page.locator("[data-testid=actions] button").last().click();

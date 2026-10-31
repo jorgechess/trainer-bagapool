@@ -588,16 +588,29 @@ export function Trainer({ drill, strategies, legend }: TrainerProps) {
   return (
     <div className="w-full space-y-4">
       <div className="flex flex-wrap items-center justify-between gap-2">
-        <div>
-          <h1 className="text-lg font-semibold">{drill.name}</h1>
-          <p className="muted">
-            {sessionLength === null
-              ? `Mão ${handsPlayed + 1} · sem limite`
-              : `Mão ${Math.min(handsPlayed + 1, sessionLength)} de ${sessionLength}`}{" "}
-            ·{" "}
-            {countedDecisions.length > 0 ? formatPercent(accuracy) : "—"} de acerto
-            {peekedCount > 0 && ` · ${peekedCount} com resposta à mostra`}
-          </p>
+        <div className="flex items-center gap-4">
+          <div
+            className="flex min-w-20 flex-col items-center rounded-lg border border-zinc-700 bg-black/60 px-3 py-1 leading-none"
+            data-testid="hand-counter"
+            title="Mão atual da sessão"
+          >
+            <span className="font-display text-3xl tracking-wide text-baga-cream sm:text-4xl">
+              {sessionLength === null
+                ? handsPlayed + 1
+                : `${Math.min(handsPlayed + 1, sessionLength)}/${sessionLength}`}
+            </span>
+            <span className="text-[10px] tracking-wider text-zinc-500 uppercase">
+              {sessionLength === null ? "sem limite" : "mão"}
+            </span>
+          </div>
+          <div>
+            <h1 className="text-lg font-semibold">{drill.name}</h1>
+            <p className="muted">
+              {countedDecisions.length > 0 ? formatPercent(accuracy) : "—"} de acerto
+              {countedDecisions.length > 0 && ` · ${correctCount}/${countedDecisions.length} decisões`}
+              {peekedCount > 0 && ` · ${peekedCount} com resposta à mostra`}
+            </p>
+          </div>
         </div>
         <div className="flex flex-wrap items-center gap-3">
           <label className="flex items-center gap-2 text-sm text-zinc-400">
