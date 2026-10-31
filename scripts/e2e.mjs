@@ -20,10 +20,20 @@ async function createUser(email, password, role, name) {
   const res = await fetch(`${API_URL}/auth/v1/admin/users`, {
     method: "POST",
     headers: adminHeaders,
-    body: JSON.stringify({ email, password, email_confirm: true, app_metadata: { role }, user_metadata: { name } }),
+    body: JSON.stringify({ email, password, email_confirm: true, user_metadata: { name } }),
   });
   if (!res.ok) throw new Error(`Falha ao criar usuário: ${res.status} ${await res.text()}`);
-  return res.json();
+  const user = await res.json();
+  // Mesmo passo do SETUP.md: o primeiro admin é promovido direto no banco.
+  const patch = await fetch(`${API_URL}/rest/v1/profiles?id=eq.${user.id}`, {
+    method: "PATCH",
+    headers: { ...adminHeaders, Prefer: "return=representation" },
+    body: JSON.stringify({ role }),
+  });
+  if (!patch.ok) throw new Error(`Falha ao definir papel: ${patch.status} ${await patch.text()}`);
+  const [profile] = await patch.json();
+  if (profile?.role !== role) throw new Error(`Papel não aplicado: ${JSON.stringify(profile)}`);
+  return user;
 }
 
 async function countRows(table, filter = "") {
@@ -208,6 +218,16 @@ async function main() {
     await form.getByRole("button", { name: "Cadastrar" }).click();
     await page.getByText(/Ana Jogadora cadastrado/).waitFor();
     await shot(page, "jogadores");
+    const [ana] = await rows("profiles", "select=role,pool_id&email=eq.ana@e2e.com");
+    assert.equal(ana.role, "jogador");
+    assert.ok(ana.pool_id, "jogadora ficou na pool escolhida");
+    await form.locator("input").nth(0).fill("Caio Coach");
+    await form.locator("input").nth(1).fill("caio@e2e.com");
+    await form.locator("select").nth(0).selectOption({ label: "Coach" });
+    await form.getByRole("button", { name: "Cadastrar" }).click();
+    await page.getByText(/Caio Coach cadastrado/).waitFor();
+    const [caio] = await rows("profiles", "select=role&email=eq.caio@e2e.com");
+    assert.equal(caio.role, "coach", "papel escolhido no cadastro é aplicado");
     log("admin cadastra pool e jogadora");
 
     // 11. Jogadora entra e não acessa telas de gestão

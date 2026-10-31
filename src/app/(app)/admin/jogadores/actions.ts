@@ -27,17 +27,22 @@ export async function createMember(input: z.input<typeof memberSchema>): Promise
   } catch (error) {
     return { ok: false, error: (error as Error).message };
   }
-  const { error } = await admin.auth.admin.createUser({
+  const { data, error } = await admin.auth.admin.createUser({
     email,
     password,
     email_confirm: true,
     user_metadata: { name },
-    app_metadata: { role, pool_id: poolId ?? "" },
   });
-  if (error) {
-    const duplicated = /already|registered|exists/i.test(error.message);
-    return { ok: false, error: duplicated ? "Já existe um usuário com esse e-mail." : error.message };
+  if (error || !data.user) {
+    const duplicated = /already|registered|exists/i.test(error?.message ?? "");
+    return { ok: false, error: duplicated ? "Já existe um usuário com esse e-mail." : (error?.message ?? "Erro ao criar.") };
   }
+  // O perfil é criado pelo gatilho do banco; papel e pool são definidos aqui.
+  const { error: profileError } = await admin
+    .from("profiles")
+    .update({ name, role, pool_id: poolId })
+    .eq("id", data.user.id);
+  if (profileError) return { ok: false, error: `Usuário criado, mas o perfil falhou: ${profileError.message}` };
   revalidatePath("/admin/jogadores");
   return { ok: true, message: `${name} cadastrado. Envie o e-mail e a senha para a pessoa.` };
 }
