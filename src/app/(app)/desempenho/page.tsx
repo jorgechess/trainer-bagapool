@@ -14,9 +14,6 @@ const PERIODS = {
 } as const;
 type Period = keyof typeof PERIODS;
 
-/** Meta usada quando o drill foi arquivado e não temos mais a configuração dele. */
-const FALLBACK_TARGET = 0.9;
-
 function sinceFor(period: Period): string | undefined {
   if (period === "mes") return monthStartIso(currentMonth());
   if (period === "30d") return new Date(Date.now() - 30 * 86400000).toISOString();
@@ -46,7 +43,6 @@ export default async function PerformancePage({
   const report = reportByDrill(attempts);
   const drillById = new Map(drills.map((d) => [d.id, d]));
   const poolName = new Map(pools.map((p) => [p.id, p.name]));
-  const below = report.filter((r) => r.accuracy < (drillById.get(r.drillId)?.passAccuracy ?? FALLBACK_TARGET)).length;
 
   return (
     <div className="space-y-6">
@@ -103,10 +99,7 @@ export default async function PerformancePage({
           <p className="label">Acerto geral</p>
           <p className="text-2xl font-semibold">{overall.total ? formatPercent(overall.accuracy, 1) : "—"}</p>
         </div>
-        <div>
-          <p className="label">Abaixo da meta</p>
-          <p className={`text-2xl font-semibold ${below > 0 ? "text-red-400" : "text-green-400"}`}>{below}</p>
-        </div>
+        
       </div>
 
       {report.length === 0 && <p className="card muted">Nenhum treino neste período.</p>}
@@ -114,8 +107,6 @@ export default async function PerformancePage({
       <div className="grid gap-4 xl:grid-cols-2">
         {report.map((r) => {
           const drill = drillById.get(r.drillId);
-          const goal = drill?.passAccuracy ?? FALLBACK_TARGET;
-          const ok = r.accuracy >= goal;
           return (
             <section key={r.drillId} className="card space-y-4" data-testid="drill-report">
               <div className="flex flex-wrap items-start justify-between gap-3">
@@ -132,23 +123,13 @@ export default async function PerformancePage({
                   </p>
                 </div>
                 <div className="text-right">
-                  <p className={`font-display text-4xl leading-none ${ok ? "text-green-400" : "text-red-400"}`}>
-                    {formatPercent(r.accuracy, 1)}
-                  </p>
-                  <p className="text-xs text-zinc-500">meta {formatPercent(goal)}</p>
+                  <p className="font-display text-4xl leading-none text-baga-cream">{formatPercent(r.accuracy, 1)}</p>
+                  <p className="text-xs text-zinc-500">acerto</p>
                 </div>
               </div>
 
-              <div className="relative h-2 rounded-full bg-zinc-800">
-                <div
-                  className={`h-full rounded-full ${ok ? "bg-green-500" : "bg-baga-red"}`}
-                  style={{ width: `${r.accuracy * 100}%` }}
-                />
-                <div
-                  className="absolute -top-1 h-4 w-0.5 bg-zinc-200"
-                  style={{ left: `${goal * 100}%` }}
-                  title={`Meta ${formatPercent(goal)}`}
-                />
+              <div className="h-2 rounded-full bg-zinc-800">
+                <div className="h-full rounded-full bg-baga-red" style={{ width: `${r.accuracy * 100}%` }} />
               </div>
 
               {r.byStrategy.length > 0 && (
@@ -165,7 +146,7 @@ export default async function PerformancePage({
                       <tr key={s.key}>
                         <td className="py-1.5 pr-2">{s.key}</td>
                         <td className="py-1.5 pr-2 text-right text-zinc-400">{s.total}</td>
-                        <td className={`py-1.5 text-right ${s.accuracy >= goal ? "text-green-400" : "text-red-400"}`}>
+                        <td className="py-1.5 text-right">
                           {formatPercent(s.accuracy, 1)}
                         </td>
                       </tr>

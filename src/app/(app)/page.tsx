@@ -19,8 +19,9 @@ export default async function HomePage() {
   const stats = overallAccuracy(monthAttempts);
   const progress = plan ? planProgress(plan.plan, monthAttempts) : [];
   const drillById = new Map(drills.map((d) => [d.id, d]));
+  // Drills com pior acerto no mês (com amostra mínima para não punir uma sessão curta)
   const belowGoal = reportByDrill(monthAttempts)
-    .filter((r) => r.accuracy < (drillById.get(r.drillId)?.passAccuracy ?? 0.9))
+    .filter((r) => r.total >= 20)
     .slice(0, 3);
 
   return (
@@ -93,13 +94,13 @@ export default async function HomePage() {
 
       <section className="card space-y-3">
         <div className="flex items-center justify-between">
-          <h2 className="font-semibold">Drills abaixo da meta no mês</h2>
+          <h2 className="font-semibold">Drills com pior acerto no mês</h2>
           <Link href="/desempenho" className="text-sm text-baga-red hover:underline">
             Ver desempenho
           </Link>
         </div>
         {belowGoal.length === 0 ? (
-          <p className="muted">Nenhum drill abaixo da meta neste mês.</p>
+          <p className="muted">Ainda sem amostra suficiente neste mês (mínimo de 20 decisões por drill).</p>
         ) : (
           <ul className="space-y-2 text-sm">
             {belowGoal.map((r) => (
@@ -107,7 +108,7 @@ export default async function HomePage() {
                 <Link href={`/drills/${r.drillId}/treinar`} className="hover:underline">
                   {drillById.get(r.drillId)?.name ?? "Drill arquivado"}
                 </Link>
-                <span className="text-red-400">
+                <span className="text-zinc-300">
                   {formatPercent(r.accuracy)} em {r.total}
                 </span>
               </li>

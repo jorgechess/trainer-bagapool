@@ -193,7 +193,7 @@
   "drills": [
     {
       "id": "rfi-30bb-vanilla-todas",
-      "name": "RFI 30bb vanilla — todas as posições",
+      "name": "RFI 30bb vanilla",
       "description": "Cada mão sorteia uma posição, de UTG a BTN.",
       "variants": [
         [

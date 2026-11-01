@@ -1264,7 +1264,7 @@
   "drills": [
     {
       "id": "vs3bet-30bb-vanilla-todas",
-      "name": "vs 3-bet 30bb vanilla — todas as posições",
+      "name": "vs 3-bet 30bb vanilla",
       "description": "Você abriu e levou 3-bet. Cada mão sorteia quem abriu e quem deu 3-bet; só aparecem mãos do seu range de open.",
       "variants": [
         [

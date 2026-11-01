@@ -29,7 +29,6 @@ export function DrillForm({ drill, strategies }: DrillFormProps) {
   const [sampling, setSampling] = useState<HandSampling>(drill?.sampling ?? "uniforme");
   const [tags, setTags] = useState((drill?.tags ?? []).join(", "));
   const [handsPerSession, setHandsPerSession] = useState(drill?.handsPerSession ?? 50);
-  const [passPercent, setPassPercent] = useState(Math.round((drill?.passAccuracy ?? 0.9) * 100));
   const [toAdd, setToAdd] = useState<string[]>([]);
   const [error, setError] = useState<string | null>(null);
 
@@ -74,7 +73,7 @@ export function DrillForm({ drill, strategies }: DrillFormProps) {
       .map((t) => t.trim())
       .filter(Boolean),
     handsPerSession,
-    passAccuracy: passPercent / 100,
+    passAccuracy: drill?.passAccuracy ?? 0.9,
   };
   const hasSteps = variants.some((v) => v.length > 0);
   const problems = hasSteps ? validateDrill(draft, strategyMap).filter((p) => !p.includes("nome")) : [];
@@ -128,7 +127,7 @@ export function DrillForm({ drill, strategies }: DrillFormProps) {
           />
         </div>
         <div>
-          <label className="label">Mãos por sessão</label>
+          <label className="label">Mãos por sessão (padrão)</label>
           <input
             type="number"
             min={1}
@@ -138,17 +137,7 @@ export function DrillForm({ drill, strategies }: DrillFormProps) {
             onChange={(e) => setHandsPerSession(Number(e.target.value))}
           />
         </div>
-        <div>
-          <label className="label">Acerto mínimo (%)</label>
-          <input
-            type="number"
-            min={1}
-            max={100}
-            className="input"
-            value={passPercent}
-            onChange={(e) => setPassPercent(Number(e.target.value))}
-          />
-        </div>
+        
         <div>
           <label className="label">Sorteio das mãos</label>
           <select className="input" value={sampling} onChange={(e) => setSampling(e.target.value as HandSampling)}>

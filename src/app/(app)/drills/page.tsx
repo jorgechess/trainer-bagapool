@@ -1,6 +1,5 @@
 import Link from "next/link";
 import { listDrills, listStrategies, requireProfile } from "@/lib/data";
-import { formatPercent } from "@/lib/format";
 import { drillScope, drillVariants, spotSummary } from "@/lib/poker/drill";
 import { canManageContent } from "@/lib/poker/permissions";
 
@@ -59,10 +58,8 @@ export default async function DrillsPage() {
                     <dd>{drillScope(drill, strategies)}</dd>
                   </div>
                   <div className="flex justify-between gap-2">
-                    <dt className="text-zinc-400">Meta</dt>
-                    <dd>
-                      {drill.handsPerSession} mãos · {formatPercent(drill.passAccuracy)}
-                    </dd>
+                    <dt className="text-zinc-400">Sessão</dt>
+                    <dd>{drill.handsPerSession} mãos</dd>
                   </div>
                 </dl>
                 {drill.tags.length > 0 && (

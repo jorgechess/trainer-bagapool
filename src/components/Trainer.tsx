@@ -581,21 +581,19 @@ export function Trainer({ drill, strategies, legend }: TrainerProps) {
 
   if (finished) {
     const mistakes = decisions.filter((d) => d.chosenActionId !== d.correctActionId);
-    const passed = countedDecisions.length > 0 && accuracy >= drill.passAccuracy;
     return (
       <div className="mx-auto max-w-2xl space-y-6">
         <div className="card space-y-2 text-center">
           <p className="label">Sessão concluída</p>
-          <p className={`text-5xl font-bold ${passed ? "text-green-400" : "text-red-400"}`}>{formatPercent(accuracy)}</p>
+          <p className="font-display text-6xl text-baga-cream">{countedDecisions.length ? formatPercent(accuracy) : "—"}</p>
           <p className="muted">
-            {correctCount} de {countedDecisions.length} decisões certas · meta {formatPercent(drill.passAccuracy)}
+            {correctCount} de {countedDecisions.length} decisões certas
           </p>
           {peekedCount > 0 && (
             <p className="text-xs text-zinc-500">
               {peekedCount} respondida(s) com a resposta à mostra, fora da conta e do desempenho.
             </p>
           )}
-          <p className={passed ? "text-green-400" : "text-red-400"}>{passed ? "Satisfatório" : "Abaixo da meta"}</p>
         </div>
         {saveError && <p className="text-sm text-amber-400">{saveError}</p>}
         {mistakes.length > 0 && (
