@@ -642,9 +642,11 @@ async function main() {
     await page.goto(`${BASE_URL}/drills/defesa-bb-vanilla-mlr/treinar`);
     await page.getByTestId("hero-cards").waitFor();
     await page.getByRole("group", { name: "Open do vilão" }).getByRole("button", { name: /Polar/ }).click();
+    // a mão em andamento termina como estava; as próximas já seguem o filtro
+    await page.locator("[data-testid=actions] button").first().click();
+    await page.getByRole("button", { name: /Continuar/ }).click();
     for (let hand = 0; hand < 3; hand++) {
-      const v = await page.getByTestId("spot-villain-stack").innerText();
-      assert.match(v, /^(UTG|UTG1|MP|LJ|HJ|CO|BTN) 1[0-4]bb$/, `vilão polar: ${v}`);
+      await page.getByTestId("spot-villain-stack").filter({ hasText: /^(UTG|UTG1|MP|LJ|HJ|CO|BTN) 1[0-4]bb$/ }).waitFor();
       await page.locator("[data-testid=actions] button").first().click();
       await page.getByRole("button", { name: /Continuar/ }).click();
     }
