@@ -346,6 +346,32 @@ export function StrategyEditor({
             ))}
           </select>
         </div>
+        <div className="sm:col-span-2">
+          <label className="label">PKO (bounty)</label>
+          <select
+            className="input"
+            value={s.pko?.coverage ?? ""}
+            onChange={(e) =>
+              update({
+                pko: e.target.value ? { ...(s.pko ?? {}), coverage: e.target.value as "cobrindo" | "coberto" } : null,
+              })
+            }
+          >
+            <option value="">Não é PKO</option>
+            <option value="cobrindo">PKO · herói cobrindo</option>
+            <option value="coberto">PKO · herói coberto</option>
+          </select>
+        </div>
+        <div className="sm:col-span-2">
+          <label className="label">Etiqueta de bounty (opcional)</label>
+          <input
+            className="input"
+            placeholder="Bounty"
+            disabled={!s.pko}
+            value={s.pko?.bounty ?? ""}
+            onChange={(e) => s.pko && update({ pko: { ...s.pko, bounty: e.target.value } })}
+          />
+        </div>
         <div className="sm:col-span-2 lg:col-span-4">
           <label className="label">Etiquetas (separadas por vírgula)</label>
           <input className="input" value={tags} onChange={(e) => setTags(e.target.value)} placeholder="max-late, rfi" />

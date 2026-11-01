@@ -128,6 +128,7 @@ export function spotSummary(strategy: Strategy): string {
   if (strategy.villainPosition) parts.push(`vs ${strategy.villainPosition}`);
   parts.push(formatNumberRange(strategy.stack, "bb"));
   if (strategy.ratio) parts.push(formatRatio(strategy.ratio));
+  if (strategy.pko) parts.push(`PKO ${strategy.pko.coverage}`);
   return parts.join(" · ");
 }
 
@@ -357,12 +358,22 @@ export function strategyFamilies(strategies: readonly Strategy[]): StrategyFamil
   const families = new Map<string, StrategyFamily>();
   for (const s of strategies) {
     const ratio = s.ratio ? formatRatio(s.ratio) : "";
-    const key = [s.street, s.situation.toLowerCase(), s.stack.min, s.stack.max, ratio, s.bubble ?? "", s.villainPosition ?? ""].join("|");
+    const key = [
+      s.street,
+      s.situation.toLowerCase(),
+      s.stack.min,
+      s.stack.max,
+      ratio,
+      s.bubble ?? "",
+      s.villainPosition ?? "",
+      s.pko?.coverage ?? "",
+    ].join("|");
     let family = families.get(key);
     if (!family) {
       const parts = [s.situation, formatNumberRange(s.stack, "bb")];
       if (ratio) parts.push(ratio);
       if (s.villainPosition) parts.push(`vs ${s.villainPosition}`);
+      if (s.pko) parts.push(`PKO ${s.pko.coverage}`);
       family = { key, label: `${parts.join(" · ")} (${s.street === "preflop" ? "pré-flop" : s.street})`, byPosition: {} };
       families.set(key, family);
     }

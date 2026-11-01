@@ -417,6 +417,18 @@ async function main() {
     }
     log("drill vs 3-bet sorteia só mãos do range de open");
 
+    // PKO: etiquetas de bounty em todos os lugares e aviso de cobertura
+    await page.goto(`${BASE_URL}/admin/importar`);
+    await page.getByTestId("carga-rfi-50bb-pko-cobrindo").getByRole("button", { name: "Importar" }).click();
+    await page.getByTestId("carga-rfi-50bb-pko-cobrindo").getByText(/Importado:/).waitFor();
+    await page.goto(`${BASE_URL}/drills/rfi-50bb-pko-cobrindo/treinar`);
+    await page.getByTestId("hero-cards").waitFor();
+    assert.equal(await page.getByTestId("bounty-tag").count(), 9, "bounty em todos os 9 lugares");
+    await page.getByTestId("pko-coverage").getByText("você cobre a mesa").waitFor();
+    await page.getByText(/PKO cobrindo/).first().waitFor();
+    await shot(page, "treino-pko");
+    log("mesa PKO com bounty e cobertura");
+
     // 10. Cadastra pool e jogador
     await page.goto(`${BASE_URL}/admin/jogadores`);
     await page.getByPlaceholder("Nome da nova pool").fill("Pool A");

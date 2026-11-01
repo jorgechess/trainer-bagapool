@@ -60,18 +60,34 @@ function CardBack() {
   );
 }
 
+/** Etiqueta dourada de bounty, no estilo das mesas PKO da GGPoker. */
+function BountyTag({ text, dim }: { text: string; dim?: boolean }) {
+  return (
+    <span
+      className={`rounded-[0.35em] border border-amber-200/70 bg-gradient-to-b from-amber-100 via-amber-300 to-amber-600 px-[0.6em] py-[0.1em] font-bold whitespace-nowrap text-stone-900 shadow ${
+        dim ? "opacity-50" : ""
+      }`}
+      data-testid="bounty-tag"
+    >
+      {text}
+    </span>
+  );
+}
+
 function SeatView({
   seat,
   stack,
   heroCards,
   shape,
   raiseLabel,
+  bounty,
 }: {
   seat: Seat;
   stack: string;
   heroCards: [Card, Card];
   shape: Shape;
   raiseLabel: string;
+  bounty?: string;
 }) {
   const hero = seat.status === "hero";
   const folded = seat.status === "folded";
@@ -94,6 +110,7 @@ function SeatView({
           </div>
         )
       )}
+      {bounty && !hero && <BountyTag text={bounty} dim={folded} />}
       <div
         className={`min-w-[5.5em] rounded-[0.5em] border px-[0.6em] py-[0.25em] text-center leading-tight shadow ${
           hero
@@ -109,6 +126,7 @@ function SeatView({
         </p>
         <p className="text-zinc-400">{folded ? "Fold" : seat.status === "raised" ? `${raiseLabel} · ${stack}` : stack}</p>
       </div>
+      {bounty && hero && <BountyTag text={bounty} />}
     </div>
   );
 }
@@ -162,6 +180,14 @@ export function PokerTable({
               Pote: {pot.toLocaleString("pt-BR")}bb
             </span>
           )}
+          {strategy.pko && (
+            <span
+              className="rounded-full border border-amber-300/60 bg-black/50 px-[0.8em] py-[0.15em] font-semibold text-amber-200"
+              data-testid="pko-coverage"
+            >
+              PKO · {strategy.pko.coverage === "cobrindo" ? "você cobre a mesa" : "você está coberto"}
+            </span>
+          )}
         </div>
 
         {/* Blinds colocados */}
@@ -210,6 +236,7 @@ export function PokerTable({
             heroCards={heroCards}
             shape={shape}
             raiseLabel={facesThreeBet(strategy) ? "3-bet" : "Raise"}
+            bounty={strategy.pko ? strategy.pko.bounty || "Bounty" : undefined}
           />
         ))}
       </div>

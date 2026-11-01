@@ -67,3 +67,25 @@ test("carga vs 3-bet 30bb vanilla: válida, coerente com o open e com as porcent
       if (action !== "fold") assert.equal(open.range[hand], "rfi", `${s.name}: ${hand} fora do open`);
   }
 });
+
+test("cargas RFI 50bb PKO: válidas e com as porcentagens do print (cobrindo)", () => {
+  const pct = (bundle: string, pos: string) => {
+    const r = parseImportBundle(load(bundle), DEFAULT_LEGEND);
+    assert.deepEqual(r.errors, []);
+    const s = r.strategies.find((x) => x.heroPosition === pos)!;
+    assert.equal(s.pko?.coverage, bundle.includes("cobrindo") ? "cobrindo" : "coberto");
+    assert.deepEqual(s.stack, { min: 50, max: 50 });
+    return rangeBreakdown(s.range, s.defaultActionId).find((b) => b.actionId === "rfi")!.percent;
+  };
+  // Legenda do print COBRINDO (incremental): EP 23,98 · MP 5,43 · LJ 5,43 · HJ 8,14 · CO 11,46 · BTN 22,93
+  const f = "rfi-50bb-pko-cobrindo.json";
+  assert.equal(pct(f, "UTG"), 24.0);
+  assert.equal(pct(f, "MP"), 29.4);
+  assert.equal(pct(f, "LJ"), 34.8);
+  assert.equal(pct(f, "HJ"), 43.0);
+  assert.equal(pct(f, "CO"), 54.4);
+  assert.equal(pct(f, "BTN"), 77.4);
+  // Coberto: ranges menores que cobrindo em todas as posições
+  for (const pos of ["UTG", "MP", "LJ", "HJ", "CO", "BTN"])
+    assert.ok(pct("rfi-50bb-pko-coberto.json", pos) < pct(f, pos), `coberto < cobrindo no ${pos}`);
+});

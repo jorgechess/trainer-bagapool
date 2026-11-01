@@ -33,6 +33,19 @@ export interface NumberRange {
   max: number;
 }
 
+export type Coverage = "cobrindo" | "coberto";
+
+export interface PkoInfo {
+  coverage: Coverage;
+  /** Texto da etiqueta dourada de bounty (ex.: "$25"). Padrão: "Bounty". */
+  bounty?: string;
+}
+
+export const COVERAGE_LABELS: Record<Coverage, string> = {
+  cobrindo: "Cobrindo",
+  coberto: "Coberto",
+};
+
 export interface DealFrom {
   strategyId: string;
   actionIds: string[];
@@ -74,6 +87,8 @@ export interface Strategy {
    * Ex.: vs 3-bet do CO só com mãos que o CO abre (RFI CO: "rfi").
    */
   dealFrom?: DealFrom | null;
+  /** Torneio PKO (bounty): se o herói cobre ou é coberto, e o texto da etiqueta de bounty. */
+  pko?: PkoInfo | null;
   /** Tamanhos desenhados na mesa (bb). Padrão: open 2bb, 3-bet 3,5× o open. */
   tableSizes?: { open?: number; threeBet?: number } | null;
   /** Range do pré-flop. */
@@ -125,6 +140,8 @@ export function validateStrategy(strategy: Strategy, legend: Legend): string[] {
   for (const id of strategy.entryActionIds ?? []) {
     if (!findAction(legend, id)) errors.push(`A ação de entrada "${id}" não existe na legenda.`);
   }
+  if (strategy.pko && !["cobrindo", "coberto"].includes(strategy.pko.coverage))
+    errors.push("PKO: informe se o herói está cobrindo ou coberto.");
   if (strategy.dealFrom) {
     if (!strategy.dealFrom.strategyId) errors.push("Escolha a estratégia de onde as mãos são sorteadas.");
     if (strategy.dealFrom.strategyId === strategy.id) errors.push("A estratégia não pode sortear mãos dela mesma.");
