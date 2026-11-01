@@ -21,15 +21,13 @@ jobs:
       - uses: actions/setup-node@v5
         with:
           node-version: 22
-      - uses: supabase/setup-cli@v1
-        with:
-          version: latest
 
       - name: Subir Supabase local
         run: |
-          [ -f supabase/config.toml ] || supabase init < /dev/null
-          supabase start -x studio,imgproxy,realtime,storage-api,edge-runtime,logflare,vector 2>&1 | tee supabase.log
-          supabase status -o env > supabase.env
+          SB="npx --yes supabase@^2"
+          [ -f supabase/config.toml ] || $SB init < /dev/null
+          $SB start -x studio,imgproxy,realtime,storage-api,edge-runtime,logflare,vector 2>&1 | tee supabase.log
+          $SB status -o env > supabase.env
           set -a; source supabase.env; set +a
           ANON="${ANON_KEY:-$PUBLISHABLE_KEY}"
           SERVICE="${SERVICE_ROLE_KEY:-$SECRET_KEY}"
