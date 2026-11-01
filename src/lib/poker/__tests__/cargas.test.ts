@@ -391,3 +391,20 @@ test("carga Call em Shoves do BB MLR: porcentagens exatas dos prints e vilão co
     assert.equal(t.raiseLabel, "All-in");
   }
 });
+
+test("carga Defesa BB PKO Short: porcentagens das legendas", () => {
+  const result = parseImportBundle(load("defesa-bb-pko-short.json"), DEFAULT_LEGEND);
+  assert.deepEqual(result.errors, []);
+  assert.equal(result.strategies.length, 56);
+  const get = (ctx: string, stack: number, v: string) => result.strategies.find((s) => s.id === `bb-def-pko-short-${ctx}-${stack}bb-vs-${v}`)!;
+  const rows: [string, number, string, string, number][] = [
+    ["3p1", 10, "utg", "shove", 11.76], ["3p1", 10, "btn", "call", 70.29], ["bng", 10, "btn", "call", 35.44],
+    ["3p1", 15, "co", "shove", 19.16], ["bng", 15, "lj", "call", 21.87], ["3p1", 20, "btn", "3bet-fold", 29.86],
+    ["1e5p1", 20, "btn", "3bet-call", 3.32], ["bng", 20, "utg", "3bet-call", 1.21],
+  ];
+  for (const [ctx, stack, v, action, value] of rows) {
+    const got = printPercent(get(ctx, stack, v), action);
+    assert.ok(Math.abs(got - value) < 0.1, `${ctx} ${stack}bb vs ${v} ${action}: ${got} ≈ ${value}`);
+  }
+  assert.equal(get("3p1", 20, "co").pko?.coverage, "coberto");
+});

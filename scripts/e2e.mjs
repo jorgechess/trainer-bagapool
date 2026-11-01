@@ -665,6 +665,15 @@ async function main() {
     await page.getByTestId("players-left").waitFor();
     await shot(page, "treino-call-shove-bb");
     log("Call em Shoves do BB MLR treinável");
+
+    await page.goto(`${BASE_URL}/admin/importar`);
+    await page.getByTestId("carga-defesa-bb-pko-short").getByRole("button", { name: "Importar" }).click();
+    await page.getByTestId("carga-defesa-bb-pko-short").getByText(/Importado:/).waitFor({ timeout: 60000 });
+    await page.goto(`${BASE_URL}/drills/defesa-bb-pko-short/treinar`);
+    await page.getByTestId("hero-cards").waitFor();
+    await page.getByTestId("pko-coverage").getByText("PKO coberto").waitFor();
+    await page.getByTestId("players-left").waitFor();
+    log("Defesa BB PKO Short treinável");
     log(`Max Late Reg Vanilla importado; mesa mostra ${leftText}`);
 
     // 10. Cadastra pool e jogador
