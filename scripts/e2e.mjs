@@ -164,7 +164,7 @@ async function main() {
     for (let hand = 0; hand < 8; hand++) {
       for (let guard = 0; guard < 3; guard++) {
         const flop = await page.getByTestId("board").isVisible();
-        // Sempre escolhe a última opção (Open shove no pré-flop, Bet 33% no flop)
+        // Sempre escolhe a última opção (All-in no pré-flop, Bet 33% no flop)
         const options = page.locator("[data-testid=actions] button:not([disabled])");
         await options.last().click();
         decisions += 1;

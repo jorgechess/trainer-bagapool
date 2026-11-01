@@ -30,7 +30,7 @@ export type Legend = LegendAction[];
 export const DEFAULT_LEGEND: Legend = [
   { id: "fold", label: "Fold", color: "#3b82f6", kind: "fold" },
   { id: "rfi", label: "Raise (RFI)", color: "#f97316", kind: "raise" },
-  { id: "shove", label: "Open shove", color: "#a855f7", kind: "allin" },
+  { id: "shove", label: "All-in", color: "#a855f7", kind: "allin" },
   { id: "limp", label: "Limp", color: "#22c55e", kind: "limp" },
   { id: "call", label: "Flat / Call", color: "#eab308", kind: "call" },
   { id: "3bet", label: "3-bet", color: "#ef4444", kind: "raise" },
