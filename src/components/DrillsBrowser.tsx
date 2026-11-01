@@ -111,31 +111,18 @@ export function DrillsBrowser({ drills }: { drills: DrillCard[] }) {
               <span className="rounded bg-zinc-800 px-2 py-0.5 text-xs text-zinc-400">{items.length}</span>
             </button>
             {open && (
-              <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+              <div className="grid gap-2 lg:grid-cols-2">
                 {items.map((drill) => (
-                  <div key={drill.id} className="card flex flex-col gap-3" data-testid="drill-card">
-                    <div>
-                      <h3 className="font-semibold">{drill.name}</h3>
-                      {drill.description && <p className="muted mt-1">{drill.description}</p>}
-                    </div>
-                    <div className="flex justify-between gap-2 text-sm">
-                      <span className="whitespace-nowrap text-zinc-400">Spot inicial</span>
-                      <span className="text-right">{drill.spot}</span>
-                    </div>
-                    {drill.tags.length > 0 && (
-                      <div className="flex flex-wrap gap-1">
-                        {drill.tags.map((tag) => (
-                          <span key={tag} className="rounded bg-zinc-800 px-2 py-0.5 text-xs text-zinc-300">
-                            {tag}
-                          </span>
-                        ))}
-                      </div>
-                    )}
-                    <div className="mt-auto pt-2">
-                      <Link href={`/drills/${drill.id}/treinar`} className="btn-primary w-full">
-                        Treinar
-                      </Link>
-                    </div>
+                  <div
+                    key={drill.id}
+                    className="card flex items-center justify-between gap-3 px-4 py-3"
+                    data-testid="drill-card"
+                    title={drill.description}
+                  >
+                    <h3 className="min-w-0 truncate font-semibold">{drill.name}</h3>
+                    <Link href={`/drills/${drill.id}/treinar`} className="btn-primary shrink-0 px-4 py-1.5 text-sm">
+                      Treinar
+                    </Link>
                   </div>
                 ))}
               </div>
