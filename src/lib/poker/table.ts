@@ -52,6 +52,8 @@ export function tableSeats(strategy: Strategy): Seat[] {
     let posted = preflop ? (BLINDS[position] ?? 0) : 0;
     if (threeBet && position === strategy.heroPosition) posted = sizes.open;
     if (threeBet && position === strategy.villainPosition) posted = sizes.threeBet;
+    // vs RFI (ex.: defesa do BB): o vilão abriu antes do herói
+    if (preflop && !threeBet && position === strategy.villainPosition) posted = Math.max(posted, sizes.open);
     return {
       position,
       status,
@@ -69,7 +71,10 @@ export function knownPot(strategy: Strategy): number | null {
     const total = tableSeats(strategy).reduce((sum, seat) => sum + seat.posted, 0);
     return Math.round(total * 10) / 10;
   }
-  if (strategy.villainPosition) return null;
+  if (strategy.villainPosition) {
+    const total = tableSeats(strategy).reduce((sum, seat) => sum + seat.posted, 0);
+    return Math.round(total * 10) / 10;
+  }
   return 1.5;
 }
 

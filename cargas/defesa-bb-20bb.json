@@ -1,0 +1,286 @@
+{
+ "legendAdd": [
+  {
+   "id": "3bet-call",
+   "label": "3-bet/Call",
+   "color": "#b91c1c",
+   "kind": "raise"
+  },
+  {
+   "id": "3bet-fold",
+   "label": "3-bet/Fold",
+   "color": "#fb7185",
+   "kind": "raise"
+  }
+ ],
+ "strategies": [
+  {
+   "id": "bb-def-20bb-vs-utg",
+   "name": "Defesa BB vs UTG 20bb",
+   "description": "Defesa do BB 20bb (deep) contra open do UTG (print BB vs EP/MP).",
+   "street": "preflop",
+   "situation": "vs RFI",
+   "heroPosition": "BB",
+   "villainPosition": "UTG",
+   "stack": {
+    "min": 20,
+    "max": 20
+   },
+   "ratio": null,
+   "bubble": null,
+   "tags": [
+    "defesa-bb",
+    "vanilla"
+   ],
+   "actionIds": [
+    "fold",
+    "call",
+    "3bet-call",
+    "3bet-fold",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "range": {
+    "3bet-call": "AA, AKs, AQs, KK, QQ, JJ",
+    "call": "AJs, ATs, A9s, A8s, A7s, A6s, A5s, A4s, A3s, A2s, KQs, KJs, KTs, K9s, K8s, K7s, K6s, K5s, K4s, K3s, K2s, KQo, QJs, Q9s, Q8s, Q7s, Q6s, Q5s, Q4s, Q3s, Q2s, AJo, KJo, QJo, J9s, J8s, J7s, J6s, J5s, J4s, J3s, J2s, ATo, KTo, QTo, JTo, T9s, T8s, T7s, T6s, T5s, T4s, T3s, T2s, A9o, K9o, Q9o, J9o, T9o, 98s, 97s, 96s, 95s, 94s, 93s, 92s, A8o, 98o, 87s, 86s, 85s, 84s, 83s, 82s, A7o, 87o, 76s, 75s, 74s, 73s, 72s, 76o, 66, 65s, 64s, 63s, 62s, A5o, 65o, 55, 54s, 53s, 52s, A4o, 54o, 44, 43s, 42s, 33, 32s, 22",
+    "shove": "AKo, AQo, QTs, JTs, TT, 99, 88, 77",
+    "3bet-fold": "A6o, A3o, A2o"
+   }
+  },
+  {
+   "id": "bb-def-20bb-vs-utg1",
+   "name": "Defesa BB vs UTG1 20bb",
+   "description": "Defesa do BB 20bb (deep) contra open do UTG1 (print BB vs EP/MP).",
+   "street": "preflop",
+   "situation": "vs RFI",
+   "heroPosition": "BB",
+   "villainPosition": "UTG1",
+   "stack": {
+    "min": 20,
+    "max": 20
+   },
+   "ratio": null,
+   "bubble": null,
+   "tags": [
+    "defesa-bb",
+    "vanilla"
+   ],
+   "actionIds": [
+    "fold",
+    "call",
+    "3bet-call",
+    "3bet-fold",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "range": {
+    "3bet-call": "AA, AKs, AQs, KK, QQ, JJ",
+    "call": "AJs, ATs, A9s, A8s, A7s, A6s, A5s, A4s, A3s, A2s, KQs, KJs, KTs, K9s, K8s, K7s, K6s, K5s, K4s, K3s, K2s, KQo, QJs, Q9s, Q8s, Q7s, Q6s, Q5s, Q4s, Q3s, Q2s, AJo, KJo, QJo, J9s, J8s, J7s, J6s, J5s, J4s, J3s, J2s, ATo, KTo, QTo, JTo, T9s, T8s, T7s, T6s, T5s, T4s, T3s, T2s, A9o, K9o, Q9o, J9o, T9o, 98s, 97s, 96s, 95s, 94s, 93s, 92s, A8o, 98o, 87s, 86s, 85s, 84s, 83s, 82s, A7o, 87o, 76s, 75s, 74s, 73s, 72s, 76o, 66, 65s, 64s, 63s, 62s, A5o, 65o, 55, 54s, 53s, 52s, A4o, 54o, 44, 43s, 42s, 33, 32s, 22",
+    "shove": "AKo, AQo, QTs, JTs, TT, 99, 88, 77",
+    "3bet-fold": "A6o, A3o, A2o"
+   }
+  },
+  {
+   "id": "bb-def-20bb-vs-mp",
+   "name": "Defesa BB vs MP 20bb",
+   "description": "Defesa do BB 20bb (deep) contra open do MP (print BB vs EP/MP).",
+   "street": "preflop",
+   "situation": "vs RFI",
+   "heroPosition": "BB",
+   "villainPosition": "MP",
+   "stack": {
+    "min": 20,
+    "max": 20
+   },
+   "ratio": null,
+   "bubble": null,
+   "tags": [
+    "defesa-bb",
+    "vanilla"
+   ],
+   "actionIds": [
+    "fold",
+    "call",
+    "3bet-call",
+    "3bet-fold",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "range": {
+    "3bet-call": "AA, AKs, AQs, KK, QQ, JJ",
+    "call": "AJs, ATs, A9s, A8s, A7s, A6s, A5s, A4s, A3s, A2s, KQs, KJs, KTs, K9s, K8s, K7s, K6s, K5s, K4s, K3s, K2s, KQo, QJs, Q9s, Q8s, Q7s, Q6s, Q5s, Q4s, Q3s, Q2s, AJo, KJo, QJo, J9s, J8s, J7s, J6s, J5s, J4s, J3s, J2s, ATo, KTo, QTo, JTo, T9s, T8s, T7s, T6s, T5s, T4s, T3s, T2s, A9o, K9o, Q9o, J9o, T9o, 98s, 97s, 96s, 95s, 94s, 93s, 92s, A8o, 98o, 87s, 86s, 85s, 84s, 83s, 82s, A7o, 87o, 76s, 75s, 74s, 73s, 72s, 76o, 66, 65s, 64s, 63s, 62s, A5o, 65o, 55, 54s, 53s, 52s, A4o, 54o, 44, 43s, 42s, 33, 32s, 22",
+    "shove": "AKo, AQo, QTs, JTs, TT, 99, 88, 77",
+    "3bet-fold": "A6o, A3o, A2o"
+   }
+  },
+  {
+   "id": "bb-def-20bb-vs-lj",
+   "name": "Defesa BB vs LJ 20bb",
+   "description": "Defesa do BB 20bb (deep) contra open do LJ (print BB vs LJ/HJ).",
+   "street": "preflop",
+   "situation": "vs RFI",
+   "heroPosition": "BB",
+   "villainPosition": "LJ",
+   "stack": {
+    "min": 20,
+    "max": 20
+   },
+   "ratio": null,
+   "bubble": null,
+   "tags": [
+    "defesa-bb",
+    "vanilla"
+   ],
+   "actionIds": [
+    "fold",
+    "call",
+    "3bet-call",
+    "3bet-fold",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "range": {
+    "3bet-call": "AA, AKs, AQs, KK, QQ, JJ",
+    "call": "AJs, ATs, A9s, A8s, A7s, A6s, A5s, A4s, A3s, A2s, KQs, KJs, KTs, K8s, K7s, K6s, K5s, K4s, K3s, K2s, KQo, QJs, Q9s, Q8s, Q7s, Q6s, Q5s, Q4s, Q3s, Q2s, KJo, QJo, J9s, J8s, J7s, J6s, J5s, J4s, J3s, J2s, ATo, KTo, QTo, JTo, T9s, T8s, T7s, T6s, T5s, T4s, T3s, T2s, A9o, K9o, Q9o, J9o, T9o, 98s, 97s, 96s, 95s, 94s, 93s, 92s, A8o, K8o, T8o, 98o, 87s, 86s, 85s, 84s, 83s, 82s, A7o, K7o, 87o, 76s, 75s, 74s, 73s, 72s, A6o, K6o, 76o, 65s, 64s, 63s, 62s, A5o, 65o, 54s, 53s, 52s, A4o, 54o, 44, 43s, 42s, A3o, 33, 32s, 22",
+    "shove": "AKo, K9s, AQo, QTs, AJo, JTs, TT, 99, 88, 77, 66, 55",
+    "3bet-fold": "Q8o, J8o, K5o, A2o"
+   }
+  },
+  {
+   "id": "bb-def-20bb-vs-hj",
+   "name": "Defesa BB vs HJ 20bb",
+   "description": "Defesa do BB 20bb (deep) contra open do HJ (print BB vs LJ/HJ).",
+   "street": "preflop",
+   "situation": "vs RFI",
+   "heroPosition": "BB",
+   "villainPosition": "HJ",
+   "stack": {
+    "min": 20,
+    "max": 20
+   },
+   "ratio": null,
+   "bubble": null,
+   "tags": [
+    "defesa-bb",
+    "vanilla"
+   ],
+   "actionIds": [
+    "fold",
+    "call",
+    "3bet-call",
+    "3bet-fold",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "range": {
+    "3bet-call": "AA, AKs, AQs, KK, QQ, JJ",
+    "call": "AJs, ATs, A9s, A8s, A7s, A6s, A5s, A4s, A3s, A2s, KQs, KJs, KTs, K8s, K7s, K6s, K5s, K4s, K3s, K2s, KQo, QJs, Q9s, Q8s, Q7s, Q6s, Q5s, Q4s, Q3s, Q2s, KJo, QJo, J9s, J8s, J7s, J6s, J5s, J4s, J3s, J2s, ATo, KTo, QTo, JTo, T9s, T8s, T7s, T6s, T5s, T4s, T3s, T2s, A9o, K9o, Q9o, J9o, T9o, 98s, 97s, 96s, 95s, 94s, 93s, 92s, A8o, K8o, T8o, 98o, 87s, 86s, 85s, 84s, 83s, 82s, A7o, K7o, 87o, 76s, 75s, 74s, 73s, 72s, A6o, K6o, 76o, 65s, 64s, 63s, 62s, A5o, 65o, 54s, 53s, 52s, A4o, 54o, 44, 43s, 42s, A3o, 33, 32s, 22",
+    "shove": "AKo, K9s, AQo, QTs, AJo, JTs, TT, 99, 88, 77, 66, 55",
+    "3bet-fold": "Q8o, J8o, K5o, A2o"
+   }
+  },
+  {
+   "id": "bb-def-20bb-vs-co",
+   "name": "Defesa BB vs CO 20bb",
+   "description": "Defesa do BB 20bb (deep) contra open do CO (print BB vs CO).",
+   "street": "preflop",
+   "situation": "vs RFI",
+   "heroPosition": "BB",
+   "villainPosition": "CO",
+   "stack": {
+    "min": 20,
+    "max": 20
+   },
+   "ratio": null,
+   "bubble": null,
+   "tags": [
+    "defesa-bb",
+    "vanilla"
+   ],
+   "actionIds": [
+    "fold",
+    "call",
+    "3bet-call",
+    "3bet-fold",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "range": {
+    "3bet-call": "AA, AKs, AQs, AKo, KK, QQ, JJ",
+    "shove": "AJs, A3s, A2s, K7s, K6s, AQo, AJo, JTs, J9s, J8s, TT, T9s, T8s, 99, 98s, 88, 77, 66, 55, 44, 33, 22",
+    "call": "ATs, A9s, A8s, A7s, A6s, A5s, A4s, KQs, KJs, KTs, K9s, K8s, K5s, K4s, K3s, K2s, KQo, QJs, QTs, Q9s, Q8s, Q7s, Q6s, Q5s, Q4s, Q3s, Q2s, KJo, QJo, J7s, J6s, J5s, J4s, J3s, J2s, ATo, KTo, QTo, JTo, T7s, T6s, T5s, T4s, T3s, T2s, A9o, K9o, Q9o, J9o, T9o, 97s, 96s, 95s, 94s, 93s, 92s, A8o, K8o, Q8o, J8o, T8o, 98o, 87s, 86s, 85s, 84s, 83s, 82s, A7o, K7o, 97o, 87o, 76s, 75s, 74s, 73s, 72s, A6o, K6o, 86o, 76o, 65s, 64s, 63s, 62s, A5o, K5o, 75o, 65o, 54s, 53s, 52s, A4o, 64o, 54o, 43s, 42s, A3o, 32s",
+    "3bet-fold": "Q7o, J7o, T7o, K4o, K3o, A2o, K2o"
+   }
+  },
+  {
+   "id": "bb-def-20bb-vs-btn",
+   "name": "Defesa BB vs BTN 20bb",
+   "description": "Defesa do BB 20bb (deep) contra open do BTN (print BB vs BTN).",
+   "street": "preflop",
+   "situation": "vs RFI",
+   "heroPosition": "BB",
+   "villainPosition": "BTN",
+   "stack": {
+    "min": 20,
+    "max": 20
+   },
+   "ratio": null,
+   "bubble": null,
+   "tags": [
+    "defesa-bb",
+    "vanilla"
+   ],
+   "actionIds": [
+    "fold",
+    "call",
+    "3bet-call",
+    "3bet-fold",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "range": {
+    "3bet-call": "AA, AKs, AQs, AJs, AKo, KK, QQ, JJ",
+    "shove": "ATs, A3s, A2s, K7s, K6s, AQo, AJo, JTs, J9s, J8s, ATo, TT, T9s, T8s, A9o, 99, 98s, A8o, 88, 77, 66, 55, A4o, 44, A3o, 33, 22",
+    "call": "A9s, A8s, A7s, A6s, A5s, A4s, KQs, KJs, KTs, K9s, K8s, K5s, K4s, K3s, K2s, KQo, QJs, QTs, Q9s, Q8s, Q7s, Q6s, Q5s, Q4s, Q3s, Q2s, KJo, QJo, J7s, J6s, J5s, J4s, J3s, J2s, KTo, QTo, JTo, T7s, T6s, T5s, T4s, T3s, T2s, K9o, Q9o, J9o, T9o, 97s, 96s, 95s, 94s, 93s, 92s, K8o, Q8o, J8o, T8o, 98o, 87s, 86s, 85s, 84s, 83s, 82s, A7o, K7o, Q7o, J7o, T7o, 97o, 87o, 76s, 75s, 74s, 73s, 72s, A6o, K6o, Q6o, 86o, 76o, 65s, 64s, 63s, 62s, A5o, K5o, Q5o, 75o, 65o, 54s, 53s, 52s, K4o, 64o, 54o, 43s, 42s, K3o, 53o, 43o, 32s",
+    "3bet-fold": "J6o, T6o, 96o, J5o, 85o, Q4o, Q3o, A2o, K2o, Q2o"
+   }
+  }
+ ],
+ "drills": [
+  {
+   "id": "defesa-bb-20bb",
+   "name": "Defesa BB 20bb",
+   "description": "Você no BB com 20bb contra um open. Cada mão sorteia quem abriu (UTG a BTN).",
+   "variants": [
+    [
+     "bb-def-20bb-vs-utg"
+    ],
+    [
+     "bb-def-20bb-vs-utg1"
+    ],
+    [
+     "bb-def-20bb-vs-mp"
+    ],
+    [
+     "bb-def-20bb-vs-lj"
+    ],
+    [
+     "bb-def-20bb-vs-hj"
+    ],
+    [
+     "bb-def-20bb-vs-co"
+    ],
+    [
+     "bb-def-20bb-vs-btn"
+    ]
+   ],
+   "sampling": "fronteira",
+   "tags": [
+    "defesa-bb",
+    "vanilla"
+   ],
+   "handsPerSession": 50,
+   "passAccuracy": 0.9
+  }
+ ]
+}

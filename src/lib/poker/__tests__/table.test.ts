@@ -27,7 +27,9 @@ test("vilão que aumentou aparece como raise; pós-flop só herói e vilão", ()
   const vsRfi = tableSeats({ ...rfiBtn, heroPosition: "BB", villainPosition: "CO" });
   assert.equal(vsRfi.find((s) => s.position === "CO")!.status, "raised");
   assert.equal(vsRfi.find((s) => s.position === "BTN")!.status, "folded");
-  assert.equal(knownPot({ ...rfiBtn, villainPosition: "CO" }), null);
+  // vs RFI: o open de 2bb do vilão aparece na mesa e no pote (2 + 0,5 + 1)
+  assert.equal(vsRfi.find((s) => s.position === "CO")!.posted, 2);
+  assert.equal(knownPot({ ...rfiBtn, heroPosition: "BB", villainPosition: "CO" }), 3.5);
   const post = tableSeats(cbetFlop);
   assert.deepEqual(
     post.filter((s) => s.status !== "folded").map((s) => [s.position, s.status]),

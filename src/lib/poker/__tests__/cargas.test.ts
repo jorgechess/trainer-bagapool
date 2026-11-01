@@ -294,3 +294,29 @@ test("carga RFI PKO Short coberto: 10, 15 e 20bb com as porcentagens das legenda
   }
   for (const s of result.strategies) assert.equal(s.pko?.coverage, "coberto");
 });
+
+test("cargas Defesa BB 20bb e 30bb: porcentagens exatas das legendas", () => {
+  const check = (file: string, rows: [string, Record<string, number>][]) => {
+    const result = parseImportBundle(load(file), DEFAULT_LEGEND);
+    assert.deepEqual(result.errors, []);
+    assert.deepEqual(result.legend?.slice(-2).map((a) => a.id), ["3bet-call", "3bet-fold"]);
+    for (const [villain, expected] of rows) {
+      const s = result.strategies.find((x) => x.villainPosition === villain)!;
+      assert.equal(s.heroPosition, "BB");
+      for (const [action, value] of Object.entries(expected))
+        assert.ok(Math.abs(printPercent(s, action) - value) < 0.01, `${file} vs ${villain} ${action}`);
+    }
+  };
+  check("defesa-bb-30bb.json", [
+    ["UTG", { call: 50.83, shove: 0, "3bet-call": 3.02, "3bet-fold": 4.52 }],
+    ["HJ", { call: 56.41, shove: 2.26, "3bet-call": 2.41, "3bet-fold": 3.62 }],
+    ["CO", { call: 54.3, shove: 5.73, "3bet-call": 3.77, "3bet-fold": 6.33 }],
+    ["BTN", { call: 59.13, shove: 6.94, "3bet-call": 4.98, "3bet-fold": 11.76 }],
+  ]);
+  check("defesa-bb-20bb.json", [
+    ["MP", { call: 44.49, shove: 4.22, "3bet-call": 2.41, "3bet-fold": 2.71 }],
+    ["LJ", { call: 47.81, shove: 6.33, "3bet-call": 2.41, "3bet-fold": 3.62 }],
+    ["CO", { call: 50.38, shove: 9.2, "3bet-call": 3.32, "3bet-fold": 6.33 }],
+    ["BTN", { call: 53.7, shove: 13.73, "3bet-call": 3.62, "3bet-fold": 9.05 }],
+  ]);
+});

@@ -590,6 +590,19 @@ async function main() {
     assert.equal(await page.getByRole("group", { name: "Stack" }).getByRole("button").count(), 4, "Todas, 10, 15 e 20bb");
     await shot(page, "treino-pko-short");
     log("RFI PKO short coberto importado e treinável");
+
+    // Defesa BB 20bb: vilão com open de 2bb na mesa, botões flat/resteal/3-bet call/3-bet fold
+    await page.goto(`${BASE_URL}/admin/importar`);
+    await page.getByTestId("carga-defesa-bb-20bb").getByRole("button", { name: "Importar" }).click();
+    await page.getByTestId("carga-defesa-bb-20bb").getByText(/Importado:/).waitFor();
+    await page.goto(`${BASE_URL}/drills/defesa-bb-20bb/treinar`);
+    await page.getByTestId("hero-cards").waitFor();
+    await page.getByTestId("spot").filter({ hasText: /^vs RFI · BB · vs (UTG|UTG1|MP|LJ|HJ|CO|BTN)$/ }).waitFor();
+    for (const name of ["3-bet/Call", "3-bet/Fold"])
+      await page.locator("[data-testid=actions]").getByRole("button", { name }).waitFor();
+    await page.getByText("Pote: 3,5bb").waitFor();
+    await shot(page, "treino-defesa-bb");
+    log("defesa do BB: open do vilão na mesa e botões de 3-bet/call e 3-bet/fold");
     log(`Max Late Reg Vanilla importado; mesa mostra ${leftText}`);
 
     // 10. Cadastra pool e jogador
