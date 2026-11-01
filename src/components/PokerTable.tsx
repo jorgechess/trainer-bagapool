@@ -22,6 +22,8 @@ interface PokerTableProps {
 const SEAT_COUNT = 9;
 /** Distância das fichas e do botão do dealer até o centro (1 = no lugar do jogador). */
 const CHIP_FACTOR = 0.76;
+/** Na mesa em pé (celular) os lugares ficam mais juntos: fichas um pouco mais para dentro. */
+const CHIP_FACTOR_TALL = 0.66;
 const DEALER_FACTOR = 0.6;
 
 interface Shape {
@@ -173,7 +175,7 @@ export function PokerTable({
               style={
                 s.offset === 0
                   ? (({ x, y }) => (vertical ? at(x - 12, y - 24) : at(x - 13, y - 10)))(seatPlacement(shape, 0))
-                  : towardCenter(shape, s.offset, CHIP_FACTOR)
+                  : towardCenter(shape, s.offset, vertical ? CHIP_FACTOR_TALL : CHIP_FACTOR)
               }
             >
               <span className="h-[1.1em] w-[1.1em] rounded-full border-2 border-dashed border-white bg-sky-600" />
