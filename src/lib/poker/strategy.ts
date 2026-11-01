@@ -96,6 +96,11 @@ export interface Strategy {
   tableSizes?: { open?: number; threeBet?: number } | null;
   /** Range do pré-flop. */
   range: Range;
+  /**
+   * Mãos mistas do pré-flop: uma segunda ação que também é aceita como certa
+   * (ex.: AA metade call, metade all-in). O range guarda a ação principal.
+   */
+  alsoCorrect?: Range | null;
   /** Ranges do pós-flop por textura; vale a primeira textura que combinar com o board. */
   textureRanges: TextureRange[];
 }
@@ -114,6 +119,23 @@ export function resolveRange(strategy: Strategy, board: readonly Card[]): Range 
 export function correctAction(strategy: Strategy, hand: HandLabel, board: readonly Card[]): string | null {
   const range = resolveRange(strategy, board);
   return range ? actionOf(range, hand, strategy.defaultActionId) : null;
+}
+
+/** Ações aceitas como certas para a mão: a principal e, em mão mista, a segunda. */
+export function acceptedActions(strategy: Strategy, hand: HandLabel, board: readonly Card[]): string[] | null {
+  const correct = correctAction(strategy, hand, board);
+  if (correct === null) return null;
+  const extra = strategy.street === "preflop" ? strategy.alsoCorrect?.[hand] : undefined;
+  return extra && extra !== correct ? [correct, extra] : [correct];
+}
+
+/** Remove a segunda ação das mãos cuja ação principal mudou (ex.: depois de repintar o range). */
+export function pruneAlsoCorrect(alsoCorrect: Range | null | undefined, before: Range, after: Range): Range | null {
+  if (!alsoCorrect) return null;
+  const kept: Range = {};
+  for (const [hand, action] of Object.entries(alsoCorrect))
+    if (action && before[hand] === after[hand] && after[hand] !== action) kept[hand] = action;
+  return Object.keys(kept).length ? kept : null;
 }
 
 export function formatNumberRange(range: NumberRange, unit = ""): string {
@@ -163,6 +185,13 @@ export function validateStrategy(strategy: Strategy, legend: Legend): string[] {
 
   if (strategy.street === "preflop") {
     checkRange(strategy.range, "Range");
+    for (const [hand, action] of Object.entries(strategy.alsoCorrect ?? {})) {
+      if (!action) continue;
+      if (!strategy.actionIds.includes(action))
+        errors.push(`Mão mista ${hand}: a ação "${action}" não está entre os botões do exercício.`);
+      if (actionOf(strategy.range, hand, strategy.defaultActionId) === action)
+        errors.push(`Mão mista ${hand}: a segunda ação é igual à principal.`);
+    }
   } else {
     if (strategy.textureRanges.length === 0) errors.push("Cadastre pelo menos uma textura para o pós-flop.");
     for (const tr of strategy.textureRanges) {

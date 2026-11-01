@@ -9,13 +9,15 @@ import { type Range, paintHands, parseRangeNotation, rangeBreakdown } from "@/li
 interface RangePainterProps {
   range: Range;
   onChange: (range: Range) => void;
+  /** Mãos mistas (só exibição). */
+  alsoCorrect?: Range | null;
   legend: Legend;
   actionIds: string[];
   defaultActionId: string;
 }
 
 /** Editor de range: escolha a ação e clique ou arraste na grade; também aceita notação em texto. */
-export function RangePainter({ range, onChange, legend, actionIds, defaultActionId }: RangePainterProps) {
+export function RangePainter({ range, onChange, alsoCorrect, legend, actionIds, defaultActionId }: RangePainterProps) {
   const actions = legend.filter((a) => actionIds.includes(a.id));
   const [brush, setBrush] = useState(actions.find((a) => a.id !== defaultActionId)?.id ?? defaultActionId);
   const [notation, setNotation] = useState("");
@@ -56,6 +58,7 @@ export function RangePainter({ range, onChange, legend, actionIds, defaultAction
       <div className="max-w-xl">
         <RangeGrid
           range={range}
+          alsoCorrect={alsoCorrect}
           defaultActionId={defaultActionId}
           legend={legend}
           onPaint={(hand) => onChange(paintHands(range, [hand], activeBrush))}

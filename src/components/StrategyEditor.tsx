@@ -15,6 +15,7 @@ import {
   type Street,
   type Strategy,
   type TextureRange,
+  pruneAlsoCorrect,
   validateStrategy,
 } from "@/lib/poker/strategy";
 import {
@@ -497,7 +498,8 @@ export function StrategyEditor({
           <h2 className="font-semibold">Range</h2>
           <RangePainter
             range={s.range}
-            onChange={(range) => update({ range })}
+            alsoCorrect={s.alsoCorrect}
+            onChange={(range) => update({ range, alsoCorrect: pruneAlsoCorrect(s.alsoCorrect, s.range, range) })}
             legend={legend}
             actionIds={s.actionIds}
             defaultActionId={s.defaultActionId}

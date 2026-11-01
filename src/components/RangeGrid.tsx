@@ -9,6 +9,8 @@ interface RangeGridProps {
   range: Range;
   defaultActionId: string;
   legend: Legend;
+  /** Mãos mistas: segunda ação aceita, desenhada na metade direita da casa. */
+  alsoCorrect?: Range | null;
   /** Mão destacada (ex.: a mão do exercício). */
   highlight?: HandLabel | null;
   /** Se informado, a grade fica editável: clique ou arraste para pintar. */
@@ -16,7 +18,7 @@ interface RangeGridProps {
   compact?: boolean;
 }
 
-export function RangeGrid({ range, defaultActionId, legend, highlight, onPaint, compact }: RangeGridProps) {
+export function RangeGrid({ range, defaultActionId, legend, alsoCorrect, highlight, onPaint, compact }: RangeGridProps) {
   const painting = useRef(false);
   const lastPainted = useRef<HandLabel | null>(null);
 
@@ -56,17 +58,20 @@ export function RangeGrid({ range, defaultActionId, legend, highlight, onPaint, 
       {HAND_GRID.flat().map((hand) => {
         const action = findAction(legend, actionOf(range, hand, defaultActionId));
         const background = action?.color ?? "#27272a";
+        const second = alsoCorrect?.[hand] ? findAction(legend, alsoCorrect[hand]) : undefined;
         const isHighlight = highlight === hand;
         return (
           <div
             key={hand}
             data-hand={hand}
-            title={`${hand}: ${action?.label ?? "?"}`}
+            data-mixed={second ? "true" : undefined}
+            title={`${hand}: ${action?.label ?? "?"}${second ? ` ou ${second.label}` : ""}`}
             className={`flex aspect-square items-center justify-center font-mono leading-none ${
               isHighlight ? "relative z-10 ring-2 ring-white ring-offset-1 ring-offset-black" : ""
             }`}
             style={{
               backgroundColor: background,
+              backgroundImage: second ? `linear-gradient(90deg, ${background} 50%, ${second.color} 50%)` : undefined,
               color: textColorFor(background),
               fontSize: compact ? "clamp(7px, 2cqw, 15px)" : "clamp(8px, 2.2cqw, 16px)",
             }}

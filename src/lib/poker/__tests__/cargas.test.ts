@@ -89,3 +89,63 @@ test("cargas RFI 50bb PKO: válidas e com as porcentagens do print (cobrindo)", 
   for (const pos of ["UTG", "MP", "LJ", "HJ", "CO", "BTN"])
     assert.ok(pct("rfi-50bb-pko-coberto.json", pos) < pct(f, pos), `coberto < cobrindo no ${pos}`);
 });
+
+test("carga vs 3-bet 50bb PKO coberto: válida, coerente com o open coberto e com a legenda dos prints", () => {
+  const rfi = parseImportBundle(load("rfi-50bb-pko-coberto.json"), DEFAULT_LEGEND);
+  const bundle = load("vs3bet-50bb-pko-coberto.json");
+  // Legenda do time sem 4-bet: a carga acrescenta só essa ação, sem mexer nas outras
+  const semQuatro = DEFAULT_LEGEND.filter((a) => a.id !== "4bet");
+  const result = parseImportBundle(bundle, semQuatro, rfi.strategies);
+  assert.deepEqual(result.errors, []);
+  assert.deepEqual(result.legend?.map((a) => a.id), [...semQuatro.map((a) => a.id), "4bet"]);
+  assert.equal(parseImportBundle(bundle, DEFAULT_LEGEND, rfi.strategies).legend, null, "legenda já tem 4-bet: nada muda");
+  assert.equal(result.strategies.length, 35);
+  assert.equal(result.drills[0].variants?.length, 35);
+
+  const find = (hero: string, villain: string) =>
+    result.strategies.find((x) => x.heroPosition === hero && x.villainPosition === villain)!;
+  // Porcentagem do print contando mão mista pela metade (cada casa dividida vale 50/50)
+  const weighted = (hero: string, villain: string, action: string) => {
+    const s = find(hero, villain);
+    let combos = 0;
+    for (const [hand, a] of Object.entries(s.range)) {
+      const n = hand.length === 2 ? 6 : hand.endsWith("s") ? 4 : 12;
+      const mixed = s.alsoCorrect?.[hand];
+      if (a === action) combos += mixed ? n / 2 : n;
+      else if (mixed === action) combos += n / 2;
+    }
+    return (combos / 1326) * 100;
+  };
+  const expected: [string, string, string, number][] = [
+    ["UTG", "UTG1", "call", 4.3],
+    ["UTG", "UTG1", "shove", 4.15],
+    ["UTG", "HJ", "4bet", 0.98],
+    ["UTG", "CO", "4bet", 1.81],
+    ["UTG", "BTN", "4bet", 1.73],
+    ["UTG", "SB", "call", 6.79],
+    ["LJ", "HJ", "shove", 5.73],
+    ["LJ", "BTN", "call", 7.01],
+    ["HJ", "CO", "call", 11.01],
+    ["HJ", "BB", "call", 12.67],
+    ["CO", "BTN", "shove", 7.92],
+    ["CO", "BB", "call", 19.46],
+    ["BTN", "SB", "call", 22.47],
+    ["BTN", "BB", "call", 25.64],
+  ];
+  for (const [hero, villain, action, value] of expected)
+    assert.ok(Math.abs(weighted(hero, villain, action) - value) < 0.35, `${hero} vs ${villain} ${action}: ${weighted(hero, villain, action)} ≈ ${value}`);
+
+  for (const s of result.strategies) {
+    assert.equal(s.pko?.coverage, "coberto");
+    assert.equal(s.pko?.heroStack, 50);
+    const open = rfi.strategies.find((x) => x.id === s.dealFrom?.strategyId)!;
+    assert.equal(open.heroPosition, s.heroPosition);
+    for (const [hand, action] of Object.entries(s.range))
+      if (action !== "fold") assert.equal(open.range[hand], "rfi", `${s.name}: ${hand} fora do open`);
+  }
+  // Conferências pontuais: AA misto call/all-in vs UTG1; AA misto 4-bet/call vs CO
+  assert.deepEqual([find("UTG", "UTG1").range["AA"], find("UTG", "UTG1").alsoCorrect?.["AA"]].sort(), ["call", "shove"]);
+  assert.deepEqual([find("UTG", "CO").range["AA"], find("UTG", "CO").alsoCorrect?.["AA"]].sort(), ["4bet", "call"]);
+  assert.equal(find("BTN", "SB").range["22"], "shove");
+  assert.equal(find("BTN", "BB").range["22"], undefined);
+});

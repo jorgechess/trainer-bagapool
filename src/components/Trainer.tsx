@@ -14,6 +14,7 @@ import {
   dealQuestion,
   drillPositions,
   filterDrillByPositions,
+  isCorrect as isCorrectStep,
   spotSummary,
 } from "@/lib/poker/drill";
 import type { Card } from "@/lib/poker/cards";
@@ -45,12 +46,15 @@ interface Decision {
   board: string[];
   chosenActionId: string;
   correctActionId: string;
+  /** Outras ações também aceitas (mão mista). */
+  alsoAccepted?: string[];
+  correct: boolean;
   hand: string;
   /** Respondida com a resposta à mostra: não conta no desempenho. */
   peeked: boolean;
 }
 
-type Submission = { drillId: string; decisions: Omit<Decision, "correctActionId" | "hand" | "peeked">[] };
+type Submission = { drillId: string; decisions: Omit<Decision, "correctActionId" | "alsoAccepted" | "correct" | "hand" | "peeked">[] };
 
 /** O que cada mesa está mostrando agora (para o painel de range e o teclado). */
 interface SlotState {
@@ -186,6 +190,8 @@ function TableSlot({
         board: step.board,
         chosenActionId: actionId,
         correctActionId: step.correctActionId,
+        alsoAccepted: step.alsoAccepted,
+        correct: isCorrectStep(step, actionId),
         hand: question.hand,
         peeked: peek,
       };
@@ -206,7 +212,7 @@ function TableSlot({
     else setDone(true);
   }, [question, chosen, done, stepIndex, handDecisions, onHandComplete, deal]);
 
-  const isCorrect = chosen !== null && step !== undefined && chosen === step.correctActionId;
+  const isCorrect = chosen !== null && step !== undefined && isCorrectStep(step, chosen);
 
   useEffect(() => {
     if (chosen && isCorrect && autoAdvance) {
@@ -236,7 +242,9 @@ function TableSlot({
     );
 
   const texture = step.board.length >= 3 ? describeFlop(boardTexture(step.board).flop) : null;
-  const correctAction = findAction(legend, step.correctActionId);
+  const acceptedLabels = [step.correctActionId, ...(step.alsoAccepted ?? [])]
+    .map((id) => findAction(legend, id)?.label ?? id)
+    .join(" ou ");
   const multi = tableCount > 1;
   const rows = tableCount === 4 ? 2 : 1;
 
@@ -294,7 +302,7 @@ function TableSlot({
         {step.options.map((actionId, optionIndex) => {
           const action = findAction(legend, actionId);
           const isChosen = chosen === actionId;
-          const isRight = chosen !== null && actionId === step.correctActionId;
+          const isRight = chosen !== null && isCorrectStep(step, actionId);
           return (
             <button
               key={actionId}
@@ -322,7 +330,11 @@ function TableSlot({
       {chosen && (
         <div className="flex flex-wrap items-center justify-between gap-3">
           <span className={`text-sm font-medium ${isCorrect ? "text-green-400" : "text-red-400"}`}>
-            {isCorrect ? "Certo" : `Correta: ${correctAction?.label ?? step.correctActionId}`}
+            {isCorrect
+              ? step.alsoAccepted?.length
+                ? `Certo (mão mista: ${acceptedLabels})`
+                : "Certo"
+              : `Correta: ${acceptedLabels}`}
           </span>
           <button className="btn-secondary" onClick={next}>
             Continuar
@@ -496,7 +508,7 @@ export function Trainer({ drill, strategies, legend }: TrainerProps) {
 
   const countedDecisions = decisions.filter((d) => !d.peeked);
   const peekedCount = decisions.length - countedDecisions.length;
-  const correctCount = countedDecisions.filter((d) => d.chosenActionId === d.correctActionId).length;
+  const correctCount = countedDecisions.filter((d) => d.correct).length;
   const accuracy = countedDecisions.length ? correctCount / countedDecisions.length : 0;
 
   // Teclado: números respondem a primeira mesa sem resposta; Enter continua a primeira já respondida.
@@ -593,7 +605,7 @@ export function Trainer({ drill, strategies, legend }: TrainerProps) {
   }
 
   if (finished) {
-    const mistakes = decisions.filter((d) => d.chosenActionId !== d.correctActionId);
+    const mistakes = decisions.filter((d) => !d.correct);
     return (
       <div className="mx-auto max-w-2xl space-y-6">
         <div className="card space-y-2 text-center">
@@ -632,7 +644,9 @@ export function Trainer({ drill, strategies, legend }: TrainerProps) {
                   <span>
                     <span className="text-red-400">{findAction(legend, m.chosenActionId)?.label}</span>
                     {" → "}
-                    <span className="text-green-400">{findAction(legend, m.correctActionId)?.label}</span>
+                    <span className="text-green-400">
+                      {[m.correctActionId, ...(m.alsoAccepted ?? [])].map((id) => findAction(legend, id)?.label ?? id).join(" ou ")}
+                    </span>
                   </span>
                 </li>
               ))}
@@ -679,6 +693,7 @@ export function Trainer({ drill, strategies, legend }: TrainerProps) {
             range={panelRange}
             defaultActionId={panelStrategy.defaultActionId}
             legend={legend}
+            alsoCorrect={panelStrategy.street === "preflop" ? panelStrategy.alsoCorrect : null}
             highlight={panel.hand}
             compact
           />

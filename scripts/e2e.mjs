@@ -458,6 +458,31 @@ async function main() {
     await shot(page, "treino-pko");
     log("mesa PKO com bounty e cobertura");
 
+    // vs 3-bet PKO coberto: depende do RFI coberto, acrescenta 4-bet na legenda e aceita mão mista
+    await page.goto(`${BASE_URL}/admin/importar`);
+    await page.getByTestId("carga-rfi-50bb-pko-coberto").getByRole("button", { name: "Importar" }).click();
+    await page.getByTestId("carga-rfi-50bb-pko-coberto").getByText(/Importado:/).waitFor();
+    await page.getByTestId("carga-vs3bet-50bb-pko-coberto").getByRole("button", { name: "Importar" }).click();
+    await page.getByTestId("carga-vs3bet-50bb-pko-coberto").getByText(/Importado:/).waitFor();
+    const coberto = Object.fromEntries(
+      (await rows("strategies", "select=data&id=like.rfi-50bb-pko-coberto-*")).map((s) => [s.data.heroPosition, s.data.range]),
+    );
+    const [utgVsCo] = await rows("strategies", "select=data&id=eq.vs3bet-50bb-pko-coberto-utg-vs-co");
+    assert.deepEqual([utgVsCo.data.range.AA, utgVsCo.data.alsoCorrect.AA].sort(), ["4bet", "call"]);
+    await page.goto(`${BASE_URL}/drills/vs3bet-50bb-pko-coberto/treinar`);
+    await page.getByTestId("hero-cards").waitFor();
+    await page.getByTestId("pko-coverage").getByText("PKO coberto").waitFor();
+    await page.locator("[data-testid=actions]").getByRole("button", { name: "4-bet" }).waitFor();
+    await shot(page, "treino-vs3bet-pko-coberto");
+    for (let hand = 0; hand < 6; hand++) {
+      await page.locator("[data-testid=actions] button").first().click();
+      await page.getByRole("button", { name: /Continuar/ }).click();
+    }
+    await page.waitForTimeout(1500);
+    for (const a of await rows("attempts", "select=data&order=id.desc&limit=6"))
+      assert.equal(coberto[a.data.heroPosition]?.[a.data.hand], "rfi", `${a.data.hand} está no open coberto do ${a.data.heroPosition}`);
+    log("vs 3-bet PKO coberto: mãos do open coberto, botão 4-bet e mãos mistas");
+
     // 10. Cadastra pool e jogador
     await page.goto(`${BASE_URL}/admin/jogadores`);
     await page.getByPlaceholder("Nome da nova pool").fill("Pool A");

@@ -13,7 +13,7 @@ import {
   STREETS,
   type Street,
   type Strategy,
-  correctAction,
+  acceptedActions,
   formatNumberRange,
   formatRatio,
   resolveRange,
@@ -52,6 +52,8 @@ export interface QuestionStep {
   board: Card[];
   options: string[];
   correctActionId: string;
+  /** Outras ações também aceitas (mão mista). */
+  alsoAccepted?: string[];
 }
 
 export interface HandQuestion {
@@ -201,14 +203,16 @@ export function dealQuestion(
       const previous = steps[steps.length - 1];
       if (previous && strategy.entryActionIds?.length && !strategy.entryActionIds.includes(previous.correctActionId))
         break; // a linha correta não chega nesta decisão
-      const correct = correctAction(strategy, hand, fullBoard);
-      if (correct === null) break; // estratégia não cobre este board
+      const accepted = acceptedActions(strategy, hand, fullBoard);
+      if (accepted === null) break; // estratégia não cobre este board
+      const [correct, ...alsoAccepted] = accepted;
       steps.push({
         strategyId: strategy.id,
         street: strategy.street,
         board: fullBoard.slice(0, BOARD_CARDS_BY_STREET[strategy.street]),
         options: strategy.actionIds,
         correctActionId: correct,
+        ...(alsoAccepted.length ? { alsoAccepted } : {}),
       });
       const action = findAction(legend, correct);
       if (!action || !continuesHand(action.kind)) break;
@@ -219,7 +223,7 @@ export function dealQuestion(
 }
 
 export function isCorrect(step: QuestionStep, chosenActionId: string): boolean {
-  return step.correctActionId === chosenActionId;
+  return step.correctActionId === chosenActionId || (step.alsoAccepted ?? []).includes(chosenActionId);
 }
 
 /** Registro de uma decisão do jogador — base do leak finder. */
@@ -290,14 +294,16 @@ export function gradeSubmission(
   if (!strategy.actionIds.includes(chosenActionId)) throw new Error("Ação inválida para esta decisão");
   const hero = heroCards as [Card, Card];
   const hand = handFromCards(hero[0], hero[1]);
-  const correct = correctAction(strategy, hand, board as Card[]);
-  if (correct === null) throw new Error("A estratégia não cobre este board");
+  const accepted = acceptedActions(strategy, hand, board as Card[]);
+  if (accepted === null) throw new Error("A estratégia não cobre este board");
+  const [correct, ...alsoAccepted] = accepted;
   const step: QuestionStep = {
     strategyId: strategy.id,
     street: strategy.street,
     board: [...board] as Card[],
     options: strategy.actionIds,
     correctActionId: correct,
+    ...(alsoAccepted.length ? { alsoAccepted } : {}),
   };
   return buildAttempt(drill, strategy, { heroCards: hero, hand, fullBoard: step.board, steps: [step] }, step, chosenActionId, now);
 }

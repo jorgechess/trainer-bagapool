@@ -5,7 +5,8 @@ import { combosOf } from "../hands";
 import { DEFAULT_LEGEND } from "../legend";
 import { borderHands } from "../range";
 import { seededRng } from "../rng";
-import { correctAction, resolveRange, validateStrategy } from "../strategy";
+import { acceptedActions, correctAction, pruneAlsoCorrect, resolveRange, validateStrategy } from "../strategy";
+import { actionOf as actionOfRange } from "../range";
 import { cbetFlop, fullDrill, preflopDrill, rfiBtn, strategies, turnBarrel } from "./fixtures";
 
 test("estratégias de exemplo são válidas", () => {
@@ -253,4 +254,24 @@ test("sortear só do range de outra estratégia (vs 3-bet com o range de open)",
   const custom = tableSeats({ ...vs3bet, tableSizes: { open: 2.5, threeBet: 9 } });
   assert.equal(custom.find((s) => s.position === "BTN")!.posted, 2.5);
   assert.equal(custom.find((s) => s.position === "BB")!.posted, 9);
+});
+
+test("mão mista: as duas ações são aceitas, no navegador e na correção do servidor", () => {
+  const mixed = { ...rfiBtn, actionIds: [...rfiBtn.actionIds, "shove"], range: { ...rfiBtn.range, AA: "rfi" }, alsoCorrect: { AA: "shove" } };
+  assert.deepEqual(validateStrategy(mixed, DEFAULT_LEGEND), []);
+  assert.deepEqual(acceptedActions(mixed, "AA", []), ["rfi", "shove"]);
+  assert.deepEqual(acceptedActions(mixed, "KK", []), [actionOfRange(mixed.range, "KK", mixed.defaultActionId)]);
+  const step = { strategyId: mixed.id, street: "preflop" as const, board: [], options: mixed.actionIds, correctActionId: "rfi", alsoAccepted: ["shove"] };
+  assert.equal(isCorrect(step, "shove"), true);
+  assert.equal(isCorrect(step, "rfi"), true);
+  assert.equal(isCorrect(step, "fold"), false);
+  const drill = { ...preflopDrill, steps: [mixed.id], variants: undefined };
+  assert.equal(gradeSubmission(drill, mixed, ["As", "Ah"], [], "shove").correct, true);
+  assert.equal(gradeSubmission(drill, mixed, ["As", "Ah"], [], "fold").correct, false);
+  // segunda ação igual à principal, ou fora dos botões, é erro de cadastro
+  assert.ok(validateStrategy({ ...mixed, alsoCorrect: { AA: "rfi" } }, DEFAULT_LEGEND).some((e) => e.includes("igual à principal")));
+  assert.ok(validateStrategy({ ...mixed, alsoCorrect: { AA: "call" } }, DEFAULT_LEGEND).some((e) => e.includes("botões")));
+  // repintar a mão tira a mistura dela; as outras ficam
+  assert.equal(pruneAlsoCorrect({ AA: "shove" }, { AA: "rfi" }, { AA: "fold" }), null);
+  assert.deepEqual(pruneAlsoCorrect({ AA: "shove", KK: "call" }, { AA: "rfi", KK: "rfi" }, { AA: "rfi", KK: "fold" }), { AA: "shove" });
 });

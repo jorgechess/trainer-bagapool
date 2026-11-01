@@ -34,6 +34,7 @@ export const DEFAULT_LEGEND: Legend = [
   { id: "limp", label: "Limp", color: "#22c55e", kind: "limp" },
   { id: "call", label: "Flat / Call", color: "#eab308", kind: "call" },
   { id: "3bet", label: "3-bet", color: "#ef4444", kind: "raise" },
+  { id: "4bet", label: "4-bet", color: "#e11d48", kind: "raise" },
   { id: "check", label: "Check", color: "#64748b", kind: "check" },
   { id: "bet-33", label: "Bet 33%", color: "#f59e0b", kind: "bet", sizing: "33%" },
   { id: "bet-75", label: "Bet 75%", color: "#ec4899", kind: "bet", sizing: "75%" },

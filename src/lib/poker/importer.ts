@@ -44,6 +44,8 @@ export interface ImportStrategy {
   tableSizes?: { open?: number; threeBet?: number } | null;
   pko?: { coverage: "cobrindo" | "coberto"; bounty?: string; heroStack?: number; villainStack?: number } | null;
   range?: Record<string, string>;
+  /** Mãos mistas: segunda ação também aceita, no mesmo formato do range. */
+  alsoCorrect?: Record<string, string>;
   textureRanges?: ImportTextureRange[];
 }
 
@@ -63,6 +65,8 @@ export interface ImportDrill {
 
 export interface ImportBundle {
   legend?: Legend;
+  /** Ações que a carga usa: entram na legenda do time só se ainda não existirem (não mexe nas outras). */
+  legendAdd?: Legend;
   strategies?: ImportStrategy[];
   drills?: ImportDrill[];
 }
@@ -125,6 +129,19 @@ export function parseImportBundle(
       if (legendErrors.length === 0) legend = bundle.legend;
     }
   }
+  if (bundle.legendAdd !== undefined) {
+    if (!Array.isArray(bundle.legendAdd)) errors.push("legendAdd deve ser uma lista.");
+    else {
+      const base = legend ?? currentLegend;
+      const missing = bundle.legendAdd.filter((a) => isObject(a) && !base.some((b) => b.id === a.id));
+      if (missing.length) {
+        const merged = [...base, ...missing];
+        const legendErrors = validateLegend(merged);
+        errors.push(...legendErrors.map((e) => `Legenda: ${e}`));
+        if (legendErrors.length === 0) legend = merged;
+      }
+    }
+  }
   const effectiveLegend = legend ?? currentLegend;
 
   const strategies: Strategy[] = [];
@@ -171,6 +188,7 @@ export function parseImportBundle(
       pko: raw.pko ?? null,
       dealFrom: raw.dealFrom ? { strategyId: String(raw.dealFrom.strategy ?? ""), actionIds: raw.dealFrom.actionIds ?? [] } : null,
       range: compactRange(toRange(raw.range, where, errors), raw.defaultActionId),
+      ...(raw.alsoCorrect ? { alsoCorrect: toRange(raw.alsoCorrect, `${where}, mãos mistas`, errors) } : {}),
       textureRanges,
     };
     errors.push(...validateStrategy(strategy, effectiveLegend).map((e) => `${where}: ${e}`));
