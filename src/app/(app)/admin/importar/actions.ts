@@ -53,6 +53,10 @@ export async function importBundle(json: string): Promise<ActionResult> {
     const { error } = await supabase.from("drills").upsert(rows);
     if (error) return { ok: false, error: `Drills: ${error.message}` };
   }
+  if (result.replacedDrillIds.length) {
+    const { error } = await supabase.from("drills").update({ active: false }).in("id", result.replacedDrillIds);
+    if (error) return { ok: false, error: `Drills antigos: ${error.message}` };
+  }
   revalidatePath("/", "layout");
   return {
     ok: true,

@@ -295,13 +295,17 @@ test("carga RFI PKO Short coberto: 10, 15 e 20bb com as porcentagens das legenda
   for (const s of result.strategies) assert.equal(s.pko?.coverage, "coberto");
 });
 
-test("cargas Defesa BB 20bb e 30bb: porcentagens exatas das legendas", () => {
+test("carga Defesa Vanilla Deep (20 e 30bb): porcentagens exatas das legendas, substitui os drills antigos", () => {
+  const result = parseImportBundle(load("defesa-vanilla-deep.json"), DEFAULT_LEGEND);
+  assert.deepEqual(result.errors, []);
+  assert.equal(result.strategies.length, 14);
+  assert.equal(result.drills.length, 1);
+  assert.deepEqual(result.replacedDrillIds, ["defesa-bb-20bb", "defesa-bb-30bb"]);
+  assert.deepEqual(result.legend?.slice(-2).map((a) => a.id), ["3bet-call", "3bet-fold"]);
   const check = (file: string, rows: [string, Record<string, number>][]) => {
-    const result = parseImportBundle(load(file), DEFAULT_LEGEND);
-    assert.deepEqual(result.errors, []);
-    assert.deepEqual(result.legend?.slice(-2).map((a) => a.id), ["3bet-call", "3bet-fold"]);
+    const stack = Number(file.match(/(\d+)bb/)![1]);
     for (const [villain, expected] of rows) {
-      const s = result.strategies.find((x) => x.villainPosition === villain)!;
+      const s = result.strategies.find((x) => x.villainPosition === villain && x.stack.min === stack)!;
       assert.equal(s.heroPosition, "BB");
       for (const [action, value] of Object.entries(expected))
         assert.ok(Math.abs(printPercent(s, action) - value) < 0.01, `${file} vs ${villain} ${action}`);

@@ -8,8 +8,7 @@ import vs3betPkoCobrindo from "../../cargas/vs3bet-50bb-pko-cobrindo.json";
 import rfiMaxLate from "../../cargas/rfi-max-late-reg-vanilla.json";
 import vsRestealMaxLate from "../../cargas/vs-resteal-max-late-reg-vanilla.json";
 import rfiPkoShortCoberto from "../../cargas/rfi-pko-short-coberto.json";
-import defesaBb20 from "../../cargas/defesa-bb-20bb.json";
-import defesaBb30 from "../../cargas/defesa-bb-30bb.json";
+import defesaVanillaDeep from "../../cargas/defesa-vanilla-deep.json";
 
 export interface Carga {
   id: string;
@@ -89,17 +88,11 @@ export const CARGAS: Carga[] = [
     bundle: rfiPkoShortCoberto,
   },
   {
-    id: "defesa-bb-20bb",
-    name: "Defesa BB 20bb",
-    description: "BB contra open de UTG a BTN com 20bb: flat, resteal, 3-bet/call e 3-bet/fold. Adiciona 3-bet/Call e 3-bet/Fold na legenda, se faltar.",
+    id: "defesa-vanilla-deep",
+    name: "Defesa Vanilla Deep",
+    description:
+      "BB contra open de UTG a BTN com 20 e 30bb (filtro de stack no treino): flat, resteal, 3-bet/call e 3-bet/fold. Substitui os drills Defesa BB 20bb e 30bb.",
     requires: [],
-    bundle: defesaBb20,
-  },
-  {
-    id: "defesa-bb-30bb",
-    name: "Defesa BB 30bb",
-    description: "BB contra open de UTG a BTN com 30bb: flat, resteal, 3-bet/call e 3-bet/fold. Adiciona 3-bet/Call e 3-bet/Fold na legenda, se faltar.",
-    requires: [],
-    bundle: defesaBb30,
+    bundle: defesaVanillaDeep,
   },
 ];

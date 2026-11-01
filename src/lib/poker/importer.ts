@@ -71,6 +71,8 @@ export interface ImportDrill {
 
 export interface ImportBundle {
   legend?: Legend;
+  /** Drills antigos que esta carga substitui: saem da lista (o histórico continua). */
+  replacesDrills?: string[];
   /** Ações que a carga usa: entram na legenda do time só se ainda não existirem (não mexe nas outras). */
   legendAdd?: Legend;
   strategies?: ImportStrategy[];
@@ -81,6 +83,8 @@ export interface ImportResult {
   legend: Legend | null;
   strategies: Strategy[];
   drills: Drill[];
+  /** Drills que a carga substitui (arquivar ao importar). */
+  replacedDrillIds: string[];
   errors: string[];
 }
 
@@ -138,7 +142,7 @@ export function parseImportBundle(
   existingStrategies: readonly Strategy[] = [],
 ): ImportResult {
   const errors: string[] = [];
-  if (!isObject(input)) return { legend: null, strategies: [], drills: [], errors: ["O arquivo precisa ser um objeto JSON."] };
+  if (!isObject(input)) return { legend: null, strategies: [], drills: [], replacedDrillIds: [], errors: ["O arquivo precisa ser um objeto JSON."] };
   const bundle = input as ImportBundle;
 
   let legend: Legend | null = null;
@@ -286,5 +290,8 @@ export function parseImportBundle(
     drills.push(drill);
   }
 
-  return { legend, strategies, drills, errors };
+  const replacedDrillIds = Array.isArray(bundle.replacesDrills)
+    ? bundle.replacesDrills.map(String).filter((id) => !drills.some((d) => d.id === id))
+    : [];
+  return { legend, strategies, drills, replacedDrillIds, errors };
 }

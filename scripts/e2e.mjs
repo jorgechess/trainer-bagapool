@@ -591,18 +591,31 @@ async function main() {
     await shot(page, "treino-pko-short");
     log("RFI PKO short coberto importado e treinável");
 
-    // Defesa BB 20bb: vilão com open de 2bb na mesa, botões flat/resteal/3-bet call/3-bet fold
+    // Defesa Vanilla Deep: 20 e 30bb num drill só (filtro de stack); substitui os drills antigos Defesa BB 20/30bb
+    {
+      const [model] = await rows("drills", "select=name,data&id=eq.rfi-30bb-vanilla-todas");
+      const res = await fetch(`${API_URL}/rest/v1/drills`, {
+        method: "POST",
+        headers: { ...adminHeaders, "Content-Type": "application/json" },
+        body: JSON.stringify({ id: "defesa-bb-20bb", name: "Defesa BB 20bb", data: model.data, active: true }),
+      });
+      assert.ok(res.ok, `drill antigo criado: ${res.status}`);
+    }
     await page.goto(`${BASE_URL}/admin/importar`);
-    await page.getByTestId("carga-defesa-bb-20bb").getByRole("button", { name: "Importar" }).click();
-    await page.getByTestId("carga-defesa-bb-20bb").getByText(/Importado:/).waitFor();
-    await page.goto(`${BASE_URL}/drills/defesa-bb-20bb/treinar`);
+    await page.getByTestId("carga-defesa-vanilla-deep").getByRole("button", { name: "Importar" }).click();
+    await page.getByTestId("carga-defesa-vanilla-deep").getByText(/Importado:/).waitFor();
+    const [oldDrill] = await rows("drills", "select=active&id=eq.defesa-bb-20bb");
+    assert.equal(oldDrill.active, false, "drill antigo saiu da lista");
+    await page.goto(`${BASE_URL}/drills/defesa-vanilla-deep/treinar`);
     await page.getByTestId("hero-cards").waitFor();
     await page.getByTestId("spot").filter({ hasText: /^vs RFI · BB · vs (UTG|UTG1|MP|LJ|HJ|CO|BTN)$/ }).waitFor();
     for (const name of ["3-bet/Call", "3-bet/Fold"])
       await page.locator("[data-testid=actions]").getByRole("button", { name }).waitFor();
     await page.getByText("Pote: 3,5bb").waitFor();
+    await page.getByRole("group", { name: "Stack" }).getByRole("button", { name: "30bb", exact: true }).click();
+    await page.getByTestId("spot-stack").filter({ hasText: /^30bb$/ }).waitFor();
     await shot(page, "treino-defesa-bb");
-    log("defesa do BB: open do vilão na mesa e botões de 3-bet/call e 3-bet/fold");
+    log("Defesa Vanilla Deep: 20/30bb com filtro de stack, open do vilão na mesa, drills antigos arquivados");
     log(`Max Late Reg Vanilla importado; mesa mostra ${leftText}`);
 
     // 10. Cadastra pool e jogador
