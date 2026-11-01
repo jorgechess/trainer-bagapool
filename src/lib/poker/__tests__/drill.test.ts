@@ -274,4 +274,9 @@ test("mão mista: as duas ações são aceitas, no navegador e na correção do 
   // repintar a mão tira a mistura dela; as outras ficam
   assert.equal(pruneAlsoCorrect({ AA: "shove" }, { AA: "rfi" }, { AA: "fold" }), null);
   assert.deepEqual(pruneAlsoCorrect({ AA: "shove", KK: "call" }, { AA: "rfi", KK: "rfi" }, { AA: "rfi", KK: "fold" }), { AA: "shove" });
+  // três ações na mesma casa
+  const three = { ...mixed, actionIds: [...mixed.actionIds, "call"], alsoCorrect: { AA: ["shove", "call"] } };
+  assert.deepEqual(validateStrategy(three, DEFAULT_LEGEND), []);
+  assert.deepEqual(acceptedActions(three, "AA", []), ["rfi", "shove", "call"]);
+  assert.equal(gradeSubmission(drill, three, ["As", "Ah"], [], "call").correct, true);
 });

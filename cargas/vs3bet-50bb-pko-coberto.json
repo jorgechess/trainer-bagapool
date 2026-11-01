@@ -1589,7 +1589,7 @@
   {
    "id": "vs3bet-50bb-pko-coberto",
    "name": "vs 3-bet 50bb PKO coberto",
-   "description": "PKO com o herói coberto (você 50bb, vilões 60bb). Cada mão sorteia quem abriu e quem deu 3-bet; só aparecem mãos do seu range de open coberto. Mãos mistas aceitam as duas ações.",
+   "description": "PKO com o herói coberto (você 50bb, vilões 60bb). Cada mão sorteia quem abriu e quem deu 3-bet; só aparecem mãos do seu range de open coberto. Mãos mistas aceitam qualquer uma das ações.",
    "variants": [
     [
      "vs3bet-50bb-pko-coberto-utg-vs-utg1"

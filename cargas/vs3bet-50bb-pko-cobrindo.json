@@ -1,0 +1,1700 @@
+{
+ "legendAdd": [
+  {
+   "id": "4bet",
+   "label": "4-bet",
+   "color": "#e11d48",
+   "kind": "raise"
+  }
+ ],
+ "strategies": [
+  {
+   "id": "vs3bet-50bb-pko-cobrindo-utg-vs-utg1",
+   "name": "vs 3-bet UTG vs UTG1 50bb PKO cobrindo",
+   "description": "PKO, herói cobrindo (você 60bb, vilões 50bb): abriu e levou 3-bet. Mãos sorteadas só do range de open cobrindo.",
+   "street": "preflop",
+   "situation": "vs 3-bet",
+   "heroPosition": "UTG",
+   "villainPosition": "UTG1",
+   "stack": {
+    "min": 50,
+    "max": 50
+   },
+   "ratio": null,
+   "bubble": null,
+   "tags": [
+    "vs-3bet",
+    "mid-stack",
+    "pko",
+    "cobrindo"
+   ],
+   "actionIds": [
+    "fold",
+    "call",
+    "4bet",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "pko": {
+    "coverage": "cobrindo",
+    "heroStack": 60,
+    "villainStack": 50
+   },
+   "dealFrom": {
+    "strategy": "rfi-50bb-pko-cobrindo-utg",
+    "actionIds": [
+     "rfi"
+    ]
+   },
+   "range": {
+    "shove": "AA, AKs, AKo, KK, QQ",
+    "call": "AQs, AJs, ATs, A5s, KQs, KJs, KTs, AQo, QJs, QTs, JJ, JTs, J9s, TT, T9s, T8s, 99, 98s, 88, 87s, 77, 76s, 66, 65s, 55, 54s, 44, 33, 22"
+   },
+   "alsoCorrect": {
+    "call": "AA"
+   }
+  },
+  {
+   "id": "vs3bet-50bb-pko-cobrindo-utg-vs-mp",
+   "name": "vs 3-bet UTG vs MP 50bb PKO cobrindo",
+   "description": "PKO, herói cobrindo (você 60bb, vilões 50bb): abriu e levou 3-bet. Mãos sorteadas só do range de open cobrindo.",
+   "street": "preflop",
+   "situation": "vs 3-bet",
+   "heroPosition": "UTG",
+   "villainPosition": "MP",
+   "stack": {
+    "min": 50,
+    "max": 50
+   },
+   "ratio": null,
+   "bubble": null,
+   "tags": [
+    "vs-3bet",
+    "mid-stack",
+    "pko",
+    "cobrindo"
+   ],
+   "actionIds": [
+    "fold",
+    "call",
+    "4bet",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "pko": {
+    "coverage": "cobrindo",
+    "heroStack": 60,
+    "villainStack": 50
+   },
+   "dealFrom": {
+    "strategy": "rfi-50bb-pko-cobrindo-utg",
+    "actionIds": [
+     "rfi"
+    ]
+   },
+   "range": {
+    "shove": "AA, AKs, AKo, KK, QQ",
+    "call": "AQs, AJs, ATs, A5s, KQs, KJs, KTs, AQo, QJs, QTs, JJ, JTs, J9s, TT, T9s, T8s, 99, 98s, 88, 87s, 77, 76s, 66, 65s, 55, 54s, 44, 33, 22"
+   },
+   "alsoCorrect": {
+    "call": "AA"
+   }
+  },
+  {
+   "id": "vs3bet-50bb-pko-cobrindo-utg-vs-lj",
+   "name": "vs 3-bet UTG vs LJ 50bb PKO cobrindo",
+   "description": "PKO, herói cobrindo (você 60bb, vilões 50bb): abriu e levou 3-bet. Mãos sorteadas só do range de open cobrindo.",
+   "street": "preflop",
+   "situation": "vs 3-bet",
+   "heroPosition": "UTG",
+   "villainPosition": "LJ",
+   "stack": {
+    "min": 50,
+    "max": 50
+   },
+   "ratio": null,
+   "bubble": null,
+   "tags": [
+    "vs-3bet",
+    "mid-stack",
+    "pko",
+    "cobrindo"
+   ],
+   "actionIds": [
+    "fold",
+    "call",
+    "4bet",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "pko": {
+    "coverage": "cobrindo",
+    "heroStack": 60,
+    "villainStack": 50
+   },
+   "dealFrom": {
+    "strategy": "rfi-50bb-pko-cobrindo-utg",
+    "actionIds": [
+     "rfi"
+    ]
+   },
+   "range": {
+    "shove": "AA, QQ, JJ, 55",
+    "4bet": "AKs, AKo, KK",
+    "call": "AQs, AJs, ATs, A5s, A4s, A3s, KQs, KJs, KTs, AQo, QJs, QTs, JTs, J9s, TT, T9s, T8s, 99, 98s, 97s, 88, 87s, 77, 76s, 66, 65s, 54s, 44, 33, 22"
+   },
+   "alsoCorrect": {
+    "call": "AA",
+    "4bet": "QQ"
+   }
+  },
+  {
+   "id": "vs3bet-50bb-pko-cobrindo-utg-vs-hj",
+   "name": "vs 3-bet UTG vs HJ 50bb PKO cobrindo",
+   "description": "PKO, herói cobrindo (você 60bb, vilões 50bb): abriu e levou 3-bet. Mãos sorteadas só do range de open cobrindo.",
+   "street": "preflop",
+   "situation": "vs 3-bet",
+   "heroPosition": "UTG",
+   "villainPosition": "HJ",
+   "stack": {
+    "min": 50,
+    "max": 50
+   },
+   "ratio": null,
+   "bubble": null,
+   "tags": [
+    "vs-3bet",
+    "mid-stack",
+    "pko",
+    "cobrindo"
+   ],
+   "actionIds": [
+    "fold",
+    "call",
+    "4bet",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "pko": {
+    "coverage": "cobrindo",
+    "heroStack": 60,
+    "villainStack": 50
+   },
+   "dealFrom": {
+    "strategy": "rfi-50bb-pko-cobrindo-utg",
+    "actionIds": [
+     "rfi"
+    ]
+   },
+   "range": {
+    "shove": "AA, AKs, AKo, KK, QQ, JJ, TT, 55",
+    "call": "AQs, AJs, ATs, A9s, A8s, A7s, A5s, A4s, A3s, KQs, KJs, KTs, K9s, K8s, AQo, QJs, QTs, JTs, J9s, T9s, T8s, 99, 98s, 97s, 88, 87s, 77, 76s, 66, 65s, 54s, 44, 33, 22"
+   },
+   "alsoCorrect": {
+    "4bet": "AA, AKs, AKo, KK, QQ",
+    "call": "AA"
+   }
+  },
+  {
+   "id": "vs3bet-50bb-pko-cobrindo-utg-vs-co",
+   "name": "vs 3-bet UTG vs CO 50bb PKO cobrindo",
+   "description": "PKO, herói cobrindo (você 60bb, vilões 50bb): abriu e levou 3-bet. Mãos sorteadas só do range de open cobrindo.",
+   "street": "preflop",
+   "situation": "vs 3-bet",
+   "heroPosition": "UTG",
+   "villainPosition": "CO",
+   "stack": {
+    "min": 50,
+    "max": 50
+   },
+   "ratio": null,
+   "bubble": null,
+   "tags": [
+    "vs-3bet",
+    "mid-stack",
+    "pko",
+    "cobrindo"
+   ],
+   "actionIds": [
+    "fold",
+    "call",
+    "4bet",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "pko": {
+    "coverage": "cobrindo",
+    "heroStack": 60,
+    "villainStack": 50
+   },
+   "dealFrom": {
+    "strategy": "rfi-50bb-pko-cobrindo-utg",
+    "actionIds": [
+     "rfi"
+    ]
+   },
+   "range": {
+    "4bet": "AA, A5s",
+    "shove": "AKs, A4s, A3s, A2s, AKo, KK, QQ, JJ, TT",
+    "call": "AQs, AJs, ATs, A9s, A8s, A7s, A6s, KQs, KJs, KTs, K9s, K8s, K7s, K6s, K5s, AQo, KQo, QJs, QTs, Q9s, Q8s, AJo, JTs, J9s, J8s, T9s, T8s, T7s, 99, 98s, 97s, 88, 87s, 77, 76s, 66, 65s, 55, 54s, 44, 33, 22"
+   },
+   "alsoCorrect": {
+    "call": "AA",
+    "4bet": "AKs, KK"
+   }
+  },
+  {
+   "id": "vs3bet-50bb-pko-cobrindo-utg-vs-btn",
+   "name": "vs 3-bet UTG vs BTN 50bb PKO cobrindo",
+   "description": "PKO, herói cobrindo (você 60bb, vilões 50bb): abriu e levou 3-bet. Mãos sorteadas só do range de open cobrindo.",
+   "street": "preflop",
+   "situation": "vs 3-bet",
+   "heroPosition": "UTG",
+   "villainPosition": "BTN",
+   "stack": {
+    "min": 50,
+    "max": 50
+   },
+   "ratio": null,
+   "bubble": null,
+   "tags": [
+    "vs-3bet",
+    "mid-stack",
+    "pko",
+    "cobrindo"
+   ],
+   "actionIds": [
+    "fold",
+    "call",
+    "4bet",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "pko": {
+    "coverage": "cobrindo",
+    "heroStack": 60,
+    "villainStack": 50
+   },
+   "dealFrom": {
+    "strategy": "rfi-50bb-pko-cobrindo-utg",
+    "actionIds": [
+     "rfi"
+    ]
+   },
+   "range": {
+    "shove": "AA, AKs, AKo, KK, QQ",
+    "call": "AQs, AJs, ATs, A5s, KQs, KJs, KTs, K9s, K8s, K7s, K6s, AQo, QJs, QTs, JJ, JTs, J9s, TT, T9s, T8s, 99, 98s, 88, 87s, 77, 76s, 66, 65s, 55, 54s, 44, 33, 22"
+   },
+   "alsoCorrect": {
+    "call": "AA"
+   }
+  },
+  {
+   "id": "vs3bet-50bb-pko-cobrindo-utg-vs-sb",
+   "name": "vs 3-bet UTG vs SB 50bb PKO cobrindo",
+   "description": "PKO, herói cobrindo (você 60bb, vilões 50bb): abriu e levou 3-bet. Mãos sorteadas só do range de open cobrindo.",
+   "street": "preflop",
+   "situation": "vs 3-bet",
+   "heroPosition": "UTG",
+   "villainPosition": "SB",
+   "stack": {
+    "min": 50,
+    "max": 50
+   },
+   "ratio": null,
+   "bubble": null,
+   "tags": [
+    "vs-3bet",
+    "mid-stack",
+    "pko",
+    "cobrindo"
+   ],
+   "actionIds": [
+    "fold",
+    "call",
+    "4bet",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "pko": {
+    "coverage": "cobrindo",
+    "heroStack": 60,
+    "villainStack": 50
+   },
+   "dealFrom": {
+    "strategy": "rfi-50bb-pko-cobrindo-utg",
+    "actionIds": [
+     "rfi"
+    ]
+   },
+   "range": {
+    "call": "AA, AKs, AQs, AJs, ATs, A5s, A4s, A3s, AKo, KK, KQs, KJs, KTs, K9s, K8s, AQo, QQ, QJs, QTs, Q9s, JJ, JTs, J9s, J8s, TT, T9s, T8s, 99, 98s, 97s, 88, 87s, 77, 76s, 66, 65s, 55, 54s, 44"
+   }
+  },
+  {
+   "id": "vs3bet-50bb-pko-cobrindo-utg-vs-bb",
+   "name": "vs 3-bet UTG vs BB 50bb PKO cobrindo",
+   "description": "PKO, herói cobrindo (você 60bb, vilões 50bb): abriu e levou 3-bet. Mãos sorteadas só do range de open cobrindo.",
+   "street": "preflop",
+   "situation": "vs 3-bet",
+   "heroPosition": "UTG",
+   "villainPosition": "BB",
+   "stack": {
+    "min": 50,
+    "max": 50
+   },
+   "ratio": null,
+   "bubble": null,
+   "tags": [
+    "vs-3bet",
+    "mid-stack",
+    "pko",
+    "cobrindo"
+   ],
+   "actionIds": [
+    "fold",
+    "call",
+    "4bet",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "pko": {
+    "coverage": "cobrindo",
+    "heroStack": 60,
+    "villainStack": 50
+   },
+   "dealFrom": {
+    "strategy": "rfi-50bb-pko-cobrindo-utg",
+    "actionIds": [
+     "rfi"
+    ]
+   },
+   "range": {
+    "call": "AA, AKs, AQs, AJs, A5s, AKo, KK, KQs, KJs, KTs, QQ, QJs, QTs, JJ, JTs, J9s, TT, T9s, T8s, 98s, 97s, 87s, 76s, 65s, 54s"
+   }
+  },
+  {
+   "id": "vs3bet-50bb-pko-cobrindo-utg1-vs-mp",
+   "name": "vs 3-bet UTG1 vs MP 50bb PKO cobrindo",
+   "description": "PKO, herói cobrindo (você 60bb, vilões 50bb): abriu e levou 3-bet. Mãos sorteadas só do range de open cobrindo.",
+   "street": "preflop",
+   "situation": "vs 3-bet",
+   "heroPosition": "UTG1",
+   "villainPosition": "MP",
+   "stack": {
+    "min": 50,
+    "max": 50
+   },
+   "ratio": null,
+   "bubble": null,
+   "tags": [
+    "vs-3bet",
+    "mid-stack",
+    "pko",
+    "cobrindo"
+   ],
+   "actionIds": [
+    "fold",
+    "call",
+    "4bet",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "pko": {
+    "coverage": "cobrindo",
+    "heroStack": 60,
+    "villainStack": 50
+   },
+   "dealFrom": {
+    "strategy": "rfi-50bb-pko-cobrindo-utg1",
+    "actionIds": [
+     "rfi"
+    ]
+   },
+   "range": {
+    "shove": "AA, AKs, AKo, KK, QQ",
+    "call": "AQs, AJs, ATs, A5s, KQs, KJs, KTs, AQo, QJs, QTs, JJ, JTs, J9s, TT, T9s, T8s, 99, 98s, 88, 87s, 77, 76s, 66, 65s, 55, 54s, 44, 33, 22"
+   },
+   "alsoCorrect": {
+    "call": "AA"
+   }
+  },
+  {
+   "id": "vs3bet-50bb-pko-cobrindo-utg1-vs-lj",
+   "name": "vs 3-bet UTG1 vs LJ 50bb PKO cobrindo",
+   "description": "PKO, herói cobrindo (você 60bb, vilões 50bb): abriu e levou 3-bet. Mãos sorteadas só do range de open cobrindo.",
+   "street": "preflop",
+   "situation": "vs 3-bet",
+   "heroPosition": "UTG1",
+   "villainPosition": "LJ",
+   "stack": {
+    "min": 50,
+    "max": 50
+   },
+   "ratio": null,
+   "bubble": null,
+   "tags": [
+    "vs-3bet",
+    "mid-stack",
+    "pko",
+    "cobrindo"
+   ],
+   "actionIds": [
+    "fold",
+    "call",
+    "4bet",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "pko": {
+    "coverage": "cobrindo",
+    "heroStack": 60,
+    "villainStack": 50
+   },
+   "dealFrom": {
+    "strategy": "rfi-50bb-pko-cobrindo-utg1",
+    "actionIds": [
+     "rfi"
+    ]
+   },
+   "range": {
+    "shove": "AA, QQ, JJ, 55",
+    "4bet": "AKs, AKo, KK",
+    "call": "AQs, AJs, ATs, A5s, A4s, A3s, KQs, KJs, KTs, AQo, QJs, QTs, JTs, J9s, TT, T9s, T8s, 99, 98s, 97s, 88, 87s, 77, 76s, 66, 65s, 54s, 44, 33, 22"
+   },
+   "alsoCorrect": {
+    "call": "AA",
+    "4bet": "QQ"
+   }
+  },
+  {
+   "id": "vs3bet-50bb-pko-cobrindo-utg1-vs-hj",
+   "name": "vs 3-bet UTG1 vs HJ 50bb PKO cobrindo",
+   "description": "PKO, herói cobrindo (você 60bb, vilões 50bb): abriu e levou 3-bet. Mãos sorteadas só do range de open cobrindo.",
+   "street": "preflop",
+   "situation": "vs 3-bet",
+   "heroPosition": "UTG1",
+   "villainPosition": "HJ",
+   "stack": {
+    "min": 50,
+    "max": 50
+   },
+   "ratio": null,
+   "bubble": null,
+   "tags": [
+    "vs-3bet",
+    "mid-stack",
+    "pko",
+    "cobrindo"
+   ],
+   "actionIds": [
+    "fold",
+    "call",
+    "4bet",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "pko": {
+    "coverage": "cobrindo",
+    "heroStack": 60,
+    "villainStack": 50
+   },
+   "dealFrom": {
+    "strategy": "rfi-50bb-pko-cobrindo-utg1",
+    "actionIds": [
+     "rfi"
+    ]
+   },
+   "range": {
+    "shove": "AA, AKs, AKo, KK, QQ, JJ, TT, 55",
+    "call": "AQs, AJs, ATs, A9s, A8s, A7s, A5s, A4s, A3s, KQs, KJs, KTs, K9s, K8s, AQo, QJs, QTs, JTs, J9s, T9s, T8s, 99, 98s, 97s, 88, 87s, 77, 76s, 66, 65s, 54s, 44, 33, 22"
+   },
+   "alsoCorrect": {
+    "4bet": "AA, AKs, AKo, KK, QQ",
+    "call": "AA"
+   }
+  },
+  {
+   "id": "vs3bet-50bb-pko-cobrindo-utg1-vs-co",
+   "name": "vs 3-bet UTG1 vs CO 50bb PKO cobrindo",
+   "description": "PKO, herói cobrindo (você 60bb, vilões 50bb): abriu e levou 3-bet. Mãos sorteadas só do range de open cobrindo.",
+   "street": "preflop",
+   "situation": "vs 3-bet",
+   "heroPosition": "UTG1",
+   "villainPosition": "CO",
+   "stack": {
+    "min": 50,
+    "max": 50
+   },
+   "ratio": null,
+   "bubble": null,
+   "tags": [
+    "vs-3bet",
+    "mid-stack",
+    "pko",
+    "cobrindo"
+   ],
+   "actionIds": [
+    "fold",
+    "call",
+    "4bet",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "pko": {
+    "coverage": "cobrindo",
+    "heroStack": 60,
+    "villainStack": 50
+   },
+   "dealFrom": {
+    "strategy": "rfi-50bb-pko-cobrindo-utg1",
+    "actionIds": [
+     "rfi"
+    ]
+   },
+   "range": {
+    "4bet": "AA, A5s",
+    "shove": "AKs, A4s, A3s, A2s, AKo, KK, QQ, JJ, TT",
+    "call": "AQs, AJs, ATs, A9s, A8s, A7s, A6s, KQs, KJs, KTs, K9s, K8s, K7s, K6s, K5s, AQo, KQo, QJs, QTs, Q9s, Q8s, AJo, JTs, J9s, J8s, T9s, T8s, T7s, 99, 98s, 97s, 88, 87s, 77, 76s, 66, 65s, 55, 54s, 44, 33, 22"
+   },
+   "alsoCorrect": {
+    "call": "AA",
+    "4bet": "AKs, KK"
+   }
+  },
+  {
+   "id": "vs3bet-50bb-pko-cobrindo-utg1-vs-btn",
+   "name": "vs 3-bet UTG1 vs BTN 50bb PKO cobrindo",
+   "description": "PKO, herói cobrindo (você 60bb, vilões 50bb): abriu e levou 3-bet. Mãos sorteadas só do range de open cobrindo.",
+   "street": "preflop",
+   "situation": "vs 3-bet",
+   "heroPosition": "UTG1",
+   "villainPosition": "BTN",
+   "stack": {
+    "min": 50,
+    "max": 50
+   },
+   "ratio": null,
+   "bubble": null,
+   "tags": [
+    "vs-3bet",
+    "mid-stack",
+    "pko",
+    "cobrindo"
+   ],
+   "actionIds": [
+    "fold",
+    "call",
+    "4bet",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "pko": {
+    "coverage": "cobrindo",
+    "heroStack": 60,
+    "villainStack": 50
+   },
+   "dealFrom": {
+    "strategy": "rfi-50bb-pko-cobrindo-utg1",
+    "actionIds": [
+     "rfi"
+    ]
+   },
+   "range": {
+    "shove": "AA, AKs, AKo, KK, QQ",
+    "call": "AQs, AJs, ATs, A5s, KQs, KJs, KTs, K9s, K8s, K7s, K6s, AQo, QJs, QTs, JJ, JTs, J9s, TT, T9s, T8s, 99, 98s, 88, 87s, 77, 76s, 66, 65s, 55, 54s, 44, 33, 22"
+   },
+   "alsoCorrect": {
+    "call": "AA"
+   }
+  },
+  {
+   "id": "vs3bet-50bb-pko-cobrindo-utg1-vs-sb",
+   "name": "vs 3-bet UTG1 vs SB 50bb PKO cobrindo",
+   "description": "PKO, herói cobrindo (você 60bb, vilões 50bb): abriu e levou 3-bet. Mãos sorteadas só do range de open cobrindo.",
+   "street": "preflop",
+   "situation": "vs 3-bet",
+   "heroPosition": "UTG1",
+   "villainPosition": "SB",
+   "stack": {
+    "min": 50,
+    "max": 50
+   },
+   "ratio": null,
+   "bubble": null,
+   "tags": [
+    "vs-3bet",
+    "mid-stack",
+    "pko",
+    "cobrindo"
+   ],
+   "actionIds": [
+    "fold",
+    "call",
+    "4bet",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "pko": {
+    "coverage": "cobrindo",
+    "heroStack": 60,
+    "villainStack": 50
+   },
+   "dealFrom": {
+    "strategy": "rfi-50bb-pko-cobrindo-utg1",
+    "actionIds": [
+     "rfi"
+    ]
+   },
+   "range": {
+    "call": "AA, AKs, AQs, AJs, ATs, A5s, A4s, A3s, AKo, KK, KQs, KJs, KTs, K9s, K8s, AQo, QQ, QJs, QTs, Q9s, JJ, JTs, J9s, J8s, TT, T9s, T8s, 99, 98s, 97s, 88, 87s, 77, 76s, 66, 65s, 55, 54s, 44"
+   }
+  },
+  {
+   "id": "vs3bet-50bb-pko-cobrindo-utg1-vs-bb",
+   "name": "vs 3-bet UTG1 vs BB 50bb PKO cobrindo",
+   "description": "PKO, herói cobrindo (você 60bb, vilões 50bb): abriu e levou 3-bet. Mãos sorteadas só do range de open cobrindo.",
+   "street": "preflop",
+   "situation": "vs 3-bet",
+   "heroPosition": "UTG1",
+   "villainPosition": "BB",
+   "stack": {
+    "min": 50,
+    "max": 50
+   },
+   "ratio": null,
+   "bubble": null,
+   "tags": [
+    "vs-3bet",
+    "mid-stack",
+    "pko",
+    "cobrindo"
+   ],
+   "actionIds": [
+    "fold",
+    "call",
+    "4bet",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "pko": {
+    "coverage": "cobrindo",
+    "heroStack": 60,
+    "villainStack": 50
+   },
+   "dealFrom": {
+    "strategy": "rfi-50bb-pko-cobrindo-utg1",
+    "actionIds": [
+     "rfi"
+    ]
+   },
+   "range": {
+    "call": "AA, AKs, AQs, AJs, A5s, AKo, KK, KQs, KJs, KTs, QQ, QJs, QTs, JJ, JTs, J9s, TT, T9s, T8s, 98s, 97s, 87s, 76s, 65s, 54s"
+   }
+  },
+  {
+   "id": "vs3bet-50bb-pko-cobrindo-mp-vs-lj",
+   "name": "vs 3-bet MP vs LJ 50bb PKO cobrindo",
+   "description": "PKO, herói cobrindo (você 60bb, vilões 50bb): abriu e levou 3-bet. Mãos sorteadas só do range de open cobrindo.",
+   "street": "preflop",
+   "situation": "vs 3-bet",
+   "heroPosition": "MP",
+   "villainPosition": "LJ",
+   "stack": {
+    "min": 50,
+    "max": 50
+   },
+   "ratio": null,
+   "bubble": null,
+   "tags": [
+    "vs-3bet",
+    "mid-stack",
+    "pko",
+    "cobrindo"
+   ],
+   "actionIds": [
+    "fold",
+    "call",
+    "4bet",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "pko": {
+    "coverage": "cobrindo",
+    "heroStack": 60,
+    "villainStack": 50
+   },
+   "dealFrom": {
+    "strategy": "rfi-50bb-pko-cobrindo-mp",
+    "actionIds": [
+     "rfi"
+    ]
+   },
+   "range": {
+    "4bet": "AA, AKs, KK",
+    "call": "AQs, AJs, ATs, A9s, A8s, A5s, A4s, A3s, KQs, KJs, KTs, K9s, AQo, QJs, QTs, Q9s, JTs, J9s, T9s, T8s, 98s, 97s, 88, 87s, 86s, 77, 76s, 66, 65s, 55, 54s, 44, 33, 22",
+    "shove": "AKo, QQ, JJ, TT, 99"
+   },
+   "alsoCorrect": {
+    "shove": "AA",
+    "call": "AA"
+   }
+  },
+  {
+   "id": "vs3bet-50bb-pko-cobrindo-mp-vs-hj",
+   "name": "vs 3-bet MP vs HJ 50bb PKO cobrindo",
+   "description": "PKO, herói cobrindo (você 60bb, vilões 50bb): abriu e levou 3-bet. Mãos sorteadas só do range de open cobrindo.",
+   "street": "preflop",
+   "situation": "vs 3-bet",
+   "heroPosition": "MP",
+   "villainPosition": "HJ",
+   "stack": {
+    "min": 50,
+    "max": 50
+   },
+   "ratio": null,
+   "bubble": null,
+   "tags": [
+    "vs-3bet",
+    "mid-stack",
+    "pko",
+    "cobrindo"
+   ],
+   "actionIds": [
+    "fold",
+    "call",
+    "4bet",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "pko": {
+    "coverage": "cobrindo",
+    "heroStack": 60,
+    "villainStack": 50
+   },
+   "dealFrom": {
+    "strategy": "rfi-50bb-pko-cobrindo-mp",
+    "actionIds": [
+     "rfi"
+    ]
+   },
+   "range": {
+    "shove": "AA, AKo, QQ, JJ, TT, 99",
+    "4bet": "AKs, KK",
+    "call": "AQs, AJs, ATs, A9s, A8s, A7s, A5s, A4s, A3s, KQs, KJs, KTs, K9s, K8s, AQo, QJs, QTs, Q9s, JTs, J9s, T9s, T8s, 98s, 97s, 88, 87s, 86s, 77, 76s, 75s, 66, 65s, 55, 54s, 44, 33, 22"
+   },
+   "alsoCorrect": {
+    "4bet": "AA",
+    "call": "AA",
+    "shove": "AKs, KK"
+   }
+  },
+  {
+   "id": "vs3bet-50bb-pko-cobrindo-mp-vs-co",
+   "name": "vs 3-bet MP vs CO 50bb PKO cobrindo",
+   "description": "PKO, herói cobrindo (você 60bb, vilões 50bb): abriu e levou 3-bet. Mãos sorteadas só do range de open cobrindo.",
+   "street": "preflop",
+   "situation": "vs 3-bet",
+   "heroPosition": "MP",
+   "villainPosition": "CO",
+   "stack": {
+    "min": 50,
+    "max": 50
+   },
+   "ratio": null,
+   "bubble": null,
+   "tags": [
+    "vs-3bet",
+    "mid-stack",
+    "pko",
+    "cobrindo"
+   ],
+   "actionIds": [
+    "fold",
+    "call",
+    "4bet",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "pko": {
+    "coverage": "cobrindo",
+    "heroStack": 60,
+    "villainStack": 50
+   },
+   "dealFrom": {
+    "strategy": "rfi-50bb-pko-cobrindo-mp",
+    "actionIds": [
+     "rfi"
+    ]
+   },
+   "range": {
+    "shove": "AA, AKs, A5s, AKo, QQ, JJ, TT, 99",
+    "call": "AQs, AJs, ATs, A9s, A8s, A7s, A4s, A3s, KQs, KJs, KTs, K9s, K8s, K7s, K6s, K5s, AQo, KQo, QJs, QTs, Q9s, Q8s, AJo, JTs, J9s, J8s, T9s, T8s, T7s, 98s, 97s, 88, 87s, 86s, 77, 76s, 75s, 66, 65s, 55, 54s, 44, 33, 22",
+    "4bet": "KK"
+   },
+   "alsoCorrect": {
+    "call": "AA",
+    "4bet": "AKs",
+    "shove": "KK"
+   }
+  },
+  {
+   "id": "vs3bet-50bb-pko-cobrindo-mp-vs-btn",
+   "name": "vs 3-bet MP vs BTN 50bb PKO cobrindo",
+   "description": "PKO, herói cobrindo (você 60bb, vilões 50bb): abriu e levou 3-bet. Mãos sorteadas só do range de open cobrindo.",
+   "street": "preflop",
+   "situation": "vs 3-bet",
+   "heroPosition": "MP",
+   "villainPosition": "BTN",
+   "stack": {
+    "min": 50,
+    "max": 50
+   },
+   "ratio": null,
+   "bubble": null,
+   "tags": [
+    "vs-3bet",
+    "mid-stack",
+    "pko",
+    "cobrindo"
+   ],
+   "actionIds": [
+    "fold",
+    "call",
+    "4bet",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "pko": {
+    "coverage": "cobrindo",
+    "heroStack": 60,
+    "villainStack": 50
+   },
+   "dealFrom": {
+    "strategy": "rfi-50bb-pko-cobrindo-mp",
+    "actionIds": [
+     "rfi"
+    ]
+   },
+   "range": {
+    "call": "AA, AQs, AJs, ATs, A9s, A8s, KQs, KJs, KTs, K9s, K8s, K7s, K6s, AQo, QJs, QTs, Q9s, JTs, J9s, TT, T9s, T8s, 99, 98s, 97s, 88, 87s, 86s, 77, 76s, 75s, 66, 65s, 64s, 55, 54s, 44, 33, 22",
+    "shove": "AKs, A5s, AKo, KK, QQ, JJ"
+   }
+  },
+  {
+   "id": "vs3bet-50bb-pko-cobrindo-mp-vs-sb",
+   "name": "vs 3-bet MP vs SB 50bb PKO cobrindo",
+   "description": "PKO, herói cobrindo (você 60bb, vilões 50bb): abriu e levou 3-bet. Mãos sorteadas só do range de open cobrindo.",
+   "street": "preflop",
+   "situation": "vs 3-bet",
+   "heroPosition": "MP",
+   "villainPosition": "SB",
+   "stack": {
+    "min": 50,
+    "max": 50
+   },
+   "ratio": null,
+   "bubble": null,
+   "tags": [
+    "vs-3bet",
+    "mid-stack",
+    "pko",
+    "cobrindo"
+   ],
+   "actionIds": [
+    "fold",
+    "call",
+    "4bet",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "pko": {
+    "coverage": "cobrindo",
+    "heroStack": 60,
+    "villainStack": 50
+   },
+   "dealFrom": {
+    "strategy": "rfi-50bb-pko-cobrindo-mp",
+    "actionIds": [
+     "rfi"
+    ]
+   },
+   "range": {
+    "call": "AA, AKs, AQs, AJs, ATs, A9s, A8s, A7s, A5s, A4s, A3s, AKo, KK, KQs, KJs, KTs, K9s, K8s, AQo, QQ, QJs, QTs, Q9s, JJ, JTs, J9s, J8s, TT, T9s, T8s, 99, 98s, 97s, 88, 87s, 86s, 77, 76s, 75s, 66, 65s, 64s, 55, 54s, 44, 33"
+   }
+  },
+  {
+   "id": "vs3bet-50bb-pko-cobrindo-mp-vs-bb",
+   "name": "vs 3-bet MP vs BB 50bb PKO cobrindo",
+   "description": "PKO, herói cobrindo (você 60bb, vilões 50bb): abriu e levou 3-bet. Mãos sorteadas só do range de open cobrindo.",
+   "street": "preflop",
+   "situation": "vs 3-bet",
+   "heroPosition": "MP",
+   "villainPosition": "BB",
+   "stack": {
+    "min": 50,
+    "max": 50
+   },
+   "ratio": null,
+   "bubble": null,
+   "tags": [
+    "vs-3bet",
+    "mid-stack",
+    "pko",
+    "cobrindo"
+   ],
+   "actionIds": [
+    "fold",
+    "call",
+    "4bet",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "pko": {
+    "coverage": "cobrindo",
+    "heroStack": 60,
+    "villainStack": 50
+   },
+   "dealFrom": {
+    "strategy": "rfi-50bb-pko-cobrindo-mp",
+    "actionIds": [
+     "rfi"
+    ]
+   },
+   "range": {
+    "call": "AA, AKs, AQs, AJs, ATs, A9s, A5s, A4s, AKo, KK, KQs, KJs, KTs, AQo, QQ, QJs, QTs, JJ, JTs, J9s, TT, T9s, T8s, 99, 98s, 97s, 88, 87s, 86s, 77, 76s, 75s, 66, 65s, 64s, 55, 54s, 44"
+   }
+  },
+  {
+   "id": "vs3bet-50bb-pko-cobrindo-lj-vs-hj",
+   "name": "vs 3-bet LJ vs HJ 50bb PKO cobrindo",
+   "description": "PKO, herói cobrindo (você 60bb, vilões 50bb): abriu e levou 3-bet. Mãos sorteadas só do range de open cobrindo.",
+   "street": "preflop",
+   "situation": "vs 3-bet",
+   "heroPosition": "LJ",
+   "villainPosition": "HJ",
+   "stack": {
+    "min": 50,
+    "max": 50
+   },
+   "ratio": null,
+   "bubble": null,
+   "tags": [
+    "vs-3bet",
+    "mid-stack",
+    "pko",
+    "cobrindo"
+   ],
+   "actionIds": [
+    "fold",
+    "call",
+    "4bet",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "pko": {
+    "coverage": "cobrindo",
+    "heroStack": 60,
+    "villainStack": 50
+   },
+   "dealFrom": {
+    "strategy": "rfi-50bb-pko-cobrindo-lj",
+    "actionIds": [
+     "rfi"
+    ]
+   },
+   "range": {
+    "call": "AA, AQs, AJs, ATs, A9s, A8s, A7s, A4s, KQs, KJs, KTs, K9s, K8s, K7s, K6s, K5s, AQo, KQo, QJs, QTs, Q9s, AJo, JTs, J9s, J8s, T9s, T8s, T7s, 98s, 97s, 96s, 87s, 86s, 76s, 75s, 66, 65s, 64s, 55, 54s, 53s, 44, 33, 22",
+    "shove": "AKs, A5s, A3s, AKo, KK, QQ, JJ, TT, 99, 88, 77"
+   }
+  },
+  {
+   "id": "vs3bet-50bb-pko-cobrindo-lj-vs-co",
+   "name": "vs 3-bet LJ vs CO 50bb PKO cobrindo",
+   "description": "PKO, herói cobrindo (você 60bb, vilões 50bb): abriu e levou 3-bet. Mãos sorteadas só do range de open cobrindo.",
+   "street": "preflop",
+   "situation": "vs 3-bet",
+   "heroPosition": "LJ",
+   "villainPosition": "CO",
+   "stack": {
+    "min": 50,
+    "max": 50
+   },
+   "ratio": null,
+   "bubble": null,
+   "tags": [
+    "vs-3bet",
+    "mid-stack",
+    "pko",
+    "cobrindo"
+   ],
+   "actionIds": [
+    "fold",
+    "call",
+    "4bet",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "pko": {
+    "coverage": "cobrindo",
+    "heroStack": 60,
+    "villainStack": 50
+   },
+   "dealFrom": {
+    "strategy": "rfi-50bb-pko-cobrindo-lj",
+    "actionIds": [
+     "rfi"
+    ]
+   },
+   "range": {
+    "call": "AA, AQs, AJs, ATs, A9s, A8s, A7s, A6s, A4s, A3s, KQs, KJs, KTs, K9s, K8s, K7s, K6s, K5s, AQo, KQo, QJs, QTs, Q9s, Q8s, AJo, JTs, J9s, J8s, T9s, T8s, 98s, 97s, 96s, 87s, 86s, 76s, 75s, 66, 65s, 64s, 55, 54s, 53s, 44, 33, 22",
+    "shove": "AKs, A5s, AKo, KK, QQ, JJ, TT, 99, 88, 77"
+   }
+  },
+  {
+   "id": "vs3bet-50bb-pko-cobrindo-lj-vs-btn",
+   "name": "vs 3-bet LJ vs BTN 50bb PKO cobrindo",
+   "description": "PKO, herói cobrindo (você 60bb, vilões 50bb): abriu e levou 3-bet. Mãos sorteadas só do range de open cobrindo.",
+   "street": "preflop",
+   "situation": "vs 3-bet",
+   "heroPosition": "LJ",
+   "villainPosition": "BTN",
+   "stack": {
+    "min": 50,
+    "max": 50
+   },
+   "ratio": null,
+   "bubble": null,
+   "tags": [
+    "vs-3bet",
+    "mid-stack",
+    "pko",
+    "cobrindo"
+   ],
+   "actionIds": [
+    "fold",
+    "call",
+    "4bet",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "pko": {
+    "coverage": "cobrindo",
+    "heroStack": 60,
+    "villainStack": 50
+   },
+   "dealFrom": {
+    "strategy": "rfi-50bb-pko-cobrindo-lj",
+    "actionIds": [
+     "rfi"
+    ]
+   },
+   "range": {
+    "call": "AA, AQs, AJs, ATs, A9s, A8s, A7s, KQs, KJs, KTs, K9s, K8s, K7s, K6s, AQo, QJs, QTs, Q9s, JTs, J9s, J8s, T9s, T8s, 99, 98s, 97s, 88, 87s, 86s, 77, 76s, 75s, 66, 65s, 64s, 54s, 53s, 44, 33, 22",
+    "shove": "AKs, A5s, A4s, AKo, KK, QQ, JJ, TT, 55"
+   },
+   "alsoCorrect": {
+    "shove": "77"
+   }
+  },
+  {
+   "id": "vs3bet-50bb-pko-cobrindo-lj-vs-sb",
+   "name": "vs 3-bet LJ vs SB 50bb PKO cobrindo",
+   "description": "PKO, herói cobrindo (você 60bb, vilões 50bb): abriu e levou 3-bet. Mãos sorteadas só do range de open cobrindo.",
+   "street": "preflop",
+   "situation": "vs 3-bet",
+   "heroPosition": "LJ",
+   "villainPosition": "SB",
+   "stack": {
+    "min": 50,
+    "max": 50
+   },
+   "ratio": null,
+   "bubble": null,
+   "tags": [
+    "vs-3bet",
+    "mid-stack",
+    "pko",
+    "cobrindo"
+   ],
+   "actionIds": [
+    "fold",
+    "call",
+    "4bet",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "pko": {
+    "coverage": "cobrindo",
+    "heroStack": 60,
+    "villainStack": 50
+   },
+   "dealFrom": {
+    "strategy": "rfi-50bb-pko-cobrindo-lj",
+    "actionIds": [
+     "rfi"
+    ]
+   },
+   "range": {
+    "call": "AA, AKs, AQs, AJs, ATs, A9s, A8s, A7s, A5s, A4s, A3s, A2s, AKo, KK, KQs, KJs, KTs, K9s, AQo, KQo, QQ, QJs, QTs, Q9s, AJo, JJ, JTs, J9s, J8s, TT, T9s, T8s, T7s, 99, 98s, 97s, 88, 87s, 86s, 77, 76s, 75s, 66, 65s, 64s, 55, 54s, 53s, 44, 33, 22"
+   }
+  },
+  {
+   "id": "vs3bet-50bb-pko-cobrindo-lj-vs-bb",
+   "name": "vs 3-bet LJ vs BB 50bb PKO cobrindo",
+   "description": "PKO, herói cobrindo (você 60bb, vilões 50bb): abriu e levou 3-bet. Mãos sorteadas só do range de open cobrindo.",
+   "street": "preflop",
+   "situation": "vs 3-bet",
+   "heroPosition": "LJ",
+   "villainPosition": "BB",
+   "stack": {
+    "min": 50,
+    "max": 50
+   },
+   "ratio": null,
+   "bubble": null,
+   "tags": [
+    "vs-3bet",
+    "mid-stack",
+    "pko",
+    "cobrindo"
+   ],
+   "actionIds": [
+    "fold",
+    "call",
+    "4bet",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "pko": {
+    "coverage": "cobrindo",
+    "heroStack": 60,
+    "villainStack": 50
+   },
+   "dealFrom": {
+    "strategy": "rfi-50bb-pko-cobrindo-lj",
+    "actionIds": [
+     "rfi"
+    ]
+   },
+   "range": {
+    "call": "AA, AKs, AQs, AJs, ATs, A9s, A5s, A4s, A3s, AKo, KK, KQs, KJs, KTs, K9s, AQo, QQ, QJs, QTs, Q9s, JJ, JTs, J9s, TT, T9s, T8s, 99, 98s, 97s, 88, 87s, 86s, 77, 76s, 75s, 66, 65s, 64s, 55, 54s, 53s"
+   }
+  },
+  {
+   "id": "vs3bet-50bb-pko-cobrindo-hj-vs-co",
+   "name": "vs 3-bet HJ vs CO 50bb PKO cobrindo",
+   "description": "PKO, herói cobrindo (você 60bb, vilões 50bb): abriu e levou 3-bet. Mãos sorteadas só do range de open cobrindo.",
+   "street": "preflop",
+   "situation": "vs 3-bet",
+   "heroPosition": "HJ",
+   "villainPosition": "CO",
+   "stack": {
+    "min": 50,
+    "max": 50
+   },
+   "ratio": null,
+   "bubble": null,
+   "tags": [
+    "vs-3bet",
+    "mid-stack",
+    "pko",
+    "cobrindo"
+   ],
+   "actionIds": [
+    "fold",
+    "call",
+    "4bet",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "pko": {
+    "coverage": "cobrindo",
+    "heroStack": 60,
+    "villainStack": 50
+   },
+   "dealFrom": {
+    "strategy": "rfi-50bb-pko-cobrindo-hj",
+    "actionIds": [
+     "rfi"
+    ]
+   },
+   "range": {
+    "shove": "AA, AKs, A3s, A2s, AKo, KK, QQ, JJ, TT, 99, 88, 77, 66, 55, 44, 33, 22",
+    "call": "AQs, AJs, ATs, A9s, A8s, A7s, A6s, A5s, A4s, KQs, KJs, KTs, K9s, K8s, K7s, K6s, K5s, K4s, K3s, K2s, AQo, KQo, QJs, QTs, Q9s, Q8s, Q7s, AJo, KJo, QJo, JTs, J9s, J8s, J7s, ATo, T9s, T8s, T7s, T6s, 98s, 97s, 96s, 87s, 86s, 85s, 76s, 75s, 74s, 65s, 64s, 54s, 53s, 43s"
+   },
+   "alsoCorrect": {
+    "call": "AA"
+   }
+  },
+  {
+   "id": "vs3bet-50bb-pko-cobrindo-hj-vs-btn",
+   "name": "vs 3-bet HJ vs BTN 50bb PKO cobrindo",
+   "description": "PKO, herói cobrindo (você 60bb, vilões 50bb): abriu e levou 3-bet. Mãos sorteadas só do range de open cobrindo.",
+   "street": "preflop",
+   "situation": "vs 3-bet",
+   "heroPosition": "HJ",
+   "villainPosition": "BTN",
+   "stack": {
+    "min": 50,
+    "max": 50
+   },
+   "ratio": null,
+   "bubble": null,
+   "tags": [
+    "vs-3bet",
+    "mid-stack",
+    "pko",
+    "cobrindo"
+   ],
+   "actionIds": [
+    "fold",
+    "call",
+    "4bet",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "pko": {
+    "coverage": "cobrindo",
+    "heroStack": 60,
+    "villainStack": 50
+   },
+   "dealFrom": {
+    "strategy": "rfi-50bb-pko-cobrindo-hj",
+    "actionIds": [
+     "rfi"
+    ]
+   },
+   "range": {
+    "shove": "AA, AKs, A3s, A2s, AKo, KK, QQ, JJ, TT, 99, 88, 77, 66, 55, 44, 33, 22",
+    "call": "AQs, AJs, ATs, A9s, A8s, A7s, A6s, A5s, A4s, KQs, KJs, KTs, K9s, K8s, K7s, K6s, K5s, K4s, K3s, K2s, AQo, KQo, QJs, QTs, Q9s, Q8s, Q7s, AJo, KJo, QJo, JTs, J9s, J8s, ATo, T9s, T8s, T7s, T6s, 98s, 97s, 96s, 87s, 86s, 85s, 76s, 75s, 74s, 65s, 64s, 54s, 53s, 43s"
+   },
+   "alsoCorrect": {
+    "call": "AA"
+   }
+  },
+  {
+   "id": "vs3bet-50bb-pko-cobrindo-hj-vs-sb",
+   "name": "vs 3-bet HJ vs SB 50bb PKO cobrindo",
+   "description": "PKO, herói cobrindo (você 60bb, vilões 50bb): abriu e levou 3-bet. Mãos sorteadas só do range de open cobrindo.",
+   "street": "preflop",
+   "situation": "vs 3-bet",
+   "heroPosition": "HJ",
+   "villainPosition": "SB",
+   "stack": {
+    "min": 50,
+    "max": 50
+   },
+   "ratio": null,
+   "bubble": null,
+   "tags": [
+    "vs-3bet",
+    "mid-stack",
+    "pko",
+    "cobrindo"
+   ],
+   "actionIds": [
+    "fold",
+    "call",
+    "4bet",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "pko": {
+    "coverage": "cobrindo",
+    "heroStack": 60,
+    "villainStack": 50
+   },
+   "dealFrom": {
+    "strategy": "rfi-50bb-pko-cobrindo-hj",
+    "actionIds": [
+     "rfi"
+    ]
+   },
+   "range": {
+    "call": "AA, AKs, AQs, AJs, ATs, A9s, A8s, A7s, A6s, A5s, A4s, A3s, A2s, AKo, KK, KQs, KJs, KTs, K9s, K8s, K7s, K6s, K5s, K4s, K3s, AQo, KQo, QQ, QJs, QTs, Q9s, Q8s, AJo, KJo, QJo, JJ, JTs, J9s, J8s, J7s, ATo, KTo, QTo, JTo, TT, T9s, T8s, T7s, T6s, 99, 98s, 97s, 96s, 88, 87s, 86s, 85s, 77, 76s, 75s, 74s, 66, 65s, 64s, 55, 54s, 53s, 44, 43s, 33, 22"
+   }
+  },
+  {
+   "id": "vs3bet-50bb-pko-cobrindo-hj-vs-bb",
+   "name": "vs 3-bet HJ vs BB 50bb PKO cobrindo",
+   "description": "PKO, herói cobrindo (você 60bb, vilões 50bb): abriu e levou 3-bet. Mãos sorteadas só do range de open cobrindo.",
+   "street": "preflop",
+   "situation": "vs 3-bet",
+   "heroPosition": "HJ",
+   "villainPosition": "BB",
+   "stack": {
+    "min": 50,
+    "max": 50
+   },
+   "ratio": null,
+   "bubble": null,
+   "tags": [
+    "vs-3bet",
+    "mid-stack",
+    "pko",
+    "cobrindo"
+   ],
+   "actionIds": [
+    "fold",
+    "call",
+    "4bet",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "pko": {
+    "coverage": "cobrindo",
+    "heroStack": 60,
+    "villainStack": 50
+   },
+   "dealFrom": {
+    "strategy": "rfi-50bb-pko-cobrindo-hj",
+    "actionIds": [
+     "rfi"
+    ]
+   },
+   "range": {
+    "call": "AA, AKs, AQs, AJs, ATs, A9s, A8s, A7s, A6s, A5s, A4s, A3s, A2s, AKo, KK, KQs, KJs, KTs, K9s, K8s, K7s, K6s, K5s, K4s, AQo, KQo, QQ, QJs, QTs, Q9s, Q8s, AJo, QJo, JJ, JTs, J9s, J8s, ATo, JTo, TT, T9s, T8s, T7s, 99, 98s, 97s, 88, 87s, 86s, 77, 76s, 75s, 66, 65s, 64s, 55, 54s, 53s, 44, 43s, 33, 22"
+   }
+  },
+  {
+   "id": "vs3bet-50bb-pko-cobrindo-co-vs-btn",
+   "name": "vs 3-bet CO vs BTN 50bb PKO cobrindo",
+   "description": "PKO, herói cobrindo (você 60bb, vilões 50bb): abriu e levou 3-bet. Mãos sorteadas só do range de open cobrindo.",
+   "street": "preflop",
+   "situation": "vs 3-bet",
+   "heroPosition": "CO",
+   "villainPosition": "BTN",
+   "stack": {
+    "min": 50,
+    "max": 50
+   },
+   "ratio": null,
+   "bubble": null,
+   "tags": [
+    "vs-3bet",
+    "mid-stack",
+    "pko",
+    "cobrindo"
+   ],
+   "actionIds": [
+    "fold",
+    "call",
+    "4bet",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "pko": {
+    "coverage": "cobrindo",
+    "heroStack": 60,
+    "villainStack": 50
+   },
+   "dealFrom": {
+    "strategy": "rfi-50bb-pko-cobrindo-co",
+    "actionIds": [
+     "rfi"
+    ]
+   },
+   "range": {
+    "shove": "AA, AKs, A3s, A2s, AKo, KK, QQ, JJ, TT, 99, 88, 77, 66, 55, 44, 33, 22",
+    "call": "AQs, AJs, ATs, A9s, A8s, A7s, A6s, A5s, A4s, KQs, KJs, KTs, K9s, K8s, K7s, K6s, K5s, K4s, K3s, K2s, AQo, KQo, QJs, QTs, Q9s, Q8s, Q7s, Q6s, Q5s, Q4s, AJo, KJo, QJo, JTs, J9s, J8s, J7s, ATo, KTo, QTo, JTo, T9s, T8s, T7s, 98s, 97s, 96s, 95s, 87s, 86s, 85s, 76s, 75s, 74s, 65s, 64s, 63s, 54s, 53s, 52s, 43s, 42s"
+   },
+   "alsoCorrect": {
+    "shove": "KJs"
+   }
+  },
+  {
+   "id": "vs3bet-50bb-pko-cobrindo-co-vs-sb",
+   "name": "vs 3-bet CO vs SB 50bb PKO cobrindo",
+   "description": "PKO, herói cobrindo (você 60bb, vilões 50bb): abriu e levou 3-bet. Mãos sorteadas só do range de open cobrindo.",
+   "street": "preflop",
+   "situation": "vs 3-bet",
+   "heroPosition": "CO",
+   "villainPosition": "SB",
+   "stack": {
+    "min": 50,
+    "max": 50
+   },
+   "ratio": null,
+   "bubble": null,
+   "tags": [
+    "vs-3bet",
+    "mid-stack",
+    "pko",
+    "cobrindo"
+   ],
+   "actionIds": [
+    "fold",
+    "call",
+    "4bet",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "pko": {
+    "coverage": "cobrindo",
+    "heroStack": 60,
+    "villainStack": 50
+   },
+   "dealFrom": {
+    "strategy": "rfi-50bb-pko-cobrindo-co",
+    "actionIds": [
+     "rfi"
+    ]
+   },
+   "range": {
+    "call": "AA, AKs, AQs, AJs, ATs, A9s, A8s, A7s, A6s, A5s, A4s, A3s, A2s, KK, KQs, KJs, KTs, K9s, K8s, K7s, K6s, K5s, K4s, K3s, K2s, AQo, KQo, QQ, QJs, QTs, Q9s, Q8s, Q7s, Q6s, Q5s, Q4s, Q3s, AJo, KJo, QJo, JTs, J9s, J8s, J7s, ATo, KTo, QTo, JTo, T9s, T8s, T7s, T6s, A9o, 99, 98s, 97s, 96s, 88, 87s, 86s, 85s, 77, 76s, 75s, 74s, 66, 65s, 64s, 63s, 55, 54s, 53s, 52s, 44, 43s, 33, 22",
+    "shove": "AKo, JJ, TT"
+   }
+  },
+  {
+   "id": "vs3bet-50bb-pko-cobrindo-co-vs-bb",
+   "name": "vs 3-bet CO vs BB 50bb PKO cobrindo",
+   "description": "PKO, herói cobrindo (você 60bb, vilões 50bb): abriu e levou 3-bet. Mãos sorteadas só do range de open cobrindo.",
+   "street": "preflop",
+   "situation": "vs 3-bet",
+   "heroPosition": "CO",
+   "villainPosition": "BB",
+   "stack": {
+    "min": 50,
+    "max": 50
+   },
+   "ratio": null,
+   "bubble": null,
+   "tags": [
+    "vs-3bet",
+    "mid-stack",
+    "pko",
+    "cobrindo"
+   ],
+   "actionIds": [
+    "fold",
+    "call",
+    "4bet",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "pko": {
+    "coverage": "cobrindo",
+    "heroStack": 60,
+    "villainStack": 50
+   },
+   "dealFrom": {
+    "strategy": "rfi-50bb-pko-cobrindo-co",
+    "actionIds": [
+     "rfi"
+    ]
+   },
+   "range": {
+    "call": "AA, AKs, AQs, AJs, ATs, A9s, A8s, A7s, A6s, A5s, A4s, A3s, A2s, AKo, KK, KQs, KJs, KTs, K9s, K8s, K7s, K6s, K5s, K4s, K3s, AQo, KQo, QQ, QJs, QTs, Q9s, Q8s, Q7s, AJo, KJo, QJo, JJ, JTs, J9s, J8s, J7s, ATo, KTo, QTo, JTo, TT, T9s, T8s, T7s, 99, 98s, 97s, 88, 87s, 86s, 77, 76s, 75s, 66, 65s, 64s, 55, 54s, 53s, 44, 43s, 33, 22"
+   }
+  },
+  {
+   "id": "vs3bet-50bb-pko-cobrindo-btn-vs-sb",
+   "name": "vs 3-bet BTN vs SB 50bb PKO cobrindo",
+   "description": "PKO, herói cobrindo (você 60bb, vilões 50bb): abriu e levou 3-bet. Mãos sorteadas só do range de open cobrindo.",
+   "street": "preflop",
+   "situation": "vs 3-bet",
+   "heroPosition": "BTN",
+   "villainPosition": "SB",
+   "stack": {
+    "min": 50,
+    "max": 50
+   },
+   "ratio": null,
+   "bubble": null,
+   "tags": [
+    "vs-3bet",
+    "mid-stack",
+    "pko",
+    "cobrindo"
+   ],
+   "actionIds": [
+    "fold",
+    "call",
+    "4bet",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "pko": {
+    "coverage": "cobrindo",
+    "heroStack": 60,
+    "villainStack": 50
+   },
+   "dealFrom": {
+    "strategy": "rfi-50bb-pko-cobrindo-btn",
+    "actionIds": [
+     "rfi"
+    ]
+   },
+   "range": {
+    "call": "AA, AKs, AQs, AJs, ATs, A9s, A8s, A7s, A6s, A5s, A4s, A3s, KK, KQs, KJs, KTs, K9s, K8s, K7s, K6s, K5s, K4s, K3s, K2s, AQo, KQo, QJs, QTs, Q9s, Q8s, Q7s, Q6s, Q5s, Q4s, Q3s, Q2s, AJo, KJo, QJo, JTs, J9s, J8s, J7s, J6s, J5s, J4s, J3s, ATo, KTo, QTo, JTo, T9s, T8s, T7s, T6s, A9o, J9o, T9o, 98s, 97s, 96s, 95s, A8o, 88, 87s, 86s, 85s, 84s, A7o, 77, 76s, 75s, 74s, 66, 65s, 64s, 63s, A5o, 55, 54s, 53s, 52s, A4o, 43s, 42s, 32s",
+    "shove": "A2s, AKo, QQ, JJ, TT, 99, 44, 33, 22"
+   }
+  },
+  {
+   "id": "vs3bet-50bb-pko-cobrindo-btn-vs-bb",
+   "name": "vs 3-bet BTN vs BB 50bb PKO cobrindo",
+   "description": "PKO, herói cobrindo (você 60bb, vilões 50bb): abriu e levou 3-bet. Mãos sorteadas só do range de open cobrindo.",
+   "street": "preflop",
+   "situation": "vs 3-bet",
+   "heroPosition": "BTN",
+   "villainPosition": "BB",
+   "stack": {
+    "min": 50,
+    "max": 50
+   },
+   "ratio": null,
+   "bubble": null,
+   "tags": [
+    "vs-3bet",
+    "mid-stack",
+    "pko",
+    "cobrindo"
+   ],
+   "actionIds": [
+    "fold",
+    "call",
+    "4bet",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "pko": {
+    "coverage": "cobrindo",
+    "heroStack": 60,
+    "villainStack": 50
+   },
+   "dealFrom": {
+    "strategy": "rfi-50bb-pko-cobrindo-btn",
+    "actionIds": [
+     "rfi"
+    ]
+   },
+   "range": {
+    "call": "AA, AKs, AQs, AJs, ATs, A9s, A8s, A7s, A6s, A5s, A4s, A3s, A2s, AKo, KK, KQs, KJs, KTs, K9s, K8s, K7s, K6s, K5s, K4s, K3s, K2s, AQo, KQo, QQ, QJs, QTs, Q9s, Q8s, Q7s, Q6s, Q5s, Q4s, Q3s, Q2s, AJo, KJo, QJo, JJ, JTs, J9s, J8s, J7s, J6s, J5s, J4s, J3s, ATo, KTo, QTo, JTo, TT, T9s, T8s, T7s, T6s, A9o, K9o, Q9o, J9o, T9o, 99, 98s, 97s, 96s, 95s, A8o, 88, 87s, 86s, 85s, 77, 76s, 75s, 74s, 66, 65s, 64s, 63s, A5o, 55, 54s, 53s, 52s, 44, 43s, 33, 22"
+   }
+  }
+ ],
+ "drills": [
+  {
+   "id": "vs3bet-50bb-pko-cobrindo",
+   "name": "vs 3-bet 50bb PKO cobrindo",
+   "description": "PKO com o herói cobrindo (você 60bb, vilões 50bb). Cada mão sorteia quem abriu e quem deu 3-bet; só aparecem mãos do seu range de open cobrindo. Mãos mistas aceitam qualquer uma das ações.",
+   "variants": [
+    [
+     "vs3bet-50bb-pko-cobrindo-utg-vs-utg1"
+    ],
+    [
+     "vs3bet-50bb-pko-cobrindo-utg-vs-mp"
+    ],
+    [
+     "vs3bet-50bb-pko-cobrindo-utg-vs-lj"
+    ],
+    [
+     "vs3bet-50bb-pko-cobrindo-utg-vs-hj"
+    ],
+    [
+     "vs3bet-50bb-pko-cobrindo-utg-vs-co"
+    ],
+    [
+     "vs3bet-50bb-pko-cobrindo-utg-vs-btn"
+    ],
+    [
+     "vs3bet-50bb-pko-cobrindo-utg-vs-sb"
+    ],
+    [
+     "vs3bet-50bb-pko-cobrindo-utg-vs-bb"
+    ],
+    [
+     "vs3bet-50bb-pko-cobrindo-utg1-vs-mp"
+    ],
+    [
+     "vs3bet-50bb-pko-cobrindo-utg1-vs-lj"
+    ],
+    [
+     "vs3bet-50bb-pko-cobrindo-utg1-vs-hj"
+    ],
+    [
+     "vs3bet-50bb-pko-cobrindo-utg1-vs-co"
+    ],
+    [
+     "vs3bet-50bb-pko-cobrindo-utg1-vs-btn"
+    ],
+    [
+     "vs3bet-50bb-pko-cobrindo-utg1-vs-sb"
+    ],
+    [
+     "vs3bet-50bb-pko-cobrindo-utg1-vs-bb"
+    ],
+    [
+     "vs3bet-50bb-pko-cobrindo-mp-vs-lj"
+    ],
+    [
+     "vs3bet-50bb-pko-cobrindo-mp-vs-hj"
+    ],
+    [
+     "vs3bet-50bb-pko-cobrindo-mp-vs-co"
+    ],
+    [
+     "vs3bet-50bb-pko-cobrindo-mp-vs-btn"
+    ],
+    [
+     "vs3bet-50bb-pko-cobrindo-mp-vs-sb"
+    ],
+    [
+     "vs3bet-50bb-pko-cobrindo-mp-vs-bb"
+    ],
+    [
+     "vs3bet-50bb-pko-cobrindo-lj-vs-hj"
+    ],
+    [
+     "vs3bet-50bb-pko-cobrindo-lj-vs-co"
+    ],
+    [
+     "vs3bet-50bb-pko-cobrindo-lj-vs-btn"
+    ],
+    [
+     "vs3bet-50bb-pko-cobrindo-lj-vs-sb"
+    ],
+    [
+     "vs3bet-50bb-pko-cobrindo-lj-vs-bb"
+    ],
+    [
+     "vs3bet-50bb-pko-cobrindo-hj-vs-co"
+    ],
+    [
+     "vs3bet-50bb-pko-cobrindo-hj-vs-btn"
+    ],
+    [
+     "vs3bet-50bb-pko-cobrindo-hj-vs-sb"
+    ],
+    [
+     "vs3bet-50bb-pko-cobrindo-hj-vs-bb"
+    ],
+    [
+     "vs3bet-50bb-pko-cobrindo-co-vs-btn"
+    ],
+    [
+     "vs3bet-50bb-pko-cobrindo-co-vs-sb"
+    ],
+    [
+     "vs3bet-50bb-pko-cobrindo-co-vs-bb"
+    ],
+    [
+     "vs3bet-50bb-pko-cobrindo-btn-vs-sb"
+    ],
+    [
+     "vs3bet-50bb-pko-cobrindo-btn-vs-bb"
+    ]
+   ],
+   "sampling": "fronteira",
+   "tags": [
+    "vs-3bet",
+    "mid-stack",
+    "pko",
+    "cobrindo"
+   ],
+   "handsPerSession": 50,
+   "passAccuracy": 0.9
+  }
+ ]
+}

@@ -100,7 +100,7 @@ export interface Strategy {
    * Mãos mistas do pré-flop: uma segunda ação que também é aceita como certa
    * (ex.: AA metade call, metade all-in). O range guarda a ação principal.
    */
-  alsoCorrect?: Range | null;
+  alsoCorrect?: MixedHands | null;
   /** Ranges do pós-flop por textura; vale a primeira textura que combinar com o board. */
   textureRanges: TextureRange[];
 }
@@ -121,20 +121,33 @@ export function correctAction(strategy: Strategy, hand: HandLabel, board: readon
   return range ? actionOf(range, hand, strategy.defaultActionId) : null;
 }
 
-/** Ações aceitas como certas para a mão: a principal e, em mão mista, a segunda. */
+/** Mãos mistas: ações extras aceitas por mão (uma ação ou várias). */
+export type MixedHands = Partial<Record<HandLabel, string | string[]>>;
+
+/** Ações extras de uma mão mista, sem repetir. */
+export function mixedActions(mixed: MixedHands | null | undefined, hand: HandLabel): string[] {
+  const value = mixed?.[hand];
+  if (!value) return [];
+  return [...new Set(Array.isArray(value) ? value : [value])];
+}
+
+/** Ações aceitas como certas para a mão: a principal e, em mão mista, as outras. */
 export function acceptedActions(strategy: Strategy, hand: HandLabel, board: readonly Card[]): string[] | null {
   const correct = correctAction(strategy, hand, board);
   if (correct === null) return null;
-  const extra = strategy.street === "preflop" ? strategy.alsoCorrect?.[hand] : undefined;
-  return extra && extra !== correct ? [correct, extra] : [correct];
+  const extra = strategy.street === "preflop" ? mixedActions(strategy.alsoCorrect, hand).filter((a) => a !== correct) : [];
+  return [correct, ...extra];
 }
 
-/** Remove a segunda ação das mãos cuja ação principal mudou (ex.: depois de repintar o range). */
-export function pruneAlsoCorrect(alsoCorrect: Range | null | undefined, before: Range, after: Range): Range | null {
+/** Remove a mistura das mãos cuja ação principal mudou (ex.: depois de repintar o range). */
+export function pruneAlsoCorrect(alsoCorrect: MixedHands | null | undefined, before: Range, after: Range): MixedHands | null {
   if (!alsoCorrect) return null;
-  const kept: Range = {};
-  for (const [hand, action] of Object.entries(alsoCorrect))
-    if (action && before[hand] === after[hand] && after[hand] !== action) kept[hand] = action;
+  const kept: MixedHands = {};
+  for (const hand of Object.keys(alsoCorrect)) {
+    if (before[hand] !== after[hand]) continue;
+    const extra = mixedActions(alsoCorrect, hand).filter((a) => a !== after[hand]);
+    if (extra.length) kept[hand] = extra.length === 1 ? extra[0] : extra;
+  }
   return Object.keys(kept).length ? kept : null;
 }
 
@@ -185,8 +198,8 @@ export function validateStrategy(strategy: Strategy, legend: Legend): string[] {
 
   if (strategy.street === "preflop") {
     checkRange(strategy.range, "Range");
-    for (const [hand, action] of Object.entries(strategy.alsoCorrect ?? {})) {
-      if (!action) continue;
+    for (const hand of Object.keys(strategy.alsoCorrect ?? {}))
+    for (const action of mixedActions(strategy.alsoCorrect, hand)) {
       if (!strategy.actionIds.includes(action))
         errors.push(`Mão mista ${hand}: a ação "${action}" não está entre os botões do exercício.`);
       if (actionOf(strategy.range, hand, strategy.defaultActionId) === action)

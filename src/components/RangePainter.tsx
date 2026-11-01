@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { RangeGrid } from "@/components/RangeGrid";
+import type { MixedHands } from "@/lib/poker/strategy";
 import { ALL_HANDS } from "@/lib/poker/hands";
 import { type Legend, findAction, textColorFor } from "@/lib/poker/legend";
 import { type Range, paintHands, parseRangeNotation, rangeBreakdown } from "@/lib/poker/range";
@@ -10,7 +11,7 @@ interface RangePainterProps {
   range: Range;
   onChange: (range: Range) => void;
   /** Mãos mistas (só exibição). */
-  alsoCorrect?: Range | null;
+  alsoCorrect?: MixedHands | null;
   legend: Legend;
   actionIds: string[];
   defaultActionId: string;

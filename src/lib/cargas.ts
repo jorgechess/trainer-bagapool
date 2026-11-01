@@ -4,6 +4,7 @@ import vs3bet30 from "../../cargas/vs3bet-30bb-vanilla.json";
 import rfiPkoCobrindo from "../../cargas/rfi-50bb-pko-cobrindo.json";
 import rfiPkoCoberto from "../../cargas/rfi-50bb-pko-coberto.json";
 import vs3betPkoCoberto from "../../cargas/vs3bet-50bb-pko-coberto.json";
+import vs3betPkoCobrindo from "../../cargas/vs3bet-50bb-pko-cobrindo.json";
 
 export interface Carga {
   id: string;
@@ -50,5 +51,13 @@ export const CARGAS: Carga[] = [
       "35 estratégias (quem abriu × quem deu 3-bet) em PKO com o herói coberto; mãos só do open coberto. Adiciona a ação 4-bet na legenda, se faltar.",
     requires: ["rfi-50bb-pko-coberto"],
     bundle: vs3betPkoCoberto,
+  },
+  {
+    id: "vs3bet-50bb-pko-cobrindo",
+    name: "vs 3-bet 50bb PKO cobrindo",
+    description:
+      "35 estratégias (quem abriu × quem deu 3-bet) em PKO com o herói cobrindo; mãos só do open cobrindo. Adiciona a ação 4-bet na legenda, se faltar.",
+    requires: ["rfi-50bb-pko-cobrindo"],
+    bundle: vs3betPkoCobrindo,
   },
 ];

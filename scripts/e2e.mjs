@@ -494,6 +494,17 @@ async function main() {
     for (const a of await rows("attempts", "select=data&order=id.desc&limit=6"))
       assert.equal(coberto[a.data.heroPosition]?.[a.data.hand], "rfi", `${a.data.hand} está no open coberto do ${a.data.heroPosition}`);
     log("vs 3-bet PKO coberto: mãos do open coberto, botão 4-bet e mãos mistas");
+    // vs 3-bet PKO cobrindo (RFI cobrindo já importado acima): você com 60bb
+    await page.goto(`${BASE_URL}/admin/importar`);
+    await page.getByTestId("carga-vs3bet-50bb-pko-cobrindo").getByRole("button", { name: "Importar" }).click();
+    await page.getByTestId("carga-vs3bet-50bb-pko-cobrindo").getByText(/Importado:/).waitFor();
+    const [mpVsLj] = await rows("strategies", "select=data&id=eq.vs3bet-50bb-pko-cobrindo-mp-vs-lj");
+    assert.deepEqual([mpVsLj.data.range.AA, ...[mpVsLj.data.alsoCorrect.AA].flat()].sort(), ["4bet", "call", "shove"]);
+    await page.goto(`${BASE_URL}/drills/vs3bet-50bb-pko-cobrindo/treinar`);
+    await page.getByTestId("pko-coverage").getByText("PKO cobrindo").waitFor();
+    await page.getByText(/\(você\)/).locator("xpath=..").getByText(/^58bb$/).waitFor();
+    await shot(page, "treino-vs3bet-pko-cobrindo");
+    log("vs 3-bet PKO cobrindo: herói com 60bb (58 depois do open) e AA misto em três ações");
 
     // 10. Cadastra pool e jogador
     await page.goto(`${BASE_URL}/admin/jogadores`);

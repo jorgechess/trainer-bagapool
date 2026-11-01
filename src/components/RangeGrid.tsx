@@ -4,13 +4,14 @@ import { useRef } from "react";
 import { HAND_GRID, type HandLabel } from "@/lib/poker/hands";
 import { type Legend, findAction, textColorFor } from "@/lib/poker/legend";
 import { type Range, actionOf } from "@/lib/poker/range";
+import { type MixedHands, mixedActions } from "@/lib/poker/strategy";
 
 interface RangeGridProps {
   range: Range;
   defaultActionId: string;
   legend: Legend;
   /** Mãos mistas: segunda ação aceita, desenhada na metade direita da casa. */
-  alsoCorrect?: Range | null;
+  alsoCorrect?: MixedHands | null;
   /** Mão destacada (ex.: a mão do exercício). */
   highlight?: HandLabel | null;
   /** Se informado, a grade fica editável: clique ou arraste para pintar. */
@@ -58,20 +59,27 @@ export function RangeGrid({ range, defaultActionId, legend, alsoCorrect, highlig
       {HAND_GRID.flat().map((hand) => {
         const action = findAction(legend, actionOf(range, hand, defaultActionId));
         const background = action?.color ?? "#27272a";
-        const second = alsoCorrect?.[hand] ? findAction(legend, alsoCorrect[hand]) : undefined;
+        const extras = mixedActions(alsoCorrect, hand)
+          .map((id) => findAction(legend, id))
+          .filter((a): a is NonNullable<typeof a> => a !== undefined && a.id !== action?.id);
+        // Casa dividida em faixas iguais, uma por ação aceita
+        const colors = [background, ...extras.map((a) => a.color)];
+        const stripes = colors
+          .map((c, i) => `${c} ${(i * 100) / colors.length}% ${((i + 1) * 100) / colors.length}%`)
+          .join(", ");
         const isHighlight = highlight === hand;
         return (
           <div
             key={hand}
             data-hand={hand}
-            data-mixed={second ? "true" : undefined}
-            title={`${hand}: ${action?.label ?? "?"}${second ? ` ou ${second.label}` : ""}`}
+            data-mixed={extras.length ? "true" : undefined}
+            title={`${hand}: ${[action?.label ?? "?", ...extras.map((a) => a.label)].join(" ou ")}`}
             className={`flex aspect-square items-center justify-center font-mono leading-none ${
               isHighlight ? "relative z-10 ring-2 ring-white ring-offset-1 ring-offset-black" : ""
             }`}
             style={{
               backgroundColor: background,
-              backgroundImage: second ? `linear-gradient(90deg, ${background} 50%, ${second.color} 50%)` : undefined,
+              backgroundImage: extras.length ? `linear-gradient(90deg, ${stripes})` : undefined,
               color: textColorFor(background),
               fontSize: compact ? "clamp(7px, 2cqw, 15px)" : "clamp(8px, 2.2cqw, 16px)",
             }}

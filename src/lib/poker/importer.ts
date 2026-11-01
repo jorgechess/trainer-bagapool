@@ -13,6 +13,8 @@ import {
   type Street,
   type Strategy,
   type TextureRange,
+  type MixedHands,
+  mixedActions,
   validateStrategy,
 } from "./strategy";
 import type { TextureMatch } from "./texture";
@@ -44,7 +46,7 @@ export interface ImportStrategy {
   tableSizes?: { open?: number; threeBet?: number } | null;
   pko?: { coverage: "cobrindo" | "coberto"; bounty?: string; heroStack?: number; villainStack?: number } | null;
   range?: Record<string, string>;
-  /** Mãos mistas: segunda ação também aceita, no mesmo formato do range. */
+  /** Mãos mistas: ações extras também aceitas, no formato do range (a mão pode aparecer em várias ações). */
   alsoCorrect?: Record<string, string>;
   textureRanges?: ImportTextureRange[];
 }
@@ -104,6 +106,21 @@ function toRange(notation: unknown, where: string, errors: string[]): Range {
     errors.push(`${where}: ${(error as Error).message}`);
     return {};
   }
+}
+
+function toMixed(byAction: unknown, where: string, errors: string[]): MixedHands {
+  const mixed: MixedHands = {};
+  if (!isObject(byAction)) {
+    errors.push(`${where}: use { "acao": "notação" }.`);
+    return mixed;
+  }
+  for (const [action, notation] of Object.entries(byAction)) {
+    for (const hand of Object.keys(toRange({ [action]: notation }, where, errors))) {
+      const current = mixedActions(mixed, hand);
+      mixed[hand] = current.length ? [...current, action] : action;
+    }
+  }
+  return mixed;
 }
 
 /**
@@ -188,7 +205,7 @@ export function parseImportBundle(
       pko: raw.pko ?? null,
       dealFrom: raw.dealFrom ? { strategyId: String(raw.dealFrom.strategy ?? ""), actionIds: raw.dealFrom.actionIds ?? [] } : null,
       range: compactRange(toRange(raw.range, where, errors), raw.defaultActionId),
-      ...(raw.alsoCorrect ? { alsoCorrect: toRange(raw.alsoCorrect, `${where}, mãos mistas`, errors) } : {}),
+      ...(raw.alsoCorrect ? { alsoCorrect: toMixed(raw.alsoCorrect, `${where}, mãos mistas`, errors) } : {}),
       textureRanges,
     };
     errors.push(...validateStrategy(strategy, effectiveLegend).map((e) => `${where}: ${e}`));

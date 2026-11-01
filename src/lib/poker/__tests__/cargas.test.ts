@@ -5,6 +5,7 @@ import { join } from "node:path";
 import { parseImportBundle } from "../importer";
 import { DEFAULT_LEGEND } from "../legend";
 import { rangeBreakdown } from "../range";
+import { mixedActions } from "../strategy";
 
 const load = (name: string) => JSON.parse(readFileSync(join(process.cwd(), "cargas", name), "utf8"));
 
@@ -148,4 +149,57 @@ test("carga vs 3-bet 50bb PKO coberto: válida, coerente com o open coberto e co
   assert.deepEqual([find("UTG", "CO").range["AA"], find("UTG", "CO").alsoCorrect?.["AA"]].sort(), ["4bet", "call"]);
   assert.equal(find("BTN", "SB").range["22"], "shove");
   assert.equal(find("BTN", "BB").range["22"], undefined);
+});
+
+/** Porcentagem como no print: casa mista dividida igualmente entre as ações aceitas. */
+function printPercent(s: { range: Record<string, string | undefined>; alsoCorrect?: Parameters<typeof mixedActions>[0] }, action: string) {
+  let combos = 0;
+  for (const [hand, primary] of Object.entries(s.range)) {
+    const n = hand.length === 2 ? 6 : hand.endsWith("s") ? 4 : 12;
+    const all = [primary, ...mixedActions(s.alsoCorrect, hand).filter((a) => a !== primary)];
+    if (all.includes(action)) combos += n / all.length;
+  }
+  return (combos / 1326) * 100;
+}
+
+test("carga vs 3-bet 50bb PKO cobrindo: válida, coerente com o open cobrindo e com a legenda dos prints", () => {
+  const rfi = parseImportBundle(load("rfi-50bb-pko-cobrindo.json"), DEFAULT_LEGEND);
+  const result = parseImportBundle(load("vs3bet-50bb-pko-cobrindo.json"), DEFAULT_LEGEND, rfi.strategies);
+  assert.deepEqual(result.errors, []);
+  assert.equal(result.strategies.length, 35);
+  const find = (hero: string, villain: string) =>
+    result.strategies.find((x) => x.heroPosition === hero && x.villainPosition === villain)!;
+  const expected: [string, string, string, number][] = [
+    ["UTG", "UTG1", "call", 11.09],
+    ["UTG", "UTG1", "shove", 2.34],
+    ["UTG", "LJ", "4bet", 1.89],
+    ["UTG", "HJ", "call", 12.07],
+    ["UTG", "CO", "shove", 3.54],
+    ["UTG", "BB", "call", 8.9],
+    ["LJ", "HJ", "shove", 4.98],
+    ["LJ", "BTN", "call", 13.65],
+    ["HJ", "CO", "call", 19.83],
+    ["HJ", "SB", "call", 29.41],
+    ["CO", "BTN", "shove", 7.84],
+    ["CO", "SB", "call", 30.92],
+    ["BTN", "SB", "call", 36.5],
+    ["BTN", "BB", "call", 39.97],
+  ];
+  for (const [hero, villain, action, value] of expected) {
+    const got = printPercent(find(hero, villain), action);
+    assert.ok(Math.abs(got - value) < 0.35, `${hero} vs ${villain} ${action}: ${got} ≈ ${value}`);
+  }
+  for (const s of result.strategies) {
+    assert.equal(s.pko?.coverage, "cobrindo");
+    assert.equal(s.pko?.heroStack, 60);
+    const open = rfi.strategies.find((x) => x.id === s.dealFrom?.strategyId)!;
+    assert.equal(open.heroPosition, s.heroPosition);
+    // Exceção do print: 64s pago no MP vs BTN/SB/BB sem estar no open do MP (nunca é sorteado)
+    for (const [hand, action] of Object.entries(s.range))
+      if (action !== "fold" && !(s.heroPosition === "MP" && hand === "64s"))
+        assert.equal(open.range[hand], "rfi", `${s.name}: ${hand} fora do open`);
+  }
+  // AA dividido em três (MP vs LJ): call, 4-bet e all-in valem
+  const aa = find("MP", "LJ");
+  assert.deepEqual([aa.range["AA"]!, ...mixedActions(aa.alsoCorrect, "AA")].sort(), ["4bet", "call", "shove"]);
 });
