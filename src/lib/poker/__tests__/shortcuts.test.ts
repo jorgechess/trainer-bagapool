@@ -3,6 +3,7 @@ import assert from "node:assert/strict";
 import {
   CONTINUE_COMMAND,
   DEFAULT_BINDINGS,
+  effectiveInputs,
   assignBinding,
   clearBinding,
   commandFor,
@@ -69,4 +70,17 @@ test("nomes curtos e campos de digitação", async () => {
   assert.ok(!isTypingTarget({ tagName: "INPUT", type: "checkbox" }));
   assert.ok(!isTypingTarget({ tagName: "BUTTON" }));
   assert.ok(!isTypingTarget(null));
+});
+
+test("uma tecla nunca vale para dois botões: números padrão pulam teclas que já são atalho", () => {
+  const options = ["fold", "call", "4bet", "shove"];
+  // Caso do print: fold no X e all-in no 2; call não pode mostrar o 2
+  const keys = effectiveInputs(options, { fold: "key:KeyX", shove: "key:Digit2" });
+  assert.deepEqual(keys, { fold: "key:KeyX", shove: "key:Digit2", call: "key:Digit1", "4bet": "key:Digit3" });
+  const values = Object.values(keys);
+  assert.equal(new Set(values).size, values.length);
+  // Sem atalhos: ordem dos botões
+  assert.deepEqual(effectiveInputs(options, {}), { fold: "key:Digit1", call: "key:Digit2", "4bet": "key:Digit3", shove: "key:Digit4" });
+  // Número que é atalho de uma ação ausente no spot também fica reservado
+  assert.equal(effectiveInputs(["fold", "rfi"], { shove: "key:Digit1" }).fold, "key:Digit2");
 });

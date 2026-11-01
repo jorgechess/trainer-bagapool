@@ -382,6 +382,12 @@ async function main() {
     await page.goto(`${BASE_URL}/drills/rfi-30bb-vanilla-todas/treinar`);
     await page.getByTestId("hero-cards").waitFor();
     await page.getByLabel("Avançar sozinho quando acertar").uncheck();
+    {
+      // nenhuma tecla aparece em dois botões (o "1" é do raise; o fold não pode mostrar "1")
+      const hints = await page.locator("[data-testid=actions] button span").allInnerTexts();
+      assert.equal(new Set(hints).size, hints.length, `teclas repetidas: ${hints.join(", ")}`);
+      assert.ok(hints.filter((h) => h === "1").length === 1, `"1" aparece uma vez: ${hints.join(", ")}`);
+    }
     await page.keyboard.press("Numpad1");
     await page.locator("[data-feedback]").waitFor();
     // Enter do teclado numérico continua quando o "continuar" está no Enter

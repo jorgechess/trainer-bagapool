@@ -129,3 +129,23 @@ export function isTypingTarget(target: { tagName?: string; type?: string; isCont
   if (target.tagName !== "INPUT") return false;
   return !["checkbox", "radio", "button", "submit", "reset", "range", "color"].includes((target.type ?? "text").toLowerCase());
 }
+
+/**
+ * Tecla de cada botão no exercício. Ações com atalho usam o atalho; as sem atalho recebem, na ordem dos
+ * botões, os números de 1 a 9 que não são atalho de nenhum comando.
+ * Assim uma tecla nunca aparece (nem funciona) em dois botões.
+ */
+export function effectiveInputs(options: readonly string[], bindings: Bindings): Record<string, string | undefined> {
+  const used = new Set(Object.values(bindings));
+  const out: Record<string, string | undefined> = {};
+  let digit = 1;
+  for (const action of options) {
+    if (bindings[action]) {
+      out[action] = bindings[action];
+      continue;
+    }
+    while (digit <= 9 && used.has(`key:Digit${digit}`)) digit++;
+    if (digit <= 9) out[action] = `key:Digit${digit++}`;
+  }
+  return out;
+}

@@ -27,6 +27,7 @@ import {
   PEEK_COMMAND,
   SHORTCUTS_KEY,
   commandFor,
+  effectiveInputs,
   inputShortLabel,
   isTypingTarget,
   keyInput,
@@ -242,6 +243,7 @@ function TableSlot({
     );
 
   const texture = step.board.length >= 3 ? describeFlop(boardTexture(step.board).flop) : null;
+  const keys = effectiveInputs(step.options, bindings);
   const acceptedLabels = [step.correctActionId, ...(step.alsoAccepted ?? [])]
     .map((id) => findAction(legend, id)?.label ?? id)
     .join(" ou ");
@@ -299,7 +301,7 @@ function TableSlot({
       />
 
       <div className={`grid gap-2 ${multi ? "grid-cols-2 lg:grid-cols-3" : "grid-cols-2 sm:grid-cols-3"}`} data-testid="actions">
-        {step.options.map((actionId, optionIndex) => {
+        {step.options.map((actionId) => {
           const action = findAction(legend, actionId);
           const isChosen = chosen === actionId;
           const isRight = chosen !== null && isCorrectStep(step, actionId);
@@ -318,7 +320,7 @@ function TableSlot({
             >
               {keyboard === "choose" && (
                 <span className="mr-1 hidden opacity-60 sm:inline">
-                  {bindings[actionId] ? inputShortLabel(bindings[actionId]) : optionIndex + 1}
+                  {keys[actionId] ? inputShortLabel(keys[actionId]) : ""}
                 </span>
               )}
               {action?.label ?? actionId}
@@ -530,7 +532,7 @@ export function Trainer({ drill, strategies, legend }: TrainerProps) {
   togglePeekRef.current = togglePeek;
   useEffect(() => {
     if (finished) return;
-    function run(input: string, digit: number | null, event: Event): boolean {
+    function run(input: string, event: Event): boolean {
       // Consulta as mesas na hora: a primeira sem resposta recebe a ação; a primeira respondida, o "continuar".
       const apis = slotApis.current.slice(0, tableCountRef.current);
       const choose = apis.findIndex((a) => a && !a.answered);
@@ -553,10 +555,14 @@ export function Trainer({ drill, strategies, legend }: TrainerProps) {
         }
         return false;
       }
-      // Sem atalho definido: números escolhem as ações na ordem; Enter/Espaço continuam
-      if (digit !== null && api && digit >= 1 && digit <= api.options.length && !Object.values(bindings).includes(input)) {
-        api.choose(api.options[digit - 1]);
-        return true;
+      // Sem atalho definido: números escolhem as ações (pulando teclas que já são atalho); Enter/Espaço continuam
+      if (api) {
+        const keys = effectiveInputs(api.options, bindings);
+        const action = api.options.find((a) => keys[a] === input);
+        if (action) {
+          api.choose(action);
+          return true;
+        }
       }
       if (event instanceof KeyboardEvent && (event.code === "Space" || event.code === "Enter" || event.code === "NumpadEnter") &&
         !bindings[CONTINUE_COMMAND]) {
@@ -569,12 +575,11 @@ export function Trainer({ drill, strategies, legend }: TrainerProps) {
     function onKey(event: KeyboardEvent) {
       if (isTypingTarget(event.target as HTMLInputElement | null)) return;
       if (event.repeat || event.ctrlKey || event.metaKey || event.altKey) return;
-      const digitMatch = /^(?:Digit|Numpad)([1-9])$/.exec(event.code);
-      if (run(keyInput(event), digitMatch ? Number(digitMatch[1]) : null, event)) event.preventDefault();
+      if (run(keyInput(event), event)) event.preventDefault();
     }
     function onMouseDown(event: MouseEvent) {
       if (event.button === 0) return;
-      if (run(mouseInput(event), null, event)) event.preventDefault();
+      if (run(mouseInput(event), event)) event.preventDefault();
     }
     // Botões laterais não voltam/avançam a página quando têm atalho
     function onMouseUp(event: MouseEvent) {
