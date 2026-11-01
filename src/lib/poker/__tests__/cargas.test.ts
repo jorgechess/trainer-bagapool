@@ -5,7 +5,8 @@ import { join } from "node:path";
 import { parseImportBundle } from "../importer";
 import { DEFAULT_LEGEND } from "../legend";
 import { rangeBreakdown } from "../range";
-import { mixedActions } from "../strategy";
+import { dealSourceIds, mixedActions } from "../strategy";
+import { allowedHands } from "../drill";
 
 const load = (name: string) => JSON.parse(readFileSync(join(process.cwd(), "cargas", name), "utf8"));
 
@@ -247,9 +248,20 @@ test("carga RFI Max Late Reg Vanilla: 22 prints do Discord, com as porcentagens 
 });
 
 test("carga Vs Resteal Max Late Reg Vanilla: 3 ranges do print em 13 spots", () => {
-  const result = parseImportBundle(load("vs-resteal-max-late-reg-vanilla.json"), DEFAULT_LEGEND);
+  const mlr = parseImportBundle(load("rfi-max-late-reg-vanilla.json"), DEFAULT_LEGEND);
+  const result = parseImportBundle(load("vs-resteal-max-late-reg-vanilla.json"), DEFAULT_LEGEND, mlr.strategies);
   assert.deepEqual(result.errors, []);
   assert.equal(result.strategies.length, 13);
+  // Mãos só dos raises (>10bb) do 3:1 e 2:1 com 15bb da mesma posição
+  const map = new Map([...mlr.strategies, ...result.strategies].map((s) => [s.id, s]));
+  for (const s of result.strategies) {
+    const pos = s.heroPosition.toLowerCase();
+    assert.deepEqual(dealSourceIds(s.dealFrom), [`rfi-mlr-3p1-15bb-${pos}`, `rfi-mlr-2p1-15bb-${pos}`]);
+    const allowed = allowedHands(s, map)!;
+    const raises = (id: string) => Object.entries(map.get(id)!.range).filter(([, a]) => a === "rfi").map(([h]) => h);
+    assert.deepEqual([...allowed].sort(), [...new Set([...raises(`rfi-mlr-3p1-15bb-${pos}`), ...raises(`rfi-mlr-2p1-15bb-${pos}`)])].sort());
+    assert.ok(!allowed.has("22") || map.get(`rfi-mlr-3p1-15bb-${pos}`)!.range["22"] === "rfi" || map.get(`rfi-mlr-2p1-15bb-${pos}`)!.range["22"] === "rfi");
+  }
   const call = (hero: string, villain: string) => {
     const s = result.strategies.find((x) => x.heroPosition === hero && x.villainPosition === villain)!;
     assert.equal(s.villainAllIn, true);

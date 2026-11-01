@@ -15,6 +15,7 @@ import {
   type TextureRange,
   type MixedHands,
   mixedActions,
+  dealSourceIds,
   validateStrategy,
 } from "./strategy";
 import type { TextureMatch } from "./texture";
@@ -42,7 +43,8 @@ export interface ImportStrategy {
   defaultActionId: string;
   entryActionIds?: string[];
   /** Sorteia mãos só onde outra estratégia (id ou nome) tem uma destas ações. */
-  dealFrom?: { strategy: string; actionIds: string[] } | null;
+  /** `strategy` (id ou nome); `alsoStrategies` soma outras estratégias ao sorteio. */
+  dealFrom?: { strategy: string; alsoStrategies?: string[]; actionIds: string[] } | null;
   tableSizes?: { open?: number; threeBet?: number } | null;
   randomStacks?: boolean;
   villainAllIn?: boolean;
@@ -207,7 +209,13 @@ export function parseImportBundle(
       ...(raw.randomStacks ? { randomStacks: true } : {}),
       ...(raw.villainAllIn ? { villainAllIn: true } : {}),
       pko: raw.pko ?? null,
-      dealFrom: raw.dealFrom ? { strategyId: String(raw.dealFrom.strategy ?? ""), actionIds: raw.dealFrom.actionIds ?? [] } : null,
+      dealFrom: raw.dealFrom
+        ? {
+            strategyId: String(raw.dealFrom.strategy ?? ""),
+            ...(raw.dealFrom.alsoStrategies?.length ? { alsoStrategyIds: raw.dealFrom.alsoStrategies.map(String) } : {}),
+            actionIds: raw.dealFrom.actionIds ?? [],
+          }
+        : null,
       range: compactRange(toRange(raw.range, where, errors), raw.defaultActionId),
       ...(raw.alsoCorrect ? { alsoCorrect: toMixed(raw.alsoCorrect, `${where}, mãos mistas`, errors) } : {}),
       textureRanges,
@@ -224,11 +232,14 @@ export function parseImportBundle(
   // Resolve "sortear só do range de" (pode apontar para estratégias do arquivo ou já cadastradas)
   for (const strategy of strategies) {
     if (!strategy.dealFrom) continue;
-    const ref = strategy.dealFrom.strategyId;
-    const source = byId.get(ref) ?? byName.get(ref.toLowerCase());
-    if (!source) errors.push(`Estratégia "${strategy.name}": sorteia mãos de "${ref}", que não foi encontrada.`);
-    else if (source.street !== "preflop") errors.push(`Estratégia "${strategy.name}": "${source.name}" não é de pré-flop.`);
-    else strategy.dealFrom = { ...strategy.dealFrom, strategyId: source.id };
+    const resolved = dealSourceIds(strategy.dealFrom).map((ref) => {
+      const source = byId.get(ref) ?? byName.get(ref.toLowerCase());
+      if (!source) errors.push(`Estratégia "${strategy.name}": sorteia mãos de "${ref}", que não foi encontrada.`);
+      else if (source.street !== "preflop") errors.push(`Estratégia "${strategy.name}": "${source.name}" não é de pré-flop.`);
+      return source?.id ?? ref;
+    });
+    const [first, ...rest] = resolved;
+    strategy.dealFrom = { ...strategy.dealFrom, strategyId: first, ...(rest.length ? { alsoStrategyIds: rest } : {}) };
   }
   const drills: Drill[] = [];
   const drillIds = new Set<string>();

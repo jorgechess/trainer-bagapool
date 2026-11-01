@@ -73,8 +73,9 @@ export const CARGAS: Carga[] = [
   {
     id: "vs-resteal-max-late-reg-vanilla",
     name: "Vs Resteal Max Late Reg Vanilla",
-    description: "13 spots: MP (LJ e HJ) vs qualquer posição, LP (CO e BTN) vs SB e vs BB; você com 12–15bb.",
-    requires: [],
+    description:
+      "13 spots: MP (LJ e HJ) vs qualquer posição, LP (CO e BTN) vs SB e vs BB; você com 12–15bb e só mãos dos raises de 15bb do 3:1 e 2:1.",
+    requires: ["rfi-max-late-reg-vanilla"],
     bundle: vsRestealMaxLate,
   },
 ];

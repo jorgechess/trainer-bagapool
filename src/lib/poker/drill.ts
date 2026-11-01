@@ -14,6 +14,7 @@ import {
   type Street,
   type Strategy,
   acceptedActions,
+  dealSourceIds,
   formatNumberRange,
   formatRatio,
   resolveRange,
@@ -92,10 +93,12 @@ export function validateDrill(drill: Drill, strategies: Map<string, Strategy>): 
         continue;
       }
       if (strategy.dealFrom && steps[0] === id) {
-        const source = strategies.get(strategy.dealFrom.strategyId);
-        if (!source) errors.push(`${prefix}"${strategy.name}" sorteia mãos de uma estratégia que não existe.`);
-        else if (source.street !== "preflop")
-          errors.push(`${prefix}"${strategy.name}" só pode sortear mãos de uma estratégia de pré-flop.`);
+        for (const sourceId of dealSourceIds(strategy.dealFrom)) {
+          const source = strategies.get(sourceId);
+          if (!source) errors.push(`${prefix}"${strategy.name}" sorteia mãos de uma estratégia que não existe.`);
+          else if (source.street !== "preflop")
+            errors.push(`${prefix}"${strategy.name}" só pode sortear mãos de uma estratégia de pré-flop.`);
+        }
       }
       const streetIndex = STREETS.indexOf(strategy.street);
       if (streetIndex < lastStreet)
@@ -137,19 +140,22 @@ export function spotSummary(strategy: Strategy): string {
 /** Mãos que a estratégia pode receber (respeita "sortear só do range de"), ou null = todas. */
 export function allowedHands(strategy: Strategy, strategies: Map<string, Strategy>): Set<HandLabel> | null {
   if (!strategy.dealFrom) return null;
-  const source = strategies.get(strategy.dealFrom.strategyId);
-  if (!source) throw new Error(`"${strategy.name}" sorteia mãos de uma estratégia que não existe mais.`);
-  if (source.street !== "preflop") throw new Error(`"${strategy.name}" só pode sortear mãos de uma estratégia de pré-flop.`);
   const actions = new Set(strategy.dealFrom.actionIds);
-  return new Set(ALL_HANDS.filter((hand) => actions.has(actionOf(source.range, hand, source.defaultActionId))));
+  const allowed = new Set<HandLabel>();
+  for (const sourceId of dealSourceIds(strategy.dealFrom)) {
+    const source = strategies.get(sourceId);
+    if (!source) throw new Error(`"${strategy.name}" sorteia mãos de uma estratégia que não existe mais.`);
+    if (source.street !== "preflop") throw new Error(`"${strategy.name}" só pode sortear mãos de uma estratégia de pré-flop.`);
+    for (const hand of ALL_HANDS) if (actions.has(actionOf(source.range, hand, source.defaultActionId))) allowed.add(hand);
+  }
+  return allowed;
 }
 
 /** Estratégias que o drill precisa para funcionar: as das variações e as usadas em "sortear só do range de". */
 export function drillDependencyIds(drill: Drill, strategies: Map<string, Strategy>): string[] {
   const ids = new Set(drillStrategyIds(drill));
   for (const id of [...ids]) {
-    const from = strategies.get(id)?.dealFrom?.strategyId;
-    if (from) ids.add(from);
+    for (const from of dealSourceIds(strategies.get(id)?.dealFrom)) ids.add(from);
   }
   return [...ids];
 }

@@ -6,7 +6,7 @@ import type { ActionResult } from "@/lib/format";
 import { drillStrategyIds } from "@/lib/poker/drill";
 import { slugify } from "@/lib/poker/importer";
 import { compactRange } from "@/lib/poker/range";
-import { POSITIONS, STREETS, type Strategy, validateStrategy } from "@/lib/poker/strategy";
+import { POSITIONS, STREETS, type Strategy, dealSourceIds, validateStrategy } from "@/lib/poker/strategy";
 import { createClient } from "@/lib/supabase/server";
 
 function isStrategyShape(value: unknown): value is Strategy {
@@ -66,7 +66,7 @@ export async function saveStrategy(input: Strategy, isNew: boolean): Promise<Act
 export async function deleteStrategy(id: string): Promise<ActionResult> {
   await requireContentManager();
   const usedBy = (await listDrills()).filter((d) => drillStrategyIds(d).includes(id));
-  const dependents = (await listStrategies()).filter((s) => s.dealFrom?.strategyId === id);
+  const dependents = (await listStrategies()).filter((s) => dealSourceIds(s.dealFrom).includes(id));
   if (dependents.length)
     return {
       ok: false,

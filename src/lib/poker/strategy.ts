@@ -51,7 +51,15 @@ export const COVERAGE_LABELS: Record<Coverage, string> = {
 
 export interface DealFrom {
   strategyId: string;
+  /** Outras estratégias somadas ao sorteio (a mão vale se estiver em qualquer uma). */
+  alsoStrategyIds?: string[];
   actionIds: string[];
+}
+
+/** Todas as estratégias de onde as mãos podem ser sorteadas. */
+export function dealSourceIds(dealFrom: DealFrom | null | undefined): string[] {
+  if (!dealFrom) return [];
+  return [...new Set([dealFrom.strategyId, ...(dealFrom.alsoStrategyIds ?? [])])];
 }
 
 export interface TextureRange {
@@ -186,7 +194,7 @@ export function validateStrategy(strategy: Strategy, legend: Legend): string[] {
     errors.push("PKO: informe se o herói está cobrindo ou coberto.");
   if (strategy.dealFrom) {
     if (!strategy.dealFrom.strategyId) errors.push("Escolha a estratégia de onde as mãos são sorteadas.");
-    if (strategy.dealFrom.strategyId === strategy.id) errors.push("A estratégia não pode sortear mãos dela mesma.");
+    if (dealSourceIds(strategy.dealFrom).includes(strategy.id)) errors.push("A estratégia não pode sortear mãos dela mesma.");
     if (strategy.dealFrom.actionIds.length === 0) errors.push("Escolha as ações do range de onde as mãos são sorteadas.");
   }
   if (!strategy.actionIds.includes(strategy.defaultActionId))

@@ -566,6 +566,17 @@ async function main() {
     await page.getByText("All-in", { exact: true }).first().waitFor();
     assert.equal(await page.locator("[data-testid=actions] button").count(), 2, "fold e call");
     await shot(page, "treino-vs-resteal");
+    const raises = {};
+    for (const r of await rows("strategies", "select=data&or=(id.like.rfi-mlr-3p1-15bb-*,id.like.rfi-mlr-2p1-15bb-*)"))
+      for (const [hand, action] of Object.entries(r.data.range))
+        if (action === "rfi") (raises[r.data.heroPosition] ??= new Set()).add(hand);
+    for (let hand = 0; hand < 6; hand++) {
+      await page.locator("[data-testid=actions] button").first().click();
+      await page.getByRole("button", { name: /Continuar/ }).click();
+    }
+    await page.waitForTimeout(1500);
+    for (const a of await rows("attempts", "select=data&order=id.desc&limit=6"))
+      assert.ok(raises[a.data.heroPosition]?.has(a.data.hand), `${a.data.hand} é raise de 15bb (3:1 ou 2:1) do ${a.data.heroPosition}`);
     log("vs resteal: vilão all-in e herói com 12–15bb");
     log(`Max Late Reg Vanilla importado; mesa mostra ${leftText}`);
 
