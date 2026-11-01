@@ -8,6 +8,7 @@ import { PokerTable } from "@/components/PokerTable";
 import { PositionChips } from "@/components/PositionChips";
 import { RangeGrid } from "@/components/RangeGrid";
 import { formatPercent } from "@/lib/format";
+import { LENGTH_KEY, LENGTH_OPTIONS } from "@/lib/session-length";
 import {
   type Drill,
   type HandQuestion,
@@ -76,9 +77,6 @@ interface SlotApi {
 
 const PEEK_KEY = "trainer:mostrar-resposta";
 const TABLES_KEY = "trainer:mesas";
-const LENGTH_KEY = "trainer:maos";
-/** 0 = padrão do drill; -1 = sem limite (até clicar em "Encerrar sessão"). */
-const LENGTH_OPTIONS = [0, 10, 25, 50, 100, -1] as const;
 export const TABLE_OPTIONS = [1, 2, 4] as const;
 type TableCount = (typeof TABLE_OPTIONS)[number];
 

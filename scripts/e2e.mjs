@@ -506,6 +506,28 @@ async function main() {
     await shot(page, "treino-vs3bet-pko-cobrindo");
     log("vs 3-bet PKO cobrindo: herói com 60bb (58 depois do open) e AA misto em três ações");
 
+    // Tela de drills: seções Vanilla e PKO recolhíveis, sem Editar, e escolha de mãos que vale no treino
+    await page.goto(`${BASE_URL}/drills`);
+    const vanilla = page.getByTestId("secao-vanilla");
+    const pko = page.getByTestId("secao-pko");
+    await vanilla.getByText("RFI 30bb vanilla").waitFor();
+    assert.equal(await pko.getByTestId("drill-card").count(), 4, "PKO: RFI e vs 3-bet, coberto e cobrindo");
+    assert.equal(await page.getByRole("link", { name: "Editar" }).count(), 0, "sem botão Editar");
+    assert.equal(await page.getByText("Escopo").count(), 0, "sem escopo no card");
+    await shot(page, "drills-secoes");
+    await pko.getByRole("button", { name: /PKO/ }).click();
+    assert.equal(await pko.getByTestId("drill-card").count(), 0, "seção PKO recolhida");
+    await page.reload();
+    await page.getByTestId("secao-pko").getByRole("button", { name: /PKO/ }).and(page.locator("[aria-expanded=false]")).waitFor();
+    assert.equal(await page.getByTestId("secao-pko").getByTestId("drill-card").count(), 0, "continua recolhida");
+    await page.getByTestId("secao-pko").getByRole("button", { name: /PKO/ }).click();
+    await page.getByRole("group", { name: "Mãos da sessão" }).getByRole("button", { name: "10", exact: true }).click();
+    await vanilla.getByTestId("drill-card").filter({ hasText: "RFI 30bb vanilla" }).getByRole("link", { name: "Treinar" }).click();
+    await page.getByTestId("hand-counter").getByText(/\/10/).waitFor();
+    // volta ao padrão para não afetar os passos seguintes
+    await page.getByRole("group", { name: "Mãos da sessão" }).getByRole("button", { name: /padrão/ }).click();
+    log("tela de drills com seções recolhíveis e mãos por sessão");
+
     // 10. Cadastra pool e jogador
     await page.goto(`${BASE_URL}/admin/jogadores`);
     await page.getByPlaceholder("Nome da nova pool").fill("Pool A");
