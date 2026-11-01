@@ -238,7 +238,7 @@ async function main() {
     assert.equal(await countRows("drills"), 3);
     await page.goto(`${BASE_URL}/drills`);
     const rfiCard = page.locator(".card").filter({ hasText: "RFI 30bb vanilla" });
-    await rfiCard.getByText("(sorteado)").waitFor();
+    await rfiCard.getByRole("link", { name: "Treinar" }).waitFor();
     await rfiCard.getByRole("link", { name: "Treinar" }).click();
     await page.getByTestId("hero-cards").waitFor();
     await page.getByLabel("Avançar sozinho quando acertar").uncheck();
