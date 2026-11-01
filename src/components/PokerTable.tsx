@@ -56,6 +56,16 @@ function towardCenter(shape: Shape, offset: number, factor: number) {
   return at(50 + (x - 50) * factor, 50 + (y - 50) * factor);
 }
 
+/**
+ * Fichas de um jogador: na direção do centro. Nos lugares de cima as cartas e a caixa do jogador
+ * descem até perto do feltro, então as fichas entram um pouco mais para não ficarem escondidas.
+ */
+function chipSpot(shape: Shape, offset: number, factor: number) {
+  const { y } = seatPlacement(shape, offset);
+  const upper = Math.max(0, (50 - y) / shape.ry);
+  return towardCenter(shape, offset, factor - 0.16 * upper);
+}
+
 function CardBack() {
   return (
     <div className="h-[1.9em] w-[1.35em] rounded-[0.2em] border border-white/30 bg-gradient-to-br from-red-700 to-red-900 shadow" />
@@ -214,7 +224,7 @@ export function PokerTable({
               key={`chip-${s.position}`}
               className="absolute flex -translate-x-1/2 -translate-y-1/2 items-center gap-[0.3em]"
               // Fichas sempre coladas em quem apostou; as do herói ficam à frente das cartas (dentro do lugar dele)
-              style={towardCenter(shape, s.offset, vertical ? CHIP_FACTOR_TALL : CHIP_FACTOR)}
+              style={chipSpot(shape, s.offset, vertical ? CHIP_FACTOR_TALL : CHIP_FACTOR)}
             >
               <Chips amount={s.posted} />
             </div>
