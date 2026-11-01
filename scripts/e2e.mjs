@@ -578,6 +578,18 @@ async function main() {
     for (const a of await rows("attempts", "select=data&order=id.desc&limit=6"))
       assert.ok(raises[a.data.heroPosition]?.has(a.data.hand), `${a.data.hand} é raise de 15bb (3:1 ou 2:1) do ${a.data.heroPosition}`);
     log("vs resteal: vilão all-in e herói com 12–15bb");
+
+    // RFI PKO short coberto: 10/15/20bb, bounty na mesa e todos os vilões cobrindo o herói
+    await page.goto(`${BASE_URL}/admin/importar`);
+    await page.getByTestId("carga-rfi-pko-short-coberto").getByRole("button", { name: "Importar" }).click();
+    await page.getByTestId("carga-rfi-pko-short-coberto").getByText(/Importado:/).waitFor();
+    await page.goto(`${BASE_URL}/drills/rfi-pko-short-coberto/treinar`);
+    await page.getByTestId("hero-cards").waitFor();
+    await page.getByTestId("pko-coverage").getByText("PKO coberto").waitFor();
+    assert.match(await page.getByTestId("spot-stack").innerText(), /^(10|15|20)bb$/);
+    assert.equal(await page.getByRole("group", { name: "Stack" }).getByRole("button").count(), 4, "Todas, 10, 15 e 20bb");
+    await shot(page, "treino-pko-short");
+    log("RFI PKO short coberto importado e treinável");
     log(`Max Late Reg Vanilla importado; mesa mostra ${leftText}`);
 
     // 10. Cadastra pool e jogador

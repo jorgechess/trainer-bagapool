@@ -101,3 +101,13 @@ test("vs resteal: herói com stack sorteado na faixa, vilão all-in com o stack 
   }
   assert.equal(heroes.size, 4, "12, 13, 14 e 15 aparecem");
 });
+
+test("PKO coberto com stacks aleatórios: todo vilão cobre o herói", async () => {
+  const { tableState } = await import("../table");
+  const spot = { ...rfiBtn, stack: { min: 20, max: 20 }, ratio: null, randomStacks: true, pko: { coverage: "coberto" as const, heroStack: 20 } };
+  for (let seed = 1; seed < 100; seed += 7) {
+    const t = tableState(spot, seed);
+    for (const seat of t.seats)
+      if (seat.status !== "hero") assert.ok(t.remaining![seat.position]! + seat.posted > 20, `${seat.position} cobre`);
+  }
+});

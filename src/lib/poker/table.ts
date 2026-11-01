@@ -150,6 +150,14 @@ export function heroStackFor(strategy: Strategy, seed: number): number | null {
   return lo + (Math.floor(Math.abs(seed) / 7) % (hi - lo + 1));
 }
 
+/** Stack de um vilão: o sorteado, respeitando a cobertura do PKO (coberto = todos cobrem o herói). */
+function villainStart(strategy: Strategy, hero: number, drawn: number | undefined, fallback: number | undefined): number {
+  if (drawn === undefined) return fallback ?? hero;
+  if (strategy.pko?.coverage === "coberto") return hero + 1 + Math.round(drawn / 2);
+  if (strategy.pko?.coverage === "cobrindo") return Math.max(2, Math.min(drawn, hero - 1));
+  return drawn;
+}
+
 export interface TableState {
   seats: Seat[];
   /** Stack que sobra na frente de cada jogador (bb), ou null se não dá para saber. */
@@ -169,7 +177,7 @@ export function tableState(strategy: Strategy, seed: number): TableState {
   if (hero !== null) {
     start = {};
     for (const seat of seats)
-      start[seat.position] = seat.status === "hero" ? hero : (villains?.[seat.position] ?? base?.others ?? hero);
+      start[seat.position] = seat.status === "hero" ? hero : villainStart(strategy, hero, villains?.[seat.position], base?.others);
   }
   if (strategy.villainAllIn && strategy.villainPosition) {
     const villain = seats.find((s) => s.position === strategy.villainPosition)!;

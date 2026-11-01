@@ -1,0 +1,817 @@
+{
+ "strategies": [
+  {
+   "id": "rfi-pko-short-coberto-10bb-utg",
+   "name": "RFI UTG 10bb PKO short coberto",
+   "description": "RFI PKO short stack, herói coberto (RP -4%): você com 10bb.",
+   "street": "preflop",
+   "situation": "RFI",
+   "heroPosition": "UTG",
+   "stack": {
+    "min": 10,
+    "max": 10
+   },
+   "ratio": null,
+   "bubble": null,
+   "tags": [
+    "rfi",
+    "short-stack",
+    "pko",
+    "coberto"
+   ],
+   "actionIds": [
+    "fold",
+    "rfi",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "pko": {
+    "coverage": "coberto",
+    "heroStack": 10
+   },
+   "randomStacks": true,
+   "range": {
+    "shove": "AA, AKs, AQs, AJs, ATs, A9s, AKo, KK, KQs, KJs, AQo, KQo, QQ, AJo, JJ, ATo, TT, 99, 88, 77, 66"
+   }
+  },
+  {
+   "id": "rfi-pko-short-coberto-10bb-utg1",
+   "name": "RFI UTG1 10bb PKO short coberto",
+   "description": "RFI PKO short stack, herói coberto (RP -4%): você com 10bb.",
+   "street": "preflop",
+   "situation": "RFI",
+   "heroPosition": "UTG1",
+   "stack": {
+    "min": 10,
+    "max": 10
+   },
+   "ratio": null,
+   "bubble": null,
+   "tags": [
+    "rfi",
+    "short-stack",
+    "pko",
+    "coberto"
+   ],
+   "actionIds": [
+    "fold",
+    "rfi",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "pko": {
+    "coverage": "coberto",
+    "heroStack": 10
+   },
+   "randomStacks": true,
+   "range": {
+    "shove": "AA, AKs, AQs, AJs, ATs, A9s, AKo, KK, KQs, KJs, AQo, KQo, QQ, AJo, JJ, ATo, TT, 99, 88, 77, 66"
+   }
+  },
+  {
+   "id": "rfi-pko-short-coberto-10bb-mp",
+   "name": "RFI MP 10bb PKO short coberto",
+   "description": "RFI PKO short stack, herói coberto (RP -4%): você com 10bb.",
+   "street": "preflop",
+   "situation": "RFI",
+   "heroPosition": "MP",
+   "stack": {
+    "min": 10,
+    "max": 10
+   },
+   "ratio": null,
+   "bubble": null,
+   "tags": [
+    "rfi",
+    "short-stack",
+    "pko",
+    "coberto"
+   ],
+   "actionIds": [
+    "fold",
+    "rfi",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "pko": {
+    "coverage": "coberto",
+    "heroStack": 10
+   },
+   "randomStacks": true,
+   "range": {
+    "shove": "AA, AKs, AQs, AJs, ATs, A9s, A8s, A7s, AKo, KK, KQs, KJs, KTs, AQo, KQo, QQ, QJs, AJo, JJ, ATo, TT, 99, 88, 77, 66, 55"
+   }
+  },
+  {
+   "id": "rfi-pko-short-coberto-10bb-lj",
+   "name": "RFI LJ 10bb PKO short coberto",
+   "description": "RFI PKO short stack, herói coberto (RP -4%): você com 10bb.",
+   "street": "preflop",
+   "situation": "RFI",
+   "heroPosition": "LJ",
+   "stack": {
+    "min": 10,
+    "max": 10
+   },
+   "ratio": null,
+   "bubble": null,
+   "tags": [
+    "rfi",
+    "short-stack",
+    "pko",
+    "coberto"
+   ],
+   "actionIds": [
+    "fold",
+    "rfi",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "pko": {
+    "coverage": "coberto",
+    "heroStack": 10
+   },
+   "randomStacks": true,
+   "range": {
+    "shove": "AA, AKs, AQs, AJs, ATs, A9s, A8s, A7s, AKo, KK, KQs, KJs, KTs, AQo, KQo, QQ, QJs, AJo, JJ, ATo, TT, 99, 88, 77, 66, 55"
+   }
+  },
+  {
+   "id": "rfi-pko-short-coberto-10bb-hj",
+   "name": "RFI HJ 10bb PKO short coberto",
+   "description": "RFI PKO short stack, herói coberto (RP -4%): você com 10bb.",
+   "street": "preflop",
+   "situation": "RFI",
+   "heroPosition": "HJ",
+   "stack": {
+    "min": 10,
+    "max": 10
+   },
+   "ratio": null,
+   "bubble": null,
+   "tags": [
+    "rfi",
+    "short-stack",
+    "pko",
+    "coberto"
+   ],
+   "actionIds": [
+    "fold",
+    "rfi",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "pko": {
+    "coverage": "coberto",
+    "heroStack": 10
+   },
+   "randomStacks": true,
+   "range": {
+    "shove": "AA, AKs, AQs, AJs, ATs, A9s, A8s, A7s, A6s, A5s, A4s, AKo, KK, KQs, KJs, KTs, AQo, KQo, QQ, QJs, QTs, AJo, KJo, JJ, ATo, TT, A9o, 99, A8o, 88, 77, 66, 55, 44"
+   }
+  },
+  {
+   "id": "rfi-pko-short-coberto-10bb-co",
+   "name": "RFI CO 10bb PKO short coberto",
+   "description": "RFI PKO short stack, herói coberto (RP -4%): você com 10bb.",
+   "street": "preflop",
+   "situation": "RFI",
+   "heroPosition": "CO",
+   "stack": {
+    "min": 10,
+    "max": 10
+   },
+   "ratio": null,
+   "bubble": null,
+   "tags": [
+    "rfi",
+    "short-stack",
+    "pko",
+    "coberto"
+   ],
+   "actionIds": [
+    "fold",
+    "rfi",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "pko": {
+    "coverage": "coberto",
+    "heroStack": 10
+   },
+   "randomStacks": true,
+   "range": {
+    "rfi": "AA, A6o, A5o",
+    "shove": "AKs, AQs, AJs, ATs, A9s, A8s, A7s, A6s, A5s, A4s, A3s, A2s, AKo, KK, KQs, KJs, KTs, K9s, AQo, KQo, QQ, QJs, QTs, AJo, KJo, QJo, JJ, JTs, ATo, KTo, TT, A9o, 99, A8o, 88, A7o, 77, 66, 55, 44, 33"
+   }
+  },
+  {
+   "id": "rfi-pko-short-coberto-10bb-btn",
+   "name": "RFI BTN 10bb PKO short coberto",
+   "description": "RFI PKO short stack, herói coberto (RP -4%): você com 10bb.",
+   "street": "preflop",
+   "situation": "RFI",
+   "heroPosition": "BTN",
+   "stack": {
+    "min": 10,
+    "max": 10
+   },
+   "ratio": null,
+   "bubble": null,
+   "tags": [
+    "rfi",
+    "short-stack",
+    "pko",
+    "coberto"
+   ],
+   "actionIds": [
+    "fold",
+    "rfi",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "pko": {
+    "coverage": "coberto",
+    "heroStack": 10
+   },
+   "randomStacks": true,
+   "range": {
+    "rfi": "AA, KK, K5s, K4s, Q8s, J8s, T8s, 98s, K8o",
+    "shove": "AKs, AQs, AJs, ATs, A9s, A8s, A7s, A6s, A5s, A4s, A3s, A2s, AKo, KQs, KJs, KTs, K9s, K8s, K7s, K6s, AQo, KQo, QQ, QJs, QTs, Q9s, AJo, KJo, QJo, JJ, JTs, J9s, ATo, KTo, QTo, JTo, TT, T9s, A9o, K9o, 99, A8o, 88, A7o, 77, A6o, 66, A5o, 55, A4o, 44, A3o, 33, A2o, 22"
+   }
+  },
+  {
+   "id": "rfi-pko-short-coberto-15bb-utg",
+   "name": "RFI UTG 15bb PKO short coberto",
+   "description": "RFI PKO short stack, herói coberto (RP -4%): você com 15bb.",
+   "street": "preflop",
+   "situation": "RFI",
+   "heroPosition": "UTG",
+   "stack": {
+    "min": 15,
+    "max": 15
+   },
+   "ratio": null,
+   "bubble": null,
+   "tags": [
+    "rfi",
+    "short-stack",
+    "pko",
+    "coberto"
+   ],
+   "actionIds": [
+    "fold",
+    "rfi",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "pko": {
+    "coverage": "coberto",
+    "heroStack": 15
+   },
+   "randomStacks": true,
+   "range": {
+    "shove": "AA, AKs, AQs, AJs, ATs, AKo, KK, KQs, AQo, QQ, AJo, JJ, TT, 99, 88, 77",
+    "rfi": "A9s, KJs, KTs, KQo, QJs, ATo"
+   }
+  },
+  {
+   "id": "rfi-pko-short-coberto-15bb-utg1",
+   "name": "RFI UTG1 15bb PKO short coberto",
+   "description": "RFI PKO short stack, herói coberto (RP -4%): você com 15bb.",
+   "street": "preflop",
+   "situation": "RFI",
+   "heroPosition": "UTG1",
+   "stack": {
+    "min": 15,
+    "max": 15
+   },
+   "ratio": null,
+   "bubble": null,
+   "tags": [
+    "rfi",
+    "short-stack",
+    "pko",
+    "coberto"
+   ],
+   "actionIds": [
+    "fold",
+    "rfi",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "pko": {
+    "coverage": "coberto",
+    "heroStack": 15
+   },
+   "randomStacks": true,
+   "range": {
+    "shove": "AA, AKs, AQs, AJs, ATs, AKo, KK, KQs, AQo, QQ, AJo, JJ, TT, 99, 88, 77",
+    "rfi": "A9s, KJs, KTs, KQo, QJs, ATo"
+   }
+  },
+  {
+   "id": "rfi-pko-short-coberto-15bb-mp",
+   "name": "RFI MP 15bb PKO short coberto",
+   "description": "RFI PKO short stack, herói coberto (RP -4%): você com 15bb.",
+   "street": "preflop",
+   "situation": "RFI",
+   "heroPosition": "MP",
+   "stack": {
+    "min": 15,
+    "max": 15
+   },
+   "ratio": null,
+   "bubble": null,
+   "tags": [
+    "rfi",
+    "short-stack",
+    "pko",
+    "coberto"
+   ],
+   "actionIds": [
+    "fold",
+    "rfi",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "pko": {
+    "coverage": "coberto",
+    "heroStack": 15
+   },
+   "randomStacks": true,
+   "range": {
+    "shove": "AA, AKs, AQs, AJs, ATs, A9s, AKo, KK, KQs, KJs, AQo, QQ, AJo, JJ, ATo, TT, 99, 88, 77, 66",
+    "rfi": "A8s, A7s, A5s, KTs, KQo, QJs, QTs, JTs"
+   }
+  },
+  {
+   "id": "rfi-pko-short-coberto-15bb-lj",
+   "name": "RFI LJ 15bb PKO short coberto",
+   "description": "RFI PKO short stack, herói coberto (RP -4%): você com 15bb.",
+   "street": "preflop",
+   "situation": "RFI",
+   "heroPosition": "LJ",
+   "stack": {
+    "min": 15,
+    "max": 15
+   },
+   "ratio": null,
+   "bubble": null,
+   "tags": [
+    "rfi",
+    "short-stack",
+    "pko",
+    "coberto"
+   ],
+   "actionIds": [
+    "fold",
+    "rfi",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "pko": {
+    "coverage": "coberto",
+    "heroStack": 15
+   },
+   "randomStacks": true,
+   "range": {
+    "shove": "AA, AKs, AQs, AJs, ATs, A9s, AKo, KK, KQs, KJs, AQo, QQ, AJo, JJ, ATo, TT, 99, 88, 77, 66",
+    "rfi": "A8s, A7s, A5s, KTs, KQo, QJs, QTs, JTs"
+   }
+  },
+  {
+   "id": "rfi-pko-short-coberto-15bb-hj",
+   "name": "RFI HJ 15bb PKO short coberto",
+   "description": "RFI PKO short stack, herói coberto (RP -4%): você com 15bb.",
+   "street": "preflop",
+   "situation": "RFI",
+   "heroPosition": "HJ",
+   "stack": {
+    "min": 15,
+    "max": 15
+   },
+   "ratio": null,
+   "bubble": null,
+   "tags": [
+    "rfi",
+    "short-stack",
+    "pko",
+    "coberto"
+   ],
+   "actionIds": [
+    "fold",
+    "rfi",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "pko": {
+    "coverage": "coberto",
+    "heroStack": 15
+   },
+   "randomStacks": true,
+   "range": {
+    "shove": "AA, AKs, AQs, AJs, ATs, A9s, A8s, AKo, KK, KQs, KJs, AQo, KQo, QQ, AJo, JJ, ATo, TT, 99, 88, 77, 66, 55",
+    "rfi": "A7s, A6s, A5s, A4s, KTs, QJs, QTs, KJo, JTs, A9o"
+   }
+  },
+  {
+   "id": "rfi-pko-short-coberto-15bb-co",
+   "name": "RFI CO 15bb PKO short coberto",
+   "description": "RFI PKO short stack, herói coberto (RP -4%): você com 15bb.",
+   "street": "preflop",
+   "situation": "RFI",
+   "heroPosition": "CO",
+   "stack": {
+    "min": 15,
+    "max": 15
+   },
+   "ratio": null,
+   "bubble": null,
+   "tags": [
+    "rfi",
+    "short-stack",
+    "pko",
+    "coberto"
+   ],
+   "actionIds": [
+    "fold",
+    "rfi",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "pko": {
+    "coverage": "coberto",
+    "heroStack": 15
+   },
+   "randomStacks": true,
+   "range": {
+    "rfi": "AA, AKs, A3s, A2s, KK, K9s, K8s, QTs, Q9s, QJo, JTs, J9s, KTo, T9s, A8o, A7o",
+    "shove": "AQs, AJs, ATs, A9s, A8s, A7s, A6s, A5s, A4s, AKo, KQs, KJs, KTs, AQo, KQo, QQ, QJs, AJo, KJo, JJ, ATo, TT, A9o, 99, 88, 77, 66, 55, 44"
+   }
+  },
+  {
+   "id": "rfi-pko-short-coberto-15bb-btn",
+   "name": "RFI BTN 15bb PKO short coberto",
+   "description": "RFI PKO short stack, herói coberto (RP -4%): você com 15bb.",
+   "street": "preflop",
+   "situation": "RFI",
+   "heroPosition": "BTN",
+   "stack": {
+    "min": 15,
+    "max": 15
+   },
+   "ratio": null,
+   "bubble": null,
+   "tags": [
+    "rfi",
+    "short-stack",
+    "pko",
+    "coberto"
+   ],
+   "actionIds": [
+    "fold",
+    "rfi",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "pko": {
+    "coverage": "coberto",
+    "heroStack": 15
+   },
+   "randomStacks": true,
+   "range": {
+    "rfi": "AA, AKs, AQs, KK, K9s, K8s, K7s, K6s, K5s, QQ, Q9s, Q8s, Q7s, QJo, JJ, J9s, J8s, J7s, KTo, QTo, JTo, TT, T9s, T8s, T7s, K9o, 98s, 97s, 87s, A4o, A3o, A2o",
+    "shove": "AJs, ATs, A9s, A8s, A7s, A6s, A5s, A4s, A3s, A2s, AKo, KQs, KJs, KTs, AQo, KQo, QJs, QTs, AJo, KJo, JTs, ATo, A9o, 99, A8o, 88, A7o, 77, A6o, 66, A5o, 55, 44, 33"
+   }
+  },
+  {
+   "id": "rfi-pko-short-coberto-20bb-utg",
+   "name": "RFI UTG 20bb PKO short coberto",
+   "description": "RFI PKO short stack, herói coberto (RP -4%): você com 20bb.",
+   "street": "preflop",
+   "situation": "RFI",
+   "heroPosition": "UTG",
+   "stack": {
+    "min": 20,
+    "max": 20
+   },
+   "ratio": null,
+   "bubble": null,
+   "tags": [
+    "rfi",
+    "short-stack",
+    "pko",
+    "coberto"
+   ],
+   "actionIds": [
+    "fold",
+    "rfi",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "pko": {
+    "coverage": "coberto",
+    "heroStack": 20
+   },
+   "randomStacks": true,
+   "range": {
+    "rfi": "AA, AKs, AQs, AJs, ATs, A9s, A8s, A7s, A5s, AKo, KK, KQs, KJs, KTs, AQo, KQo, QQ, QJs, QTs, AJo, JJ, JTs, ATo, TT, 99, 88, 77, 66"
+   }
+  },
+  {
+   "id": "rfi-pko-short-coberto-20bb-utg1",
+   "name": "RFI UTG1 20bb PKO short coberto",
+   "description": "RFI PKO short stack, herói coberto (RP -4%): você com 20bb.",
+   "street": "preflop",
+   "situation": "RFI",
+   "heroPosition": "UTG1",
+   "stack": {
+    "min": 20,
+    "max": 20
+   },
+   "ratio": null,
+   "bubble": null,
+   "tags": [
+    "rfi",
+    "short-stack",
+    "pko",
+    "coberto"
+   ],
+   "actionIds": [
+    "fold",
+    "rfi",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "pko": {
+    "coverage": "coberto",
+    "heroStack": 20
+   },
+   "randomStacks": true,
+   "range": {
+    "rfi": "AA, AKs, AQs, AJs, ATs, A9s, A8s, A7s, A5s, AKo, KK, KQs, KJs, KTs, AQo, KQo, QQ, QJs, QTs, AJo, JJ, JTs, ATo, TT, 99, 88, 77, 66"
+   }
+  },
+  {
+   "id": "rfi-pko-short-coberto-20bb-mp",
+   "name": "RFI MP 20bb PKO short coberto",
+   "description": "RFI PKO short stack, herói coberto (RP -4%): você com 20bb.",
+   "street": "preflop",
+   "situation": "RFI",
+   "heroPosition": "MP",
+   "stack": {
+    "min": 20,
+    "max": 20
+   },
+   "ratio": null,
+   "bubble": null,
+   "tags": [
+    "rfi",
+    "short-stack",
+    "pko",
+    "coberto"
+   ],
+   "actionIds": [
+    "fold",
+    "rfi",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "pko": {
+    "coverage": "coberto",
+    "heroStack": 20
+   },
+   "randomStacks": true,
+   "range": {
+    "rfi": "AA, AKs, AQs, AJs, ATs, A9s, A8s, A7s, A6s, A5s, A4s, KK, KJs, KTs, K9s, KQo, QQ, QJs, QTs, Q9s, KJo, JJ, JTs, J9s, ATo, T9s, 77, 66",
+    "shove": "AKo, KQs, AQo, AJo, TT, 99, 88"
+   }
+  },
+  {
+   "id": "rfi-pko-short-coberto-20bb-lj",
+   "name": "RFI LJ 20bb PKO short coberto",
+   "description": "RFI PKO short stack, herói coberto (RP -4%): você com 20bb.",
+   "street": "preflop",
+   "situation": "RFI",
+   "heroPosition": "LJ",
+   "stack": {
+    "min": 20,
+    "max": 20
+   },
+   "ratio": null,
+   "bubble": null,
+   "tags": [
+    "rfi",
+    "short-stack",
+    "pko",
+    "coberto"
+   ],
+   "actionIds": [
+    "fold",
+    "rfi",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "pko": {
+    "coverage": "coberto",
+    "heroStack": 20
+   },
+   "randomStacks": true,
+   "range": {
+    "rfi": "AA, AKs, AQs, AJs, ATs, A9s, A8s, A7s, A6s, A5s, A4s, KK, KJs, KTs, K9s, KQo, QQ, QJs, QTs, Q9s, KJo, JJ, JTs, J9s, ATo, T9s, 77, 66",
+    "shove": "AKo, KQs, AQo, AJo, TT, 99, 88"
+   }
+  },
+  {
+   "id": "rfi-pko-short-coberto-20bb-hj",
+   "name": "RFI HJ 20bb PKO short coberto",
+   "description": "RFI PKO short stack, herói coberto (RP -4%): você com 20bb.",
+   "street": "preflop",
+   "situation": "RFI",
+   "heroPosition": "HJ",
+   "stack": {
+    "min": 20,
+    "max": 20
+   },
+   "ratio": null,
+   "bubble": null,
+   "tags": [
+    "rfi",
+    "short-stack",
+    "pko",
+    "coberto"
+   ],
+   "actionIds": [
+    "fold",
+    "rfi",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "pko": {
+    "coverage": "coberto",
+    "heroStack": 20
+   },
+   "randomStacks": true,
+   "range": {
+    "rfi": "AA, AKs, AQs, AJs, ATs, A9s, A8s, A7s, A6s, A5s, A4s, A3s, A2s, AKo, KK, KTs, K9s, K8s, QQ, QJs, QTs, Q9s, Q8s, KJo, QJo, JJ, JTs, J9s, J8s, KTo, T9s, T8s, A9o, 98s, A8o, 66, 55",
+    "shove": "KQs, KJs, AQo, KQo, AJo, ATo, TT, 99, 88, 77"
+   }
+  },
+  {
+   "id": "rfi-pko-short-coberto-20bb-co",
+   "name": "RFI CO 20bb PKO short coberto",
+   "description": "RFI PKO short stack, herói coberto (RP -4%): você com 20bb.",
+   "street": "preflop",
+   "situation": "RFI",
+   "heroPosition": "CO",
+   "stack": {
+    "min": 20,
+    "max": 20
+   },
+   "ratio": null,
+   "bubble": null,
+   "tags": [
+    "rfi",
+    "short-stack",
+    "pko",
+    "coberto"
+   ],
+   "actionIds": [
+    "fold",
+    "rfi",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "pko": {
+    "coverage": "coberto",
+    "heroStack": 20
+   },
+   "randomStacks": true,
+   "range": {
+    "rfi": "AA, AKs, AQs, AJs, ATs, A9s, A8s, A7s, A6s, A5s, A4s, A3s, A2s, AKo, KK, KQs, KJs, K9s, K8s, K7s, K6s, AQo, KQo, QQ, QJs, QTs, Q9s, Q8s, Q7s, KJo, QJo, JJ, JTs, J9s, J8s, J7s, KTo, QTo, JTo, TT, T9s, T8s, A9o, 99, 98s, A8o, A7o, A5o, 55, 44",
+    "shove": "KTs, AJo, ATo, 88, 77, 66"
+   },
+   "alsoCorrect": {
+    "rfi": "KTs, 88, 77",
+    "shove": "AQo, KQo"
+   }
+  },
+  {
+   "id": "rfi-pko-short-coberto-20bb-btn",
+   "name": "RFI BTN 20bb PKO short coberto",
+   "description": "RFI PKO short stack, herói coberto (RP -4%): você com 20bb.",
+   "street": "preflop",
+   "situation": "RFI",
+   "heroPosition": "BTN",
+   "stack": {
+    "min": 20,
+    "max": 20
+   },
+   "ratio": null,
+   "bubble": null,
+   "tags": [
+    "rfi",
+    "short-stack",
+    "pko",
+    "coberto"
+   ],
+   "actionIds": [
+    "fold",
+    "rfi",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "pko": {
+    "coverage": "coberto",
+    "heroStack": 20
+   },
+   "randomStacks": true,
+   "range": {
+    "rfi": "AA, AKs, AQs, AJs, ATs, A9s, A8s, A7s, A6s, A5s, A4s, A3s, A2s, AKo, KK, KQs, KJs, KTs, K9s, K8s, K7s, K6s, K5s, K4s, K3s, AQo, QQ, QJs, QTs, Q9s, Q8s, Q7s, Q6s, Q5s, Q4s, KJo, QJo, JJ, JTs, J9s, J8s, J7s, J6s, J5s, KTo, QTo, JTo, TT, T9s, T8s, T7s, T6s, K9o, Q9o, J9o, T9o, 99, 98s, 97s, 96s, K8o, 88, 87s, 86s, A7o, 77, 76s, A6o, A5o, A4o, A3o, A2o",
+    "shove": "KQo, AJo, ATo, A9o, A8o, 66, 55, 44"
+   }
+  }
+ ],
+ "drills": [
+  {
+   "id": "rfi-pko-short-coberto",
+   "name": "RFI PKO Short (RP -4% coberto)",
+   "description": "PKO short stack com o herói coberto. Cada mão sorteia stack (10, 15 ou 20bb) e posição, de UTG a BTN.",
+   "variants": [
+    [
+     "rfi-pko-short-coberto-10bb-utg"
+    ],
+    [
+     "rfi-pko-short-coberto-10bb-utg1"
+    ],
+    [
+     "rfi-pko-short-coberto-10bb-mp"
+    ],
+    [
+     "rfi-pko-short-coberto-10bb-lj"
+    ],
+    [
+     "rfi-pko-short-coberto-10bb-hj"
+    ],
+    [
+     "rfi-pko-short-coberto-10bb-co"
+    ],
+    [
+     "rfi-pko-short-coberto-10bb-btn"
+    ],
+    [
+     "rfi-pko-short-coberto-15bb-utg"
+    ],
+    [
+     "rfi-pko-short-coberto-15bb-utg1"
+    ],
+    [
+     "rfi-pko-short-coberto-15bb-mp"
+    ],
+    [
+     "rfi-pko-short-coberto-15bb-lj"
+    ],
+    [
+     "rfi-pko-short-coberto-15bb-hj"
+    ],
+    [
+     "rfi-pko-short-coberto-15bb-co"
+    ],
+    [
+     "rfi-pko-short-coberto-15bb-btn"
+    ],
+    [
+     "rfi-pko-short-coberto-20bb-utg"
+    ],
+    [
+     "rfi-pko-short-coberto-20bb-utg1"
+    ],
+    [
+     "rfi-pko-short-coberto-20bb-mp"
+    ],
+    [
+     "rfi-pko-short-coberto-20bb-lj"
+    ],
+    [
+     "rfi-pko-short-coberto-20bb-hj"
+    ],
+    [
+     "rfi-pko-short-coberto-20bb-co"
+    ],
+    [
+     "rfi-pko-short-coberto-20bb-btn"
+    ]
+   ],
+   "sampling": "fronteira",
+   "tags": [
+    "rfi",
+    "short-stack",
+    "pko",
+    "coberto"
+   ],
+   "handsPerSession": 50,
+   "passAccuracy": 0.9
+  }
+ ]
+}

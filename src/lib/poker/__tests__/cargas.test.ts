@@ -276,3 +276,21 @@ test("carga Vs Resteal Max Late Reg Vanilla: 3 ranges do print em 13 spots", () 
   assert.equal(call("CO", "BB"), 15.1);
   assert.equal(call("BTN", "BB"), 15.1);
 });
+
+test("carga RFI PKO Short coberto: 10, 15 e 20bb com as porcentagens das legendas", () => {
+  const result = parseImportBundle(load("rfi-pko-short-coberto.json"), DEFAULT_LEGEND);
+  assert.deepEqual(result.errors, []);
+  assert.equal(result.strategies.length, 21);
+  const pct = (stack: number, pos: string, action: string) =>
+    printPercent(result.strategies.find((s) => s.id === `rfi-pko-short-coberto-${stack}bb-${pos}`)!, action);
+  const expected: [number, string, string, number][] = [
+    [10, "utg", "shove", 10.71], [10, "lj", "shove", 12.37], [10, "hj", "shove", 16.74], [10, "co", "shove", 20.66], [10, "co", "rfi", 2.26], [10, "btn", "shove", 29.71], [10, "btn", "rfi", 3.62],
+    [15, "utg1", "shove", 7.84], [15, "utg", "rfi", 3.02], [15, "mp", "shove", 9.8], [15, "hj", "rfi", 4.22], [15, "co", "rfi", 7.54], [15, "btn", "shove", 17.95], [15, "btn", "rfi", 15.23],
+    [20, "utg", "rfi", 12.82], [20, "mp", "shove", 4.37], [20, "hj", "shove", 6.03], [20, "co", "shove", 3.77], [20, "co", "rfi", 23.23], [20, "btn", "rfi", 33.79],
+  ];
+  for (const [stack, pos, action, value] of expected) {
+    const got = pct(stack, pos, action);
+    assert.ok(Math.abs(got - value) < 0.2, `${stack}bb ${pos} ${action}: ${got} ≈ ${value}`);
+  }
+  for (const s of result.strategies) assert.equal(s.pko?.coverage, "coberto");
+});

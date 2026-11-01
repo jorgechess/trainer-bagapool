@@ -7,6 +7,7 @@ import vs3betPkoCoberto from "../../cargas/vs3bet-50bb-pko-coberto.json";
 import vs3betPkoCobrindo from "../../cargas/vs3bet-50bb-pko-cobrindo.json";
 import rfiMaxLate from "../../cargas/rfi-max-late-reg-vanilla.json";
 import vsRestealMaxLate from "../../cargas/vs-resteal-max-late-reg-vanilla.json";
+import rfiPkoShortCoberto from "../../cargas/rfi-pko-short-coberto.json";
 
 export interface Carga {
   id: string;
@@ -77,5 +78,12 @@ export const CARGAS: Carga[] = [
       "13 spots: MP (LJ e HJ) vs qualquer posição, LP (CO e BTN) vs SB e vs BB; você com 12–15bb e só mãos dos raises de 15bb do 3:1 e 2:1.",
     requires: ["rfi-max-late-reg-vanilla"],
     bundle: vsRestealMaxLate,
+  },
+  {
+    id: "rfi-pko-short-coberto",
+    name: "RFI PKO Short (RP -4% coberto)",
+    description: "21 estratégias de open com 10, 15 e 20bb (UTG a BTN) em PKO com o herói coberto, e o drill com todas.",
+    requires: [],
+    bundle: rfiPkoShortCoberto,
   },
 ];
