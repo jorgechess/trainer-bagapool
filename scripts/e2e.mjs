@@ -426,6 +426,7 @@ async function main() {
     assert.equal(await page.getByTestId("bounty-tag").count(), 9, "bounty em todos os 9 lugares");
     await page.getByTestId("pko-coverage").getByText("você cobre a mesa").waitFor();
     await page.getByText(/PKO cobrindo/).first().waitFor();
+    await page.getByText(/\(você\)/).locator("xpath=..").getByText(/^60bb$/).waitFor();
     await shot(page, "treino-pko");
     log("mesa PKO com bounty e cobertura");
 

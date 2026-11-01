@@ -3,7 +3,7 @@
     {
       "id": "rfi-50bb-pko-cobrindo-utg",
       "name": "RFI UTG 50bb PKO cobrindo",
-      "description": "RFI mid stack em PKO, herói cobrindo. Todos com 50bb.",
+      "description": "RFI mid stack em PKO, herói cobrindo: você com 60bb, vilões com 50bb (50bb efetivos).",
       "street": "preflop",
       "situation": "RFI",
       "heroPosition": "UTG",
@@ -25,7 +25,9 @@
       ],
       "defaultActionId": "fold",
       "pko": {
-        "coverage": "cobrindo"
+        "coverage": "cobrindo",
+        "heroStack": 60,
+        "villainStack": 50
       },
       "range": {
         "rfi": "AA, AKs, AQs, AJs, ATs, A9s, A8s, A7s, A6s, A5s, A4s, A3s, A2s, AKo, KK, KQs, KJs, KTs, K9s, K8s, K7s, K6s, K5s, AQo, KQo, QQ, QJs, QTs, Q9s, Q8s, AJo, KJo, QJo, JJ, JTs, J9s, J8s, ATo, KTo, TT, T9s, T8s, T7s, 99, 98s, 97s, 88, 87s, 77, 76s, 66, 65s, 55, 54s, 44, 33, 22"
@@ -34,7 +36,7 @@
     {
       "id": "rfi-50bb-pko-cobrindo-utg1",
       "name": "RFI UTG1 50bb PKO cobrindo",
-      "description": "RFI mid stack em PKO, herói cobrindo. Todos com 50bb.",
+      "description": "RFI mid stack em PKO, herói cobrindo: você com 60bb, vilões com 50bb (50bb efetivos).",
       "street": "preflop",
       "situation": "RFI",
       "heroPosition": "UTG1",
@@ -56,7 +58,9 @@
       ],
       "defaultActionId": "fold",
       "pko": {
-        "coverage": "cobrindo"
+        "coverage": "cobrindo",
+        "heroStack": 60,
+        "villainStack": 50
       },
       "range": {
         "rfi": "AA, AKs, AQs, AJs, ATs, A9s, A8s, A7s, A6s, A5s, A4s, A3s, A2s, AKo, KK, KQs, KJs, KTs, K9s, K8s, K7s, K6s, K5s, AQo, KQo, QQ, QJs, QTs, Q9s, Q8s, AJo, KJo, QJo, JJ, JTs, J9s, J8s, ATo, KTo, TT, T9s, T8s, T7s, 99, 98s, 97s, 88, 87s, 77, 76s, 66, 65s, 55, 54s, 44, 33, 22"
@@ -65,7 +69,7 @@
     {
       "id": "rfi-50bb-pko-cobrindo-mp",
       "name": "RFI MP 50bb PKO cobrindo",
-      "description": "RFI mid stack em PKO, herói cobrindo. Todos com 50bb.",
+      "description": "RFI mid stack em PKO, herói cobrindo: você com 60bb, vilões com 50bb (50bb efetivos).",
       "street": "preflop",
       "situation": "RFI",
       "heroPosition": "MP",
@@ -87,7 +91,9 @@
       ],
       "defaultActionId": "fold",
       "pko": {
-        "coverage": "cobrindo"
+        "coverage": "cobrindo",
+        "heroStack": 60,
+        "villainStack": 50
       },
       "range": {
         "rfi": "AA, AKs, AQs, AJs, ATs, A9s, A8s, A7s, A6s, A5s, A4s, A3s, A2s, AKo, KK, KQs, KJs, KTs, K9s, K8s, K7s, K6s, K5s, K4s, K3s, K2s, AQo, KQo, QQ, QJs, QTs, Q9s, Q8s, Q7s, Q6s, Q5s, AJo, KJo, QJo, JJ, JTs, J9s, J8s, J7s, ATo, KTo, QTo, TT, T9s, T8s, T7s, A9o, 99, 98s, 97s, A8o, 88, 87s, 86s, 77, 76s, 75s, 66, 65s, 55, 54s, 44, 33, 22"
@@ -96,7 +102,7 @@
     {
       "id": "rfi-50bb-pko-cobrindo-lj",
       "name": "RFI LJ 50bb PKO cobrindo",
-      "description": "RFI mid stack em PKO, herói cobrindo. Todos com 50bb.",
+      "description": "RFI mid stack em PKO, herói cobrindo: você com 60bb, vilões com 50bb (50bb efetivos).",
       "street": "preflop",
       "situation": "RFI",
       "heroPosition": "LJ",
@@ -118,7 +124,9 @@
       ],
       "defaultActionId": "fold",
       "pko": {
-        "coverage": "cobrindo"
+        "coverage": "cobrindo",
+        "heroStack": 60,
+        "villainStack": 50
       },
       "range": {
         "rfi": "AA, AKs, AQs, AJs, ATs, A9s, A8s, A7s, A6s, A5s, A4s, A3s, A2s, AKo, KK, KQs, KJs, KTs, K9s, K8s, K7s, K6s, K5s, K4s, K3s, K2s, AQo, KQo, QQ, QJs, QTs, Q9s, Q8s, Q7s, Q6s, Q5s, Q4s, Q3s, AJo, KJo, QJo, JJ, JTs, J9s, J8s, J7s, ATo, KTo, QTo, JTo, TT, T9s, T8s, T7s, T6s, A9o, T9o, 99, 98s, 97s, 96s, A8o, 88, 87s, 86s, A7o, 77, 76s, 75s, 66, 65s, 64s, A5o, 55, 54s, 53s, 44, 33, 22"
@@ -127,7 +135,7 @@
     {
       "id": "rfi-50bb-pko-cobrindo-hj",
       "name": "RFI HJ 50bb PKO cobrindo",
-      "description": "RFI mid stack em PKO, herói cobrindo. Todos com 50bb.",
+      "description": "RFI mid stack em PKO, herói cobrindo: você com 60bb, vilões com 50bb (50bb efetivos).",
       "street": "preflop",
       "situation": "RFI",
       "heroPosition": "HJ",
@@ -149,7 +157,9 @@
       ],
       "defaultActionId": "fold",
       "pko": {
-        "coverage": "cobrindo"
+        "coverage": "cobrindo",
+        "heroStack": 60,
+        "villainStack": 50
       },
       "range": {
         "rfi": "AA, AKs, AQs, AJs, ATs, A9s, A8s, A7s, A6s, A5s, A4s, A3s, A2s, AKo, KK, KQs, KJs, KTs, K9s, K8s, K7s, K6s, K5s, K4s, K3s, K2s, AQo, KQo, QQ, QJs, QTs, Q9s, Q8s, Q7s, Q6s, Q5s, Q4s, Q3s, Q2s, AJo, KJo, QJo, JJ, JTs, J9s, J8s, J7s, J6s, J5s, J4s, ATo, KTo, QTo, JTo, TT, T9s, T8s, T7s, T6s, T5s, A9o, K9o, Q9o, J9o, T9o, 99, 98s, 97s, 96s, A8o, 88, 87s, 86s, 85s, A7o, 77, 76s, 75s, 74s, A6o, 66, 65s, 64s, 63s, A5o, 55, 54s, 53s, A4o, 44, 43s, A3o, 33, 22"
@@ -158,7 +168,7 @@
     {
       "id": "rfi-50bb-pko-cobrindo-co",
       "name": "RFI CO 50bb PKO cobrindo",
-      "description": "RFI mid stack em PKO, herói cobrindo. Todos com 50bb.",
+      "description": "RFI mid stack em PKO, herói cobrindo: você com 60bb, vilões com 50bb (50bb efetivos).",
       "street": "preflop",
       "situation": "RFI",
       "heroPosition": "CO",
@@ -180,7 +190,9 @@
       ],
       "defaultActionId": "fold",
       "pko": {
-        "coverage": "cobrindo"
+        "coverage": "cobrindo",
+        "heroStack": 60,
+        "villainStack": 50
       },
       "range": {
         "rfi": "AA, AKs, AQs, AJs, ATs, A9s, A8s, A7s, A6s, A5s, A4s, A3s, A2s, AKo, KK, KQs, KJs, KTs, K9s, K8s, K7s, K6s, K5s, K4s, K3s, K2s, AQo, KQo, QQ, QJs, QTs, Q9s, Q8s, Q7s, Q6s, Q5s, Q4s, Q3s, Q2s, AJo, KJo, QJo, JJ, JTs, J9s, J8s, J7s, J6s, J5s, J4s, J3s, J2s, ATo, KTo, QTo, JTo, TT, T9s, T8s, T7s, T6s, T5s, T4s, T3s, T2s, A9o, K9o, Q9o, J9o, T9o, 99, 98s, 97s, 96s, 95s, 94s, 93s, A8o, K8o, Q8o, J8o, T8o, 98o, 88, 87s, 86s, 85s, 84s, A7o, K7o, 97o, 87o, 77, 76s, 75s, 74s, A6o, 66, 65s, 64s, 63s, A5o, 55, 54s, 53s, 52s, A4o, 44, 43s, 42s, A3o, 33, A2o, 22"
@@ -189,7 +201,7 @@
     {
       "id": "rfi-50bb-pko-cobrindo-btn",
       "name": "RFI BTN 50bb PKO cobrindo",
-      "description": "RFI mid stack em PKO, herói cobrindo. Todos com 50bb.",
+      "description": "RFI mid stack em PKO, herói cobrindo: você com 60bb, vilões com 50bb (50bb efetivos).",
       "street": "preflop",
       "situation": "RFI",
       "heroPosition": "BTN",
@@ -211,7 +223,9 @@
       ],
       "defaultActionId": "fold",
       "pko": {
-        "coverage": "cobrindo"
+        "coverage": "cobrindo",
+        "heroStack": 60,
+        "villainStack": 50
       },
       "range": {
         "rfi": "AA, AKs, AQs, AJs, ATs, A9s, A8s, A7s, A6s, A5s, A4s, A3s, A2s, AKo, KK, KQs, KJs, KTs, K9s, K8s, K7s, K6s, K5s, K4s, K3s, K2s, AQo, KQo, QQ, QJs, QTs, Q9s, Q8s, Q7s, Q6s, Q5s, Q4s, Q3s, Q2s, AJo, KJo, QJo, JJ, JTs, J9s, J8s, J7s, J6s, J5s, J4s, J3s, J2s, ATo, KTo, QTo, JTo, TT, T9s, T8s, T7s, T6s, T5s, T4s, T3s, T2s, A9o, K9o, Q9o, J9o, T9o, 99, 98s, 97s, 96s, 95s, 94s, 93s, 92s, A8o, K8o, Q8o, J8o, T8o, 98o, 88, 87s, 86s, 85s, 84s, 83s, 82s, A7o, K7o, Q7o, J7o, T7o, 97o, 87o, 77, 76s, 75s, 74s, 73s, 72s, A6o, K6o, Q6o, J6o, T6o, 96o, 86o, 76o, 66, 65s, 64s, 63s, 62s, A5o, K5o, Q5o, J5o, 85o, 75o, 65o, 55, 54s, 53s, 52s, A4o, K4o, Q4o, J4o, 54o, 44, 43s, 42s, A3o, K3o, Q3o, 33, 32s, A2o, K2o, 22"

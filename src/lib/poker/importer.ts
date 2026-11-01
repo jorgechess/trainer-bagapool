@@ -42,7 +42,7 @@ export interface ImportStrategy {
   /** Sorteia mãos só onde outra estratégia (id ou nome) tem uma destas ações. */
   dealFrom?: { strategy: string; actionIds: string[] } | null;
   tableSizes?: { open?: number; threeBet?: number } | null;
-  pko?: { coverage: "cobrindo" | "coberto"; bounty?: string } | null;
+  pko?: { coverage: "cobrindo" | "coberto"; bounty?: string; heroStack?: number; villainStack?: number } | null;
   range?: Record<string, string>;
   textureRanges?: ImportTextureRange[];
 }

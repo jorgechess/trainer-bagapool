@@ -39,3 +39,13 @@ test("vilão que aumentou aparece como raise; pós-flop só herói e vilão", ()
   assert.ok(post.every((s) => s.posted === 0));
   assert.equal(knownPot(cbetFlop), null);
 });
+
+test("stacks na mesa: PKO cobrindo 60×50 e coberto 50×60", async () => {
+  const { tableStacks } = await import("../table");
+  const base = { ...rfiBtn, stack: { min: 50, max: 50 } };
+  assert.deepEqual(tableStacks(base), { hero: 50, others: 50 });
+  assert.deepEqual(tableStacks({ ...base, pko: { coverage: "cobrindo" } }), { hero: 60, others: 50 });
+  assert.deepEqual(tableStacks({ ...base, pko: { coverage: "coberto" } }), { hero: 50, others: 60 });
+  assert.deepEqual(tableStacks({ ...base, pko: { coverage: "cobrindo", heroStack: 80 } }), { hero: 80, others: 50 });
+  assert.equal(tableStacks(rfiBtn), null, "faixa de stack (10–15bb) mostra a faixa");
+});

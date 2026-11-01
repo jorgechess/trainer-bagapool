@@ -1,7 +1,7 @@
 import { PlayingCard } from "@/components/PlayingCard";
 import type { Card } from "@/lib/poker/cards";
 import { formatNumberRange, type Strategy } from "@/lib/poker/strategy";
-import { type Seat, facesThreeBet, knownPot, tableSeats } from "@/lib/poker/table";
+import { type Seat, facesThreeBet, knownPot, tableSeats, tableStacks } from "@/lib/poker/table";
 
 interface PokerTableProps {
   strategy: Strategy;
@@ -228,11 +228,12 @@ export function PokerTable({
           <SeatView
             key={seat.position}
             seat={seat}
-            stack={
-              strategy.stack.min === strategy.stack.max && seat.posted > 0
-                ? `${(Math.round((strategy.stack.min - seat.posted) * 10) / 10).toLocaleString("pt-BR")}bb`
-                : stack
-            }
+            stack={(() => {
+              const stacks = tableStacks(strategy);
+              if (!stacks) return stack;
+              const start = seat.status === "hero" ? stacks.hero : stacks.others;
+              return `${(Math.round((start - seat.posted) * 10) / 10).toLocaleString("pt-BR")}bb`;
+            })()}
             heroCards={heroCards}
             shape={shape}
             raiseLabel={facesThreeBet(strategy) ? "3-bet" : "Raise"}

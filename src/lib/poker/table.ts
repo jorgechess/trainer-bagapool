@@ -72,3 +72,19 @@ export function knownPot(strategy: Strategy): number | null {
   if (strategy.villainPosition) return null;
   return 1.5;
 }
+
+/**
+ * Stack inicial (antes das apostas) desenhado para o herói e para os outros jogadores.
+ * Em PKO, quem cobre aparece com 10bb a mais que o stack efetivo da estratégia, salvo valores definidos.
+ */
+export function tableStacks(strategy: Strategy): { hero: number; others: number } | null {
+  if (strategy.stack.min !== strategy.stack.max) return null;
+  const base = strategy.stack.min;
+  const pko = strategy.pko;
+  if (!pko) return { hero: base, others: base };
+  const bigger = base + 10;
+  return {
+    hero: pko.heroStack ?? (pko.coverage === "cobrindo" ? bigger : base),
+    others: pko.villainStack ?? (pko.coverage === "coberto" ? bigger : base),
+  };
+}
