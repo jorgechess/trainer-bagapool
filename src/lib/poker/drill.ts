@@ -382,10 +382,26 @@ export function drillStacks(drill: Drill, strategies: Map<string, Strategy>): st
   return [...found.entries()].sort((a, b) => a[1] - b[1]).map(([label]) => label);
 }
 
+/** Coberturas de PKO que aparecem no drill ("Cobrindo", "Coberto"). */
+export function coverageLabel(strategy: Strategy): string | null {
+  return strategy.pko ? (strategy.pko.coverage === "cobrindo" ? "Cobrindo" : "Coberto") : null;
+}
+
+export function drillCoverages(drill: Drill, strategies: Map<string, Strategy>): string[] {
+  const found = new Set<string>();
+  for (const v of drillVariants(drill)) {
+    const s = strategies.get(v[0] ?? "");
+    const label = s && coverageLabel(s);
+    if (label) found.add(label);
+  }
+  return ["Cobrindo", "Coberto"].filter((c) => found.has(c));
+}
+
 export interface DrillFilter {
   positions?: readonly string[];
   contexts?: readonly string[];
   stacks?: readonly string[];
+  coverages?: readonly string[];
 }
 
 function variantMatches(strategy: Strategy | undefined, filter: DrillFilter): boolean {
@@ -393,6 +409,7 @@ function variantMatches(strategy: Strategy | undefined, filter: DrillFilter): bo
   if (filter.positions?.length && !filter.positions.includes(strategy.heroPosition)) return false;
   if (filter.contexts?.length && !filter.contexts.includes(contextLabel(strategy) ?? "")) return false;
   if (filter.stacks?.length && !filter.stacks.includes(formatNumberRange(strategy.stack, "bb"))) return false;
+  if (filter.coverages?.length && !filter.coverages.includes(coverageLabel(strategy) ?? "")) return false;
   return true;
 }
 
@@ -401,7 +418,8 @@ function variantMatches(strategy: Strategy | undefined, filter: DrillFilter): bo
  * Não altera o drill original; filtros vazios ou combinação sem nenhuma variação = drill inteiro (`empty` avisa).
  */
 export function filterDrill(drill: Drill, strategies: Map<string, Strategy>, filter: DrillFilter): { drill: Drill; empty: boolean } {
-  if (!filter.positions?.length && !filter.contexts?.length && !filter.stacks?.length) return { drill, empty: false };
+  if (!filter.positions?.length && !filter.contexts?.length && !filter.stacks?.length && !filter.coverages?.length)
+    return { drill, empty: false };
   const kept = drillVariants(drill).filter((v) => variantMatches(strategies.get(v[0] ?? ""), filter));
   if (kept.length === 0) return { drill, empty: true };
   return { drill: { ...drill, steps: kept[0], variants: kept }, empty: false };

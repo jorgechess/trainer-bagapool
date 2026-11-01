@@ -299,3 +299,13 @@ test("filtros do jogador por proporção e stack (e posição), sem mudar o dril
   assert.equal(filterDrill(drill, map, {}).drill, drill);
   assert.deepEqual(filterDrill(drill, map, { contexts: ["Bolha garantido"] }).drill.variants, [["d"]]);
 });
+
+test("filtro de cobertura (PKO cobrindo/coberto)", async () => {
+  const { drillCoverages, filterDrill } = await import("../drill");
+  const a = { ...rfiBtn, id: "a", pko: { coverage: "cobrindo" as const } };
+  const b = { ...rfiBtn, id: "b", pko: { coverage: "coberto" as const } };
+  const map = new Map([a, b].map((s) => [s.id, s]));
+  const drill = { ...preflopDrill, steps: ["a"], variants: [["a"], ["b"]] };
+  assert.deepEqual(drillCoverages(drill, map), ["Cobrindo", "Coberto"]);
+  assert.deepEqual(filterDrill(drill, map, { coverages: ["Coberto"] }).drill.variants, [["b"]]);
+});

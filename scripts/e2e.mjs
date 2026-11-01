@@ -616,6 +616,23 @@ async function main() {
     await page.getByTestId("spot-stack").filter({ hasText: /^30bb$/ }).waitFor();
     await shot(page, "treino-defesa-bb");
     log("Defesa Vanilla Deep: 20/30bb com filtro de stack, open do vilão na mesa, drills antigos arquivados");
+
+    // Defesa BB PKO Deep: filtros de stack e cobertura
+    await page.goto(`${BASE_URL}/admin/importar`);
+    await page.getByTestId("carga-defesa-bb-pko-deep").getByRole("button", { name: "Importar" }).click();
+    await page.getByTestId("carga-defesa-bb-pko-deep").getByText(/Importado:/).waitFor();
+    await page.goto(`${BASE_URL}/drills/defesa-bb-pko-deep/treinar`);
+    await page.getByTestId("hero-cards").waitFor();
+    await page.getByRole("group", { name: "Cobertura" }).getByRole("button", { name: "Coberto", exact: true }).click();
+    await page.getByRole("group", { name: "Stack" }).getByRole("button", { name: "50bb", exact: true }).click();
+    for (let hand = 0; hand < 3; hand++) {
+      await page.getByTestId("pko-coverage").getByText("PKO coberto").waitFor();
+      await page.getByTestId("spot-stack").filter({ hasText: /^50bb$/ }).waitFor();
+      await page.locator("[data-testid=actions] button").first().click();
+      await page.getByRole("button", { name: /Continuar/ }).click();
+    }
+    await shot(page, "treino-defesa-bb-pko");
+    log("Defesa BB PKO Deep com filtros de stack e cobertura");
     log(`Max Late Reg Vanilla importado; mesa mostra ${leftText}`);
 
     // 10. Cadastra pool e jogador

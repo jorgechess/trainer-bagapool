@@ -324,3 +324,24 @@ test("carga Defesa Vanilla Deep (20 e 30bb): porcentagens exatas das legendas, s
     ["BTN", { call: 53.7, shove: 13.73, "3bet-call": 3.62, "3bet-fold": 9.05 }],
   ]);
 });
+
+test("carga Defesa BB PKO Deep: 30/50bb cobrindo/coberto com as porcentagens exatas das legendas", () => {
+  const result = parseImportBundle(load("defesa-bb-pko-deep.json"), DEFAULT_LEGEND);
+  assert.deepEqual(result.errors, []);
+  assert.equal(result.strategies.length, 28);
+  const rows: [number, string, string, Record<string, number>][] = [
+    [30, "cobrindo", "UTG", { call: 66.21, shove: 0, "3bet-call": 3.02, "3bet-fold": 3.62 }],
+    [30, "cobrindo", "BTN", { call: 68.48, shove: 7.24, "3bet-call": 6.18, "3bet-fold": 7.24 }],
+    [30, "coberto", "LJ", { call: 57.32, shove: 3.17, "3bet-call": 2.41, "3bet-fold": 2.71 }],
+    [30, "coberto", "BTN", { call: 64.4, shove: 12.67, "3bet-call": 3.02, "3bet-fold": 2.71 }],
+    [50, "cobrindo", "CO", { call: 73, shove: 0, "3bet-call": 6.79, "3bet-fold": 12.97 }],
+    [50, "cobrindo", "HJ", { call: 71.19, "3bet-call": 3.77, "3bet-fold": 9.65 }],
+    [50, "coberto", "MP", { call: 58.37, "3bet-call": 3.02, "3bet-fold": 3.32 }],
+    [50, "coberto", "BTN", { call: 74.36, "3bet-call": 5.73, "3bet-fold": 9.05 }],
+  ];
+  for (const [stack, coverage, villain, expected] of rows) {
+    const s = result.strategies.find((x) => x.stack.min === stack && x.pko?.coverage === coverage && x.villainPosition === villain)!;
+    for (const [action, value] of Object.entries(expected))
+      assert.ok(Math.abs(printPercent(s, action) - value) < 0.01, `${stack}bb ${coverage} vs ${villain} ${action}: ${printPercent(s, action)}`);
+  }
+});

@@ -9,6 +9,7 @@ import rfiMaxLate from "../../cargas/rfi-max-late-reg-vanilla.json";
 import vsRestealMaxLate from "../../cargas/vs-resteal-max-late-reg-vanilla.json";
 import rfiPkoShortCoberto from "../../cargas/rfi-pko-short-coberto.json";
 import defesaVanillaDeep from "../../cargas/defesa-vanilla-deep.json";
+import defesaBbPkoDeep from "../../cargas/defesa-bb-pko-deep.json";
 
 export interface Carga {
   id: string;
@@ -94,5 +95,13 @@ export const CARGAS: Carga[] = [
       "BB contra open de UTG a BTN com 20 e 30bb (filtro de stack no treino): flat, resteal, 3-bet/call e 3-bet/fold. Substitui os drills Defesa BB 20bb e 30bb.",
     requires: [],
     bundle: defesaVanillaDeep,
+  },
+  {
+    id: "defesa-bb-pko-deep",
+    name: "Defesa BB PKO Deep",
+    description:
+      "BB contra open de UTG a BTN em PKO com 30 e 50bb, cobrindo e coberto (filtros no treino): flat, resteal, 3-bet/call e 3-bet/fold.",
+    requires: [],
+    bundle: defesaBbPkoDeep,
   },
 ];

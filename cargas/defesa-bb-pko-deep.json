@@ -1,0 +1,1193 @@
+{
+ "legendAdd": [
+  {
+   "id": "3bet-call",
+   "label": "3-bet/Call",
+   "color": "#b91c1c",
+   "kind": "raise"
+  },
+  {
+   "id": "3bet-fold",
+   "label": "3-bet/Fold",
+   "color": "#fb7185",
+   "kind": "raise"
+  }
+ ],
+ "strategies": [
+  {
+   "id": "bb-def-pko-30bb-cobrindo-vs-utg",
+   "name": "Defesa BB vs UTG 30bb PKO cobrindo",
+   "description": "Defesa do BB 30bb em PKO, herói cobrindo, contra open do UTG (print BB vs EP/MP).",
+   "street": "preflop",
+   "situation": "vs RFI",
+   "heroPosition": "BB",
+   "villainPosition": "UTG",
+   "stack": {
+    "min": 30,
+    "max": 30
+   },
+   "ratio": null,
+   "bubble": null,
+   "tags": [
+    "defesa-bb",
+    "pko",
+    "cobrindo"
+   ],
+   "actionIds": [
+    "fold",
+    "call",
+    "3bet-call",
+    "3bet-fold",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "pko": {
+    "coverage": "cobrindo",
+    "heroStack": 40,
+    "villainStack": 30
+   },
+   "range": {
+    "3bet-call": "AA, AKs, AKo, KK, QQ, JJ",
+    "call": "AQs, AJs, ATs, A9s, A8s, A7s, A6s, A5s, A4s, A3s, A2s, KQs, KJs, KTs, K9s, K8s, K7s, K6s, K5s, K4s, K3s, K2s, AQo, KQo, QJs, QTs, Q9s, Q8s, Q7s, Q6s, Q5s, Q4s, Q3s, Q2s, AJo, QJo, JTs, J9s, J8s, J7s, J6s, J5s, J4s, J3s, J2s, KTo, QTo, JTo, TT, T9s, T8s, T7s, T6s, T5s, T4s, T3s, T2s, A9o, K9o, Q9o, J9o, T9o, 99, 98s, 97s, 96s, 95s, 94s, 93s, 92s, A8o, K8o, Q8o, J8o, T8o, 98o, 88, 87s, 86s, 85s, 84s, 83s, 82s, A7o, K7o, Q7o, T7o, 97o, 87o, 77, 76s, 75s, 74s, 73s, 72s, A6o, 96o, 86o, 76o, 66, 65s, 64s, 63s, 62s, K5o, 85o, 75o, 65o, 55, 54s, 53s, 52s, A4o, K4o, 74o, 64o, 54o, 44, 43s, 42s, A3o, K3o, 63o, 53o, 43o, 33, 32s, A2o, 22",
+    "3bet-fold": "KJo, ATo, K6o, A5o"
+   }
+  },
+  {
+   "id": "bb-def-pko-30bb-cobrindo-vs-utg1",
+   "name": "Defesa BB vs UTG1 30bb PKO cobrindo",
+   "description": "Defesa do BB 30bb em PKO, herói cobrindo, contra open do UTG1 (print BB vs EP/MP).",
+   "street": "preflop",
+   "situation": "vs RFI",
+   "heroPosition": "BB",
+   "villainPosition": "UTG1",
+   "stack": {
+    "min": 30,
+    "max": 30
+   },
+   "ratio": null,
+   "bubble": null,
+   "tags": [
+    "defesa-bb",
+    "pko",
+    "cobrindo"
+   ],
+   "actionIds": [
+    "fold",
+    "call",
+    "3bet-call",
+    "3bet-fold",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "pko": {
+    "coverage": "cobrindo",
+    "heroStack": 40,
+    "villainStack": 30
+   },
+   "range": {
+    "3bet-call": "AA, AKs, AKo, KK, QQ, JJ",
+    "call": "AQs, AJs, ATs, A9s, A8s, A7s, A6s, A5s, A4s, A3s, A2s, KQs, KJs, KTs, K9s, K8s, K7s, K6s, K5s, K4s, K3s, K2s, AQo, KQo, QJs, QTs, Q9s, Q8s, Q7s, Q6s, Q5s, Q4s, Q3s, Q2s, AJo, QJo, JTs, J9s, J8s, J7s, J6s, J5s, J4s, J3s, J2s, KTo, QTo, JTo, TT, T9s, T8s, T7s, T6s, T5s, T4s, T3s, T2s, A9o, K9o, Q9o, J9o, T9o, 99, 98s, 97s, 96s, 95s, 94s, 93s, 92s, A8o, K8o, Q8o, J8o, T8o, 98o, 88, 87s, 86s, 85s, 84s, 83s, 82s, A7o, K7o, Q7o, T7o, 97o, 87o, 77, 76s, 75s, 74s, 73s, 72s, A6o, 96o, 86o, 76o, 66, 65s, 64s, 63s, 62s, K5o, 85o, 75o, 65o, 55, 54s, 53s, 52s, A4o, K4o, 74o, 64o, 54o, 44, 43s, 42s, A3o, K3o, 63o, 53o, 43o, 33, 32s, A2o, 22",
+    "3bet-fold": "KJo, ATo, K6o, A5o"
+   }
+  },
+  {
+   "id": "bb-def-pko-30bb-cobrindo-vs-mp",
+   "name": "Defesa BB vs MP 30bb PKO cobrindo",
+   "description": "Defesa do BB 30bb em PKO, herói cobrindo, contra open do MP (print BB vs EP/MP).",
+   "street": "preflop",
+   "situation": "vs RFI",
+   "heroPosition": "BB",
+   "villainPosition": "MP",
+   "stack": {
+    "min": 30,
+    "max": 30
+   },
+   "ratio": null,
+   "bubble": null,
+   "tags": [
+    "defesa-bb",
+    "pko",
+    "cobrindo"
+   ],
+   "actionIds": [
+    "fold",
+    "call",
+    "3bet-call",
+    "3bet-fold",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "pko": {
+    "coverage": "cobrindo",
+    "heroStack": 40,
+    "villainStack": 30
+   },
+   "range": {
+    "3bet-call": "AA, AKs, AKo, KK, QQ, JJ",
+    "call": "AQs, AJs, ATs, A9s, A8s, A7s, A6s, A5s, A4s, A3s, A2s, KQs, KJs, KTs, K9s, K8s, K7s, K6s, K5s, K4s, K3s, K2s, AQo, KQo, QJs, QTs, Q9s, Q8s, Q7s, Q6s, Q5s, Q4s, Q3s, Q2s, AJo, QJo, JTs, J9s, J8s, J7s, J6s, J5s, J4s, J3s, J2s, KTo, QTo, JTo, TT, T9s, T8s, T7s, T6s, T5s, T4s, T3s, T2s, A9o, K9o, Q9o, J9o, T9o, 99, 98s, 97s, 96s, 95s, 94s, 93s, 92s, A8o, K8o, Q8o, J8o, T8o, 98o, 88, 87s, 86s, 85s, 84s, 83s, 82s, A7o, K7o, Q7o, T7o, 97o, 87o, 77, 76s, 75s, 74s, 73s, 72s, A6o, 96o, 86o, 76o, 66, 65s, 64s, 63s, 62s, K5o, 85o, 75o, 65o, 55, 54s, 53s, 52s, A4o, K4o, 74o, 64o, 54o, 44, 43s, 42s, A3o, K3o, 63o, 53o, 43o, 33, 32s, A2o, 22",
+    "3bet-fold": "KJo, ATo, K6o, A5o"
+   }
+  },
+  {
+   "id": "bb-def-pko-30bb-cobrindo-vs-lj",
+   "name": "Defesa BB vs LJ 30bb PKO cobrindo",
+   "description": "Defesa do BB 30bb em PKO, herói cobrindo, contra open do LJ (print BB vs LJ/HJ).",
+   "street": "preflop",
+   "situation": "vs RFI",
+   "heroPosition": "BB",
+   "villainPosition": "LJ",
+   "stack": {
+    "min": 30,
+    "max": 30
+   },
+   "ratio": null,
+   "bubble": null,
+   "tags": [
+    "defesa-bb",
+    "pko",
+    "cobrindo"
+   ],
+   "actionIds": [
+    "fold",
+    "call",
+    "3bet-call",
+    "3bet-fold",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "pko": {
+    "coverage": "cobrindo",
+    "heroStack": 40,
+    "villainStack": 30
+   },
+   "range": {
+    "3bet-call": "AA, AKs, AQs, AKo, KK, QQ, JJ",
+    "call": "AJs, ATs, A9s, A8s, A7s, A6s, A5s, A4s, A3s, A2s, KQs, KJs, KTs, K9s, K8s, K7s, K6s, K5s, K4s, K3s, K2s, KQo, QJs, QTs, Q9s, Q8s, Q7s, Q6s, Q5s, Q4s, Q3s, Q2s, AJo, KJo, QJo, JTs, J9s, J8s, J7s, J6s, J5s, J4s, J3s, J2s, ATo, QTo, JTo, T9s, T8s, T7s, T6s, T5s, T4s, T3s, T2s, K9o, Q9o, J9o, T9o, 98s, 97s, 96s, 95s, 94s, 93s, 92s, A8o, K8o, Q8o, J8o, T8o, 98o, 88, 87s, 86s, 85s, 84s, 83s, 82s, A7o, K7o, Q7o, J7o, T7o, 97o, 87o, 77, 76s, 75s, 74s, 73s, 72s, A6o, K6o, Q6o, 96o, 86o, 76o, 66, 65s, 64s, 63s, 62s, A5o, 85o, 75o, 65o, 55, 54s, 53s, 52s, K4o, 74o, 64o, 54o, 44, 43s, 42s, A3o, K3o, 63o, 53o, 43o, 33, 32s, A2o, K2o, 52o, 22",
+    "shove": "AQo, TT, 99",
+    "3bet-fold": "KTo, A9o, K5o, A4o"
+   }
+  },
+  {
+   "id": "bb-def-pko-30bb-cobrindo-vs-hj",
+   "name": "Defesa BB vs HJ 30bb PKO cobrindo",
+   "description": "Defesa do BB 30bb em PKO, herói cobrindo, contra open do HJ (print BB vs LJ/HJ).",
+   "street": "preflop",
+   "situation": "vs RFI",
+   "heroPosition": "BB",
+   "villainPosition": "HJ",
+   "stack": {
+    "min": 30,
+    "max": 30
+   },
+   "ratio": null,
+   "bubble": null,
+   "tags": [
+    "defesa-bb",
+    "pko",
+    "cobrindo"
+   ],
+   "actionIds": [
+    "fold",
+    "call",
+    "3bet-call",
+    "3bet-fold",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "pko": {
+    "coverage": "cobrindo",
+    "heroStack": 40,
+    "villainStack": 30
+   },
+   "range": {
+    "3bet-call": "AA, AKs, AQs, AKo, KK, QQ, JJ",
+    "call": "AJs, ATs, A9s, A8s, A7s, A6s, A5s, A4s, A3s, A2s, KQs, KJs, KTs, K9s, K8s, K7s, K6s, K5s, K4s, K3s, K2s, KQo, QJs, QTs, Q9s, Q8s, Q7s, Q6s, Q5s, Q4s, Q3s, Q2s, AJo, KJo, QJo, JTs, J9s, J8s, J7s, J6s, J5s, J4s, J3s, J2s, ATo, QTo, JTo, T9s, T8s, T7s, T6s, T5s, T4s, T3s, T2s, K9o, Q9o, J9o, T9o, 98s, 97s, 96s, 95s, 94s, 93s, 92s, A8o, K8o, Q8o, J8o, T8o, 98o, 88, 87s, 86s, 85s, 84s, 83s, 82s, A7o, K7o, Q7o, J7o, T7o, 97o, 87o, 77, 76s, 75s, 74s, 73s, 72s, A6o, K6o, Q6o, 96o, 86o, 76o, 66, 65s, 64s, 63s, 62s, A5o, 85o, 75o, 65o, 55, 54s, 53s, 52s, K4o, 74o, 64o, 54o, 44, 43s, 42s, A3o, K3o, 63o, 53o, 43o, 33, 32s, A2o, K2o, 52o, 22",
+    "shove": "AQo, TT, 99",
+    "3bet-fold": "KTo, A9o, K5o, A4o"
+   }
+  },
+  {
+   "id": "bb-def-pko-30bb-cobrindo-vs-co",
+   "name": "Defesa BB vs CO 30bb PKO cobrindo",
+   "description": "Defesa do BB 30bb em PKO, herói cobrindo, contra open do CO (print BB vs CO).",
+   "street": "preflop",
+   "situation": "vs RFI",
+   "heroPosition": "BB",
+   "villainPosition": "CO",
+   "stack": {
+    "min": 30,
+    "max": 30
+   },
+   "ratio": null,
+   "bubble": null,
+   "tags": [
+    "defesa-bb",
+    "pko",
+    "cobrindo"
+   ],
+   "actionIds": [
+    "fold",
+    "call",
+    "3bet-call",
+    "3bet-fold",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "pko": {
+    "coverage": "cobrindo",
+    "heroStack": 40,
+    "villainStack": 30
+   },
+   "range": {
+    "3bet-call": "AA, AKs, AQs, AJs, AKo, KK, KQs, QQ, QJs, JJ, JTs, TT",
+    "call": "ATs, A9s, A8s, A7s, A6s, A5s, A4s, A3s, A2s, KJs, K9s, K8s, K7s, K6s, K5s, K4s, K3s, K2s, Q9s, Q8s, Q7s, Q6s, Q5s, Q4s, Q3s, Q2s, KJo, QJo, J9s, J8s, J7s, J6s, J5s, J4s, J3s, J2s, ATo, KTo, QTo, JTo, T9s, T8s, T7s, T6s, T5s, T4s, T3s, T2s, A9o, K9o, Q9o, J9o, T9o, 98s, 97s, 96s, 95s, 94s, 93s, 92s, A8o, K8o, Q8o, J8o, T8o, 98o, 87s, 86s, 85s, 84s, 83s, 82s, K7o, Q7o, J7o, T7o, 97o, 87o, 76s, 75s, 74s, 73s, 72s, K6o, 96o, 86o, 76o, 65s, 64s, 63s, 62s, K5o, Q5o, 95o, 85o, 75o, 65o, 54s, 53s, 52s, A4o, K4o, Q4o, 84o, 74o, 64o, 54o, 43s, 42s, A3o, K3o, Q3o, 63o, 53o, 43o, 32s, A2o, K2o, Q2o, 52o, 42o, 22",
+    "shove": "KTs, AQo, KQo, QTs, AJo, 99, 88, 77, 66, 55, 44, 33",
+    "3bet-fold": "A7o, A6o, Q6o, J6o, T6o, A5o"
+   }
+  },
+  {
+   "id": "bb-def-pko-30bb-cobrindo-vs-btn",
+   "name": "Defesa BB vs BTN 30bb PKO cobrindo",
+   "description": "Defesa do BB 30bb em PKO, herói cobrindo, contra open do BTN (print BB vs BTN).",
+   "street": "preflop",
+   "situation": "vs RFI",
+   "heroPosition": "BB",
+   "villainPosition": "BTN",
+   "stack": {
+    "min": 30,
+    "max": 30
+   },
+   "ratio": null,
+   "bubble": null,
+   "tags": [
+    "defesa-bb",
+    "pko",
+    "cobrindo"
+   ],
+   "actionIds": [
+    "fold",
+    "call",
+    "3bet-call",
+    "3bet-fold",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "pko": {
+    "coverage": "cobrindo",
+    "heroStack": 40,
+    "villainStack": 30
+   },
+   "range": {
+    "3bet-call": "AA, AKs, AQs, AJs, ATs, AKo, KK, KQs, AQo, QQ, QJs, JJ, JTs, TT",
+    "call": "A9s, A8s, A7s, A6s, A5s, A4s, A3s, A2s, KJs, KTs, K9s, K8s, K7s, K6s, K5s, K4s, K3s, K2s, QTs, Q9s, Q8s, Q7s, Q6s, Q5s, Q4s, Q3s, Q2s, QJo, J9s, J8s, J7s, J6s, J5s, J4s, J3s, J2s, KTo, QTo, JTo, T9s, T8s, T7s, T6s, T5s, T4s, T3s, T2s, A9o, K9o, Q9o, J9o, T9o, 98s, 97s, 96s, 95s, 94s, 93s, 92s, A8o, K8o, Q8o, J8o, T8o, 98o, 87s, 86s, 85s, 84s, 83s, 82s, A7o, K7o, Q7o, J7o, T7o, 97o, 87o, 76s, 75s, 74s, 73s, 72s, K6o, Q6o, J6o, T6o, 96o, 86o, 76o, 65s, 64s, 63s, 62s, K5o, T5o, 95o, 85o, 75o, 65o, 54s, 53s, 52s, K4o, T4o, 84o, 74o, 64o, 54o, 43s, 42s, K3o, Q3o, J3o, 63o, 53o, 43o, 32s, A2o, K2o, Q2o, 52o, 42o",
+    "shove": "KQo, AJo, KJo, ATo, 99, 88, 77, 66, 55, 44, 33, 22",
+    "3bet-fold": "A6o, A5o, Q5o, J5o, A4o, Q4o, J4o, A3o"
+   }
+  },
+  {
+   "id": "bb-def-pko-30bb-coberto-vs-utg",
+   "name": "Defesa BB vs UTG 30bb PKO coberto",
+   "description": "Defesa do BB 30bb em PKO, herói coberto, contra open do UTG (print BB vs EP/MP).",
+   "street": "preflop",
+   "situation": "vs RFI",
+   "heroPosition": "BB",
+   "villainPosition": "UTG",
+   "stack": {
+    "min": 30,
+    "max": 30
+   },
+   "ratio": null,
+   "bubble": null,
+   "tags": [
+    "defesa-bb",
+    "pko",
+    "coberto"
+   ],
+   "actionIds": [
+    "fold",
+    "call",
+    "3bet-call",
+    "3bet-fold",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "pko": {
+    "coverage": "coberto",
+    "heroStack": 30,
+    "villainStack": 40
+   },
+   "range": {
+    "3bet-call": "AA, AKs, KK, QQ, JJ",
+    "call": "AQs, AJs, ATs, A9s, A8s, A7s, A6s, A5s, A4s, A3s, A2s, KQs, KJs, KTs, K9s, K8s, K7s, K6s, K5s, K4s, K3s, K2s, AQo, KQo, QJs, QTs, Q9s, Q8s, Q7s, Q6s, Q5s, Q4s, Q3s, Q2s, AJo, KJo, QJo, JTs, J9s, J8s, J7s, J6s, J5s, J4s, J3s, J2s, ATo, QTo, JTo, T9s, T8s, T7s, T6s, T5s, T4s, T3s, T2s, K9o, Q9o, J9o, T9o, 99, 98s, 97s, 96s, 95s, 94s, 93s, 92s, K8o, T8o, 98o, 88, 87s, 86s, 85s, 84s, 83s, 82s, A7o, 97o, 87o, 77, 76s, 75s, 74s, 73s, 72s, A6o, 86o, 76o, 66, 65s, 64s, 63s, 62s, A5o, 75o, 65o, 55, 54s, 53s, 52s, A4o, 64o, 54o, 44, 43s, 42s, A3o, 33, 32s, A2o, 22",
+    "shove": "AKo, TT",
+    "3bet-fold": "KTo, A9o, A8o"
+   }
+  },
+  {
+   "id": "bb-def-pko-30bb-coberto-vs-utg1",
+   "name": "Defesa BB vs UTG1 30bb PKO coberto",
+   "description": "Defesa do BB 30bb em PKO, herói coberto, contra open do UTG1 (print BB vs EP/MP).",
+   "street": "preflop",
+   "situation": "vs RFI",
+   "heroPosition": "BB",
+   "villainPosition": "UTG1",
+   "stack": {
+    "min": 30,
+    "max": 30
+   },
+   "ratio": null,
+   "bubble": null,
+   "tags": [
+    "defesa-bb",
+    "pko",
+    "coberto"
+   ],
+   "actionIds": [
+    "fold",
+    "call",
+    "3bet-call",
+    "3bet-fold",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "pko": {
+    "coverage": "coberto",
+    "heroStack": 30,
+    "villainStack": 40
+   },
+   "range": {
+    "3bet-call": "AA, AKs, KK, QQ, JJ",
+    "call": "AQs, AJs, ATs, A9s, A8s, A7s, A6s, A5s, A4s, A3s, A2s, KQs, KJs, KTs, K9s, K8s, K7s, K6s, K5s, K4s, K3s, K2s, AQo, KQo, QJs, QTs, Q9s, Q8s, Q7s, Q6s, Q5s, Q4s, Q3s, Q2s, AJo, KJo, QJo, JTs, J9s, J8s, J7s, J6s, J5s, J4s, J3s, J2s, ATo, QTo, JTo, T9s, T8s, T7s, T6s, T5s, T4s, T3s, T2s, K9o, Q9o, J9o, T9o, 99, 98s, 97s, 96s, 95s, 94s, 93s, 92s, K8o, T8o, 98o, 88, 87s, 86s, 85s, 84s, 83s, 82s, A7o, 97o, 87o, 77, 76s, 75s, 74s, 73s, 72s, A6o, 86o, 76o, 66, 65s, 64s, 63s, 62s, A5o, 75o, 65o, 55, 54s, 53s, 52s, A4o, 64o, 54o, 44, 43s, 42s, A3o, 33, 32s, A2o, 22",
+    "shove": "AKo, TT",
+    "3bet-fold": "KTo, A9o, A8o"
+   }
+  },
+  {
+   "id": "bb-def-pko-30bb-coberto-vs-mp",
+   "name": "Defesa BB vs MP 30bb PKO coberto",
+   "description": "Defesa do BB 30bb em PKO, herói coberto, contra open do MP (print BB vs EP/MP).",
+   "street": "preflop",
+   "situation": "vs RFI",
+   "heroPosition": "BB",
+   "villainPosition": "MP",
+   "stack": {
+    "min": 30,
+    "max": 30
+   },
+   "ratio": null,
+   "bubble": null,
+   "tags": [
+    "defesa-bb",
+    "pko",
+    "coberto"
+   ],
+   "actionIds": [
+    "fold",
+    "call",
+    "3bet-call",
+    "3bet-fold",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "pko": {
+    "coverage": "coberto",
+    "heroStack": 30,
+    "villainStack": 40
+   },
+   "range": {
+    "3bet-call": "AA, AKs, KK, QQ, JJ",
+    "call": "AQs, AJs, ATs, A9s, A8s, A7s, A6s, A5s, A4s, A3s, A2s, KQs, KJs, KTs, K9s, K8s, K7s, K6s, K5s, K4s, K3s, K2s, AQo, KQo, QJs, QTs, Q9s, Q8s, Q7s, Q6s, Q5s, Q4s, Q3s, Q2s, AJo, KJo, QJo, JTs, J9s, J8s, J7s, J6s, J5s, J4s, J3s, J2s, ATo, QTo, JTo, T9s, T8s, T7s, T6s, T5s, T4s, T3s, T2s, K9o, Q9o, J9o, T9o, 99, 98s, 97s, 96s, 95s, 94s, 93s, 92s, K8o, T8o, 98o, 88, 87s, 86s, 85s, 84s, 83s, 82s, A7o, 97o, 87o, 77, 76s, 75s, 74s, 73s, 72s, A6o, 86o, 76o, 66, 65s, 64s, 63s, 62s, A5o, 75o, 65o, 55, 54s, 53s, 52s, A4o, 64o, 54o, 44, 43s, 42s, A3o, 33, 32s, A2o, 22",
+    "shove": "AKo, TT",
+    "3bet-fold": "KTo, A9o, A8o"
+   }
+  },
+  {
+   "id": "bb-def-pko-30bb-coberto-vs-lj",
+   "name": "Defesa BB vs LJ 30bb PKO coberto",
+   "description": "Defesa do BB 30bb em PKO, herói coberto, contra open do LJ (print BB vs LJ/HJ).",
+   "street": "preflop",
+   "situation": "vs RFI",
+   "heroPosition": "BB",
+   "villainPosition": "LJ",
+   "stack": {
+    "min": 30,
+    "max": 30
+   },
+   "ratio": null,
+   "bubble": null,
+   "tags": [
+    "defesa-bb",
+    "pko",
+    "coberto"
+   ],
+   "actionIds": [
+    "fold",
+    "call",
+    "3bet-call",
+    "3bet-fold",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "pko": {
+    "coverage": "coberto",
+    "heroStack": 30,
+    "villainStack": 40
+   },
+   "range": {
+    "3bet-call": "AA, AKs, AQs, KK, QQ, JJ",
+    "call": "AJs, ATs, A9s, A8s, A7s, A6s, A5s, A4s, A3s, A2s, KQs, KJs, KTs, K9s, K8s, K7s, K6s, K5s, K4s, K3s, K2s, KQo, QJs, QTs, Q9s, Q8s, Q7s, Q6s, Q5s, Q4s, Q3s, Q2s, AJo, KJo, QJo, JTs, J9s, J8s, J7s, J6s, J5s, J4s, J3s, J2s, ATo, KTo, QTo, JTo, T9s, T8s, T7s, T6s, T5s, T4s, T3s, T2s, A9o, Q9o, J9o, T9o, 98s, 97s, 96s, 95s, 94s, 93s, 92s, K8o, Q8o, J8o, T8o, 98o, 87s, 86s, 85s, 84s, 83s, 82s, K7o, 97o, 87o, 77, 76s, 75s, 74s, 73s, 72s, A6o, K6o, 86o, 76o, 66, 65s, 64s, 63s, 62s, A5o, K5o, 75o, 65o, 55, 54s, 53s, 52s, A4o, K4o, 64o, 54o, 44, 43s, 42s, A3o, 53o, 33, 32s, A2o, 22",
+    "shove": "AKo, AQo, TT, 99, 88",
+    "3bet-fold": "K9o, A8o, A7o"
+   }
+  },
+  {
+   "id": "bb-def-pko-30bb-coberto-vs-hj",
+   "name": "Defesa BB vs HJ 30bb PKO coberto",
+   "description": "Defesa do BB 30bb em PKO, herói coberto, contra open do HJ (print BB vs LJ/HJ).",
+   "street": "preflop",
+   "situation": "vs RFI",
+   "heroPosition": "BB",
+   "villainPosition": "HJ",
+   "stack": {
+    "min": 30,
+    "max": 30
+   },
+   "ratio": null,
+   "bubble": null,
+   "tags": [
+    "defesa-bb",
+    "pko",
+    "coberto"
+   ],
+   "actionIds": [
+    "fold",
+    "call",
+    "3bet-call",
+    "3bet-fold",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "pko": {
+    "coverage": "coberto",
+    "heroStack": 30,
+    "villainStack": 40
+   },
+   "range": {
+    "3bet-call": "AA, AKs, AQs, KK, QQ, JJ",
+    "call": "AJs, ATs, A9s, A8s, A7s, A6s, A5s, A4s, A3s, A2s, KQs, KJs, KTs, K9s, K8s, K7s, K6s, K5s, K4s, K3s, K2s, KQo, QJs, QTs, Q9s, Q8s, Q7s, Q6s, Q5s, Q4s, Q3s, Q2s, AJo, KJo, QJo, JTs, J9s, J8s, J7s, J6s, J5s, J4s, J3s, J2s, ATo, KTo, QTo, JTo, T9s, T8s, T7s, T6s, T5s, T4s, T3s, T2s, A9o, Q9o, J9o, T9o, 98s, 97s, 96s, 95s, 94s, 93s, 92s, K8o, Q8o, J8o, T8o, 98o, 87s, 86s, 85s, 84s, 83s, 82s, K7o, 97o, 87o, 77, 76s, 75s, 74s, 73s, 72s, A6o, K6o, 86o, 76o, 66, 65s, 64s, 63s, 62s, A5o, K5o, 75o, 65o, 55, 54s, 53s, 52s, A4o, K4o, 64o, 54o, 44, 43s, 42s, A3o, 53o, 33, 32s, A2o, 22",
+    "shove": "AKo, AQo, TT, 99, 88",
+    "3bet-fold": "K9o, A8o, A7o"
+   }
+  },
+  {
+   "id": "bb-def-pko-30bb-coberto-vs-co",
+   "name": "Defesa BB vs CO 30bb PKO coberto",
+   "description": "Defesa do BB 30bb em PKO, herói coberto, contra open do CO (print BB vs CO).",
+   "street": "preflop",
+   "situation": "vs RFI",
+   "heroPosition": "BB",
+   "villainPosition": "CO",
+   "stack": {
+    "min": 30,
+    "max": 30
+   },
+   "ratio": null,
+   "bubble": null,
+   "tags": [
+    "defesa-bb",
+    "pko",
+    "coberto"
+   ],
+   "actionIds": [
+    "fold",
+    "call",
+    "3bet-call",
+    "3bet-fold",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "pko": {
+    "coverage": "coberto",
+    "heroStack": 30,
+    "villainStack": 40
+   },
+   "range": {
+    "3bet-call": "AA, AKs, AQs, AJs, KK, QQ, JJ",
+    "call": "ATs, A9s, A8s, A7s, A6s, A5s, A4s, A3s, A2s, KQs, KJs, KTs, K9s, K8s, K7s, K6s, K5s, K4s, K3s, K2s, QJs, QTs, Q9s, Q8s, Q7s, Q6s, Q5s, Q4s, Q3s, Q2s, KJo, QJo, JTs, J9s, J8s, J7s, J6s, J5s, J4s, J3s, J2s, KTo, QTo, JTo, T9s, T8s, T7s, T6s, T5s, T4s, T3s, T2s, A9o, K9o, J9o, T9o, 98s, 97s, 96s, 95s, 94s, 93s, 92s, A8o, Q8o, J8o, T8o, 98o, 87s, 86s, 85s, 84s, 83s, 82s, K7o, Q7o, J7o, T7o, 97o, 87o, 76s, 75s, 74s, 73s, 72s, K6o, Q6o, J6o, T6o, 96o, 86o, 76o, 65s, 64s, 63s, 62s, A5o, K5o, Q5o, 75o, 65o, 54s, 53s, 52s, A4o, K4o, Q4o, 64o, 54o, 44, 43s, 42s, A3o, K3o, Q3o, 53o, 43o, 33, 32s, A2o, K2o, Q2o, 22",
+    "shove": "AKo, AQo, KQo, AJo, ATo, TT, 99, 88, 77, 66, 55",
+    "3bet-fold": "Q9o, K8o, A7o, A6o"
+   }
+  },
+  {
+   "id": "bb-def-pko-30bb-coberto-vs-btn",
+   "name": "Defesa BB vs BTN 30bb PKO coberto",
+   "description": "Defesa do BB 30bb em PKO, herói coberto, contra open do BTN (print BB vs BTN).",
+   "street": "preflop",
+   "situation": "vs RFI",
+   "heroPosition": "BB",
+   "villainPosition": "BTN",
+   "stack": {
+    "min": 30,
+    "max": 30
+   },
+   "ratio": null,
+   "bubble": null,
+   "tags": [
+    "defesa-bb",
+    "pko",
+    "coberto"
+   ],
+   "actionIds": [
+    "fold",
+    "call",
+    "3bet-call",
+    "3bet-fold",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "pko": {
+    "coverage": "coberto",
+    "heroStack": 30,
+    "villainStack": 40
+   },
+   "range": {
+    "3bet-call": "AA, AKs, AQs, AJs, ATs, KK, QQ, JJ",
+    "call": "A9s, A8s, A7s, A6s, A5s, A4s, A3s, A2s, KQs, KJs, KTs, K9s, K8s, K7s, K6s, K5s, K4s, K3s, K2s, QJs, QTs, Q9s, Q8s, Q7s, Q6s, Q5s, Q4s, Q3s, Q2s, KJo, QJo, JTs, J9s, J8s, J7s, J6s, J5s, J4s, J3s, J2s, KTo, QTo, JTo, T9s, T8s, T7s, T6s, T5s, T4s, T3s, T2s, K9o, Q9o, T9o, 98s, 97s, 96s, 95s, 94s, 93s, 92s, A8o, K8o, J8o, T8o, 98o, 87s, 86s, 85s, 84s, 83s, 82s, A7o, Q7o, J7o, T7o, 97o, 87o, 76s, 75s, 74s, 73s, 72s, A6o, K6o, Q6o, J6o, T6o, 96o, 86o, 76o, 65s, 64s, 63s, 62s, K5o, Q5o, J5o, 85o, 75o, 65o, 54s, 53s, 52s, K4o, Q4o, J4o, 74o, 64o, 54o, 43s, 42s, K3o, Q3o, 63o, 53o, 43o, 32s, K2o, Q2o, 22",
+    "shove": "AKo, AQo, KQo, AJo, ATo, TT, A9o, 99, 88, 77, 66, A5o, 55, A4o, 44, A3o, 33, A2o",
+    "3bet-fold": "J9o, Q8o, K7o"
+   }
+  },
+  {
+   "id": "bb-def-pko-50bb-cobrindo-vs-utg",
+   "name": "Defesa BB vs UTG 50bb PKO cobrindo",
+   "description": "Defesa do BB 50bb em PKO, herói cobrindo, contra open do UTG (print BB vs EP/MP).",
+   "street": "preflop",
+   "situation": "vs RFI",
+   "heroPosition": "BB",
+   "villainPosition": "UTG",
+   "stack": {
+    "min": 50,
+    "max": 50
+   },
+   "ratio": null,
+   "bubble": null,
+   "tags": [
+    "defesa-bb",
+    "pko",
+    "cobrindo"
+   ],
+   "actionIds": [
+    "fold",
+    "call",
+    "3bet-call",
+    "3bet-fold",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "pko": {
+    "coverage": "cobrindo",
+    "heroStack": 60,
+    "villainStack": 50
+   },
+   "range": {
+    "3bet-call": "AA, AKs, AKo, KK, QQ, JJ, TT",
+    "call": "AQs, AJs, A9s, A8s, A7s, A6s, KQs, K9s, K8s, K7s, K6s, K5s, K4s, K3s, K2s, Q9s, Q8s, Q7s, Q6s, Q5s, Q4s, Q3s, Q2s, J9s, J8s, J7s, J6s, J5s, J4s, J3s, J2s, KTo, QTo, JTo, T9s, T8s, T7s, T6s, T5s, T4s, T3s, T2s, A9o, K9o, Q9o, J9o, T9o, 99, 98s, 97s, 96s, 95s, 94s, 93s, 92s, A8o, K8o, Q8o, J8o, T8o, 98o, 88, 86s, 85s, 84s, 83s, 82s, A7o, K7o, Q7o, J7o, T7o, 97o, 87o, 77, 75s, 74s, 73s, 72s, A6o, K6o, Q6o, T6o, 96o, 86o, 76o, 66, 64s, 63s, 62s, A5o, K5o, 85o, 75o, 65o, 55, 54s, 53s, 52s, A4o, K4o, 74o, 64o, 54o, 44, 43s, 42s, A3o, K3o, 63o, 53o, 43o, 33, 32s, A2o, K2o, 52o, 42o, 22",
+    "3bet-fold": "ATs, A5s, A4s, A3s, A2s, KJs, KTs, AQo, KQo, QJs, QTs, AJo, KJo, QJo, JTs, ATo, 87s, 76s, 65s"
+   }
+  },
+  {
+   "id": "bb-def-pko-50bb-cobrindo-vs-utg1",
+   "name": "Defesa BB vs UTG1 50bb PKO cobrindo",
+   "description": "Defesa do BB 50bb em PKO, herói cobrindo, contra open do UTG1 (print BB vs EP/MP).",
+   "street": "preflop",
+   "situation": "vs RFI",
+   "heroPosition": "BB",
+   "villainPosition": "UTG1",
+   "stack": {
+    "min": 50,
+    "max": 50
+   },
+   "ratio": null,
+   "bubble": null,
+   "tags": [
+    "defesa-bb",
+    "pko",
+    "cobrindo"
+   ],
+   "actionIds": [
+    "fold",
+    "call",
+    "3bet-call",
+    "3bet-fold",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "pko": {
+    "coverage": "cobrindo",
+    "heroStack": 60,
+    "villainStack": 50
+   },
+   "range": {
+    "3bet-call": "AA, AKs, AKo, KK, QQ, JJ, TT",
+    "call": "AQs, AJs, A9s, A8s, A7s, A6s, KQs, K9s, K8s, K7s, K6s, K5s, K4s, K3s, K2s, Q9s, Q8s, Q7s, Q6s, Q5s, Q4s, Q3s, Q2s, J9s, J8s, J7s, J6s, J5s, J4s, J3s, J2s, KTo, QTo, JTo, T9s, T8s, T7s, T6s, T5s, T4s, T3s, T2s, A9o, K9o, Q9o, J9o, T9o, 99, 98s, 97s, 96s, 95s, 94s, 93s, 92s, A8o, K8o, Q8o, J8o, T8o, 98o, 88, 86s, 85s, 84s, 83s, 82s, A7o, K7o, Q7o, J7o, T7o, 97o, 87o, 77, 75s, 74s, 73s, 72s, A6o, K6o, Q6o, T6o, 96o, 86o, 76o, 66, 64s, 63s, 62s, A5o, K5o, 85o, 75o, 65o, 55, 54s, 53s, 52s, A4o, K4o, 74o, 64o, 54o, 44, 43s, 42s, A3o, K3o, 63o, 53o, 43o, 33, 32s, A2o, K2o, 52o, 42o, 22",
+    "3bet-fold": "ATs, A5s, A4s, A3s, A2s, KJs, KTs, AQo, KQo, QJs, QTs, AJo, KJo, QJo, JTs, ATo, 87s, 76s, 65s"
+   }
+  },
+  {
+   "id": "bb-def-pko-50bb-cobrindo-vs-mp",
+   "name": "Defesa BB vs MP 50bb PKO cobrindo",
+   "description": "Defesa do BB 50bb em PKO, herói cobrindo, contra open do MP (print BB vs EP/MP).",
+   "street": "preflop",
+   "situation": "vs RFI",
+   "heroPosition": "BB",
+   "villainPosition": "MP",
+   "stack": {
+    "min": 50,
+    "max": 50
+   },
+   "ratio": null,
+   "bubble": null,
+   "tags": [
+    "defesa-bb",
+    "pko",
+    "cobrindo"
+   ],
+   "actionIds": [
+    "fold",
+    "call",
+    "3bet-call",
+    "3bet-fold",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "pko": {
+    "coverage": "cobrindo",
+    "heroStack": 60,
+    "villainStack": 50
+   },
+   "range": {
+    "3bet-call": "AA, AKs, AKo, KK, QQ, JJ, TT",
+    "call": "AQs, AJs, A9s, A8s, A7s, A6s, KQs, K9s, K8s, K7s, K6s, K5s, K4s, K3s, K2s, Q9s, Q8s, Q7s, Q6s, Q5s, Q4s, Q3s, Q2s, J9s, J8s, J7s, J6s, J5s, J4s, J3s, J2s, KTo, QTo, JTo, T9s, T8s, T7s, T6s, T5s, T4s, T3s, T2s, A9o, K9o, Q9o, J9o, T9o, 99, 98s, 97s, 96s, 95s, 94s, 93s, 92s, A8o, K8o, Q8o, J8o, T8o, 98o, 88, 86s, 85s, 84s, 83s, 82s, A7o, K7o, Q7o, J7o, T7o, 97o, 87o, 77, 75s, 74s, 73s, 72s, A6o, K6o, Q6o, T6o, 96o, 86o, 76o, 66, 64s, 63s, 62s, A5o, K5o, 85o, 75o, 65o, 55, 54s, 53s, 52s, A4o, K4o, 74o, 64o, 54o, 44, 43s, 42s, A3o, K3o, 63o, 53o, 43o, 33, 32s, A2o, K2o, 52o, 42o, 22",
+    "3bet-fold": "ATs, A5s, A4s, A3s, A2s, KJs, KTs, AQo, KQo, QJs, QTs, AJo, KJo, QJo, JTs, ATo, 87s, 76s, 65s"
+   }
+  },
+  {
+   "id": "bb-def-pko-50bb-cobrindo-vs-lj",
+   "name": "Defesa BB vs LJ 50bb PKO cobrindo",
+   "description": "Defesa do BB 50bb em PKO, herói cobrindo, contra open do LJ (print BB vs LJ/HJ).",
+   "street": "preflop",
+   "situation": "vs RFI",
+   "heroPosition": "BB",
+   "villainPosition": "LJ",
+   "stack": {
+    "min": 50,
+    "max": 50
+   },
+   "ratio": null,
+   "bubble": null,
+   "tags": [
+    "defesa-bb",
+    "pko",
+    "cobrindo"
+   ],
+   "actionIds": [
+    "fold",
+    "call",
+    "3bet-call",
+    "3bet-fold",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "pko": {
+    "coverage": "cobrindo",
+    "heroStack": 60,
+    "villainStack": 50
+   },
+   "range": {
+    "3bet-call": "AA, AKs, AQs, AKo, KK, QQ, JJ, TT",
+    "call": "AJs, ATs, A8s, A7s, A6s, A3s, A2s, KQs, KJs, K8s, K7s, K6s, K3s, K2s, KQo, Q8s, Q7s, Q6s, Q5s, Q4s, Q3s, Q2s, AJo, J8s, J7s, J6s, J5s, J4s, J3s, J2s, QTo, JTo, T8s, T7s, T6s, T5s, T4s, T3s, T2s, A9o, K9o, Q9o, J9o, T9o, 99, 97s, 96s, 95s, 94s, 93s, 92s, A8o, K8o, Q8o, J8o, T8o, 98o, 88, 86s, 85s, 84s, 83s, 82s, A7o, K7o, Q7o, J7o, T7o, 97o, 87o, 77, 75s, 74s, 73s, 72s, A6o, K6o, Q6o, J6o, T6o, 96o, 86o, 76o, 66, 64s, 63s, 62s, A5o, K5o, Q5o, 95o, 85o, 75o, 65o, 55, 54s, 53s, 52s, A4o, K4o, Q4o, 84o, 74o, 64o, 54o, 44, 43s, 42s, A3o, K3o, Q3o, 63o, 53o, 43o, 33, 32s, A2o, K2o, 52o, 42o, 32o, 22",
+    "3bet-fold": "A9s, A5s, A4s, KTs, K9s, K5s, K4s, AQo, QJs, QTs, Q9s, KJo, QJo, JTs, J9s, ATo, KTo, T9s, 98s, 87s, 76s, 65s"
+   }
+  },
+  {
+   "id": "bb-def-pko-50bb-cobrindo-vs-hj",
+   "name": "Defesa BB vs HJ 50bb PKO cobrindo",
+   "description": "Defesa do BB 50bb em PKO, herói cobrindo, contra open do HJ (print BB vs LJ/HJ).",
+   "street": "preflop",
+   "situation": "vs RFI",
+   "heroPosition": "BB",
+   "villainPosition": "HJ",
+   "stack": {
+    "min": 50,
+    "max": 50
+   },
+   "ratio": null,
+   "bubble": null,
+   "tags": [
+    "defesa-bb",
+    "pko",
+    "cobrindo"
+   ],
+   "actionIds": [
+    "fold",
+    "call",
+    "3bet-call",
+    "3bet-fold",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "pko": {
+    "coverage": "cobrindo",
+    "heroStack": 60,
+    "villainStack": 50
+   },
+   "range": {
+    "3bet-call": "AA, AKs, AQs, AKo, KK, QQ, JJ, TT",
+    "call": "AJs, ATs, A8s, A7s, A6s, A3s, A2s, KQs, KJs, K8s, K7s, K6s, K3s, K2s, KQo, Q8s, Q7s, Q6s, Q5s, Q4s, Q3s, Q2s, AJo, J8s, J7s, J6s, J5s, J4s, J3s, J2s, QTo, JTo, T8s, T7s, T6s, T5s, T4s, T3s, T2s, A9o, K9o, Q9o, J9o, T9o, 99, 97s, 96s, 95s, 94s, 93s, 92s, A8o, K8o, Q8o, J8o, T8o, 98o, 88, 86s, 85s, 84s, 83s, 82s, A7o, K7o, Q7o, J7o, T7o, 97o, 87o, 77, 75s, 74s, 73s, 72s, A6o, K6o, Q6o, J6o, T6o, 96o, 86o, 76o, 66, 64s, 63s, 62s, A5o, K5o, Q5o, 95o, 85o, 75o, 65o, 55, 54s, 53s, 52s, A4o, K4o, Q4o, 84o, 74o, 64o, 54o, 44, 43s, 42s, A3o, K3o, Q3o, 63o, 53o, 43o, 33, 32s, A2o, K2o, 52o, 42o, 32o, 22",
+    "3bet-fold": "A9s, A5s, A4s, KTs, K9s, K5s, K4s, AQo, QJs, QTs, Q9s, KJo, QJo, JTs, J9s, ATo, KTo, T9s, 98s, 87s, 76s, 65s"
+   }
+  },
+  {
+   "id": "bb-def-pko-50bb-cobrindo-vs-co",
+   "name": "Defesa BB vs CO 50bb PKO cobrindo",
+   "description": "Defesa do BB 50bb em PKO, herói cobrindo, contra open do CO (print BB vs CO).",
+   "street": "preflop",
+   "situation": "vs RFI",
+   "heroPosition": "BB",
+   "villainPosition": "CO",
+   "stack": {
+    "min": 50,
+    "max": 50
+   },
+   "ratio": null,
+   "bubble": null,
+   "tags": [
+    "defesa-bb",
+    "pko",
+    "cobrindo"
+   ],
+   "actionIds": [
+    "fold",
+    "call",
+    "3bet-call",
+    "3bet-fold",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "pko": {
+    "coverage": "cobrindo",
+    "heroStack": 60,
+    "villainStack": 50
+   },
+   "range": {
+    "3bet-call": "AA, AKs, AQs, AJs, AKo, KK, KQs, AQo, QQ, QJs, JJ, JTs, TT, 99, 88",
+    "call": "ATs, A9s, A7s, A6s, A5s, A4s, A3s, A2s, KJs, KTs, K9s, K7s, K6s, K5s, K4s, K3s, K2s, QTs, Q9s, Q7s, Q6s, Q5s, Q4s, Q3s, Q2s, QJo, J9s, J7s, J6s, J5s, J4s, J3s, J2s, KTo, QTo, JTo, T7s, T6s, T5s, T4s, T3s, T2s, 97s, 96s, 95s, 94s, 93s, 92s, K8o, Q8o, J8o, T8o, 98o, 86s, 85s, 84s, 83s, 82s, K7o, Q7o, J7o, T7o, 97o, 87o, 77, 75s, 74s, 73s, 72s, A6o, K6o, Q6o, J6o, T6o, 96o, 86o, 76o, 66, 64s, 63s, 62s, A5o, K5o, Q5o, J5o, T5o, 95o, 85o, 75o, 65o, 55, 54s, 53s, 52s, A4o, K4o, Q4o, J4o, T4o, 84o, 74o, 64o, 54o, 44, 43s, 42s, A3o, K3o, Q3o, J3o, T3o, 73o, 63o, 53o, 43o, 33, 32s, A2o, K2o, Q2o, J2o, 52o, 42o, 32o, 22",
+    "3bet-fold": "A8s, K8s, KQo, Q8s, AJo, KJo, J8s, ATo, T9s, T8s, A9o, K9o, Q9o, J9o, T9o, 98s, A8o, 87s, A7o, 76s, 65s"
+   }
+  },
+  {
+   "id": "bb-def-pko-50bb-cobrindo-vs-btn",
+   "name": "Defesa BB vs BTN 50bb PKO cobrindo",
+   "description": "Defesa do BB 50bb em PKO, herói cobrindo, contra open do BTN (print BB vs BTN).",
+   "street": "preflop",
+   "situation": "vs RFI",
+   "heroPosition": "BB",
+   "villainPosition": "BTN",
+   "stack": {
+    "min": 50,
+    "max": 50
+   },
+   "ratio": null,
+   "bubble": null,
+   "tags": [
+    "defesa-bb",
+    "pko",
+    "cobrindo"
+   ],
+   "actionIds": [
+    "fold",
+    "call",
+    "3bet-call",
+    "3bet-fold",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "pko": {
+    "coverage": "cobrindo",
+    "heroStack": 60,
+    "villainStack": 50
+   },
+   "range": {
+    "3bet-call": "AA, AKs, AQs, AJs, ATs, AKo, KK, KQs, KJs, KTs, AQo, QQ, QJs, QTs, AJo, JJ, JTs, TT, 99, 88, 77, 66",
+    "call": "A9s, A8s, A7s, A6s, A5s, A4s, A3s, A2s, K9s, K8s, K7s, K6s, K5s, K4s, K3s, K2s, Q9s, Q8s, Q7s, Q6s, Q5s, Q4s, Q3s, Q2s, J9s, J8s, J7s, J6s, J5s, J4s, J3s, J2s, QTo, JTo, T9s, T8s, T7s, T6s, T5s, T4s, T3s, T2s, K9o, Q9o, J9o, T9o, 98s, 97s, 96s, 95s, 94s, 93s, 92s, 87s, 86s, 85s, 84s, 83s, 82s, K7o, Q7o, J7o, T7o, 97o, 87o, 76s, 75s, 74s, 73s, 72s, K6o, Q6o, J6o, T6o, 96o, 86o, 76o, 65s, 64s, 63s, 62s, K5o, Q5o, J5o, T5o, 95o, 85o, 75o, 65o, 55, 54s, 53s, 52s, K4o, Q4o, J4o, T4o, 94o, 84o, 74o, 64o, 54o, 44, 43s, 42s, A3o, K3o, Q3o, J3o, T3o, 93o, 73o, 63o, 53o, 43o, 33, 32s, A2o, K2o, Q2o, J2o, T2o, 92o, 62o, 52o, 42o, 32o, 22",
+    "3bet-fold": "KQo, KJo, QJo, ATo, KTo, A9o, A8o, K8o, Q8o, J8o, T8o, 98o, A7o, A6o, A5o, A4o"
+   }
+  },
+  {
+   "id": "bb-def-pko-50bb-coberto-vs-utg",
+   "name": "Defesa BB vs UTG 50bb PKO coberto",
+   "description": "Defesa do BB 50bb em PKO, herói coberto, contra open do UTG (print BB vs EP/MP).",
+   "street": "preflop",
+   "situation": "vs RFI",
+   "heroPosition": "BB",
+   "villainPosition": "UTG",
+   "stack": {
+    "min": 50,
+    "max": 50
+   },
+   "ratio": null,
+   "bubble": null,
+   "tags": [
+    "defesa-bb",
+    "pko",
+    "coberto"
+   ],
+   "actionIds": [
+    "fold",
+    "call",
+    "3bet-call",
+    "3bet-fold",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "pko": {
+    "coverage": "coberto",
+    "heroStack": 50,
+    "villainStack": 60
+   },
+   "range": {
+    "3bet-call": "AA, AKs, AKo, KK, QQ, JJ",
+    "3bet-fold": "AQs, ATs, A5s, KJs, KTs, QJs, QTs, JTs, 87s, 76s, 65s",
+    "call": "AJs, A9s, A8s, A7s, A6s, A4s, A3s, A2s, KQs, K9s, K8s, K7s, K6s, K5s, K4s, K3s, K2s, AQo, KQo, Q9s, Q8s, Q7s, Q6s, Q5s, Q4s, Q3s, Q2s, AJo, KJo, QJo, J9s, J8s, J7s, J6s, J5s, J4s, J3s, J2s, ATo, KTo, QTo, JTo, TT, T9s, T8s, T7s, T6s, T5s, T4s, T3s, T2s, A9o, K9o, Q9o, J9o, T9o, 99, 98s, 97s, 96s, 95s, 94s, 93s, 92s, A8o, K8o, Q8o, J8o, T8o, 98o, 88, 86s, 85s, 84s, 83s, 82s, A7o, K7o, T7o, 97o, 87o, 77, 75s, 74s, 73s, 72s, A6o, K6o, 96o, 86o, 76o, 66, 64s, 63s, 62s, A5o, K5o, 75o, 65o, 55, 54s, 53s, 52s, A4o, 64o, 54o, 44, 43s, 42s, 53o, 33, 32s, 22"
+   }
+  },
+  {
+   "id": "bb-def-pko-50bb-coberto-vs-utg1",
+   "name": "Defesa BB vs UTG1 50bb PKO coberto",
+   "description": "Defesa do BB 50bb em PKO, herói coberto, contra open do UTG1 (print BB vs EP/MP).",
+   "street": "preflop",
+   "situation": "vs RFI",
+   "heroPosition": "BB",
+   "villainPosition": "UTG1",
+   "stack": {
+    "min": 50,
+    "max": 50
+   },
+   "ratio": null,
+   "bubble": null,
+   "tags": [
+    "defesa-bb",
+    "pko",
+    "coberto"
+   ],
+   "actionIds": [
+    "fold",
+    "call",
+    "3bet-call",
+    "3bet-fold",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "pko": {
+    "coverage": "coberto",
+    "heroStack": 50,
+    "villainStack": 60
+   },
+   "range": {
+    "3bet-call": "AA, AKs, AKo, KK, QQ, JJ",
+    "3bet-fold": "AQs, ATs, A5s, KJs, KTs, QJs, QTs, JTs, 87s, 76s, 65s",
+    "call": "AJs, A9s, A8s, A7s, A6s, A4s, A3s, A2s, KQs, K9s, K8s, K7s, K6s, K5s, K4s, K3s, K2s, AQo, KQo, Q9s, Q8s, Q7s, Q6s, Q5s, Q4s, Q3s, Q2s, AJo, KJo, QJo, J9s, J8s, J7s, J6s, J5s, J4s, J3s, J2s, ATo, KTo, QTo, JTo, TT, T9s, T8s, T7s, T6s, T5s, T4s, T3s, T2s, A9o, K9o, Q9o, J9o, T9o, 99, 98s, 97s, 96s, 95s, 94s, 93s, 92s, A8o, K8o, Q8o, J8o, T8o, 98o, 88, 86s, 85s, 84s, 83s, 82s, A7o, K7o, T7o, 97o, 87o, 77, 75s, 74s, 73s, 72s, A6o, K6o, 96o, 86o, 76o, 66, 64s, 63s, 62s, A5o, K5o, 75o, 65o, 55, 54s, 53s, 52s, A4o, 64o, 54o, 44, 43s, 42s, 53o, 33, 32s, 22"
+   }
+  },
+  {
+   "id": "bb-def-pko-50bb-coberto-vs-mp",
+   "name": "Defesa BB vs MP 50bb PKO coberto",
+   "description": "Defesa do BB 50bb em PKO, herói coberto, contra open do MP (print BB vs EP/MP).",
+   "street": "preflop",
+   "situation": "vs RFI",
+   "heroPosition": "BB",
+   "villainPosition": "MP",
+   "stack": {
+    "min": 50,
+    "max": 50
+   },
+   "ratio": null,
+   "bubble": null,
+   "tags": [
+    "defesa-bb",
+    "pko",
+    "coberto"
+   ],
+   "actionIds": [
+    "fold",
+    "call",
+    "3bet-call",
+    "3bet-fold",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "pko": {
+    "coverage": "coberto",
+    "heroStack": 50,
+    "villainStack": 60
+   },
+   "range": {
+    "3bet-call": "AA, AKs, AKo, KK, QQ, JJ",
+    "3bet-fold": "AQs, ATs, A5s, KJs, KTs, QJs, QTs, JTs, 87s, 76s, 65s",
+    "call": "AJs, A9s, A8s, A7s, A6s, A4s, A3s, A2s, KQs, K9s, K8s, K7s, K6s, K5s, K4s, K3s, K2s, AQo, KQo, Q9s, Q8s, Q7s, Q6s, Q5s, Q4s, Q3s, Q2s, AJo, KJo, QJo, J9s, J8s, J7s, J6s, J5s, J4s, J3s, J2s, ATo, KTo, QTo, JTo, TT, T9s, T8s, T7s, T6s, T5s, T4s, T3s, T2s, A9o, K9o, Q9o, J9o, T9o, 99, 98s, 97s, 96s, 95s, 94s, 93s, 92s, A8o, K8o, Q8o, J8o, T8o, 98o, 88, 86s, 85s, 84s, 83s, 82s, A7o, K7o, T7o, 97o, 87o, 77, 75s, 74s, 73s, 72s, A6o, K6o, 96o, 86o, 76o, 66, 64s, 63s, 62s, A5o, K5o, 75o, 65o, 55, 54s, 53s, 52s, A4o, 64o, 54o, 44, 43s, 42s, 53o, 33, 32s, 22"
+   }
+  },
+  {
+   "id": "bb-def-pko-50bb-coberto-vs-lj",
+   "name": "Defesa BB vs LJ 50bb PKO coberto",
+   "description": "Defesa do BB 50bb em PKO, herói coberto, contra open do LJ (print BB vs LJ/HJ).",
+   "street": "preflop",
+   "situation": "vs RFI",
+   "heroPosition": "BB",
+   "villainPosition": "LJ",
+   "stack": {
+    "min": 50,
+    "max": 50
+   },
+   "ratio": null,
+   "bubble": null,
+   "tags": [
+    "defesa-bb",
+    "pko",
+    "coberto"
+   ],
+   "actionIds": [
+    "fold",
+    "call",
+    "3bet-call",
+    "3bet-fold",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "pko": {
+    "coverage": "coberto",
+    "heroStack": 50,
+    "villainStack": 60
+   },
+   "range": {
+    "3bet-call": "AA, AKs, AKo, KK, QQ, JJ, TT",
+    "3bet-fold": "AQs, AJs, A9s, A8s, A5s, KTs, K9s, AQo, QJs, QTs, Q9s, JTs, J9s, T9s, 87s, 76s, 65s",
+    "call": "ATs, A7s, A6s, A4s, A3s, A2s, KQs, KJs, K8s, K7s, K6s, K5s, K4s, K3s, K2s, KQo, Q8s, Q7s, Q6s, Q5s, Q4s, Q3s, Q2s, AJo, KJo, QJo, J8s, J7s, J6s, J5s, J4s, J3s, J2s, ATo, KTo, QTo, JTo, T8s, T7s, T6s, T5s, T4s, T3s, T2s, A9o, K9o, Q9o, J9o, T9o, 99, 98s, 97s, 96s, 95s, 94s, 93s, 92s, A8o, K8o, Q8o, J8o, T8o, 98o, 88, 86s, 85s, 84s, 83s, 82s, A7o, K7o, Q7o, J7o, T7o, 97o, 87o, 77, 75s, 74s, 73s, 72s, A6o, K6o, 96o, 86o, 76o, 66, 64s, 63s, 62s, A5o, K5o, 85o, 75o, 65o, 55, 54s, 53s, 52s, A4o, K4o, 64o, 54o, 44, 43s, 42s, A3o, 53o, 43o, 33, 32s, A2o, 22"
+   }
+  },
+  {
+   "id": "bb-def-pko-50bb-coberto-vs-hj",
+   "name": "Defesa BB vs HJ 50bb PKO coberto",
+   "description": "Defesa do BB 50bb em PKO, herói coberto, contra open do HJ (print BB vs LJ/HJ).",
+   "street": "preflop",
+   "situation": "vs RFI",
+   "heroPosition": "BB",
+   "villainPosition": "HJ",
+   "stack": {
+    "min": 50,
+    "max": 50
+   },
+   "ratio": null,
+   "bubble": null,
+   "tags": [
+    "defesa-bb",
+    "pko",
+    "coberto"
+   ],
+   "actionIds": [
+    "fold",
+    "call",
+    "3bet-call",
+    "3bet-fold",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "pko": {
+    "coverage": "coberto",
+    "heroStack": 50,
+    "villainStack": 60
+   },
+   "range": {
+    "3bet-call": "AA, AKs, AKo, KK, QQ, JJ, TT",
+    "3bet-fold": "AQs, AJs, A9s, A8s, A5s, KTs, K9s, AQo, QJs, QTs, Q9s, JTs, J9s, T9s, 87s, 76s, 65s",
+    "call": "ATs, A7s, A6s, A4s, A3s, A2s, KQs, KJs, K8s, K7s, K6s, K5s, K4s, K3s, K2s, KQo, Q8s, Q7s, Q6s, Q5s, Q4s, Q3s, Q2s, AJo, KJo, QJo, J8s, J7s, J6s, J5s, J4s, J3s, J2s, ATo, KTo, QTo, JTo, T8s, T7s, T6s, T5s, T4s, T3s, T2s, A9o, K9o, Q9o, J9o, T9o, 99, 98s, 97s, 96s, 95s, 94s, 93s, 92s, A8o, K8o, Q8o, J8o, T8o, 98o, 88, 86s, 85s, 84s, 83s, 82s, A7o, K7o, Q7o, J7o, T7o, 97o, 87o, 77, 75s, 74s, 73s, 72s, A6o, K6o, 96o, 86o, 76o, 66, 64s, 63s, 62s, A5o, K5o, 85o, 75o, 65o, 55, 54s, 53s, 52s, A4o, K4o, 64o, 54o, 44, 43s, 42s, A3o, 53o, 43o, 33, 32s, A2o, 22"
+   }
+  },
+  {
+   "id": "bb-def-pko-50bb-coberto-vs-co",
+   "name": "Defesa BB vs CO 50bb PKO coberto",
+   "description": "Defesa do BB 50bb em PKO, herói coberto, contra open do CO (print BB vs CO).",
+   "street": "preflop",
+   "situation": "vs RFI",
+   "heroPosition": "BB",
+   "villainPosition": "CO",
+   "stack": {
+    "min": 50,
+    "max": 50
+   },
+   "ratio": null,
+   "bubble": null,
+   "tags": [
+    "defesa-bb",
+    "pko",
+    "coberto"
+   ],
+   "actionIds": [
+    "fold",
+    "call",
+    "3bet-call",
+    "3bet-fold",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "pko": {
+    "coverage": "coberto",
+    "heroStack": 50,
+    "villainStack": 60
+   },
+   "range": {
+    "3bet-call": "AA, AKs, AQs, AKo, KK, QQ, JJ, TT",
+    "3bet-fold": "AJs, A8s, KQs, KJs, K8s, AQo, KQo, QJs, Q8s, AJo, KJo, J8s, ATo, T9s, T8s, 98s, 87s, 76s, 65s",
+    "call": "ATs, A9s, A7s, A6s, A5s, A4s, A3s, A2s, KTs, K9s, K7s, K6s, K5s, K4s, K3s, K2s, QTs, Q9s, Q7s, Q6s, Q5s, Q4s, Q3s, Q2s, QJo, JTs, J9s, J7s, J6s, J5s, J4s, J3s, J2s, KTo, QTo, JTo, T7s, T6s, T5s, T4s, T3s, T2s, A9o, K9o, Q9o, J9o, T9o, 99, 97s, 96s, 95s, 94s, 93s, 92s, A8o, K8o, Q8o, J8o, T8o, 98o, 88, 86s, 85s, 84s, 83s, 82s, A7o, K7o, Q7o, J7o, T7o, 97o, 87o, 77, 75s, 74s, 73s, 72s, A6o, K6o, Q6o, J6o, T6o, 96o, 86o, 76o, 66, 64s, 63s, 62s, A5o, K5o, Q5o, J5o, 85o, 75o, 65o, 55, 54s, 53s, 52s, A4o, K4o, Q4o, J4o, 74o, 64o, 54o, 44, 43s, 42s, A3o, K3o, Q3o, 63o, 53o, 43o, 33, 32s, A2o, K2o, Q2o, 52o, 42o, 22"
+   }
+  },
+  {
+   "id": "bb-def-pko-50bb-coberto-vs-btn",
+   "name": "Defesa BB vs BTN 50bb PKO coberto",
+   "description": "Defesa do BB 50bb em PKO, herói coberto, contra open do BTN (print BB vs BTN).",
+   "street": "preflop",
+   "situation": "vs RFI",
+   "heroPosition": "BB",
+   "villainPosition": "BTN",
+   "stack": {
+    "min": 50,
+    "max": 50
+   },
+   "ratio": null,
+   "bubble": null,
+   "tags": [
+    "defesa-bb",
+    "pko",
+    "coberto"
+   ],
+   "actionIds": [
+    "fold",
+    "call",
+    "3bet-call",
+    "3bet-fold",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "pko": {
+    "coverage": "coberto",
+    "heroStack": 50,
+    "villainStack": 60
+   },
+   "range": {
+    "3bet-call": "AA, AKs, AQs, AJs, AKo, KK, KQs, AQo, QQ, JJ, TT, 99",
+    "call": "ATs, A9s, A8s, A6s, A5s, A4s, A3s, A2s, KJs, KTs, K9s, K8s, K6s, K5s, K4s, K3s, K2s, QJs, QTs, Q9s, Q8s, Q6s, Q5s, Q4s, Q3s, Q2s, JTs, J9s, J8s, J6s, J5s, J4s, J3s, J2s, QTo, JTo, T9s, T8s, T6s, T5s, T4s, T3s, T2s, A9o, K9o, Q9o, J9o, T9o, 96s, 95s, 94s, 93s, 92s, A8o, K8o, Q8o, J8o, T8o, 98o, 88, 85s, 84s, 83s, 82s, A7o, K7o, Q7o, J7o, T7o, 97o, 87o, 77, 74s, 73s, 72s, A6o, K6o, Q6o, J6o, T6o, 96o, 86o, 76o, 66, 64s, 63s, 62s, A5o, K5o, Q5o, J5o, T5o, 95o, 85o, 75o, 65o, 55, 54s, 53s, 52s, A4o, K4o, Q4o, J4o, T4o, 74o, 64o, 54o, 44, 43s, 42s, A3o, K3o, Q3o, J3o, 63o, 53o, 43o, 33, 32s, A2o, K2o, Q2o, J2o, 52o, 42o, 22",
+    "3bet-fold": "A7s, K7s, KQo, Q7s, AJo, KJo, QJo, J7s, ATo, KTo, T7s, 98s, 97s, 87s, 86s, 76s, 75s, 65s"
+   }
+  }
+ ],
+ "drills": [
+  {
+   "id": "defesa-bb-pko-deep",
+   "name": "Defesa BB PKO Deep",
+   "description": "Você no BB contra um open em PKO, com 30 ou 50bb, cobrindo ou coberto. Dá para filtrar stack, cobertura e quem abriu no treino.",
+   "variants": [
+    [
+     "bb-def-pko-30bb-cobrindo-vs-utg"
+    ],
+    [
+     "bb-def-pko-30bb-cobrindo-vs-utg1"
+    ],
+    [
+     "bb-def-pko-30bb-cobrindo-vs-mp"
+    ],
+    [
+     "bb-def-pko-30bb-cobrindo-vs-lj"
+    ],
+    [
+     "bb-def-pko-30bb-cobrindo-vs-hj"
+    ],
+    [
+     "bb-def-pko-30bb-cobrindo-vs-co"
+    ],
+    [
+     "bb-def-pko-30bb-cobrindo-vs-btn"
+    ],
+    [
+     "bb-def-pko-30bb-coberto-vs-utg"
+    ],
+    [
+     "bb-def-pko-30bb-coberto-vs-utg1"
+    ],
+    [
+     "bb-def-pko-30bb-coberto-vs-mp"
+    ],
+    [
+     "bb-def-pko-30bb-coberto-vs-lj"
+    ],
+    [
+     "bb-def-pko-30bb-coberto-vs-hj"
+    ],
+    [
+     "bb-def-pko-30bb-coberto-vs-co"
+    ],
+    [
+     "bb-def-pko-30bb-coberto-vs-btn"
+    ],
+    [
+     "bb-def-pko-50bb-cobrindo-vs-utg"
+    ],
+    [
+     "bb-def-pko-50bb-cobrindo-vs-utg1"
+    ],
+    [
+     "bb-def-pko-50bb-cobrindo-vs-mp"
+    ],
+    [
+     "bb-def-pko-50bb-cobrindo-vs-lj"
+    ],
+    [
+     "bb-def-pko-50bb-cobrindo-vs-hj"
+    ],
+    [
+     "bb-def-pko-50bb-cobrindo-vs-co"
+    ],
+    [
+     "bb-def-pko-50bb-cobrindo-vs-btn"
+    ],
+    [
+     "bb-def-pko-50bb-coberto-vs-utg"
+    ],
+    [
+     "bb-def-pko-50bb-coberto-vs-utg1"
+    ],
+    [
+     "bb-def-pko-50bb-coberto-vs-mp"
+    ],
+    [
+     "bb-def-pko-50bb-coberto-vs-lj"
+    ],
+    [
+     "bb-def-pko-50bb-coberto-vs-hj"
+    ],
+    [
+     "bb-def-pko-50bb-coberto-vs-co"
+    ],
+    [
+     "bb-def-pko-50bb-coberto-vs-btn"
+    ]
+   ],
+   "sampling": "fronteira",
+   "tags": [
+    "defesa-bb",
+    "pko"
+   ],
+   "handsPerSession": 50,
+   "passAccuracy": 0.9
+  }
+ ]
+}

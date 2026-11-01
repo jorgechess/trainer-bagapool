@@ -16,6 +16,7 @@ import {
   type HandQuestion,
   dealQuestion,
   drillContexts,
+  drillCoverages,
   drillPositions,
   drillStacks,
   filterDrill,
@@ -394,6 +395,7 @@ export function Trainer({ drill, strategies, legend }: TrainerProps) {
   const [positions, setPositions] = useState<string[]>([]);
   const [contexts, setContexts] = useState<string[]>([]);
   const [stacks, setStacks] = useState<string[]>([]);
+  const [coverages, setCoverages] = useState<string[]>([]);
   const [tableCount, setTableCount] = useState<TableCount>(1);
   const [lengthChoice, setLengthChoice] = useState<number>(0);
   /** Mãos da sessão; null = sem limite. */
@@ -414,13 +416,15 @@ export function Trainer({ drill, strategies, legend }: TrainerProps) {
   const positionsKey = `trainer:posicoes:${drill.id}`;
   const contextsKey = `trainer:proporcoes:${drill.id}`;
   const stacksKey = `trainer:stacks:${drill.id}`;
+  const coveragesKey = `trainer:coberturas:${drill.id}`;
   const availablePositions = useMemo(() => drillPositions(drill, strategyMap), [drill, strategyMap]);
   const availableContexts = useMemo(() => drillContexts(drill, strategyMap), [drill, strategyMap]);
   const availableStacks = useMemo(() => drillStacks(drill, strategyMap), [drill, strategyMap]);
+  const availableCoverages = useMemo(() => drillCoverages(drill, strategyMap), [drill, strategyMap]);
   /** Drill com os filtros do jogador (posição, proporção, stack); não muda o drill de ninguém. */
   const filtered = useMemo(
-    () => filterDrill(drill, strategyMap, { positions, contexts, stacks }),
-    [drill, strategyMap, positions, contexts, stacks],
+    () => filterDrill(drill, strategyMap, { positions, contexts, stacks, coverages }),
+    [drill, strategyMap, positions, contexts, stacks, coverages],
   );
   const activeDrill = filtered.drill;
 
@@ -451,7 +455,17 @@ export function Trainer({ drill, strategies, legend }: TrainerProps) {
     load(positionsKey, availablePositions, setPositions);
     load(contextsKey, availableContexts, setContexts);
     load(stacksKey, availableStacks, setStacks);
-  }, [positionsKey, contextsKey, stacksKey, availablePositions, availableContexts, availableStacks]);
+    load(coveragesKey, availableCoverages, setCoverages);
+  }, [
+    positionsKey,
+    contextsKey,
+    stacksKey,
+    coveragesKey,
+    availablePositions,
+    availableContexts,
+    availableStacks,
+    availableCoverages,
+  ]);
 
   function togglePeek() {
     setPeek((current) => {
@@ -468,6 +482,11 @@ export function Trainer({ drill, strategies, legend }: TrainerProps) {
   function changeContexts(next: string[]) {
     setContexts(next);
     writeStorage(contextsKey, JSON.stringify(next));
+  }
+
+  function changeCoverages(next: string[]) {
+    setCoverages(next);
+    writeStorage(coveragesKey, JSON.stringify(next));
   }
 
   function changeStacks(next: string[]) {
@@ -850,6 +869,9 @@ export function Trainer({ drill, strategies, legend }: TrainerProps) {
         )}
         {availableStacks.length > 1 && (
           <FilterChips label="Stack" options={availableStacks} selected={stacks} onChange={changeStacks} />
+        )}
+        {availableCoverages.length > 1 && (
+          <FilterChips label="Cobertura" options={availableCoverages} selected={coverages} onChange={changeCoverages} />
         )}
         {filtered.empty && (
           <p className="w-full text-xs text-amber-400" data-testid="filtro-vazio">
