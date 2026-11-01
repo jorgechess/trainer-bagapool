@@ -6,6 +6,7 @@ import rfiPkoCoberto from "../../cargas/rfi-50bb-pko-coberto.json";
 import vs3betPkoCoberto from "../../cargas/vs3bet-50bb-pko-coberto.json";
 import vs3betPkoCobrindo from "../../cargas/vs3bet-50bb-pko-cobrindo.json";
 import rfiMaxLate from "../../cargas/rfi-max-late-reg-vanilla.json";
+import vsRestealMaxLate from "../../cargas/vs-resteal-max-late-reg-vanilla.json";
 
 export interface Carga {
   id: string;
@@ -68,5 +69,12 @@ export const CARGAS: Carga[] = [
       "168 estratégias de open: 3:1, 2:1, 1,5:1, bolha não garantido e bolha garantido, de 2bb a 15bb, UTG a BTN; e o drill com todas.",
     requires: [],
     bundle: rfiMaxLate,
+  },
+  {
+    id: "vs-resteal-max-late-reg-vanilla",
+    name: "Vs Resteal Max Late Reg Vanilla",
+    description: "13 spots: MP (LJ e HJ) vs qualquer posição, LP (CO e BTN) vs SB e vs BB; você com 12–15bb.",
+    requires: [],
+    bundle: vsRestealMaxLate,
   },
 ];

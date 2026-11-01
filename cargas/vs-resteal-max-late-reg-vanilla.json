@@ -1,0 +1,450 @@
+{
+ "strategies": [
+  {
+   "id": "vs-resteal-mlr-lj-vs-hj",
+   "name": "vs resteal LJ vs HJ max late",
+   "description": "Max late reg vanilla: você abriu com 12–15bb e o HJ foi all-in (range MP vs resteal).",
+   "street": "preflop",
+   "situation": "vs resteal",
+   "heroPosition": "LJ",
+   "villainPosition": "HJ",
+   "stack": {
+    "min": 12,
+    "max": 15
+   },
+   "ratio": null,
+   "bubble": null,
+   "tags": [
+    "vs-resteal",
+    "max-late",
+    "vanilla"
+   ],
+   "actionIds": [
+    "fold",
+    "call"
+   ],
+   "defaultActionId": "fold",
+   "randomStacks": true,
+   "villainAllIn": true,
+   "range": {
+    "call": "AA, AKs, AQs, AJs, AKo, KK, AQo, QQ, JJ, TT, 99, 88"
+   }
+  },
+  {
+   "id": "vs-resteal-mlr-lj-vs-co",
+   "name": "vs resteal LJ vs CO max late",
+   "description": "Max late reg vanilla: você abriu com 12–15bb e o CO foi all-in (range MP vs resteal).",
+   "street": "preflop",
+   "situation": "vs resteal",
+   "heroPosition": "LJ",
+   "villainPosition": "CO",
+   "stack": {
+    "min": 12,
+    "max": 15
+   },
+   "ratio": null,
+   "bubble": null,
+   "tags": [
+    "vs-resteal",
+    "max-late",
+    "vanilla"
+   ],
+   "actionIds": [
+    "fold",
+    "call"
+   ],
+   "defaultActionId": "fold",
+   "randomStacks": true,
+   "villainAllIn": true,
+   "range": {
+    "call": "AA, AKs, AQs, AJs, AKo, KK, AQo, QQ, JJ, TT, 99, 88"
+   }
+  },
+  {
+   "id": "vs-resteal-mlr-lj-vs-btn",
+   "name": "vs resteal LJ vs BTN max late",
+   "description": "Max late reg vanilla: você abriu com 12–15bb e o BTN foi all-in (range MP vs resteal).",
+   "street": "preflop",
+   "situation": "vs resteal",
+   "heroPosition": "LJ",
+   "villainPosition": "BTN",
+   "stack": {
+    "min": 12,
+    "max": 15
+   },
+   "ratio": null,
+   "bubble": null,
+   "tags": [
+    "vs-resteal",
+    "max-late",
+    "vanilla"
+   ],
+   "actionIds": [
+    "fold",
+    "call"
+   ],
+   "defaultActionId": "fold",
+   "randomStacks": true,
+   "villainAllIn": true,
+   "range": {
+    "call": "AA, AKs, AQs, AJs, AKo, KK, AQo, QQ, JJ, TT, 99, 88"
+   }
+  },
+  {
+   "id": "vs-resteal-mlr-lj-vs-sb",
+   "name": "vs resteal LJ vs SB max late",
+   "description": "Max late reg vanilla: você abriu com 12–15bb e o SB foi all-in (range MP vs resteal).",
+   "street": "preflop",
+   "situation": "vs resteal",
+   "heroPosition": "LJ",
+   "villainPosition": "SB",
+   "stack": {
+    "min": 12,
+    "max": 15
+   },
+   "ratio": null,
+   "bubble": null,
+   "tags": [
+    "vs-resteal",
+    "max-late",
+    "vanilla"
+   ],
+   "actionIds": [
+    "fold",
+    "call"
+   ],
+   "defaultActionId": "fold",
+   "randomStacks": true,
+   "villainAllIn": true,
+   "range": {
+    "call": "AA, AKs, AQs, AJs, AKo, KK, AQo, QQ, JJ, TT, 99, 88"
+   }
+  },
+  {
+   "id": "vs-resteal-mlr-lj-vs-bb",
+   "name": "vs resteal LJ vs BB max late",
+   "description": "Max late reg vanilla: você abriu com 12–15bb e o BB foi all-in (range MP vs resteal).",
+   "street": "preflop",
+   "situation": "vs resteal",
+   "heroPosition": "LJ",
+   "villainPosition": "BB",
+   "stack": {
+    "min": 12,
+    "max": 15
+   },
+   "ratio": null,
+   "bubble": null,
+   "tags": [
+    "vs-resteal",
+    "max-late",
+    "vanilla"
+   ],
+   "actionIds": [
+    "fold",
+    "call"
+   ],
+   "defaultActionId": "fold",
+   "randomStacks": true,
+   "villainAllIn": true,
+   "range": {
+    "call": "AA, AKs, AQs, AJs, AKo, KK, AQo, QQ, JJ, TT, 99, 88"
+   }
+  },
+  {
+   "id": "vs-resteal-mlr-hj-vs-co",
+   "name": "vs resteal HJ vs CO max late",
+   "description": "Max late reg vanilla: você abriu com 12–15bb e o CO foi all-in (range MP vs resteal).",
+   "street": "preflop",
+   "situation": "vs resteal",
+   "heroPosition": "HJ",
+   "villainPosition": "CO",
+   "stack": {
+    "min": 12,
+    "max": 15
+   },
+   "ratio": null,
+   "bubble": null,
+   "tags": [
+    "vs-resteal",
+    "max-late",
+    "vanilla"
+   ],
+   "actionIds": [
+    "fold",
+    "call"
+   ],
+   "defaultActionId": "fold",
+   "randomStacks": true,
+   "villainAllIn": true,
+   "range": {
+    "call": "AA, AKs, AQs, AJs, AKo, KK, AQo, QQ, JJ, TT, 99, 88"
+   }
+  },
+  {
+   "id": "vs-resteal-mlr-hj-vs-btn",
+   "name": "vs resteal HJ vs BTN max late",
+   "description": "Max late reg vanilla: você abriu com 12–15bb e o BTN foi all-in (range MP vs resteal).",
+   "street": "preflop",
+   "situation": "vs resteal",
+   "heroPosition": "HJ",
+   "villainPosition": "BTN",
+   "stack": {
+    "min": 12,
+    "max": 15
+   },
+   "ratio": null,
+   "bubble": null,
+   "tags": [
+    "vs-resteal",
+    "max-late",
+    "vanilla"
+   ],
+   "actionIds": [
+    "fold",
+    "call"
+   ],
+   "defaultActionId": "fold",
+   "randomStacks": true,
+   "villainAllIn": true,
+   "range": {
+    "call": "AA, AKs, AQs, AJs, AKo, KK, AQo, QQ, JJ, TT, 99, 88"
+   }
+  },
+  {
+   "id": "vs-resteal-mlr-hj-vs-sb",
+   "name": "vs resteal HJ vs SB max late",
+   "description": "Max late reg vanilla: você abriu com 12–15bb e o SB foi all-in (range MP vs resteal).",
+   "street": "preflop",
+   "situation": "vs resteal",
+   "heroPosition": "HJ",
+   "villainPosition": "SB",
+   "stack": {
+    "min": 12,
+    "max": 15
+   },
+   "ratio": null,
+   "bubble": null,
+   "tags": [
+    "vs-resteal",
+    "max-late",
+    "vanilla"
+   ],
+   "actionIds": [
+    "fold",
+    "call"
+   ],
+   "defaultActionId": "fold",
+   "randomStacks": true,
+   "villainAllIn": true,
+   "range": {
+    "call": "AA, AKs, AQs, AJs, AKo, KK, AQo, QQ, JJ, TT, 99, 88"
+   }
+  },
+  {
+   "id": "vs-resteal-mlr-hj-vs-bb",
+   "name": "vs resteal HJ vs BB max late",
+   "description": "Max late reg vanilla: você abriu com 12–15bb e o BB foi all-in (range MP vs resteal).",
+   "street": "preflop",
+   "situation": "vs resteal",
+   "heroPosition": "HJ",
+   "villainPosition": "BB",
+   "stack": {
+    "min": 12,
+    "max": 15
+   },
+   "ratio": null,
+   "bubble": null,
+   "tags": [
+    "vs-resteal",
+    "max-late",
+    "vanilla"
+   ],
+   "actionIds": [
+    "fold",
+    "call"
+   ],
+   "defaultActionId": "fold",
+   "randomStacks": true,
+   "villainAllIn": true,
+   "range": {
+    "call": "AA, AKs, AQs, AJs, AKo, KK, AQo, QQ, JJ, TT, 99, 88"
+   }
+  },
+  {
+   "id": "vs-resteal-mlr-co-vs-sb",
+   "name": "vs resteal CO vs SB max late",
+   "description": "Max late reg vanilla: você abriu com 12–15bb e o SB foi all-in (range LP vs SB resteal).",
+   "street": "preflop",
+   "situation": "vs resteal",
+   "heroPosition": "CO",
+   "villainPosition": "SB",
+   "stack": {
+    "min": 12,
+    "max": 15
+   },
+   "ratio": null,
+   "bubble": null,
+   "tags": [
+    "vs-resteal",
+    "max-late",
+    "vanilla"
+   ],
+   "actionIds": [
+    "fold",
+    "call"
+   ],
+   "defaultActionId": "fold",
+   "randomStacks": true,
+   "villainAllIn": true,
+   "range": {
+    "call": "AA, AKs, AQs, AJs, ATs, A9s, AKo, KK, KQs, AQo, KQo, QQ, AJo, JJ, ATo, TT, 99, 88, 77, 66, 55"
+   }
+  },
+  {
+   "id": "vs-resteal-mlr-co-vs-bb",
+   "name": "vs resteal CO vs BB max late",
+   "description": "Max late reg vanilla: você abriu com 12–15bb e o BB foi all-in (range LP vs BB resteal).",
+   "street": "preflop",
+   "situation": "vs resteal",
+   "heroPosition": "CO",
+   "villainPosition": "BB",
+   "stack": {
+    "min": 12,
+    "max": 15
+   },
+   "ratio": null,
+   "bubble": null,
+   "tags": [
+    "vs-resteal",
+    "max-late",
+    "vanilla"
+   ],
+   "actionIds": [
+    "fold",
+    "call"
+   ],
+   "defaultActionId": "fold",
+   "randomStacks": true,
+   "villainAllIn": true,
+   "range": {
+    "call": "AA, AKs, AQs, AJs, ATs, A9s, A8s, A7s, A6s, A5s, AKo, KK, KQs, KJs, KTs, AQo, KQo, QQ, QJs, QTs, AJo, JJ, ATo, TT, A9o, 99, A8o, 88, 77, 66, 55"
+   }
+  },
+  {
+   "id": "vs-resteal-mlr-btn-vs-sb",
+   "name": "vs resteal BTN vs SB max late",
+   "description": "Max late reg vanilla: você abriu com 12–15bb e o SB foi all-in (range LP vs SB resteal).",
+   "street": "preflop",
+   "situation": "vs resteal",
+   "heroPosition": "BTN",
+   "villainPosition": "SB",
+   "stack": {
+    "min": 12,
+    "max": 15
+   },
+   "ratio": null,
+   "bubble": null,
+   "tags": [
+    "vs-resteal",
+    "max-late",
+    "vanilla"
+   ],
+   "actionIds": [
+    "fold",
+    "call"
+   ],
+   "defaultActionId": "fold",
+   "randomStacks": true,
+   "villainAllIn": true,
+   "range": {
+    "call": "AA, AKs, AQs, AJs, ATs, A9s, AKo, KK, KQs, AQo, KQo, QQ, AJo, JJ, ATo, TT, 99, 88, 77, 66, 55"
+   }
+  },
+  {
+   "id": "vs-resteal-mlr-btn-vs-bb",
+   "name": "vs resteal BTN vs BB max late",
+   "description": "Max late reg vanilla: você abriu com 12–15bb e o BB foi all-in (range LP vs BB resteal).",
+   "street": "preflop",
+   "situation": "vs resteal",
+   "heroPosition": "BTN",
+   "villainPosition": "BB",
+   "stack": {
+    "min": 12,
+    "max": 15
+   },
+   "ratio": null,
+   "bubble": null,
+   "tags": [
+    "vs-resteal",
+    "max-late",
+    "vanilla"
+   ],
+   "actionIds": [
+    "fold",
+    "call"
+   ],
+   "defaultActionId": "fold",
+   "randomStacks": true,
+   "villainAllIn": true,
+   "range": {
+    "call": "AA, AKs, AQs, AJs, ATs, A9s, A8s, A7s, A6s, A5s, AKo, KK, KQs, KJs, KTs, AQo, KQo, QQ, QJs, QTs, AJo, JJ, ATo, TT, A9o, 99, A8o, 88, 77, 66, 55"
+   }
+  }
+ ],
+ "drills": [
+  {
+   "id": "vs-resteal-max-late-reg-vanilla",
+   "name": "Vs Resteal Max Late Reg Vanilla",
+   "description": "Você abriu com 12–15bb e levou all-in. MP (LJ e HJ) vs qualquer posição; LP (CO e BTN) vs SB e vs BB. Stacks da mesa aleatórios.",
+   "variants": [
+    [
+     "vs-resteal-mlr-lj-vs-hj"
+    ],
+    [
+     "vs-resteal-mlr-lj-vs-co"
+    ],
+    [
+     "vs-resteal-mlr-lj-vs-btn"
+    ],
+    [
+     "vs-resteal-mlr-lj-vs-sb"
+    ],
+    [
+     "vs-resteal-mlr-lj-vs-bb"
+    ],
+    [
+     "vs-resteal-mlr-hj-vs-co"
+    ],
+    [
+     "vs-resteal-mlr-hj-vs-btn"
+    ],
+    [
+     "vs-resteal-mlr-hj-vs-sb"
+    ],
+    [
+     "vs-resteal-mlr-hj-vs-bb"
+    ],
+    [
+     "vs-resteal-mlr-co-vs-sb"
+    ],
+    [
+     "vs-resteal-mlr-co-vs-bb"
+    ],
+    [
+     "vs-resteal-mlr-btn-vs-sb"
+    ],
+    [
+     "vs-resteal-mlr-btn-vs-bb"
+    ]
+   ],
+   "sampling": "fronteira",
+   "tags": [
+    "vs-resteal",
+    "max-late",
+    "vanilla"
+   ],
+   "handsPerSession": 50,
+   "passAccuracy": 0.9
+  }
+ ]
+}

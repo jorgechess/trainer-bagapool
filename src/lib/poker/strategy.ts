@@ -92,6 +92,10 @@ export interface Strategy {
   dealFrom?: DealFrom | null;
   /** Torneio PKO (bounty): se o herói cobre ou é coberto, e o texto da etiqueta de bounty. */
   pko?: PkoInfo | null;
+  /** Mesa de fim de torneio: stacks dos outros sorteados a cada mão (o do herói sai da faixa de stack). */
+  randomStacks?: boolean;
+  /** O vilão que aumentou foi all-in (ex.: vs resteal): a mesa mostra o shove dele. */
+  villainAllIn?: boolean;
   /** Tamanhos desenhados na mesa (bb). Padrão: open 2bb, 3-bet 3,5× o open. */
   tableSizes?: { open?: number; threeBet?: number } | null;
   /** Range do pré-flop. */

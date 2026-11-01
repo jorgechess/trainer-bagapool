@@ -555,6 +555,18 @@ async function main() {
     assert.ok(new Set(villainStacks).size > 2, `vilões com stacks variados: ${villainStacks.join(", ")}`);
     await shot(page, "treino-max-late-filtros");
     log("filtros de proporção e stack no treino; vilões com stacks aleatórios");
+
+    // Vs Resteal Max Late: vilão all-in, herói com 12–15bb (pílula mostra o stack sorteado)
+    await page.goto(`${BASE_URL}/admin/importar`);
+    await page.getByTestId("carga-vs-resteal-max-late-reg-vanilla").getByRole("button", { name: "Importar" }).click();
+    await page.getByTestId("carga-vs-resteal-max-late-reg-vanilla").getByText(/Importado:/).waitFor();
+    await page.goto(`${BASE_URL}/drills/vs-resteal-max-late-reg-vanilla/treinar`);
+    await page.getByTestId("hero-cards").waitFor();
+    assert.match(await page.getByTestId("spot-stack").innerText(), /^1[2-5]bb$/);
+    await page.getByText("All-in", { exact: true }).first().waitFor();
+    assert.equal(await page.locator("[data-testid=actions] button").count(), 2, "fold e call");
+    await shot(page, "treino-vs-resteal");
+    log("vs resteal: vilão all-in e herói com 12–15bb");
     log(`Max Late Reg Vanilla importado; mesa mostra ${leftText}`);
 
     // 10. Cadastra pool e jogador

@@ -44,6 +44,8 @@ export interface ImportStrategy {
   /** Sorteia mãos só onde outra estratégia (id ou nome) tem uma destas ações. */
   dealFrom?: { strategy: string; actionIds: string[] } | null;
   tableSizes?: { open?: number; threeBet?: number } | null;
+  randomStacks?: boolean;
+  villainAllIn?: boolean;
   pko?: { coverage: "cobrindo" | "coberto"; bounty?: string; heroStack?: number; villainStack?: number } | null;
   range?: Record<string, string>;
   /** Mãos mistas: ações extras também aceitas, no formato do range (a mão pode aparecer em várias ações). */
@@ -202,6 +204,8 @@ export function parseImportBundle(
       defaultActionId: raw.defaultActionId,
       entryActionIds: raw.entryActionIds ?? [],
       tableSizes: raw.tableSizes ?? null,
+      ...(raw.randomStacks ? { randomStacks: true } : {}),
+      ...(raw.villainAllIn ? { villainAllIn: true } : {}),
       pko: raw.pko ?? null,
       dealFrom: raw.dealFrom ? { strategyId: String(raw.dealFrom.strategy ?? ""), actionIds: raw.dealFrom.actionIds ?? [] } : null,
       range: compactRange(toRange(raw.range, where, errors), raw.defaultActionId),

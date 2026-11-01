@@ -80,3 +80,24 @@ test("fim de torneio: só o herói tem o stack do spot; vilões sorteados em vol
   assert.ok(averages.size >= 3, "a média da mesa muda de mão para mão");
   assert.equal(randomVillainStacks({ ...rfiBtn, ratio: null, bubble: null }, 1), null, "sem proporção/bolha: igual ao herói");
 });
+
+test("vs resteal: herói com stack sorteado na faixa, vilão all-in com o stack inteiro", async () => {
+  const { tableState, heroStackFor } = await import("../table");
+  const spot = { ...rfiBtn, situation: "vs resteal", heroPosition: "CO" as const, villainPosition: "BB" as const,
+    stack: { min: 12, max: 15 }, randomStacks: true, villainAllIn: true };
+  const heroes = new Set<number>();
+  for (let seed = 1; seed < 200; seed += 3) {
+    const hero = heroStackFor(spot, seed)!;
+    assert.ok(Number.isInteger(hero) && hero >= 12 && hero <= 15);
+    heroes.add(hero);
+    const t = tableState(spot, seed);
+    const bb = t.seats.find((s) => s.position === "BB")!;
+    const co = t.seats.find((s) => s.position === "CO")!;
+    assert.equal(t.remaining!.BB, 0, "vilão foi all-in");
+    assert.equal(co.posted, 2, "herói abriu 2bb");
+    assert.equal(t.remaining!.CO, hero - 2);
+    assert.equal(t.raiseLabel, "All-in");
+    assert.equal(t.pot, Math.round((bb.posted + 2 + 0.5) * 10) / 10);
+  }
+  assert.equal(heroes.size, 4, "12, 13, 14 e 15 aparecem");
+});

@@ -8,6 +8,7 @@ import { PokerTable } from "@/components/PokerTable";
 import { PositionChips } from "@/components/PositionChips";
 import { RangeGrid } from "@/components/RangeGrid";
 import { FilterChips } from "@/components/FilterChips";
+import { heroStackFor, seedFrom } from "@/lib/poker/table";
 import { formatPercent } from "@/lib/format";
 import { LENGTH_KEY, LENGTH_OPTIONS } from "@/lib/session-length";
 import {
@@ -281,7 +282,14 @@ function TableSlot({
           data-testid="spot-stack"
           title="Seu stack"
         >
-          {formatNumberRange(strategy.stack, "bb")}
+          {(() => {
+            // Faixa de stack (ex.: 12–15bb): mostra o stack sorteado nesta mão
+            const hero =
+              strategy.stack.min === strategy.stack.max
+                ? null
+                : heroStackFor(strategy, seedFrom(question.heroCards.join("")));
+            return hero !== null ? `${hero.toLocaleString("pt-BR")}bb` : formatNumberRange(strategy.stack, "bb");
+          })()}
         </span>
         {contextLabel(strategy) && (
           <span

@@ -1,17 +1,7 @@
 import { PlayingCard } from "@/components/PlayingCard";
 import type { Card } from "@/lib/poker/cards";
 import { formatNumberRange, type Strategy } from "@/lib/poker/strategy";
-import {
-  ITM_PLACES,
-  type Seat,
-  facesThreeBet,
-  knownPot,
-  playersLeft,
-  randomVillainStacks,
-  seedFrom,
-  tableSeats,
-  tableStacks,
-} from "@/lib/poker/table";
+import { ITM_PLACES, type Seat, playersLeft, seedFrom, tableState } from "@/lib/poker/table";
 
 interface PokerTableProps {
   strategy: Strategy;
@@ -167,7 +157,7 @@ function SeatView({
           {seat.position}
           {hero && " (você)"}
         </p>
-        <p className="text-zinc-400">{folded ? "Fold" : seat.status === "raised" ? `${raiseLabel} · ${stack}` : stack}</p>
+        <p className="text-zinc-400">{folded ? "Fold" : seat.status === "raised" ? (raiseLabel === "All-in" ? "All-in" : `${raiseLabel} · ${stack}`) : stack}</p>
       </div>
       {bounty && hero && <BountyTag text={bounty} />}
     </div>
@@ -185,13 +175,11 @@ export function PokerTable({
   minWidth = 0,
 }: PokerTableProps) {
   const shape = vertical ? TALL : WIDE;
-  const seats = tableSeats(strategy);
-  const stack = formatNumberRange(strategy.stack, "bb");
-  const pot = knownPot(strategy);
-  const button = seats.find((s) => s.isButton);
   const seed = seedFrom(heroCards.join(""));
+  const { seats, remaining, pot, raiseLabel } = tableState(strategy, seed);
+  const stack = formatNumberRange(strategy.stack, "bb");
+  const button = seats.find((s) => s.isButton);
   const left = playersLeft(strategy, seed);
-  const villainStacks = randomVillainStacks(strategy, seed);
   const bubble = left !== null && strategy.bubble != null;
 
   return (
@@ -280,16 +268,10 @@ export function PokerTable({
           <SeatView
             key={seat.position}
             seat={seat}
-            stack={(() => {
-              const stacks = tableStacks(strategy);
-              if (!stacks) return stack;
-              const start =
-                seat.status === "hero" ? stacks.hero : (villainStacks?.[seat.position] ?? stacks.others);
-              return `${(Math.round((start - seat.posted) * 10) / 10).toLocaleString("pt-BR")}bb`;
-            })()}
+            stack={remaining ? `${remaining[seat.position]!.toLocaleString("pt-BR")}bb` : stack}
             heroCards={heroCards}
             shape={shape}
-            raiseLabel={facesThreeBet(strategy) ? "3-bet" : "Raise"}
+            raiseLabel={raiseLabel}
             bounty={strategy.pko ? strategy.pko.bounty || DEFAULT_BOUNTY : undefined}
           />
         ))}

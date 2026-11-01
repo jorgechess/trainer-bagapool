@@ -95,7 +95,7 @@ export function tableStacks(strategy: Strategy): { hero: number; others: number 
  * Mesmo `seed` (as cartas da mão) = mesma mesa. Retorna null nos outros spots.
  */
 export function randomVillainStacks(strategy: Strategy, seed: number): Partial<Record<Position, number>> | null {
-  if (!strategy.ratio && !strategy.bubble) return null;
+  if (!strategy.ratio && !strategy.bubble && !strategy.randomStacks) return null;
   let state = (Math.abs(Math.trunc(seed)) % 2147483646) + 1;
   const next = () => {
     state = (state * 48271) % 2147483647;
@@ -135,4 +135,58 @@ export function seedFrom(text: string): number {
   let h = 0;
   for (const ch of text) h = (h * 31 + ch.charCodeAt(0)) | 0;
   return Math.abs(h);
+}
+
+/**
+ * Stack do herói na mão: o valor da estratégia; se ela tiver uma faixa (ex.: 12–15bb) numa mesa de
+ * stacks aleatórios, um valor inteiro sorteado na faixa (sempre o mesmo para a mesma mão).
+ */
+export function heroStackFor(strategy: Strategy, seed: number): number | null {
+  const { min, max } = strategy.stack;
+  if (min === max) return tableStacks(strategy)?.hero ?? min;
+  if (!strategy.randomStacks && !strategy.ratio && !strategy.bubble) return null;
+  const lo = Math.ceil(min);
+  const hi = Math.floor(max);
+  return lo + (Math.floor(Math.abs(seed) / 7) % (hi - lo + 1));
+}
+
+export interface TableState {
+  seats: Seat[];
+  /** Stack que sobra na frente de cada jogador (bb), ou null se não dá para saber. */
+  remaining: Partial<Record<Position, number>> | null;
+  pot: number | null;
+  /** Rótulo da ação do vilão: "Raise", "3-bet" ou "All-in". */
+  raiseLabel: string;
+}
+
+/** Tudo que a mesa desenha numa mão: lugares, fichas, stacks e pote. */
+export function tableState(strategy: Strategy, seed: number): TableState {
+  const seats = tableSeats(strategy).map((seat) => ({ ...seat }));
+  const base = tableStacks(strategy);
+  const hero = heroStackFor(strategy, seed);
+  const villains = randomVillainStacks(strategy, seed);
+  let start: Partial<Record<Position, number>> | null = null;
+  if (hero !== null) {
+    start = {};
+    for (const seat of seats)
+      start[seat.position] = seat.status === "hero" ? hero : (villains?.[seat.position] ?? base?.others ?? hero);
+  }
+  if (strategy.villainAllIn && strategy.villainPosition) {
+    const villain = seats.find((s) => s.position === strategy.villainPosition)!;
+    if (start) villain.posted = start[villain.position]!;
+    const opener = seats.find((s) => s.position === strategy.heroPosition)!;
+    if (POSITIONS.indexOf(strategy.villainPosition) > POSITIONS.indexOf(strategy.heroPosition))
+      opener.posted = tableSizes(strategy).open;
+  }
+  const remaining = start
+    ? Object.fromEntries(seats.map((s) => [s.position, Math.round((start![s.position]! - s.posted) * 10) / 10]))
+    : null;
+  const total = seats.reduce((sum, s) => sum + s.posted, 0);
+  const pot = strategy.villainAllIn ? Math.round(total * 10) / 10 : knownPot(strategy);
+  return {
+    seats,
+    remaining,
+    pot,
+    raiseLabel: strategy.villainAllIn ? "All-in" : facesThreeBet(strategy) ? "3-bet" : "Raise",
+  };
 }

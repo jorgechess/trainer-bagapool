@@ -245,3 +245,22 @@ test("carga RFI Max Late Reg Vanilla: 22 prints do Discord, com as porcentagens 
   assert.equal(get("2p1", 15, "co").range["22"], undefined, "1,5/2:1 olive: shove 10bb/fold com mais");
   assert.equal(get("2p1", 10, "co").range["22"], "shove");
 });
+
+test("carga Vs Resteal Max Late Reg Vanilla: 3 ranges do print em 13 spots", () => {
+  const result = parseImportBundle(load("vs-resteal-max-late-reg-vanilla.json"), DEFAULT_LEGEND);
+  assert.deepEqual(result.errors, []);
+  assert.equal(result.strategies.length, 13);
+  const call = (hero: string, villain: string) => {
+    const s = result.strategies.find((x) => x.heroPosition === hero && x.villainPosition === villain)!;
+    assert.equal(s.villainAllIn, true);
+    assert.equal(s.randomStacks, true);
+    assert.deepEqual(s.stack, { min: 12, max: 15 });
+    return rangeBreakdown(s.range, s.defaultActionId).find((b) => b.actionId === "call")!.percent;
+  };
+  for (const v of ["HJ", "CO", "BTN", "SB", "BB"]) assert.equal(call("LJ", v), 5.9, `LJ vs ${v}`);
+  for (const v of ["CO", "BTN", "SB", "BB"]) assert.equal(call("HJ", v), 5.9, `HJ vs ${v}`);
+  assert.equal(call("CO", "SB"), 10.9);
+  assert.equal(call("BTN", "SB"), 10.9);
+  assert.equal(call("CO", "BB"), 15.1);
+  assert.equal(call("BTN", "BB"), 15.1);
+});
