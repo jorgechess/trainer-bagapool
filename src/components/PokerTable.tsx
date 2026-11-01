@@ -20,6 +20,9 @@ interface PokerTableProps {
 }
 
 const SEAT_COUNT = 9;
+/** Distância das fichas e do botão do dealer até o centro (1 = no lugar do jogador). */
+const CHIP_FACTOR = 0.76;
+const DEALER_FACTOR = 0.6;
 
 interface Shape {
   /** Proporção largura/altura da área da mesa. */
@@ -166,8 +169,12 @@ export function PokerTable({
             <div
               key={`chip-${s.position}`}
               className="absolute flex -translate-x-1/2 -translate-y-1/2 items-center gap-[0.3em]"
-              // As fichas do herói ficam acima das cartas dele
-              style={towardCenter(shape, s.offset, s.offset === 0 ? 0.28 : 0.55)}
+              // Fichas sempre coladas em quem apostou; as do herói ficam ao lado das cartas (o dealer fica do outro lado)
+              style={
+                s.offset === 0
+                  ? (({ x, y }) => (vertical ? at(x - 12, y - 24) : at(x - 13, y - 10)))(seatPlacement(shape, 0))
+                  : towardCenter(shape, s.offset, CHIP_FACTOR)
+              }
             >
               <span className="h-[1.1em] w-[1.1em] rounded-full border-2 border-dashed border-white bg-sky-600" />
               <span className="font-semibold text-white">{s.posted.toLocaleString("pt-BR")}</span>
@@ -181,7 +188,7 @@ export function PokerTable({
             style={
               button.offset === 0
                 ? (({ x, y }) => (vertical ? at(x + 12, y - 24) : at(x + 13, y - 10)))(seatPlacement(shape, 0))
-                : towardCenter(shape, button.offset, 0.68)
+                : towardCenter(shape, button.offset, DEALER_FACTOR)
             }
             title="Dealer"
           >
