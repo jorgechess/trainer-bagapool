@@ -81,6 +81,7 @@ interface SlotApi {
 }
 
 const PEEK_KEY = "trainer:mostrar-resposta";
+const AUTO_ADVANCE_KEY = "trainer:avancar-sozinho";
 const TABLES_KEY = "trainer:mesas";
 export const TABLE_OPTIONS = [1, 2, 4] as const;
 type TableCount = (typeof TABLE_OPTIONS)[number];
@@ -388,7 +389,8 @@ export function Trainer({ drill, strategies, legend }: TrainerProps) {
   const [handsPlayed, setHandsPlayed] = useState(0);
   const [finished, setFinished] = useState(false);
   const [session, setSession] = useState(0);
-  const [autoAdvance, setAutoAdvance] = useState(true);
+  // Desligado por padrão; a escolha do jogador fica salva
+  const [autoAdvance, setAutoAdvance] = useState(false);
   const [dealError, setDealError] = useState<string | null>(null);
   const [saveError, setSaveError] = useState<string | null>(null);
   const [peek, setPeek] = useState(false);
@@ -439,6 +441,7 @@ export function Trainer({ drill, strategies, legend }: TrainerProps) {
 
   useEffect(() => {
     setPeek(readStorage(PEEK_KEY) === "1");
+    setAutoAdvance(readStorage(AUTO_ADVANCE_KEY) === "1");
     setBindings(parseBindings(readStorage(SHORTCUTS_KEY)));
     const length = Number(readStorage(LENGTH_KEY));
     if ((LENGTH_OPTIONS as readonly number[]).includes(length)) setLengthChoice(length);
@@ -749,7 +752,14 @@ export function Trainer({ drill, strategies, legend }: TrainerProps) {
     <div className="card space-y-2">
       {/* Entre a mesa e o range (no celular fica logo abaixo da mesa) */}
       <label className="flex items-center gap-2 border-b border-zinc-800 pb-2 text-sm text-zinc-300">
-        <input type="checkbox" checked={autoAdvance} onChange={(e) => setAutoAdvance(e.target.checked)} />
+        <input
+          type="checkbox"
+          checked={autoAdvance}
+          onChange={(e) => {
+            setAutoAdvance(e.target.checked);
+            writeStorage(AUTO_ADVANCE_KEY, e.target.checked ? "1" : "0");
+          }}
+        />
         Avançar sozinho quando acertar
       </label>
       <div className="flex items-center justify-between gap-2">

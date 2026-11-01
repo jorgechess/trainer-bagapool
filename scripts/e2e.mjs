@@ -538,6 +538,7 @@ async function main() {
     assert.equal(await countRows("strategies", "&id=like.rfi-mlr-*"), 168);
     await page.goto(`${BASE_URL}/drills/rfi-max-late-reg-vanilla/treinar`);
     await page.getByTestId("hero-cards").waitFor();
+    assert.equal(await page.getByLabel("Avançar sozinho quando acertar").isChecked(), false, "avançar sozinho vem desligado");
     const leftText = (await page.getByTestId("players-left").innerText()).split("\n")[0].trim();
     assert.match(leftText, /^(51|34|26|18|19|20) left$/i, `players left: ${leftText}`);
     await shot(page, "treino-max-late");
