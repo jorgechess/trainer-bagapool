@@ -219,7 +219,9 @@ export function PokerTable({
           >
             <p className="font-display text-[1.6em] tracking-wide text-baga-cream">{left} left</p>
             <p className={`text-[0.85em] ${bubble ? "text-amber-300" : "text-zinc-400"}`}>
-              {bubble ? `Bolha · ITM ${ITM_PLACES}` : `ITM ${ITM_PLACES}`}
+              {bubble
+                ? `${strategy.bubble === "itm-garantido" ? "Bolha garantida" : "Bolha não garantida"} · ITM ${ITM_PLACES}`
+                : `ITM ${ITM_PLACES}`}
             </p>
           </div>
         )}
