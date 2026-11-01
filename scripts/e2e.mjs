@@ -245,7 +245,8 @@ async function main() {
     assert.match(await page.getByTestId("hand-counter").innerText(), /1\/50/);
     const positions = new Set();
     for (let hand = 0; hand < 14; hand++) {
-      const spot = await page.getByText(/^RFI · \w+ · 30bb$/).textContent();
+      const spot = await page.getByTestId("spot").textContent();
+      assert.equal(await page.getByTestId("spot-stack").textContent(), "30bb");
       positions.add(spot.split(" · ")[1]);
       await page.locator("[data-testid=actions] button:not([disabled])").first().click();
       await page.getByRole("button", { name: "Continuar" }).click();
@@ -276,7 +277,7 @@ async function main() {
     await page.getByRole("button", { name: "BTN", exact: true }).click();
     await page.waitForTimeout(300);
     for (let hand = 0; hand < 6; hand++) {
-      await page.getByText("RFI · BTN · 30bb", { exact: true }).waitFor();
+      await page.getByTestId("spot").filter({ hasText: /^RFI · BTN$/ }).waitFor();
       await page.locator("[data-testid=actions] button:not([disabled])").first().click();
       await page.getByRole("button", { name: "Continuar" }).click();
     }
@@ -544,7 +545,8 @@ async function main() {
     await page.getByRole("group", { name: "Proporção" }).getByRole("button", { name: "2:1", exact: true }).click();
     await page.getByRole("group", { name: "Stack" }).getByRole("button", { name: "4bb", exact: true }).click();
     for (let hand = 0; hand < 3; hand++) {
-      await page.getByText(/^RFI · \w+ · 4bb · 2:1$/).waitFor();
+      await page.getByTestId("spot-stack").filter({ hasText: /^4bb$/ }).waitFor();
+      assert.equal(await page.getByTestId("spot-context").textContent(), "2:1");
       assert.equal((await page.getByTestId("players-left").innerText()).split("\n")[0].trim().toLowerCase(), "34 left");
       await page.locator("[data-testid=actions] button").first().click();
       await page.getByRole("button", { name: /Continuar/ }).click();

@@ -18,12 +18,12 @@ import {
   drillPositions,
   drillStacks,
   filterDrill,
+  contextLabel,
   isCorrect as isCorrectStep,
-  spotSummary,
 } from "@/lib/poker/drill";
 import type { Card } from "@/lib/poker/cards";
 import { type Legend, findAction, textColorFor } from "@/lib/poker/legend";
-import { STREET_LABELS, type Strategy, resolveRange } from "@/lib/poker/strategy";
+import { STREET_LABELS, type Strategy, formatNumberRange, resolveRange } from "@/lib/poker/strategy";
 import { boardTexture, describeFlop } from "@/lib/poker/texture";
 import {
   type Bindings,
@@ -270,7 +270,29 @@ function TableSlot({
         <span className="rounded bg-baga-red/20 px-2 py-0.5 font-medium text-baga-cream">
           {STREET_LABELS[step.street]}
         </span>
-        <span className="text-zinc-300">{spotSummary({ ...strategy, pko: null })}</span>
+        <span className="text-zinc-300" data-testid="spot">
+          {[strategy.situation, strategy.heroPosition, strategy.villainPosition && `vs ${strategy.villainPosition}`]
+            .filter(Boolean)
+            .join(" · ")}
+        </span>
+        {/* Spot atual em destaque: stack do herói e proporção/bolha */}
+        <span
+          className="rounded bg-baga-cream px-2 py-0.5 text-sm font-bold text-black"
+          data-testid="spot-stack"
+          title="Seu stack"
+        >
+          {formatNumberRange(strategy.stack, "bb")}
+        </span>
+        {contextLabel(strategy) && (
+          <span
+            className={`rounded px-2 py-0.5 text-sm font-bold ${
+              strategy.bubble ? "bg-amber-400 text-black" : "bg-sky-400 text-black"
+            }`}
+            data-testid="spot-context"
+          >
+            {contextLabel(strategy)}
+          </span>
+        )}
         {strategy.pko && (
           <span
             className={`rounded px-2 py-0.5 text-xs font-bold tracking-wide uppercase ${
