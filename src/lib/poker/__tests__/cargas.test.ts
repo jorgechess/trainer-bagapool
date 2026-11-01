@@ -203,3 +203,45 @@ test("carga vs 3-bet 50bb PKO cobrindo: válida, coerente com o open cobrindo e 
   const aa = find("MP", "LJ");
   assert.deepEqual([aa.range["AA"]!, ...mixedActions(aa.alsoCorrect, "AA")].sort(), ["4bet", "call", "shove"]);
 });
+
+test("carga RFI Max Late Reg Vanilla: 22 prints do Discord, com as porcentagens das legendas", () => {
+  const result = parseImportBundle(load("rfi-max-late-reg-vanilla.json"), DEFAULT_LEGEND);
+  assert.deepEqual(result.errors, []);
+  assert.equal(result.strategies.length, 168);
+  assert.equal(result.drills[0].variants?.length, 168);
+  const get = (ctx: string, stack: number, pos: string) => result.strategies.find((s) => s.id === `rfi-mlr-${ctx}-${stack}bb-${pos}`)!;
+  const pct = (ctx: string, stack: number, pos: string, action: string) => printPercent(get(ctx, stack, pos), action);
+  const expected: [string, number, string, number][] = [
+    ["3p1", 2, "utg", 43.89],
+    ["3p1", 2, "btn", 65.01],
+    ["3p1", 4, "hj", 42.38],
+    ["3p1", 6, "btn", 70.14],
+    ["2p1", 2, "co", 54.45],
+    ["2p1", 4, "btn", 55.05],
+    ["2p1", 6, "utg1", 18.4],
+    ["1e5p1", 2, "lj", 40.72],
+    ["1e5p1", 4, "mp", 28.51],
+    ["1e5p1", 6, "btn", 57.16],
+    ["bolha-nao-gtd", 2, "btn", 2.56],
+    ["bolha-nao-gtd", 4, "btn", 11.76],
+    ["bolha-nao-gtd", 6, "hj", 4.68],
+    ["bolha-gtd", 2, "co", 1.36],
+    ["bolha-gtd", 4, "btn", 6.94],
+    ["bolha-gtd", 6, "btn", 3.77],
+  ];
+  for (const [ctx, stack, pos, value] of expected) {
+    const got = pct(ctx, stack, pos, "shove");
+    assert.ok(Math.abs(got - value) < 0.2, `${ctx} ${stack}bb ${pos}: ${got} ≈ ${value}`);
+  }
+  // Proporção e bolha viram players left na mesa; 10–15bb vira 10bb e 15bb
+  assert.deepEqual(get("1e5p1", 2, "btn").ratio, { min: 1.5, max: 1.5 });
+  assert.equal(get("bolha-gtd", 8, "co").bubble, "itm-garantido");
+  assert.equal(get("bolha-gtd", 8, "co").ratio, null);
+  // Legenda 3:1 10–15: AA raise com 10 e 15; azul (shove 10/raise com mais) muda com o stack
+  assert.equal(get("3p1", 10, "utg").range["AA"], "rfi");
+  assert.equal(get("3p1", 15, "utg").range["AA"], "rfi");
+  const blue10 = Object.entries(get("3p1", 10, "btn").range).filter(([, a]) => a === "shove").map(([h]) => h);
+  assert.ok(blue10.some((h) => get("3p1", 15, "btn").range[h] === "rfi"), "shove 10bb/raise com mais");
+  assert.equal(get("2p1", 15, "co").range["22"], undefined, "1,5/2:1 olive: shove 10bb/fold com mais");
+  assert.equal(get("2p1", 10, "co").range["22"], "shove");
+});

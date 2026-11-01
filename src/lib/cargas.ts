@@ -5,6 +5,7 @@ import rfiPkoCobrindo from "../../cargas/rfi-50bb-pko-cobrindo.json";
 import rfiPkoCoberto from "../../cargas/rfi-50bb-pko-coberto.json";
 import vs3betPkoCoberto from "../../cargas/vs3bet-50bb-pko-coberto.json";
 import vs3betPkoCobrindo from "../../cargas/vs3bet-50bb-pko-cobrindo.json";
+import rfiMaxLate from "../../cargas/rfi-max-late-reg-vanilla.json";
 
 export interface Carga {
   id: string;
@@ -59,5 +60,13 @@ export const CARGAS: Carga[] = [
       "35 estratégias (quem abriu × quem deu 3-bet) em PKO com o herói cobrindo; mãos só do open cobrindo. Adiciona a ação 4-bet na legenda, se faltar.",
     requires: ["rfi-50bb-pko-cobrindo"],
     bundle: vs3betPkoCobrindo,
+  },
+  {
+    id: "rfi-max-late-reg-vanilla",
+    name: "RFI Max Late Reg Vanilla",
+    description:
+      "168 estratégias de open: 3:1, 2:1, 1,5:1, bolha não garantido e bolha garantido, de 2bb a 15bb, UTG a BTN; e o drill com todas.",
+    requires: [],
+    bundle: rfiMaxLate,
   },
 ];

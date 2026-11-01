@@ -530,6 +530,18 @@ async function main() {
     await page.getByRole("group", { name: "Mãos da sessão" }).getByRole("button", { name: /padrão/ }).click();
     log("tela de drills com seções recolhíveis e mãos por sessão");
 
+    // Max Late Reg Vanilla: 168 estratégias; a mesa mostra players left (proporção ou bolha)
+    await page.goto(`${BASE_URL}/admin/importar`);
+    await page.getByTestId("carga-rfi-max-late-reg-vanilla").getByRole("button", { name: "Importar" }).click();
+    await page.getByTestId("carga-rfi-max-late-reg-vanilla").getByText(/Importado:/).waitFor();
+    assert.equal(await countRows("strategies", "&id=like.rfi-mlr-*"), 168);
+    await page.goto(`${BASE_URL}/drills/rfi-max-late-reg-vanilla/treinar`);
+    await page.getByTestId("hero-cards").waitFor();
+    const leftText = (await page.getByTestId("players-left").innerText()).split("\n")[0].trim();
+    assert.match(leftText, /^(51|34|26|18|19|20) left$/i, `players left: ${leftText}`);
+    await shot(page, "treino-max-late");
+    log(`Max Late Reg Vanilla importado; mesa mostra ${leftText}`);
+
     // 10. Cadastra pool e jogador
     await page.goto(`${BASE_URL}/admin/jogadores`);
     await page.getByPlaceholder("Nome da nova pool").fill("Pool A");

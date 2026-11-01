@@ -1,0 +1,5679 @@
+{
+ "strategies": [
+  {
+   "id": "rfi-mlr-3p1-2bb-utg",
+   "name": "RFI UTG 2bb max late 3:1",
+   "description": "Max late reg vanilla, 3:1, 2bb.",
+   "street": "preflop",
+   "situation": "RFI",
+   "heroPosition": "UTG",
+   "stack": {
+    "min": 2,
+    "max": 2
+   },
+   "ratio": {
+    "min": 3,
+    "max": 3
+   },
+   "bubble": null,
+   "tags": [
+    "rfi",
+    "max-late",
+    "vanilla"
+   ],
+   "actionIds": [
+    "fold",
+    "rfi",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "range": {
+    "shove": "AA, AKs, AQs, AJs, ATs, A9s, A8s, A7s, A6s, A5s, A4s, A3s, A2s, AKo, KK, KQs, KJs, KTs, K9s, K8s, K7s, K6s, K5s, K4s, K3s, K2s, AQo, KQo, QQ, QJs, QTs, Q9s, Q8s, Q7s, Q6s, Q5s, Q4s, Q3s, AJo, KJo, QJo, JJ, JTs, J9s, J8s, J7s, J6s, J5s, ATo, KTo, QTo, JTo, TT, T9s, T8s, T7s, T6s, A9o, K9o, Q9o, J9o, T9o, 99, 98s, 97s, 96s, A8o, K8o, Q8o, 88, 87s, 86s, A7o, K7o, 77, 76s, 75s, A6o, 66, 65s, A5o, 55, 54s, A4o, 44, A3o, 33, A2o, 22"
+   }
+  },
+  {
+   "id": "rfi-mlr-3p1-2bb-utg1",
+   "name": "RFI UTG1 2bb max late 3:1",
+   "description": "Max late reg vanilla, 3:1, 2bb.",
+   "street": "preflop",
+   "situation": "RFI",
+   "heroPosition": "UTG1",
+   "stack": {
+    "min": 2,
+    "max": 2
+   },
+   "ratio": {
+    "min": 3,
+    "max": 3
+   },
+   "bubble": null,
+   "tags": [
+    "rfi",
+    "max-late",
+    "vanilla"
+   ],
+   "actionIds": [
+    "fold",
+    "rfi",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "range": {
+    "shove": "AA, AKs, AQs, AJs, ATs, A9s, A8s, A7s, A6s, A5s, A4s, A3s, A2s, AKo, KK, KQs, KJs, KTs, K9s, K8s, K7s, K6s, K5s, K4s, K3s, K2s, AQo, KQo, QQ, QJs, QTs, Q9s, Q8s, Q7s, Q6s, Q5s, Q4s, Q3s, AJo, KJo, QJo, JJ, JTs, J9s, J8s, J7s, J6s, J5s, ATo, KTo, QTo, JTo, TT, T9s, T8s, T7s, T6s, A9o, K9o, Q9o, J9o, T9o, 99, 98s, 97s, 96s, A8o, K8o, Q8o, 88, 87s, 86s, A7o, K7o, 77, 76s, 75s, A6o, 66, 65s, A5o, 55, 54s, A4o, 44, A3o, 33, A2o, 22"
+   }
+  },
+  {
+   "id": "rfi-mlr-3p1-2bb-mp",
+   "name": "RFI MP 2bb max late 3:1",
+   "description": "Max late reg vanilla, 3:1, 2bb.",
+   "street": "preflop",
+   "situation": "RFI",
+   "heroPosition": "MP",
+   "stack": {
+    "min": 2,
+    "max": 2
+   },
+   "ratio": {
+    "min": 3,
+    "max": 3
+   },
+   "bubble": null,
+   "tags": [
+    "rfi",
+    "max-late",
+    "vanilla"
+   ],
+   "actionIds": [
+    "fold",
+    "rfi",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "range": {
+    "shove": "AA, AKs, AQs, AJs, ATs, A9s, A8s, A7s, A6s, A5s, A4s, A3s, A2s, AKo, KK, KQs, KJs, KTs, K9s, K8s, K7s, K6s, K5s, K4s, K3s, K2s, AQo, KQo, QQ, QJs, QTs, Q9s, Q8s, Q7s, Q6s, Q5s, Q4s, Q3s, Q2s, AJo, KJo, QJo, JJ, JTs, J9s, J8s, J7s, J6s, J5s, ATo, KTo, QTo, JTo, TT, T9s, T8s, T7s, T6s, A9o, K9o, Q9o, J9o, T9o, 99, 98s, 97s, 96s, A8o, K8o, Q8o, J8o, 88, 87s, A7o, K7o, 77, A6o, K6o, 66, A5o, 55, A4o, 44, A3o, 33, A2o, 22"
+   }
+  },
+  {
+   "id": "rfi-mlr-3p1-2bb-lj",
+   "name": "RFI LJ 2bb max late 3:1",
+   "description": "Max late reg vanilla, 3:1, 2bb.",
+   "street": "preflop",
+   "situation": "RFI",
+   "heroPosition": "LJ",
+   "stack": {
+    "min": 2,
+    "max": 2
+   },
+   "ratio": {
+    "min": 3,
+    "max": 3
+   },
+   "bubble": null,
+   "tags": [
+    "rfi",
+    "max-late",
+    "vanilla"
+   ],
+   "actionIds": [
+    "fold",
+    "rfi",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "range": {
+    "shove": "AA, AKs, AQs, AJs, ATs, A9s, A8s, A7s, A6s, A5s, A4s, A3s, A2s, AKo, KK, KQs, KJs, KTs, K9s, K8s, K7s, K6s, K5s, K4s, K3s, K2s, AQo, KQo, QQ, QJs, QTs, Q9s, Q8s, Q7s, Q6s, Q5s, Q4s, Q3s, Q2s, AJo, KJo, QJo, JJ, JTs, J9s, J8s, J7s, J6s, J5s, J4s, ATo, KTo, QTo, JTo, TT, T9s, T8s, T7s, T6s, A9o, K9o, Q9o, J9o, T9o, 99, 98s, 97s, 96s, A8o, K8o, Q8o, J8o, T8o, 98o, 88, 87s, 86s, A7o, K7o, 77, 76s, A6o, K6o, 66, A5o, K5o, 55, A4o, 44, A3o, 33, A2o, 22"
+   }
+  },
+  {
+   "id": "rfi-mlr-3p1-2bb-hj",
+   "name": "RFI HJ 2bb max late 3:1",
+   "description": "Max late reg vanilla, 3:1, 2bb.",
+   "street": "preflop",
+   "situation": "RFI",
+   "heroPosition": "HJ",
+   "stack": {
+    "min": 2,
+    "max": 2
+   },
+   "ratio": {
+    "min": 3,
+    "max": 3
+   },
+   "bubble": null,
+   "tags": [
+    "rfi",
+    "max-late",
+    "vanilla"
+   ],
+   "actionIds": [
+    "fold",
+    "rfi",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "range": {
+    "shove": "AA, AKs, AQs, AJs, ATs, A9s, A8s, A7s, A6s, A5s, A4s, A3s, A2s, AKo, KK, KQs, KJs, KTs, K9s, K8s, K7s, K6s, K5s, K4s, K3s, K2s, AQo, KQo, QQ, QJs, QTs, Q9s, Q8s, Q7s, Q6s, Q5s, Q4s, Q3s, Q2s, AJo, KJo, QJo, JJ, JTs, J9s, J8s, J7s, J6s, J5s, J4s, J3s, ATo, KTo, QTo, JTo, TT, T9s, T8s, T7s, T6s, A9o, K9o, Q9o, J9o, T9o, 99, 98s, 97s, 96s, A8o, K8o, Q8o, J8o, T8o, 98o, 88, 87s, 86s, A7o, K7o, Q7o, 77, 76s, A6o, K6o, 66, A5o, K5o, 55, A4o, K4o, 44, A3o, K3o, 33, A2o, 22"
+   }
+  },
+  {
+   "id": "rfi-mlr-3p1-2bb-co",
+   "name": "RFI CO 2bb max late 3:1",
+   "description": "Max late reg vanilla, 3:1, 2bb.",
+   "street": "preflop",
+   "situation": "RFI",
+   "heroPosition": "CO",
+   "stack": {
+    "min": 2,
+    "max": 2
+   },
+   "ratio": {
+    "min": 3,
+    "max": 3
+   },
+   "bubble": null,
+   "tags": [
+    "rfi",
+    "max-late",
+    "vanilla"
+   ],
+   "actionIds": [
+    "fold",
+    "rfi",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "range": {
+    "shove": "AA, AKs, AQs, AJs, ATs, A9s, A8s, A7s, A6s, A5s, A4s, A3s, A2s, AKo, KK, KQs, KJs, KTs, K9s, K8s, K7s, K6s, K5s, K4s, K3s, K2s, AQo, KQo, QQ, QJs, QTs, Q9s, Q8s, Q7s, Q6s, Q5s, Q4s, Q3s, Q2s, AJo, KJo, QJo, JJ, JTs, J9s, J8s, J7s, J6s, J5s, J4s, J3s, J2s, ATo, KTo, QTo, JTo, TT, T9s, T8s, T7s, T6s, T5s, T4s, A9o, K9o, Q9o, J9o, T9o, 99, 98s, 97s, 96s, A8o, K8o, Q8o, J8o, T8o, 98o, 88, 87s, 86s, A7o, K7o, Q7o, J7o, T7o, 77, 76s, A6o, K6o, Q6o, 66, A5o, K5o, Q5o, 55, A4o, K4o, 44, A3o, K3o, 33, A2o, K2o, 22"
+   }
+  },
+  {
+   "id": "rfi-mlr-3p1-2bb-btn",
+   "name": "RFI BTN 2bb max late 3:1",
+   "description": "Max late reg vanilla, 3:1, 2bb.",
+   "street": "preflop",
+   "situation": "RFI",
+   "heroPosition": "BTN",
+   "stack": {
+    "min": 2,
+    "max": 2
+   },
+   "ratio": {
+    "min": 3,
+    "max": 3
+   },
+   "bubble": null,
+   "tags": [
+    "rfi",
+    "max-late",
+    "vanilla"
+   ],
+   "actionIds": [
+    "fold",
+    "rfi",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "range": {
+    "shove": "AA, AKs, AQs, AJs, ATs, A9s, A8s, A7s, A6s, A5s, A4s, A3s, A2s, AKo, KK, KQs, KJs, KTs, K9s, K8s, K7s, K6s, K5s, K4s, K3s, K2s, AQo, KQo, QQ, QJs, QTs, Q9s, Q8s, Q7s, Q6s, Q5s, Q4s, Q3s, Q2s, AJo, KJo, QJo, JJ, JTs, J9s, J8s, J7s, J6s, J5s, J4s, J3s, J2s, ATo, KTo, QTo, JTo, TT, T9s, T8s, T7s, T6s, T5s, T4s, T3s, T2s, A9o, K9o, Q9o, J9o, T9o, 99, 98s, 97s, 96s, 95s, A8o, K8o, Q8o, J8o, T8o, 98o, 88, 87s, 86s, 85s, A7o, K7o, Q7o, J7o, T7o, 97o, 87o, 77, 76s, A6o, K6o, Q6o, J6o, T6o, 66, A5o, K5o, Q5o, J5o, 55, A4o, K4o, Q4o, 44, A3o, K3o, Q3o, 33, A2o, K2o, Q2o, 22"
+   }
+  },
+  {
+   "id": "rfi-mlr-3p1-4bb-utg",
+   "name": "RFI UTG 4bb max late 3:1",
+   "description": "Max late reg vanilla, 3:1, 4bb.",
+   "street": "preflop",
+   "situation": "RFI",
+   "heroPosition": "UTG",
+   "stack": {
+    "min": 4,
+    "max": 4
+   },
+   "ratio": {
+    "min": 3,
+    "max": 3
+   },
+   "bubble": null,
+   "tags": [
+    "rfi",
+    "max-late",
+    "vanilla"
+   ],
+   "actionIds": [
+    "fold",
+    "rfi",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "range": {
+    "shove": "AA, AKs, AQs, AJs, ATs, A9s, A8s, A7s, A6s, A5s, A4s, A3s, A2s, AKo, KK, KQs, KJs, KTs, K9s, K8s, K7s, K6s, K5s, AQo, KQo, QQ, QJs, QTs, Q9s, Q8s, AJo, KJo, QJo, JJ, JTs, J9s, J8s, ATo, KTo, QTo, JTo, TT, T9s, T8s, A9o, 99, 98s, A8o, 88, A7o, 77, A6o, 66, A5o, 55, A4o, 44, A3o, 33, 22"
+   }
+  },
+  {
+   "id": "rfi-mlr-3p1-4bb-utg1",
+   "name": "RFI UTG1 4bb max late 3:1",
+   "description": "Max late reg vanilla, 3:1, 4bb.",
+   "street": "preflop",
+   "situation": "RFI",
+   "heroPosition": "UTG1",
+   "stack": {
+    "min": 4,
+    "max": 4
+   },
+   "ratio": {
+    "min": 3,
+    "max": 3
+   },
+   "bubble": null,
+   "tags": [
+    "rfi",
+    "max-late",
+    "vanilla"
+   ],
+   "actionIds": [
+    "fold",
+    "rfi",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "range": {
+    "shove": "AA, AKs, AQs, AJs, ATs, A9s, A8s, A7s, A6s, A5s, A4s, A3s, A2s, AKo, KK, KQs, KJs, KTs, K9s, K8s, K7s, K6s, K5s, AQo, KQo, QQ, QJs, QTs, Q9s, Q8s, AJo, KJo, QJo, JJ, JTs, J9s, J8s, ATo, KTo, QTo, JTo, TT, T9s, T8s, A9o, 99, 98s, A8o, 88, A7o, 77, A6o, 66, A5o, 55, A4o, 44, A3o, 33, 22"
+   }
+  },
+  {
+   "id": "rfi-mlr-3p1-4bb-mp",
+   "name": "RFI MP 4bb max late 3:1",
+   "description": "Max late reg vanilla, 3:1, 4bb.",
+   "street": "preflop",
+   "situation": "RFI",
+   "heroPosition": "MP",
+   "stack": {
+    "min": 4,
+    "max": 4
+   },
+   "ratio": {
+    "min": 3,
+    "max": 3
+   },
+   "bubble": null,
+   "tags": [
+    "rfi",
+    "max-late",
+    "vanilla"
+   ],
+   "actionIds": [
+    "fold",
+    "rfi",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "range": {
+    "shove": "AA, AKs, AQs, AJs, ATs, A9s, A8s, A7s, A6s, A5s, A4s, A3s, A2s, AKo, KK, KQs, KJs, KTs, K9s, K8s, K7s, K6s, K5s, K4s, AQo, KQo, QQ, QJs, QTs, Q9s, Q8s, Q7s, AJo, KJo, QJo, JJ, JTs, J9s, J8s, ATo, KTo, QTo, JTo, TT, T9s, T8s, A9o, K9o, 99, 98s, A8o, 88, A7o, 77, A6o, 66, A5o, 55, A4o, 44, A3o, 33, A2o, 22"
+   }
+  },
+  {
+   "id": "rfi-mlr-3p1-4bb-lj",
+   "name": "RFI LJ 4bb max late 3:1",
+   "description": "Max late reg vanilla, 3:1, 4bb.",
+   "street": "preflop",
+   "situation": "RFI",
+   "heroPosition": "LJ",
+   "stack": {
+    "min": 4,
+    "max": 4
+   },
+   "ratio": {
+    "min": 3,
+    "max": 3
+   },
+   "bubble": null,
+   "tags": [
+    "rfi",
+    "max-late",
+    "vanilla"
+   ],
+   "actionIds": [
+    "fold",
+    "rfi",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "range": {
+    "shove": "AA, AKs, AQs, AJs, ATs, A9s, A8s, A7s, A6s, A5s, A4s, A3s, A2s, AKo, KK, KQs, KJs, KTs, K9s, K8s, K7s, K6s, K5s, K4s, K3s, K2s, AQo, KQo, QQ, QJs, QTs, Q9s, Q8s, Q7s, Q6s, AJo, KJo, QJo, JJ, JTs, J9s, J8s, J7s, ATo, KTo, QTo, JTo, TT, T9s, T8s, T7s, A9o, K9o, Q9o, 99, 98s, 97s, A8o, K8o, 88, 87s, A7o, 77, A6o, 66, A5o, 55, A4o, 44, A3o, 33, A2o, 22"
+   }
+  },
+  {
+   "id": "rfi-mlr-3p1-4bb-hj",
+   "name": "RFI HJ 4bb max late 3:1",
+   "description": "Max late reg vanilla, 3:1, 4bb.",
+   "street": "preflop",
+   "situation": "RFI",
+   "heroPosition": "HJ",
+   "stack": {
+    "min": 4,
+    "max": 4
+   },
+   "ratio": {
+    "min": 3,
+    "max": 3
+   },
+   "bubble": null,
+   "tags": [
+    "rfi",
+    "max-late",
+    "vanilla"
+   ],
+   "actionIds": [
+    "fold",
+    "rfi",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "range": {
+    "shove": "AA, AKs, AQs, AJs, ATs, A9s, A8s, A7s, A6s, A5s, A4s, A3s, A2s, AKo, KK, KQs, KJs, KTs, K9s, K8s, K7s, K6s, K5s, K4s, K3s, K2s, AQo, KQo, QQ, QJs, QTs, Q9s, Q8s, Q7s, Q6s, Q5s, Q4s, Q3s, AJo, KJo, QJo, JJ, JTs, J9s, J8s, J7s, ATo, KTo, QTo, JTo, TT, T9s, T8s, T7s, A9o, K9o, Q9o, J9o, T9o, 99, 98s, 97s, A8o, K8o, Q8o, 88, 87s, A7o, K7o, 77, 76s, A6o, K6o, 66, A5o, 55, A4o, 44, A3o, 33, A2o, 22"
+   }
+  },
+  {
+   "id": "rfi-mlr-3p1-4bb-co",
+   "name": "RFI CO 4bb max late 3:1",
+   "description": "Max late reg vanilla, 3:1, 4bb.",
+   "street": "preflop",
+   "situation": "RFI",
+   "heroPosition": "CO",
+   "stack": {
+    "min": 4,
+    "max": 4
+   },
+   "ratio": {
+    "min": 3,
+    "max": 3
+   },
+   "bubble": null,
+   "tags": [
+    "rfi",
+    "max-late",
+    "vanilla"
+   ],
+   "actionIds": [
+    "fold",
+    "rfi",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "range": {
+    "shove": "AA, AKs, AQs, AJs, ATs, A9s, A8s, A7s, A6s, A5s, A4s, A3s, A2s, AKo, KK, KQs, KJs, KTs, K9s, K8s, K7s, K6s, K5s, K4s, K3s, K2s, AQo, KQo, QQ, QJs, QTs, Q9s, Q8s, Q7s, Q6s, Q5s, Q4s, Q3s, Q2s, AJo, KJo, QJo, JJ, JTs, J9s, J8s, J7s, J6s, J5s, ATo, KTo, QTo, JTo, TT, T9s, T8s, T7s, T6s, A9o, K9o, Q9o, J9o, T9o, 99, 98s, 97s, 96s, A8o, K8o, Q8o, J8o, T8o, 88, 87s, 86s, A7o, K7o, 77, 76s, A6o, K6o, 66, A5o, K5o, 55, A4o, K4o, 44, A3o, K3o, 33, A2o, K2o, 22"
+   }
+  },
+  {
+   "id": "rfi-mlr-3p1-4bb-btn",
+   "name": "RFI BTN 4bb max late 3:1",
+   "description": "Max late reg vanilla, 3:1, 4bb.",
+   "street": "preflop",
+   "situation": "RFI",
+   "heroPosition": "BTN",
+   "stack": {
+    "min": 4,
+    "max": 4
+   },
+   "ratio": {
+    "min": 3,
+    "max": 3
+   },
+   "bubble": null,
+   "tags": [
+    "rfi",
+    "max-late",
+    "vanilla"
+   ],
+   "actionIds": [
+    "fold",
+    "rfi",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "range": {
+    "shove": "AA, AKs, AQs, AJs, ATs, A9s, A8s, A7s, A6s, A5s, A4s, A3s, A2s, AKo, KK, KQs, KJs, KTs, K9s, K8s, K7s, K6s, K5s, K4s, K3s, K2s, AQo, KQo, QQ, QJs, QTs, Q9s, Q8s, Q7s, Q6s, Q5s, Q4s, Q3s, Q2s, AJo, KJo, QJo, JJ, JTs, J9s, J8s, J7s, J6s, J5s, J4s, J3s, J2s, ATo, KTo, QTo, JTo, TT, T9s, T8s, T7s, T6s, T5s, T4s, A9o, K9o, Q9o, J9o, T9o, 99, 98s, 97s, 96s, 95s, A8o, K8o, Q8o, J8o, T8o, 98o, 88, 87s, 86s, 85s, A7o, K7o, Q7o, J7o, T7o, 77, 76s, 75s, A6o, K6o, Q6o, 66, 65s, A5o, K5o, Q5o, 55, 54s, A4o, K4o, Q4o, 44, A3o, K3o, Q3o, 33, A2o, K2o, 22"
+   }
+  },
+  {
+   "id": "rfi-mlr-3p1-6bb-utg",
+   "name": "RFI UTG 6bb max late 3:1",
+   "description": "Max late reg vanilla, 3:1, 6bb.",
+   "street": "preflop",
+   "situation": "RFI",
+   "heroPosition": "UTG",
+   "stack": {
+    "min": 6,
+    "max": 6
+   },
+   "ratio": {
+    "min": 3,
+    "max": 3
+   },
+   "bubble": null,
+   "tags": [
+    "rfi",
+    "max-late",
+    "vanilla"
+   ],
+   "actionIds": [
+    "fold",
+    "rfi",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "range": {
+    "shove": "AA, AKs, AQs, AJs, ATs, A9s, A8s, A7s, A6s, A5s, A4s, A3s, A2s, AKo, KK, KQs, KJs, KTs, K9s, AQo, KQo, QQ, QJs, QTs, Q9s, AJo, KJo, QJo, JJ, JTs, J9s, ATo, TT, T9s, A9o, 99, A8o, 88, A7o, 77, 66, 55, 44, 33, 22"
+   }
+  },
+  {
+   "id": "rfi-mlr-3p1-6bb-utg1",
+   "name": "RFI UTG1 6bb max late 3:1",
+   "description": "Max late reg vanilla, 3:1, 6bb.",
+   "street": "preflop",
+   "situation": "RFI",
+   "heroPosition": "UTG1",
+   "stack": {
+    "min": 6,
+    "max": 6
+   },
+   "ratio": {
+    "min": 3,
+    "max": 3
+   },
+   "bubble": null,
+   "tags": [
+    "rfi",
+    "max-late",
+    "vanilla"
+   ],
+   "actionIds": [
+    "fold",
+    "rfi",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "range": {
+    "shove": "AA, AKs, AQs, AJs, ATs, A9s, A8s, A7s, A6s, A5s, A4s, A3s, A2s, AKo, KK, KQs, KJs, KTs, K9s, AQo, KQo, QQ, QJs, QTs, Q9s, AJo, KJo, QJo, JJ, JTs, J9s, ATo, TT, T9s, A9o, 99, A8o, 88, A7o, 77, 66, 55, 44, 33, 22"
+   }
+  },
+  {
+   "id": "rfi-mlr-3p1-6bb-mp",
+   "name": "RFI MP 6bb max late 3:1",
+   "description": "Max late reg vanilla, 3:1, 6bb.",
+   "street": "preflop",
+   "situation": "RFI",
+   "heroPosition": "MP",
+   "stack": {
+    "min": 6,
+    "max": 6
+   },
+   "ratio": {
+    "min": 3,
+    "max": 3
+   },
+   "bubble": null,
+   "tags": [
+    "rfi",
+    "max-late",
+    "vanilla"
+   ],
+   "actionIds": [
+    "fold",
+    "rfi",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "range": {
+    "shove": "AA, AKs, AQs, AJs, ATs, A9s, A8s, A7s, A6s, A5s, A4s, A3s, A2s, AKo, KK, KQs, KJs, KTs, K9s, K8s, K7s, K6s, AQo, KQo, QQ, QJs, QTs, Q9s, Q8s, AJo, KJo, QJo, JJ, JTs, J9s, J8s, ATo, KTo, TT, T9s, T8s, A9o, 99, 98s, A8o, 88, A7o, 77, A6o, 66, A5o, 55, A4o, 44, 33, 22"
+   }
+  },
+  {
+   "id": "rfi-mlr-3p1-6bb-lj",
+   "name": "RFI LJ 6bb max late 3:1",
+   "description": "Max late reg vanilla, 3:1, 6bb.",
+   "street": "preflop",
+   "situation": "RFI",
+   "heroPosition": "LJ",
+   "stack": {
+    "min": 6,
+    "max": 6
+   },
+   "ratio": {
+    "min": 3,
+    "max": 3
+   },
+   "bubble": null,
+   "tags": [
+    "rfi",
+    "max-late",
+    "vanilla"
+   ],
+   "actionIds": [
+    "fold",
+    "rfi",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "range": {
+    "shove": "AA, AKs, AQs, AJs, ATs, A9s, A8s, A7s, A6s, A5s, A4s, A3s, A2s, AKo, KK, KQs, KJs, KTs, K9s, K8s, K7s, K6s, K5s, K4s, AQo, KQo, QQ, QJs, QTs, Q9s, Q8s, AJo, KJo, QJo, JJ, JTs, J9s, J8s, ATo, KTo, QTo, JTo, TT, T9s, T8s, T7s, A9o, 99, 98s, 97s, A8o, 88, 87s, A7o, 77, 76s, A6o, 66, A5o, 55, A4o, 44, A3o, 33, A2o, 22"
+   }
+  },
+  {
+   "id": "rfi-mlr-3p1-6bb-hj",
+   "name": "RFI HJ 6bb max late 3:1",
+   "description": "Max late reg vanilla, 3:1, 6bb.",
+   "street": "preflop",
+   "situation": "RFI",
+   "heroPosition": "HJ",
+   "stack": {
+    "min": 6,
+    "max": 6
+   },
+   "ratio": {
+    "min": 3,
+    "max": 3
+   },
+   "bubble": null,
+   "tags": [
+    "rfi",
+    "max-late",
+    "vanilla"
+   ],
+   "actionIds": [
+    "fold",
+    "rfi",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "range": {
+    "shove": "AA, AKs, AQs, AJs, ATs, A9s, A8s, A7s, A6s, A5s, A4s, A3s, A2s, AKo, KK, KQs, KJs, KTs, K9s, K8s, K7s, K6s, K5s, K4s, K3s, K2s, AQo, KQo, QQ, QJs, QTs, Q9s, Q8s, Q7s, Q6s, Q5s, AJo, KJo, QJo, JJ, JTs, J9s, J8s, J7s, ATo, KTo, QTo, JTo, TT, T9s, T8s, T7s, A9o, K9o, Q9o, J9o, T9o, 99, 98s, 97s, 96s, A8o, 88, 87s, 86s, A7o, 77, 76s, A6o, 66, 65s, A5o, 55, A4o, 44, A3o, 33, A2o, 22"
+   }
+  },
+  {
+   "id": "rfi-mlr-3p1-6bb-co",
+   "name": "RFI CO 6bb max late 3:1",
+   "description": "Max late reg vanilla, 3:1, 6bb.",
+   "street": "preflop",
+   "situation": "RFI",
+   "heroPosition": "CO",
+   "stack": {
+    "min": 6,
+    "max": 6
+   },
+   "ratio": {
+    "min": 3,
+    "max": 3
+   },
+   "bubble": null,
+   "tags": [
+    "rfi",
+    "max-late",
+    "vanilla"
+   ],
+   "actionIds": [
+    "fold",
+    "rfi",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "range": {
+    "shove": "AA, AKs, AQs, AJs, ATs, A9s, A8s, A7s, A6s, A5s, A4s, A3s, A2s, AKo, KK, KQs, KJs, KTs, K9s, K8s, K7s, K6s, K5s, K4s, K3s, K2s, AQo, KQo, QQ, QJs, QTs, Q9s, Q8s, Q7s, Q6s, Q5s, Q4s, Q3s, Q2s, AJo, KJo, QJo, JJ, JTs, J9s, J8s, J7s, J6s, J5s, J4s, J3s, J2s, ATo, KTo, QTo, JTo, TT, T9s, T8s, T7s, T6s, T5s, T4s, A9o, K9o, Q9o, J9o, T9o, 99, 98s, 97s, 96s, 95s, A8o, K8o, Q8o, J8o, T8o, 98o, 88, 87s, 86s, 85s, A7o, K7o, 77, 76s, 75s, A6o, K6o, 66, 65s, 64s, A5o, K5o, 55, 54s, 53s, A4o, 44, A3o, 33, A2o, 22"
+   }
+  },
+  {
+   "id": "rfi-mlr-3p1-6bb-btn",
+   "name": "RFI BTN 6bb max late 3:1",
+   "description": "Max late reg vanilla, 3:1, 6bb.",
+   "street": "preflop",
+   "situation": "RFI",
+   "heroPosition": "BTN",
+   "stack": {
+    "min": 6,
+    "max": 6
+   },
+   "ratio": {
+    "min": 3,
+    "max": 3
+   },
+   "bubble": null,
+   "tags": [
+    "rfi",
+    "max-late",
+    "vanilla"
+   ],
+   "actionIds": [
+    "fold",
+    "rfi",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "range": {
+    "shove": "AA, AKs, AQs, AJs, ATs, A9s, A8s, A7s, A6s, A5s, A4s, A3s, A2s, AKo, KK, KQs, KJs, KTs, K9s, K8s, K7s, K6s, K5s, K4s, K3s, K2s, AQo, KQo, QQ, QJs, QTs, Q9s, Q8s, Q7s, Q6s, Q5s, Q4s, Q3s, Q2s, AJo, KJo, QJo, JJ, JTs, J9s, J8s, J7s, J6s, J5s, J4s, J3s, J2s, ATo, KTo, QTo, JTo, TT, T9s, T8s, T7s, T6s, T5s, T4s, T3s, T2s, A9o, K9o, Q9o, J9o, T9o, 99, 98s, 97s, 96s, 95s, 94s, 93s, 92s, A8o, K8o, Q8o, J8o, T8o, 98o, 88, 87s, 86s, 85s, 84s, A7o, K7o, Q7o, J7o, T7o, 97o, 87o, 77, 76s, 75s, 74s, 73s, A6o, K6o, Q6o, J6o, T6o, 96o, 86o, 76o, 66, 65s, 64s, 63s, A5o, K5o, Q5o, 55, 54s, 53s, 52s, A4o, K4o, Q4o, 44, 43s, A3o, K3o, Q3o, 33, A2o, K2o, 22"
+   }
+  },
+  {
+   "id": "rfi-mlr-3p1-8bb-utg",
+   "name": "RFI UTG 8bb max late 3:1",
+   "description": "Max late reg vanilla, 3:1, 8bb.",
+   "street": "preflop",
+   "situation": "RFI",
+   "heroPosition": "UTG",
+   "stack": {
+    "min": 8,
+    "max": 8
+   },
+   "ratio": {
+    "min": 3,
+    "max": 3
+   },
+   "bubble": null,
+   "tags": [
+    "rfi",
+    "max-late",
+    "vanilla"
+   ],
+   "actionIds": [
+    "fold",
+    "rfi",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "range": {
+    "rfi": "AA, KK, A9o",
+    "shove": "AKs, AQs, AJs, ATs, A9s, A8s, A7s, A6s, A5s, A4s, A3s, AKo, KQs, KJs, KTs, K9s, AQo, KQo, QQ, QJs, QTs, Q9s, AJo, KJo, JJ, JTs, J9s, ATo, TT, T9s, 99, 88, 77, 66, 55, 44, 33"
+   }
+  },
+  {
+   "id": "rfi-mlr-3p1-8bb-utg1",
+   "name": "RFI UTG1 8bb max late 3:1",
+   "description": "Max late reg vanilla, 3:1, 8bb.",
+   "street": "preflop",
+   "situation": "RFI",
+   "heroPosition": "UTG1",
+   "stack": {
+    "min": 8,
+    "max": 8
+   },
+   "ratio": {
+    "min": 3,
+    "max": 3
+   },
+   "bubble": null,
+   "tags": [
+    "rfi",
+    "max-late",
+    "vanilla"
+   ],
+   "actionIds": [
+    "fold",
+    "rfi",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "range": {
+    "rfi": "AA, KK, A9o",
+    "shove": "AKs, AQs, AJs, ATs, A9s, A8s, A7s, A6s, A5s, A4s, A3s, AKo, KQs, KJs, KTs, K9s, AQo, KQo, QQ, QJs, QTs, Q9s, AJo, KJo, JJ, JTs, J9s, ATo, TT, T9s, 99, 88, 77, 66, 55, 44, 33"
+   }
+  },
+  {
+   "id": "rfi-mlr-3p1-8bb-mp",
+   "name": "RFI MP 8bb max late 3:1",
+   "description": "Max late reg vanilla, 3:1, 8bb.",
+   "street": "preflop",
+   "situation": "RFI",
+   "heroPosition": "MP",
+   "stack": {
+    "min": 8,
+    "max": 8
+   },
+   "ratio": {
+    "min": 3,
+    "max": 3
+   },
+   "bubble": null,
+   "tags": [
+    "rfi",
+    "max-late",
+    "vanilla"
+   ],
+   "actionIds": [
+    "fold",
+    "rfi",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "range": {
+    "rfi": "AA, KK, A9o",
+    "shove": "AKs, AQs, AJs, ATs, A9s, A8s, A7s, A6s, A5s, A4s, A3s, AKo, KQs, KJs, KTs, K9s, AQo, KQo, QQ, QJs, QTs, Q9s, AJo, KJo, JJ, JTs, J9s, ATo, TT, T9s, 99, 88, 77, 66, 55, 44, 33"
+   }
+  },
+  {
+   "id": "rfi-mlr-3p1-8bb-lj",
+   "name": "RFI LJ 8bb max late 3:1",
+   "description": "Max late reg vanilla, 3:1, 8bb.",
+   "street": "preflop",
+   "situation": "RFI",
+   "heroPosition": "LJ",
+   "stack": {
+    "min": 8,
+    "max": 8
+   },
+   "ratio": {
+    "min": 3,
+    "max": 3
+   },
+   "bubble": null,
+   "tags": [
+    "rfi",
+    "max-late",
+    "vanilla"
+   ],
+   "actionIds": [
+    "fold",
+    "rfi",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "range": {
+    "rfi": "AA, AKs, KK, K4s, QQ, Q7s, K9o, Q9o, 76s, A6o, A2o",
+    "shove": "AQs, AJs, ATs, A9s, A8s, A7s, A6s, A5s, A4s, A3s, A2s, AKo, KQs, KJs, KTs, K9s, K8s, K7s, K6s, K5s, AQo, KQo, QJs, QTs, Q9s, Q8s, AJo, KJo, QJo, JJ, JTs, J9s, J8s, J7s, ATo, KTo, QTo, JTo, TT, T9s, T8s, T7s, A9o, 99, 98s, 97s, A8o, 88, 87s, A7o, 77, 66, A5o, 55, A4o, 44, A3o, 33, 22"
+   },
+   "alsoCorrect": {
+    "fold": "Q9o"
+   }
+  },
+  {
+   "id": "rfi-mlr-3p1-8bb-hj",
+   "name": "RFI HJ 8bb max late 3:1",
+   "description": "Max late reg vanilla, 3:1, 8bb.",
+   "street": "preflop",
+   "situation": "RFI",
+   "heroPosition": "HJ",
+   "stack": {
+    "min": 8,
+    "max": 8
+   },
+   "ratio": {
+    "min": 3,
+    "max": 3
+   },
+   "bubble": null,
+   "tags": [
+    "rfi",
+    "max-late",
+    "vanilla"
+   ],
+   "actionIds": [
+    "fold",
+    "rfi",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "range": {
+    "rfi": "AA, AKs, AQs, KK, QQ, Q4s, Q3s, JJ, J6s, J5s, K9o, Q9o, J9o, K8o, Q8o, A7o, K7o, A6o, 65s, 54s, A2o",
+    "shove": "AJs, ATs, A9s, A8s, A7s, A6s, A5s, A4s, A3s, A2s, AKo, KQs, KJs, KTs, K9s, K8s, K7s, K6s, K5s, K4s, K3s, K2s, AQo, KQo, QJs, QTs, Q9s, Q8s, Q7s, Q6s, Q5s, AJo, KJo, QJo, JTs, J9s, J8s, J7s, ATo, KTo, QTo, JTo, TT, T9s, T8s, T7s, T6s, A9o, T9o, 99, 98s, 97s, 96s, A8o, 88, 87s, 86s, 77, 76s, 66, A5o, 55, A4o, 44, A3o, 33, 22"
+   },
+   "alsoCorrect": {
+    "fold": "Q8o",
+    "rfi": "J8o, T8o"
+   }
+  },
+  {
+   "id": "rfi-mlr-3p1-8bb-co",
+   "name": "RFI CO 8bb max late 3:1",
+   "description": "Max late reg vanilla, 3:1, 8bb.",
+   "street": "preflop",
+   "situation": "RFI",
+   "heroPosition": "CO",
+   "stack": {
+    "min": 8,
+    "max": 8
+   },
+   "ratio": {
+    "min": 3,
+    "max": 3
+   },
+   "bubble": null,
+   "tags": [
+    "rfi",
+    "max-late",
+    "vanilla"
+   ],
+   "actionIds": [
+    "fold",
+    "rfi",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "range": {
+    "rfi": "AA, AKs, AQs, AJs, ATs, KK, QQ, JJ, J3s, J2s, TT, T5s, T4s, T3s, Q8o, J8o, Q7o, J7o, T7o, 97o, 87o, K6o, 64s, K5o, K4o, K3o",
+    "shove": "A9s, A8s, A7s, A6s, A5s, A4s, A3s, A2s, AKo, KQs, KJs, KTs, K9s, K8s, K7s, K6s, K5s, K4s, K3s, K2s, AQo, KQo, QJs, QTs, Q9s, Q8s, Q7s, Q6s, Q5s, Q4s, Q3s, Q2s, AJo, KJo, QJo, JTs, J9s, J8s, J7s, J6s, J5s, J4s, ATo, KTo, QTo, JTo, T9s, T8s, T7s, T6s, A9o, K9o, Q9o, J9o, T9o, 99, 98s, 97s, 96s, 95s, A8o, K8o, T8o, 98o, 88, 87s, 86s, 85s, A7o, K7o, 77, 76s, 75s, A6o, 66, 65s, A5o, 55, 54s, A4o, 44, A3o, 33, A2o, 22"
+   },
+   "alsoCorrect": {
+    "fold": "J7o, T7o, 87o",
+    "rfi": "Q6o"
+   }
+  },
+  {
+   "id": "rfi-mlr-3p1-8bb-btn",
+   "name": "RFI BTN 8bb max late 3:1",
+   "description": "Max late reg vanilla, 3:1, 8bb.",
+   "street": "preflop",
+   "situation": "RFI",
+   "heroPosition": "BTN",
+   "stack": {
+    "min": 8,
+    "max": 8
+   },
+   "ratio": {
+    "min": 3,
+    "max": 3
+   },
+   "bubble": null,
+   "tags": [
+    "rfi",
+    "max-late",
+    "vanilla"
+   ],
+   "actionIds": [
+    "fold",
+    "rfi",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "range": {
+    "rfi": "AA, AKs, KK, QQ, JJ, TT, 92s, J6o, Q5o, K3o, K2o",
+    "shove": "AQs, AJs, ATs, A9s, A8s, A7s, A6s, A5s, A4s, A3s, A2s, AKo, KQs, KJs, KTs, K9s, K8s, K7s, K6s, K5s, K4s, K3s, K2s, AQo, KQo, QJs, QTs, Q9s, Q8s, Q7s, Q6s, Q5s, Q4s, Q3s, Q2s, AJo, KJo, QJo, JTs, J9s, J8s, J7s, J6s, J5s, J4s, J3s, J2s, ATo, KTo, QTo, JTo, T9s, T8s, T7s, T6s, T5s, T4s, T3s, T2s, A9o, K9o, Q9o, J9o, T9o, 99, 98s, 97s, 96s, 95s, 94s, 93s, A8o, K8o, Q8o, J8o, T8o, 98o, 88, 87s, 86s, 85s, 84s, A7o, K7o, Q7o, J7o, T7o, 97o, 87o, 77, 76s, 75s, 74s, A6o, K6o, Q6o, 76o, 66, 65s, 64s, A5o, K5o, 55, 54s, 53s, A4o, K4o, 44, 43s, A3o, 33, A2o, 22"
+   }
+  },
+  {
+   "id": "rfi-mlr-3p1-10bb-utg",
+   "name": "RFI UTG 10bb max late 3:1",
+   "description": "Max late reg vanilla, 3:1, 10bb.",
+   "street": "preflop",
+   "situation": "RFI",
+   "heroPosition": "UTG",
+   "stack": {
+    "min": 10,
+    "max": 10
+   },
+   "ratio": {
+    "min": 3,
+    "max": 3
+   },
+   "bubble": null,
+   "tags": [
+    "rfi",
+    "max-late",
+    "vanilla"
+   ],
+   "actionIds": [
+    "fold",
+    "rfi",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "range": {
+    "rfi": "AA, A6s, A5s, A4s, A3s, A2s, KK, K9s, K8s, K7s, QQ, Q9s, Q8s, KJo, QJo, J9s, KTo, QTo, T9s, A9o, A8o, A7o, A6o, A5o",
+    "shove": "AKs, AQs, AJs, ATs, A9s, A8s, A7s, AKo, KQs, KJs, KTs, AQo, KQo, QJs, QTs, AJo, JJ, JTs, ATo, TT, 99, 88, 77, 66, 55, 44, 33"
+   }
+  },
+  {
+   "id": "rfi-mlr-3p1-10bb-utg1",
+   "name": "RFI UTG1 10bb max late 3:1",
+   "description": "Max late reg vanilla, 3:1, 10bb.",
+   "street": "preflop",
+   "situation": "RFI",
+   "heroPosition": "UTG1",
+   "stack": {
+    "min": 10,
+    "max": 10
+   },
+   "ratio": {
+    "min": 3,
+    "max": 3
+   },
+   "bubble": null,
+   "tags": [
+    "rfi",
+    "max-late",
+    "vanilla"
+   ],
+   "actionIds": [
+    "fold",
+    "rfi",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "range": {
+    "rfi": "AA, A6s, A5s, A4s, A3s, A2s, KK, K9s, K8s, K7s, QQ, Q9s, Q8s, KJo, QJo, J9s, KTo, QTo, T9s, A9o, A8o, A7o, A6o, A5o",
+    "shove": "AKs, AQs, AJs, ATs, A9s, A8s, A7s, AKo, KQs, KJs, KTs, AQo, KQo, QJs, QTs, AJo, JJ, JTs, ATo, TT, 99, 88, 77, 66, 55, 44, 33"
+   }
+  },
+  {
+   "id": "rfi-mlr-3p1-10bb-mp",
+   "name": "RFI MP 10bb max late 3:1",
+   "description": "Max late reg vanilla, 3:1, 10bb.",
+   "street": "preflop",
+   "situation": "RFI",
+   "heroPosition": "MP",
+   "stack": {
+    "min": 10,
+    "max": 10
+   },
+   "ratio": {
+    "min": 3,
+    "max": 3
+   },
+   "bubble": null,
+   "tags": [
+    "rfi",
+    "max-late",
+    "vanilla"
+   ],
+   "actionIds": [
+    "fold",
+    "rfi",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "range": {
+    "rfi": "AA, AKs, A3s, A2s, KK, K8s, K7s, K6s, K5s, K4s, K3s, QQ, Q8s, Q7s, QJo, JJ, J8s, KTo, QTo, JTo, T8s, 98s, A8o, A7o, A6o, A5o, A4o, A3o, A2o",
+    "shove": "AQs, AJs, ATs, A9s, A8s, A7s, A6s, A5s, A4s, AKo, KQs, KJs, KTs, K9s, AQo, KQo, QJs, QTs, Q9s, AJo, KJo, JTs, J9s, ATo, TT, T9s, A9o, 99, 88, 77, 66, 55, 44, 33"
+   }
+  },
+  {
+   "id": "rfi-mlr-3p1-10bb-lj",
+   "name": "RFI LJ 10bb max late 3:1",
+   "description": "Max late reg vanilla, 3:1, 10bb.",
+   "street": "preflop",
+   "situation": "RFI",
+   "heroPosition": "LJ",
+   "stack": {
+    "min": 10,
+    "max": 10
+   },
+   "ratio": {
+    "min": 3,
+    "max": 3
+   },
+   "bubble": null,
+   "tags": [
+    "rfi",
+    "max-late",
+    "vanilla"
+   ],
+   "actionIds": [
+    "fold",
+    "rfi",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "range": {
+    "rfi": "AA, AKs, KK, K7s, K6s, K5s, K4s, K3s, QQ, Q8s, Q7s, Q6s, JJ, J8s, QTo, JTo, T8s, K9o, Q9o, 98s, 87s, A7o, A6o, A5o, A4o, A3o, A2o",
+    "shove": "AQs, AJs, ATs, A9s, A8s, A7s, A6s, A5s, A4s, A3s, A2s, AKo, KQs, KJs, KTs, K9s, K8s, AQo, KQo, QJs, QTs, Q9s, AJo, KJo, QJo, JTs, J9s, ATo, KTo, TT, T9s, A9o, 99, A8o, 88, 77, 66, 55, 44, 33, 22"
+   }
+  },
+  {
+   "id": "rfi-mlr-3p1-10bb-hj",
+   "name": "RFI HJ 10bb max late 3:1",
+   "description": "Max late reg vanilla, 3:1, 10bb.",
+   "street": "preflop",
+   "situation": "RFI",
+   "heroPosition": "HJ",
+   "stack": {
+    "min": 10,
+    "max": 10
+   },
+   "ratio": {
+    "min": 3,
+    "max": 3
+   },
+   "bubble": null,
+   "tags": [
+    "rfi",
+    "max-late",
+    "vanilla"
+   ],
+   "actionIds": [
+    "fold",
+    "rfi",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "range": {
+    "rfi": "AA, AKs, KK, K4s, K3s, K2s, QQ, Q7s, Q6s, Q5s, Q4s, Q3s, JJ, J7s, J6s, T7s, K9o, Q9o, J9o, T9o, 97s, K8o, 86s, 76s, A6o, 65s, A5o, A4o, A3o, A2o",
+    "shove": "AQs, AJs, ATs, A9s, A8s, A7s, A6s, A5s, A4s, A3s, A2s, AKo, KQs, KJs, KTs, K9s, K8s, K7s, K6s, K5s, AQo, KQo, QJs, QTs, Q9s, Q8s, AJo, KJo, QJo, JTs, J9s, J8s, ATo, KTo, QTo, JTo, TT, T9s, T8s, A9o, 99, 98s, A8o, 88, 87s, A7o, 77, 66, 55, 44, 33, 22"
+   }
+  },
+  {
+   "id": "rfi-mlr-3p1-10bb-co",
+   "name": "RFI CO 10bb max late 3:1",
+   "description": "Max late reg vanilla, 3:1, 10bb.",
+   "street": "preflop",
+   "situation": "RFI",
+   "heroPosition": "CO",
+   "stack": {
+    "min": 10,
+    "max": 10
+   },
+   "ratio": {
+    "min": 3,
+    "max": 3
+   },
+   "bubble": null,
+   "tags": [
+    "rfi",
+    "max-late",
+    "vanilla"
+   ],
+   "actionIds": [
+    "fold",
+    "rfi",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "range": {
+    "rfi": "AA, AKs, KK, K3s, K2s, QQ, Q6s, Q5s, Q4s, Q3s, Q2s, JJ, J6s, J5s, J4s, T6s, Q9o, J9o, T9o, 96s, K8o, Q8o, J8o, T8o, 86s, K7o, 76s, K6o, 65s, 54s, A4o, A3o, A2o",
+    "shove": "AQs, AJs, ATs, A9s, A8s, A7s, A6s, A5s, A4s, A3s, A2s, AKo, KQs, KJs, KTs, K9s, K8s, K7s, K6s, K5s, K4s, AQo, KQo, QJs, QTs, Q9s, Q8s, Q7s, AJo, KJo, QJo, JTs, J9s, J8s, J7s, ATo, KTo, QTo, JTo, TT, T9s, T8s, T7s, A9o, K9o, 99, 98s, 97s, A8o, 88, 87s, A7o, 77, A6o, 66, A5o, 55, 44, 33, 22"
+   }
+  },
+  {
+   "id": "rfi-mlr-3p1-10bb-btn",
+   "name": "RFI BTN 10bb max late 3:1",
+   "description": "Max late reg vanilla, 3:1, 10bb.",
+   "street": "preflop",
+   "situation": "RFI",
+   "heroPosition": "BTN",
+   "stack": {
+    "min": 10,
+    "max": 10
+   },
+   "ratio": {
+    "min": 3,
+    "max": 3
+   },
+   "bubble": null,
+   "tags": [
+    "rfi",
+    "max-late",
+    "vanilla"
+   ],
+   "actionIds": [
+    "fold",
+    "rfi",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "range": {
+    "rfi": "AA, AKs, AQs, KK, QQ, JJ, J4s, J3s, J2s, TT, T5s, T4s, T3s, 99, 95s, K8o, Q8o, J8o, T8o, 98o, 85s, K7o, Q7o, J7o, K6o, 64s, K5o, K4o, K3o",
+    "shove": "AJs, ATs, A9s, A8s, A7s, A6s, A5s, A4s, A3s, A2s, AKo, KQs, KJs, KTs, K9s, K8s, K7s, K6s, K5s, K4s, K3s, K2s, AQo, KQo, QJs, QTs, Q9s, Q8s, Q7s, Q6s, Q5s, Q4s, Q3s, Q2s, AJo, KJo, QJo, JTs, J9s, J8s, J7s, J6s, J5s, ATo, KTo, QTo, JTo, T9s, T8s, T7s, T6s, A9o, K9o, Q9o, J9o, T9o, 98s, 97s, 96s, A8o, 88, 87s, 86s, A7o, 77, 76s, 75s, A6o, 66, 65s, A5o, 55, 54s, A4o, 44, A3o, 33, A2o, 22"
+   }
+  },
+  {
+   "id": "rfi-mlr-3p1-15bb-utg",
+   "name": "RFI UTG 15bb max late 3:1",
+   "description": "Max late reg vanilla, 3:1, 15bb.",
+   "street": "preflop",
+   "situation": "RFI",
+   "heroPosition": "UTG",
+   "stack": {
+    "min": 15,
+    "max": 15
+   },
+   "ratio": {
+    "min": 3,
+    "max": 3
+   },
+   "bubble": null,
+   "tags": [
+    "rfi",
+    "max-late",
+    "vanilla"
+   ],
+   "actionIds": [
+    "fold",
+    "rfi",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "range": {
+    "rfi": "AA, AKs, AQs, AJs, ATs, A9s, A8s, A7s, A6s, A5s, A4s, A3s, A2s, AKo, KK, KQs, KJs, KTs, K9s, K8s, AQo, KQo, QQ, QJs, QTs, Q9s, AJo, KJo, QJo, JJ, JTs, J9s, ATo, KTo, TT, T9s, A9o, 99, 88, 77, 66"
+   }
+  },
+  {
+   "id": "rfi-mlr-3p1-15bb-utg1",
+   "name": "RFI UTG1 15bb max late 3:1",
+   "description": "Max late reg vanilla, 3:1, 15bb.",
+   "street": "preflop",
+   "situation": "RFI",
+   "heroPosition": "UTG1",
+   "stack": {
+    "min": 15,
+    "max": 15
+   },
+   "ratio": {
+    "min": 3,
+    "max": 3
+   },
+   "bubble": null,
+   "tags": [
+    "rfi",
+    "max-late",
+    "vanilla"
+   ],
+   "actionIds": [
+    "fold",
+    "rfi",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "range": {
+    "rfi": "AA, AKs, AQs, AJs, ATs, A9s, A8s, A7s, A6s, A5s, A4s, A3s, A2s, AKo, KK, KQs, KJs, KTs, K9s, K8s, AQo, KQo, QQ, QJs, QTs, Q9s, AJo, KJo, QJo, JJ, JTs, J9s, ATo, KTo, TT, T9s, A9o, 99, 88, 77, 66"
+   }
+  },
+  {
+   "id": "rfi-mlr-3p1-15bb-mp",
+   "name": "RFI MP 15bb max late 3:1",
+   "description": "Max late reg vanilla, 3:1, 15bb.",
+   "street": "preflop",
+   "situation": "RFI",
+   "heroPosition": "MP",
+   "stack": {
+    "min": 15,
+    "max": 15
+   },
+   "ratio": {
+    "min": 3,
+    "max": 3
+   },
+   "bubble": null,
+   "tags": [
+    "rfi",
+    "max-late",
+    "vanilla"
+   ],
+   "actionIds": [
+    "fold",
+    "rfi",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "range": {
+    "rfi": "AA, AKs, AQs, AJs, ATs, A9s, A8s, A7s, A6s, A5s, A4s, A3s, A2s, AKo, KK, KQs, KJs, KTs, K9s, K8s, K7s, K6s, K5s, AQo, KQo, QQ, QJs, QTs, Q9s, Q8s, AJo, KJo, QJo, JJ, JTs, J9s, J8s, ATo, KTo, QTo, JTo, TT, T9s, T8s, A9o, 99, 98s, A8o, 88, A7o, 77, 66, A5o, 55"
+   }
+  },
+  {
+   "id": "rfi-mlr-3p1-15bb-lj",
+   "name": "RFI LJ 15bb max late 3:1",
+   "description": "Max late reg vanilla, 3:1, 15bb.",
+   "street": "preflop",
+   "situation": "RFI",
+   "heroPosition": "LJ",
+   "stack": {
+    "min": 15,
+    "max": 15
+   },
+   "ratio": {
+    "min": 3,
+    "max": 3
+   },
+   "bubble": null,
+   "tags": [
+    "rfi",
+    "max-late",
+    "vanilla"
+   ],
+   "actionIds": [
+    "fold",
+    "rfi",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "range": {
+    "rfi": "AA, AKs, AQs, AJs, ATs, A9s, A8s, A7s, A6s, A5s, A4s, A3s, A2s, AKo, KK, KQs, KJs, KTs, K9s, K8s, K7s, K6s, K5s, AQo, KQo, QQ, QJs, QTs, Q9s, Q8s, AJo, KJo, QJo, JJ, JTs, J9s, J8s, ATo, KTo, QTo, JTo, TT, T9s, T8s, A9o, 99, 98s, A8o, 88, 87s, A7o, 77, 66, A5o, 55"
+   }
+  },
+  {
+   "id": "rfi-mlr-3p1-15bb-hj",
+   "name": "RFI HJ 15bb max late 3:1",
+   "description": "Max late reg vanilla, 3:1, 15bb.",
+   "street": "preflop",
+   "situation": "RFI",
+   "heroPosition": "HJ",
+   "stack": {
+    "min": 15,
+    "max": 15
+   },
+   "ratio": {
+    "min": 3,
+    "max": 3
+   },
+   "bubble": null,
+   "tags": [
+    "rfi",
+    "max-late",
+    "vanilla"
+   ],
+   "actionIds": [
+    "fold",
+    "rfi",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "range": {
+    "rfi": "AA, AKs, AQs, AJs, ATs, A9s, A8s, A7s, A6s, A5s, A4s, A3s, A2s, AKo, KK, KQs, KJs, KTs, K9s, K8s, K7s, K6s, K5s, K4s, K3s, K2s, AQo, KQo, QQ, QJs, QTs, Q9s, Q8s, Q7s, Q6s, Q5s, Q4s, AJo, KJo, QJo, JJ, JTs, J9s, J8s, J7s, ATo, KTo, QTo, JTo, TT, T9s, T8s, T7s, A9o, K9o, Q9o, J9o, T9o, 99, 98s, 97s, A8o, K8o, 88, 87s, A7o, 77, 76s, A6o, 66, A5o, 55, A4o, 44, A3o, A2o"
+   }
+  },
+  {
+   "id": "rfi-mlr-3p1-15bb-co",
+   "name": "RFI CO 15bb max late 3:1",
+   "description": "Max late reg vanilla, 3:1, 15bb.",
+   "street": "preflop",
+   "situation": "RFI",
+   "heroPosition": "CO",
+   "stack": {
+    "min": 15,
+    "max": 15
+   },
+   "ratio": {
+    "min": 3,
+    "max": 3
+   },
+   "bubble": null,
+   "tags": [
+    "rfi",
+    "max-late",
+    "vanilla"
+   ],
+   "actionIds": [
+    "fold",
+    "rfi",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "range": {
+    "rfi": "AA, AKs, AQs, AJs, ATs, AKo, KK, KQs, K8s, K7s, K6s, K5s, K4s, K3s, K2s, QQ, Q8s, Q7s, Q6s, Q5s, Q4s, Q3s, KJo, QJo, JJ, J8s, J7s, J6s, J5s, J4s, KTo, QTo, JTo, TT, T8s, T7s, T6s, K9o, Q9o, J9o, T9o, 99, 98s, 97s, 96s, A8o, K8o, Q8o, 88, 87s, 86s, A7o, 76s, A6o, 65s, A5o, 54s, A4o, A3o, A2o",
+    "shove": "A9s, A8s, A7s, A6s, A5s, A4s, A3s, A2s, KJs, KTs, K9s, AQo, KQo, QJs, QTs, Q9s, AJo, JTs, J9s, ATo, T9s, A9o, 77, 66, 55, 44, 33, 22"
+   }
+  },
+  {
+   "id": "rfi-mlr-3p1-15bb-btn",
+   "name": "RFI BTN 15bb max late 3:1",
+   "description": "Max late reg vanilla, 3:1, 15bb.",
+   "street": "preflop",
+   "situation": "RFI",
+   "heroPosition": "BTN",
+   "stack": {
+    "min": 15,
+    "max": 15
+   },
+   "ratio": {
+    "min": 3,
+    "max": 3
+   },
+   "bubble": null,
+   "tags": [
+    "rfi",
+    "max-late",
+    "vanilla"
+   ],
+   "actionIds": [
+    "fold",
+    "rfi",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "range": {
+    "rfi": "AA, AKs, AQs, AJs, ATs, A9s, A8s, AKo, KK, KQs, KJs, K8s, K7s, K6s, K5s, K4s, K3s, K2s, AQo, QQ, Q8s, Q7s, Q6s, Q5s, Q4s, Q3s, Q2s, AJo, QJo, JJ, J8s, J7s, J6s, J5s, J4s, J3s, J2s, KTo, QTo, JTo, TT, T8s, T7s, T6s, T5s, T4s, T3s, K9o, Q9o, J9o, T9o, 99, 98s, 97s, 96s, 95s, K8o, Q8o, J8o, T8o, 98o, 88, 87s, 86s, 85s, K7o, 77, 76s, 75s, A6o, K6o, 65s, 64s, A5o, 54s, A4o, A3o, A2o",
+    "shove": "A7s, A6s, A5s, A4s, A3s, A2s, KTs, K9s, KQo, QJs, QTs, Q9s, KJo, JTs, J9s, ATo, T9s, A9o, A8o, A7o, 66, 55, 44, 33, 22"
+   }
+  },
+  {
+   "id": "rfi-mlr-2p1-2bb-utg",
+   "name": "RFI UTG 2bb max late 2:1",
+   "description": "Max late reg vanilla, 2:1, 2bb.",
+   "street": "preflop",
+   "situation": "RFI",
+   "heroPosition": "UTG",
+   "stack": {
+    "min": 2,
+    "max": 2
+   },
+   "ratio": {
+    "min": 2,
+    "max": 2
+   },
+   "bubble": null,
+   "tags": [
+    "rfi",
+    "max-late",
+    "vanilla"
+   ],
+   "actionIds": [
+    "fold",
+    "rfi",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "range": {
+    "shove": "AA, AKs, AQs, AJs, ATs, A9s, A8s, A7s, A6s, A5s, A4s, A3s, A2s, AKo, KK, KQs, KJs, KTs, K9s, K8s, K7s, K6s, K5s, K4s, K3s, K2s, AQo, KQo, QQ, QJs, QTs, Q9s, Q8s, Q7s, Q6s, Q5s, Q4s, AJo, KJo, QJo, JJ, JTs, J9s, J8s, J7s, ATo, KTo, QTo, JTo, TT, T9s, T8s, T7s, A9o, K9o, Q9o, J9o, T9o, 99, 98s, 97s, 96s, A8o, K8o, 88, 87s, 86s, A7o, 77, 76s, A6o, 66, 65s, A5o, 55, A4o, 44, A3o, 33, A2o, 22"
+   }
+  },
+  {
+   "id": "rfi-mlr-2p1-2bb-utg1",
+   "name": "RFI UTG1 2bb max late 2:1",
+   "description": "Max late reg vanilla, 2:1, 2bb.",
+   "street": "preflop",
+   "situation": "RFI",
+   "heroPosition": "UTG1",
+   "stack": {
+    "min": 2,
+    "max": 2
+   },
+   "ratio": {
+    "min": 2,
+    "max": 2
+   },
+   "bubble": null,
+   "tags": [
+    "rfi",
+    "max-late",
+    "vanilla"
+   ],
+   "actionIds": [
+    "fold",
+    "rfi",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "range": {
+    "shove": "AA, AKs, AQs, AJs, ATs, A9s, A8s, A7s, A6s, A5s, A4s, A3s, A2s, AKo, KK, KQs, KJs, KTs, K9s, K8s, K7s, K6s, K5s, K4s, K3s, K2s, AQo, KQo, QQ, QJs, QTs, Q9s, Q8s, Q7s, Q6s, Q5s, Q4s, AJo, KJo, QJo, JJ, JTs, J9s, J8s, J7s, ATo, KTo, QTo, JTo, TT, T9s, T8s, T7s, A9o, K9o, Q9o, J9o, T9o, 99, 98s, 97s, 96s, A8o, K8o, 88, 87s, 86s, A7o, 77, 76s, A6o, 66, 65s, A5o, 55, A4o, 44, A3o, 33, A2o, 22"
+   }
+  },
+  {
+   "id": "rfi-mlr-2p1-2bb-mp",
+   "name": "RFI MP 2bb max late 2:1",
+   "description": "Max late reg vanilla, 2:1, 2bb.",
+   "street": "preflop",
+   "situation": "RFI",
+   "heroPosition": "MP",
+   "stack": {
+    "min": 2,
+    "max": 2
+   },
+   "ratio": {
+    "min": 2,
+    "max": 2
+   },
+   "bubble": null,
+   "tags": [
+    "rfi",
+    "max-late",
+    "vanilla"
+   ],
+   "actionIds": [
+    "fold",
+    "rfi",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "range": {
+    "shove": "AA, AKs, AQs, AJs, ATs, A9s, A8s, A7s, A6s, A5s, A4s, A3s, A2s, AKo, KK, KQs, KJs, KTs, K9s, K8s, K7s, K6s, K5s, K4s, K3s, K2s, AQo, KQo, QQ, QJs, QTs, Q9s, Q8s, Q7s, Q6s, Q5s, Q4s, Q3s, AJo, KJo, QJo, JJ, JTs, J9s, J8s, J7s, J6s, ATo, KTo, QTo, JTo, TT, T9s, T8s, T7s, A9o, K9o, Q9o, J9o, T9o, 99, 98s, 97s, A8o, K8o, 88, 87s, A7o, K7o, 77, A6o, 66, A5o, 55, A4o, 44, A3o, 33, A2o, 22"
+   }
+  },
+  {
+   "id": "rfi-mlr-2p1-2bb-lj",
+   "name": "RFI LJ 2bb max late 2:1",
+   "description": "Max late reg vanilla, 2:1, 2bb.",
+   "street": "preflop",
+   "situation": "RFI",
+   "heroPosition": "LJ",
+   "stack": {
+    "min": 2,
+    "max": 2
+   },
+   "ratio": {
+    "min": 2,
+    "max": 2
+   },
+   "bubble": null,
+   "tags": [
+    "rfi",
+    "max-late",
+    "vanilla"
+   ],
+   "actionIds": [
+    "fold",
+    "rfi",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "range": {
+    "shove": "AA, AKs, AQs, AJs, ATs, A9s, A8s, A7s, A6s, A5s, A4s, A3s, A2s, AKo, KK, KQs, KJs, KTs, K9s, K8s, K7s, K6s, K5s, K4s, K3s, K2s, AQo, KQo, QQ, QJs, QTs, Q9s, Q8s, Q7s, Q6s, Q5s, Q4s, Q3s, Q2s, AJo, KJo, QJo, JJ, JTs, J9s, J8s, J7s, J6s, J5s, ATo, KTo, QTo, JTo, TT, T9s, T8s, T7s, T6s, A9o, K9o, Q9o, J9o, T9o, 99, 98s, 97s, 96s, A8o, K8o, Q8o, J8o, 88, 87s, 86s, A7o, K7o, 77, 76s, A6o, K6o, 66, A5o, 55, A4o, 44, A3o, 33, A2o, 22"
+   }
+  },
+  {
+   "id": "rfi-mlr-2p1-2bb-hj",
+   "name": "RFI HJ 2bb max late 2:1",
+   "description": "Max late reg vanilla, 2:1, 2bb.",
+   "street": "preflop",
+   "situation": "RFI",
+   "heroPosition": "HJ",
+   "stack": {
+    "min": 2,
+    "max": 2
+   },
+   "ratio": {
+    "min": 2,
+    "max": 2
+   },
+   "bubble": null,
+   "tags": [
+    "rfi",
+    "max-late",
+    "vanilla"
+   ],
+   "actionIds": [
+    "fold",
+    "rfi",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "range": {
+    "shove": "AA, AKs, AQs, AJs, ATs, A9s, A8s, A7s, A6s, A5s, A4s, A3s, A2s, AKo, KK, KQs, KJs, KTs, K9s, K8s, K7s, K6s, K5s, K4s, K3s, K2s, AQo, KQo, QQ, QJs, QTs, Q9s, Q8s, Q7s, Q6s, Q5s, Q4s, Q3s, Q2s, AJo, KJo, QJo, JJ, JTs, J9s, J8s, J7s, J6s, J5s, ATo, KTo, QTo, JTo, TT, T9s, T8s, T7s, T6s, A9o, K9o, Q9o, J9o, T9o, 99, 98s, 97s, 96s, A8o, K8o, Q8o, J8o, T8o, 98o, 88, 87s, 86s, A7o, K7o, 77, 76s, A6o, K6o, 66, A5o, K5o, 55, A4o, K4o, 44, A3o, 33, A2o, 22"
+   }
+  },
+  {
+   "id": "rfi-mlr-2p1-2bb-co",
+   "name": "RFI CO 2bb max late 2:1",
+   "description": "Max late reg vanilla, 2:1, 2bb.",
+   "street": "preflop",
+   "situation": "RFI",
+   "heroPosition": "CO",
+   "stack": {
+    "min": 2,
+    "max": 2
+   },
+   "ratio": {
+    "min": 2,
+    "max": 2
+   },
+   "bubble": null,
+   "tags": [
+    "rfi",
+    "max-late",
+    "vanilla"
+   ],
+   "actionIds": [
+    "fold",
+    "rfi",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "range": {
+    "shove": "AA, AKs, AQs, AJs, ATs, A9s, A8s, A7s, A6s, A5s, A4s, A3s, A2s, AKo, KK, KQs, KJs, KTs, K9s, K8s, K7s, K6s, K5s, K4s, K3s, K2s, AQo, KQo, QQ, QJs, QTs, Q9s, Q8s, Q7s, Q6s, Q5s, Q4s, Q3s, Q2s, AJo, KJo, QJo, JJ, JTs, J9s, J8s, J7s, J6s, J5s, J4s, J3s, J2s, ATo, KTo, QTo, JTo, TT, T9s, T8s, T7s, T6s, T5s, A9o, K9o, Q9o, J9o, T9o, 99, 98s, 97s, 96s, A8o, K8o, Q8o, J8o, T8o, 98o, 88, 87s, 86s, A7o, K7o, Q7o, J7o, 77, 76s, A6o, K6o, Q6o, 66, A5o, K5o, 55, A4o, K4o, 44, A3o, K3o, 33, A2o, K2o, 22"
+   }
+  },
+  {
+   "id": "rfi-mlr-2p1-2bb-btn",
+   "name": "RFI BTN 2bb max late 2:1",
+   "description": "Max late reg vanilla, 2:1, 2bb.",
+   "street": "preflop",
+   "situation": "RFI",
+   "heroPosition": "BTN",
+   "stack": {
+    "min": 2,
+    "max": 2
+   },
+   "ratio": {
+    "min": 2,
+    "max": 2
+   },
+   "bubble": null,
+   "tags": [
+    "rfi",
+    "max-late",
+    "vanilla"
+   ],
+   "actionIds": [
+    "fold",
+    "rfi",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "range": {
+    "shove": "AA, AKs, AQs, AJs, ATs, A9s, A8s, A7s, A6s, A5s, A4s, A3s, A2s, AKo, KK, KQs, KJs, KTs, K9s, K8s, K7s, K6s, K5s, K4s, K3s, K2s, AQo, KQo, QQ, QJs, QTs, Q9s, Q8s, Q7s, Q6s, Q5s, Q4s, Q3s, Q2s, AJo, KJo, QJo, JJ, JTs, J9s, J8s, J7s, J6s, J5s, J4s, J3s, J2s, ATo, KTo, QTo, JTo, TT, T9s, T8s, T7s, T6s, T5s, T4s, T3s, A9o, K9o, Q9o, J9o, T9o, 99, 98s, 97s, 96s, 95s, A8o, K8o, Q8o, J8o, T8o, 98o, 88, 87s, 86s, A7o, K7o, Q7o, J7o, T7o, 97o, 77, 76s, A6o, K6o, Q6o, J6o, 66, A5o, K5o, Q5o, 55, A4o, K4o, Q4o, 44, A3o, K3o, Q3o, 33, A2o, K2o, Q2o, 22"
+   }
+  },
+  {
+   "id": "rfi-mlr-2p1-4bb-utg",
+   "name": "RFI UTG 4bb max late 2:1",
+   "description": "Max late reg vanilla, 2:1, 4bb.",
+   "street": "preflop",
+   "situation": "RFI",
+   "heroPosition": "UTG",
+   "stack": {
+    "min": 4,
+    "max": 4
+   },
+   "ratio": {
+    "min": 2,
+    "max": 2
+   },
+   "bubble": null,
+   "tags": [
+    "rfi",
+    "max-late",
+    "vanilla"
+   ],
+   "actionIds": [
+    "fold",
+    "rfi",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "range": {
+    "shove": "AA, AKs, AQs, AJs, ATs, A9s, A8s, A7s, A6s, A5s, A4s, A3s, A2s, AKo, KK, KQs, KJs, KTs, K9s, K8s, K7s, K6s, AQo, KQo, QQ, QJs, QTs, Q9s, AJo, KJo, QJo, JJ, JTs, J9s, ATo, KTo, QTo, TT, T9s, A9o, 99, A8o, 88, A7o, 77, A6o, 66, A5o, 55, A4o, 44, 33, 22"
+   }
+  },
+  {
+   "id": "rfi-mlr-2p1-4bb-utg1",
+   "name": "RFI UTG1 4bb max late 2:1",
+   "description": "Max late reg vanilla, 2:1, 4bb.",
+   "street": "preflop",
+   "situation": "RFI",
+   "heroPosition": "UTG1",
+   "stack": {
+    "min": 4,
+    "max": 4
+   },
+   "ratio": {
+    "min": 2,
+    "max": 2
+   },
+   "bubble": null,
+   "tags": [
+    "rfi",
+    "max-late",
+    "vanilla"
+   ],
+   "actionIds": [
+    "fold",
+    "rfi",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "range": {
+    "shove": "AA, AKs, AQs, AJs, ATs, A9s, A8s, A7s, A6s, A5s, A4s, A3s, A2s, AKo, KK, KQs, KJs, KTs, K9s, K8s, K7s, K6s, AQo, KQo, QQ, QJs, QTs, Q9s, AJo, KJo, QJo, JJ, JTs, J9s, ATo, KTo, QTo, TT, T9s, A9o, 99, A8o, 88, A7o, 77, A6o, 66, A5o, 55, A4o, 44, 33, 22"
+   }
+  },
+  {
+   "id": "rfi-mlr-2p1-4bb-mp",
+   "name": "RFI MP 4bb max late 2:1",
+   "description": "Max late reg vanilla, 2:1, 4bb.",
+   "street": "preflop",
+   "situation": "RFI",
+   "heroPosition": "MP",
+   "stack": {
+    "min": 4,
+    "max": 4
+   },
+   "ratio": {
+    "min": 2,
+    "max": 2
+   },
+   "bubble": null,
+   "tags": [
+    "rfi",
+    "max-late",
+    "vanilla"
+   ],
+   "actionIds": [
+    "fold",
+    "rfi",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "range": {
+    "shove": "AA, AKs, AQs, AJs, ATs, A9s, A8s, A7s, A6s, A5s, A4s, A3s, A2s, AKo, KK, KQs, KJs, KTs, K9s, K8s, K7s, K6s, K5s, K4s, AQo, KQo, QQ, QJs, QTs, Q9s, Q8s, AJo, KJo, QJo, JJ, JTs, J9s, J8s, ATo, KTo, QTo, JTo, TT, T9s, T8s, A9o, 99, 98s, A8o, 88, A7o, 77, A6o, 66, A5o, 55, A4o, 44, A3o, 33, 22"
+   }
+  },
+  {
+   "id": "rfi-mlr-2p1-4bb-lj",
+   "name": "RFI LJ 4bb max late 2:1",
+   "description": "Max late reg vanilla, 2:1, 4bb.",
+   "street": "preflop",
+   "situation": "RFI",
+   "heroPosition": "LJ",
+   "stack": {
+    "min": 4,
+    "max": 4
+   },
+   "ratio": {
+    "min": 2,
+    "max": 2
+   },
+   "bubble": null,
+   "tags": [
+    "rfi",
+    "max-late",
+    "vanilla"
+   ],
+   "actionIds": [
+    "fold",
+    "rfi",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "range": {
+    "shove": "AA, AKs, AQs, AJs, ATs, A9s, A8s, A7s, A6s, A5s, A4s, A3s, A2s, AKo, KK, KQs, KJs, KTs, K9s, K8s, K7s, K6s, K5s, K4s, K3s, AQo, KQo, QQ, QJs, QTs, Q9s, Q8s, AJo, KJo, QJo, JJ, JTs, J9s, J8s, ATo, KTo, QTo, JTo, TT, T9s, T8s, A9o, K9o, 99, 98s, A8o, 88, A7o, 77, A6o, 66, A5o, 55, A4o, 44, A3o, 33, A2o, 22"
+   }
+  },
+  {
+   "id": "rfi-mlr-2p1-4bb-hj",
+   "name": "RFI HJ 4bb max late 2:1",
+   "description": "Max late reg vanilla, 2:1, 4bb.",
+   "street": "preflop",
+   "situation": "RFI",
+   "heroPosition": "HJ",
+   "stack": {
+    "min": 4,
+    "max": 4
+   },
+   "ratio": {
+    "min": 2,
+    "max": 2
+   },
+   "bubble": null,
+   "tags": [
+    "rfi",
+    "max-late",
+    "vanilla"
+   ],
+   "actionIds": [
+    "fold",
+    "rfi",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "range": {
+    "shove": "AA, AKs, AQs, AJs, ATs, A9s, A8s, A7s, A6s, A5s, A4s, A3s, A2s, AKo, KK, KQs, KJs, KTs, K9s, K8s, K7s, K6s, K5s, K4s, K3s, K2s, AQo, KQo, QQ, QJs, QTs, Q9s, Q8s, Q7s, Q6s, Q5s, AJo, KJo, QJo, JJ, JTs, J9s, J8s, J7s, ATo, KTo, QTo, JTo, TT, T9s, T8s, T7s, A9o, K9o, Q9o, J9o, T9o, 99, 98s, 97s, A8o, K8o, 88, 87s, A7o, K7o, 77, A6o, 66, A5o, 55, A4o, 44, A3o, 33, A2o, 22"
+   }
+  },
+  {
+   "id": "rfi-mlr-2p1-4bb-co",
+   "name": "RFI CO 4bb max late 2:1",
+   "description": "Max late reg vanilla, 2:1, 4bb.",
+   "street": "preflop",
+   "situation": "RFI",
+   "heroPosition": "CO",
+   "stack": {
+    "min": 4,
+    "max": 4
+   },
+   "ratio": {
+    "min": 2,
+    "max": 2
+   },
+   "bubble": null,
+   "tags": [
+    "rfi",
+    "max-late",
+    "vanilla"
+   ],
+   "actionIds": [
+    "fold",
+    "rfi",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "range": {
+    "shove": "AA, AKs, AQs, AJs, ATs, A9s, A8s, A7s, A6s, A5s, A4s, A3s, A2s, AKo, KK, KQs, KJs, KTs, K9s, K8s, K7s, K6s, K5s, K4s, K3s, K2s, AQo, KQo, QQ, QJs, QTs, Q9s, Q8s, Q7s, Q6s, Q5s, Q4s, Q3s, Q2s, AJo, KJo, QJo, JJ, JTs, J9s, J8s, J7s, J6s, ATo, KTo, QTo, JTo, TT, T9s, T8s, T7s, T6s, A9o, K9o, Q9o, J9o, T9o, 99, 98s, 97s, A8o, K8o, Q8o, J8o, 88, 87s, 86s, A7o, K7o, 77, 76s, A6o, K6o, 66, A5o, K5o, 55, A4o, K4o, 44, A3o, K3o, 33, A2o, 22"
+   }
+  },
+  {
+   "id": "rfi-mlr-2p1-4bb-btn",
+   "name": "RFI BTN 4bb max late 2:1",
+   "description": "Max late reg vanilla, 2:1, 4bb.",
+   "street": "preflop",
+   "situation": "RFI",
+   "heroPosition": "BTN",
+   "stack": {
+    "min": 4,
+    "max": 4
+   },
+   "ratio": {
+    "min": 2,
+    "max": 2
+   },
+   "bubble": null,
+   "tags": [
+    "rfi",
+    "max-late",
+    "vanilla"
+   ],
+   "actionIds": [
+    "fold",
+    "rfi",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "range": {
+    "shove": "AA, AKs, AQs, AJs, ATs, A9s, A8s, A7s, A6s, A5s, A4s, A3s, A2s, AKo, KK, KQs, KJs, KTs, K9s, K8s, K7s, K6s, K5s, K4s, K3s, K2s, AQo, KQo, QQ, QJs, QTs, Q9s, Q8s, Q7s, Q6s, Q5s, Q4s, Q3s, Q2s, AJo, KJo, QJo, JJ, JTs, J9s, J8s, J7s, J6s, J5s, J4s, J3s, ATo, KTo, QTo, JTo, TT, T9s, T8s, T7s, T6s, T5s, A9o, K9o, Q9o, J9o, T9o, 99, 98s, 97s, 96s, A8o, K8o, Q8o, J8o, T8o, 98o, 88, 87s, 86s, A7o, K7o, Q7o, J7o, 77, 76s, A6o, K6o, Q6o, 66, A5o, K5o, Q5o, 55, A4o, K4o, 44, A3o, K3o, 33, A2o, K2o, 22"
+   }
+  },
+  {
+   "id": "rfi-mlr-2p1-6bb-utg",
+   "name": "RFI UTG 6bb max late 2:1",
+   "description": "Max late reg vanilla, 2:1, 6bb.",
+   "street": "preflop",
+   "situation": "RFI",
+   "heroPosition": "UTG",
+   "stack": {
+    "min": 6,
+    "max": 6
+   },
+   "ratio": {
+    "min": 2,
+    "max": 2
+   },
+   "bubble": null,
+   "tags": [
+    "rfi",
+    "max-late",
+    "vanilla"
+   ],
+   "actionIds": [
+    "fold",
+    "rfi",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "range": {
+    "shove": "AA, AKs, AQs, AJs, ATs, A9s, A8s, A7s, A6s, A5s, A4s, A3s, AKo, KK, KQs, KJs, KTs, K9s, AQo, KQo, QQ, QJs, QTs, AJo, KJo, JJ, JTs, ATo, TT, T9s, A9o, 99, A8o, 88, 77, 66, 55, 44, 33"
+   }
+  },
+  {
+   "id": "rfi-mlr-2p1-6bb-utg1",
+   "name": "RFI UTG1 6bb max late 2:1",
+   "description": "Max late reg vanilla, 2:1, 6bb.",
+   "street": "preflop",
+   "situation": "RFI",
+   "heroPosition": "UTG1",
+   "stack": {
+    "min": 6,
+    "max": 6
+   },
+   "ratio": {
+    "min": 2,
+    "max": 2
+   },
+   "bubble": null,
+   "tags": [
+    "rfi",
+    "max-late",
+    "vanilla"
+   ],
+   "actionIds": [
+    "fold",
+    "rfi",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "range": {
+    "shove": "AA, AKs, AQs, AJs, ATs, A9s, A8s, A7s, A6s, A5s, A4s, A3s, AKo, KK, KQs, KJs, KTs, K9s, AQo, KQo, QQ, QJs, QTs, AJo, KJo, JJ, JTs, ATo, TT, T9s, A9o, 99, A8o, 88, 77, 66, 55, 44, 33"
+   }
+  },
+  {
+   "id": "rfi-mlr-2p1-6bb-mp",
+   "name": "RFI MP 6bb max late 2:1",
+   "description": "Max late reg vanilla, 2:1, 6bb.",
+   "street": "preflop",
+   "situation": "RFI",
+   "heroPosition": "MP",
+   "stack": {
+    "min": 6,
+    "max": 6
+   },
+   "ratio": {
+    "min": 2,
+    "max": 2
+   },
+   "bubble": null,
+   "tags": [
+    "rfi",
+    "max-late",
+    "vanilla"
+   ],
+   "actionIds": [
+    "fold",
+    "rfi",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "range": {
+    "shove": "AA, AKs, AQs, AJs, ATs, A9s, A8s, A7s, A6s, A5s, A4s, A3s, A2s, AKo, KK, KQs, KJs, KTs, K9s, K8s, K7s, AQo, KQo, QQ, QJs, QTs, Q9s, AJo, KJo, QJo, JJ, JTs, J9s, ATo, KTo, TT, T9s, T8s, A9o, 99, 98s, A8o, 88, A7o, 77, A6o, 66, A5o, 55, A4o, 44, 33, 22"
+   }
+  },
+  {
+   "id": "rfi-mlr-2p1-6bb-lj",
+   "name": "RFI LJ 6bb max late 2:1",
+   "description": "Max late reg vanilla, 2:1, 6bb.",
+   "street": "preflop",
+   "situation": "RFI",
+   "heroPosition": "LJ",
+   "stack": {
+    "min": 6,
+    "max": 6
+   },
+   "ratio": {
+    "min": 2,
+    "max": 2
+   },
+   "bubble": null,
+   "tags": [
+    "rfi",
+    "max-late",
+    "vanilla"
+   ],
+   "actionIds": [
+    "fold",
+    "rfi",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "range": {
+    "shove": "AA, AKs, AQs, AJs, ATs, A9s, A8s, A7s, A6s, A5s, A4s, A3s, A2s, AKo, KK, KQs, KJs, KTs, K9s, K8s, K7s, K6s, K5s, AQo, KQo, QQ, QJs, QTs, Q9s, Q8s, AJo, KJo, QJo, JJ, JTs, J9s, J8s, ATo, KTo, QTo, JTo, TT, T9s, T8s, A9o, 99, 98s, A8o, 88, 87s, A7o, 77, A6o, 66, A5o, 55, A4o, 44, A3o, 33, A2o, 22"
+   }
+  },
+  {
+   "id": "rfi-mlr-2p1-6bb-hj",
+   "name": "RFI HJ 6bb max late 2:1",
+   "description": "Max late reg vanilla, 2:1, 6bb.",
+   "street": "preflop",
+   "situation": "RFI",
+   "heroPosition": "HJ",
+   "stack": {
+    "min": 6,
+    "max": 6
+   },
+   "ratio": {
+    "min": 2,
+    "max": 2
+   },
+   "bubble": null,
+   "tags": [
+    "rfi",
+    "max-late",
+    "vanilla"
+   ],
+   "actionIds": [
+    "fold",
+    "rfi",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "range": {
+    "shove": "AA, AKs, AQs, AJs, ATs, A9s, A8s, A7s, A6s, A5s, A4s, A3s, A2s, AKo, KK, KQs, KJs, KTs, K9s, K8s, K7s, K6s, K5s, K4s, K3s, K2s, AQo, KQo, QQ, QJs, QTs, Q9s, Q8s, Q7s, Q6s, AJo, KJo, QJo, JJ, JTs, J9s, J8s, J7s, ATo, KTo, QTo, JTo, TT, T9s, T8s, T7s, A9o, K9o, T9o, 99, 98s, 97s, A8o, 88, 87s, 86s, A7o, 77, 76s, A6o, 66, A5o, 55, A4o, 44, A3o, 33, A2o, 22"
+   }
+  },
+  {
+   "id": "rfi-mlr-2p1-6bb-co",
+   "name": "RFI CO 6bb max late 2:1",
+   "description": "Max late reg vanilla, 2:1, 6bb.",
+   "street": "preflop",
+   "situation": "RFI",
+   "heroPosition": "CO",
+   "stack": {
+    "min": 6,
+    "max": 6
+   },
+   "ratio": {
+    "min": 2,
+    "max": 2
+   },
+   "bubble": null,
+   "tags": [
+    "rfi",
+    "max-late",
+    "vanilla"
+   ],
+   "actionIds": [
+    "fold",
+    "rfi",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "range": {
+    "shove": "AA, AKs, AQs, AJs, ATs, A9s, A8s, A7s, A6s, A5s, A4s, A3s, A2s, AKo, KK, KQs, KJs, KTs, K9s, K8s, K7s, K6s, K5s, K4s, K3s, K2s, AQo, KQo, QQ, QJs, QTs, Q9s, Q8s, Q7s, Q6s, Q5s, Q4s, Q3s, Q2s, AJo, KJo, QJo, JJ, JTs, J9s, J8s, J7s, J6s, J5s, ATo, KTo, QTo, JTo, TT, T9s, T8s, T7s, T6s, A9o, K9o, Q9o, J9o, T9o, 99, 98s, 97s, 96s, A8o, K8o, T8o, 98o, 88, 87s, 86s, 85s, A7o, K7o, 77, 76s, 75s, A6o, K6o, 66, 65s, A5o, K5o, 55, A4o, 44, A3o, 33, A2o, 22"
+   }
+  },
+  {
+   "id": "rfi-mlr-2p1-6bb-btn",
+   "name": "RFI BTN 6bb max late 2:1",
+   "description": "Max late reg vanilla, 2:1, 6bb.",
+   "street": "preflop",
+   "situation": "RFI",
+   "heroPosition": "BTN",
+   "stack": {
+    "min": 6,
+    "max": 6
+   },
+   "ratio": {
+    "min": 2,
+    "max": 2
+   },
+   "bubble": null,
+   "tags": [
+    "rfi",
+    "max-late",
+    "vanilla"
+   ],
+   "actionIds": [
+    "fold",
+    "rfi",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "range": {
+    "shove": "AA, AKs, AQs, AJs, ATs, A9s, A8s, A7s, A6s, A5s, A4s, A3s, A2s, AKo, KK, KQs, KJs, KTs, K9s, K8s, K7s, K6s, K5s, K4s, K3s, K2s, AQo, KQo, QQ, QJs, QTs, Q9s, Q8s, Q7s, Q6s, Q5s, Q4s, Q3s, Q2s, AJo, KJo, QJo, JJ, JTs, J9s, J8s, J7s, J6s, J5s, J4s, J3s, J2s, ATo, KTo, QTo, JTo, TT, T9s, T8s, T7s, T6s, T5s, T4s, T3s, T2s, A9o, K9o, Q9o, J9o, T9o, 99, 98s, 97s, 96s, 95s, 94s, A8o, K8o, Q8o, J8o, T8o, 98o, 88, 87s, 86s, 85s, 84s, A7o, K7o, Q7o, J7o, T7o, 97o, 87o, 77, 76s, 75s, 74s, A6o, K6o, Q6o, 66, 65s, 64s, A5o, K5o, 55, 54s, 53s, A4o, K4o, 44, 43s, A3o, K3o, 33, A2o, K2o, 22"
+   }
+  },
+  {
+   "id": "rfi-mlr-2p1-8bb-utg",
+   "name": "RFI UTG 8bb max late 2:1",
+   "description": "Max late reg vanilla, 2:1, 8bb.",
+   "street": "preflop",
+   "situation": "RFI",
+   "heroPosition": "UTG",
+   "stack": {
+    "min": 8,
+    "max": 8
+   },
+   "ratio": {
+    "min": 2,
+    "max": 2
+   },
+   "bubble": null,
+   "tags": [
+    "rfi",
+    "max-late",
+    "vanilla"
+   ],
+   "actionIds": [
+    "fold",
+    "rfi",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "range": {
+    "rfi": "AA, A6s, KK, A9o",
+    "shove": "AKs, AQs, AJs, ATs, A9s, A8s, A7s, A5s, AKo, KQs, KJs, KTs, AQo, KQo, QQ, QJs, QTs, AJo, JJ, JTs, ATo, TT, 99, 88, 77, 66, 55"
+   }
+  },
+  {
+   "id": "rfi-mlr-2p1-8bb-utg1",
+   "name": "RFI UTG1 8bb max late 2:1",
+   "description": "Max late reg vanilla, 2:1, 8bb.",
+   "street": "preflop",
+   "situation": "RFI",
+   "heroPosition": "UTG1",
+   "stack": {
+    "min": 8,
+    "max": 8
+   },
+   "ratio": {
+    "min": 2,
+    "max": 2
+   },
+   "bubble": null,
+   "tags": [
+    "rfi",
+    "max-late",
+    "vanilla"
+   ],
+   "actionIds": [
+    "fold",
+    "rfi",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "range": {
+    "rfi": "AA, A6s, KK, A9o",
+    "shove": "AKs, AQs, AJs, ATs, A9s, A8s, A7s, A5s, AKo, KQs, KJs, KTs, AQo, KQo, QQ, QJs, QTs, AJo, JJ, JTs, ATo, TT, 99, 88, 77, 66, 55"
+   }
+  },
+  {
+   "id": "rfi-mlr-2p1-8bb-mp",
+   "name": "RFI MP 8bb max late 2:1",
+   "description": "Max late reg vanilla, 2:1, 8bb.",
+   "street": "preflop",
+   "situation": "RFI",
+   "heroPosition": "MP",
+   "stack": {
+    "min": 8,
+    "max": 8
+   },
+   "ratio": {
+    "min": 2,
+    "max": 2
+   },
+   "bubble": null,
+   "tags": [
+    "rfi",
+    "max-late",
+    "vanilla"
+   ],
+   "actionIds": [
+    "fold",
+    "rfi",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "range": {
+    "rfi": "AA, A6s, KK, A9o",
+    "shove": "AKs, AQs, AJs, ATs, A9s, A8s, A7s, A5s, AKo, KQs, KJs, KTs, AQo, KQo, QQ, QJs, QTs, AJo, JJ, JTs, ATo, TT, 99, 88, 77, 66, 55"
+   }
+  },
+  {
+   "id": "rfi-mlr-2p1-8bb-lj",
+   "name": "RFI LJ 8bb max late 2:1",
+   "description": "Max late reg vanilla, 2:1, 8bb.",
+   "street": "preflop",
+   "situation": "RFI",
+   "heroPosition": "LJ",
+   "stack": {
+    "min": 8,
+    "max": 8
+   },
+   "ratio": {
+    "min": 2,
+    "max": 2
+   },
+   "bubble": null,
+   "tags": [
+    "rfi",
+    "max-late",
+    "vanilla"
+   ],
+   "actionIds": [
+    "fold",
+    "rfi",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "range": {
+    "rfi": "AA, AKs, KK, QQ, QJo, QTo, A6o, A4o",
+    "shove": "AQs, AJs, ATs, A9s, A8s, A7s, A6s, A5s, A4s, A3s, A2s, AKo, KQs, KJs, KTs, K9s, K8s, K7s, AQo, KQo, QJs, QTs, Q9s, Q8s, AJo, KJo, JJ, JTs, J9s, J8s, ATo, KTo, JTo, TT, T9s, T8s, A9o, 99, 98s, A8o, 88, A7o, 77, 66, A5o, 55, 44, 33, 22"
+   },
+   "alsoCorrect": {
+    "rfi": "A3o"
+   }
+  },
+  {
+   "id": "rfi-mlr-2p1-8bb-hj",
+   "name": "RFI HJ 8bb max late 2:1",
+   "description": "Max late reg vanilla, 2:1, 8bb.",
+   "street": "preflop",
+   "situation": "RFI",
+   "heroPosition": "HJ",
+   "stack": {
+    "min": 8,
+    "max": 8
+   },
+   "ratio": {
+    "min": 2,
+    "max": 2
+   },
+   "bubble": null,
+   "tags": [
+    "rfi",
+    "max-late",
+    "vanilla"
+   ],
+   "actionIds": [
+    "fold",
+    "rfi",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "range": {
+    "rfi": "AA, AKs, KK, K4s, QQ, Q7s, Q6s, JJ, J7s, K9o, Q9o, T9o, K8o, A6o, A4o, A3o, A2o",
+    "shove": "AQs, AJs, ATs, A9s, A8s, A7s, A6s, A5s, A4s, A3s, A2s, AKo, KQs, KJs, KTs, K9s, K8s, K7s, K6s, K5s, AQo, KQo, QJs, QTs, Q9s, Q8s, AJo, KJo, QJo, JTs, J9s, J8s, ATo, KTo, QTo, JTo, TT, T9s, T8s, T7s, A9o, 99, 98s, 97s, A8o, 88, 87s, A7o, 77, 76s, 66, A5o, 55, 44, 33, 22"
+   },
+   "alsoCorrect": {
+    "rfi": "Q5s, J9o"
+   }
+  },
+  {
+   "id": "rfi-mlr-2p1-8bb-co",
+   "name": "RFI CO 8bb max late 2:1",
+   "description": "Max late reg vanilla, 2:1, 8bb.",
+   "street": "preflop",
+   "situation": "RFI",
+   "heroPosition": "CO",
+   "stack": {
+    "min": 8,
+    "max": 8
+   },
+   "ratio": {
+    "min": 2,
+    "max": 2
+   },
+   "bubble": null,
+   "tags": [
+    "rfi",
+    "max-late",
+    "vanilla"
+   ],
+   "actionIds": [
+    "fold",
+    "rfi",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "range": {
+    "rfi": "AA, AKs, AQs, AJs, ATs, KK, KQs, KJs, KTs, QQ, QJs, Q4s, Q3s, Q2s, JJ, J6s, J5s, J4s, TT, T6s, K9o, Q9o, K8o, Q8o, J8o, T8o, 98o, K7o, 75s, K6o, K5o, 54s",
+    "shove": "A9s, A8s, A7s, A6s, A5s, A4s, A3s, A2s, AKo, K9s, K8s, K7s, K6s, K5s, K4s, K3s, K2s, AQo, KQo, QTs, Q9s, Q8s, Q7s, Q6s, Q5s, AJo, KJo, QJo, JTs, J9s, J8s, J7s, ATo, KTo, QTo, JTo, T9s, T8s, T7s, A9o, J9o, T9o, 99, 98s, 97s, 96s, A8o, 88, 87s, 86s, A7o, 77, 76s, A6o, 66, 65s, A5o, 55, A4o, 44, A3o, 33, A2o, 22"
+   }
+  },
+  {
+   "id": "rfi-mlr-2p1-8bb-btn",
+   "name": "RFI BTN 8bb max late 2:1",
+   "description": "Max late reg vanilla, 2:1, 8bb.",
+   "street": "preflop",
+   "situation": "RFI",
+   "heroPosition": "BTN",
+   "stack": {
+    "min": 8,
+    "max": 8
+   },
+   "ratio": {
+    "min": 2,
+    "max": 2
+   },
+   "bubble": null,
+   "tags": [
+    "rfi",
+    "max-late",
+    "vanilla"
+   ],
+   "actionIds": [
+    "fold",
+    "rfi",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "range": {
+    "rfi": "AA, AKs, AQs, AJs, ATs, KK, KQs, KJs, KTs, QQ, QJs, QTs, JJ, JTs, TT, T3s, T2s, Q6o, K4o, K3o",
+    "shove": "A9s, A8s, A7s, A6s, A5s, A4s, A3s, A2s, AKo, K9s, K8s, K7s, K6s, K5s, K4s, K3s, K2s, AQo, KQo, Q9s, Q8s, Q7s, Q6s, Q5s, Q4s, Q3s, Q2s, AJo, KJo, QJo, J9s, J8s, J7s, J6s, J5s, J4s, J3s, J2s, ATo, KTo, QTo, JTo, T9s, T8s, T7s, T6s, T5s, T4s, A9o, K9o, Q9o, J9o, T9o, 99, 98s, 97s, 96s, 95s, A8o, K8o, Q8o, J8o, T8o, 98o, 88, 87s, 86s, 85s, A7o, K7o, Q7o, 87o, 77, 76s, 75s, A6o, K6o, 66, 65s, 64s, A5o, K5o, 55, 54s, A4o, 44, A3o, 33, A2o, 22"
+   }
+  },
+  {
+   "id": "rfi-mlr-2p1-10bb-utg",
+   "name": "RFI UTG 10bb max late 2:1",
+   "description": "Max late reg vanilla, 2:1, 10bb.",
+   "street": "preflop",
+   "situation": "RFI",
+   "heroPosition": "UTG",
+   "stack": {
+    "min": 10,
+    "max": 10
+   },
+   "ratio": {
+    "min": 2,
+    "max": 2
+   },
+   "bubble": null,
+   "tags": [
+    "rfi",
+    "max-late",
+    "vanilla"
+   ],
+   "actionIds": [
+    "fold",
+    "rfi",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "range": {
+    "rfi": "AA, A9s, A8s, A7s, A6s, A5s, A4s, A3s, A2s, KK, KTs, K9s, K8s, KQo, QJs, QTs, Q9s, KJo, QJo, JTs, ATo, A9o",
+    "shove": "AKs, AQs, AJs, ATs, AKo, KQs, KJs, AQo, QQ, AJo, JJ, TT, 99, 88, 77"
+   }
+  },
+  {
+   "id": "rfi-mlr-2p1-10bb-utg1",
+   "name": "RFI UTG1 10bb max late 2:1",
+   "description": "Max late reg vanilla, 2:1, 10bb.",
+   "street": "preflop",
+   "situation": "RFI",
+   "heroPosition": "UTG1",
+   "stack": {
+    "min": 10,
+    "max": 10
+   },
+   "ratio": {
+    "min": 2,
+    "max": 2
+   },
+   "bubble": null,
+   "tags": [
+    "rfi",
+    "max-late",
+    "vanilla"
+   ],
+   "actionIds": [
+    "fold",
+    "rfi",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "range": {
+    "rfi": "AA, A9s, A8s, A7s, A6s, A5s, A4s, A3s, A2s, KK, KTs, K9s, K8s, KQo, QJs, QTs, Q9s, KJo, QJo, JTs, ATo, A9o",
+    "shove": "AKs, AQs, AJs, ATs, AKo, KQs, KJs, AQo, QQ, AJo, JJ, TT, 99, 88, 77"
+   }
+  },
+  {
+   "id": "rfi-mlr-2p1-10bb-mp",
+   "name": "RFI MP 10bb max late 2:1",
+   "description": "Max late reg vanilla, 2:1, 10bb.",
+   "street": "preflop",
+   "situation": "RFI",
+   "heroPosition": "MP",
+   "stack": {
+    "min": 10,
+    "max": 10
+   },
+   "ratio": {
+    "min": 2,
+    "max": 2
+   },
+   "bubble": null,
+   "tags": [
+    "rfi",
+    "max-late",
+    "vanilla"
+   ],
+   "actionIds": [
+    "fold",
+    "rfi",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "range": {
+    "rfi": "AA, A6s, A4s, A3s, A2s, KK, K9s, K8s, K7s, QQ, Q9s, Q8s, KJo, QJo, J9s, KTo, T9s, A9o, A8o, A7o",
+    "shove": "AKs, AQs, AJs, ATs, A9s, A8s, A7s, A5s, AKo, KQs, KJs, KTs, AQo, KQo, QJs, QTs, AJo, JJ, JTs, ATo, TT, 99, 88, 77, 66"
+   }
+  },
+  {
+   "id": "rfi-mlr-2p1-10bb-lj",
+   "name": "RFI LJ 10bb max late 2:1",
+   "description": "Max late reg vanilla, 2:1, 10bb.",
+   "street": "preflop",
+   "situation": "RFI",
+   "heroPosition": "LJ",
+   "stack": {
+    "min": 10,
+    "max": 10
+   },
+   "ratio": {
+    "min": 2,
+    "max": 2
+   },
+   "bubble": null,
+   "tags": [
+    "rfi",
+    "max-late",
+    "vanilla"
+   ],
+   "actionIds": [
+    "fold",
+    "rfi",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "range": {
+    "rfi": "AA, AKs, A3s, A2s, KK, K9s, K8s, K7s, K6s, QQ, Q9s, Q8s, KJo, QJo, JJ, J9s, KTo, QTo, T9s, A9o, A8o, A7o, A5o",
+    "shove": "AQs, AJs, ATs, A9s, A8s, A7s, A6s, A5s, A4s, AKo, KQs, KJs, KTs, AQo, KQo, QJs, QTs, AJo, JTs, ATo, TT, 99, 88, 77, 66, 55"
+   }
+  },
+  {
+   "id": "rfi-mlr-2p1-10bb-hj",
+   "name": "RFI HJ 10bb max late 2:1",
+   "description": "Max late reg vanilla, 2:1, 10bb.",
+   "street": "preflop",
+   "situation": "RFI",
+   "heroPosition": "HJ",
+   "stack": {
+    "min": 10,
+    "max": 10
+   },
+   "ratio": {
+    "min": 2,
+    "max": 2
+   },
+   "bubble": null,
+   "tags": [
+    "rfi",
+    "max-late",
+    "vanilla"
+   ],
+   "actionIds": [
+    "fold",
+    "rfi",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "range": {
+    "rfi": "AA, AKs, AQs, KK, K8s, K7s, K6s, K5s, K4s, K3s, K2s, QQ, Q8s, Q7s, Q6s, J8s, J7s, KTo, QTo, JTo, T8s, K9o, Q9o, 98s, 87s, A7o, A6o, A5o, A4o, A3o, A2o",
+    "shove": "AJs, ATs, A9s, A8s, A7s, A6s, A5s, A4s, A3s, A2s, AKo, KQs, KJs, KTs, K9s, AQo, KQo, QJs, QTs, Q9s, AJo, KJo, QJo, JJ, JTs, J9s, ATo, TT, T9s, A9o, 99, A8o, 88, 77, 66, 55, 44, 33, 22"
+   }
+  },
+  {
+   "id": "rfi-mlr-2p1-10bb-co",
+   "name": "RFI CO 10bb max late 2:1",
+   "description": "Max late reg vanilla, 2:1, 10bb.",
+   "street": "preflop",
+   "situation": "RFI",
+   "heroPosition": "CO",
+   "stack": {
+    "min": 10,
+    "max": 10
+   },
+   "ratio": {
+    "min": 2,
+    "max": 2
+   },
+   "bubble": null,
+   "tags": [
+    "rfi",
+    "max-late",
+    "vanilla"
+   ],
+   "actionIds": [
+    "fold",
+    "rfi",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "range": {
+    "rfi": "AA, AKs, AQs, KK, K6s, K5s, K4s, K3s, K2s, QQ, Q7s, Q6s, Q5s, Q4s, JJ, J7s, J6s, T7s, K9o, Q9o, J9o, T9o, 97s, K8o, 87s, 86s, 76s, A6o, 65s, A5o, A4o, A3o, A2o",
+    "shove": "AJs, ATs, A9s, A8s, A7s, A6s, A5s, A4s, A3s, A2s, AKo, KQs, KJs, KTs, K9s, K8s, K7s, AQo, KQo, QJs, QTs, Q9s, Q8s, AJo, KJo, QJo, JTs, J9s, J8s, ATo, KTo, QTo, JTo, TT, T9s, T8s, A9o, 99, 98s, A8o, 88, A7o, 77, 66, 55, 44, 33, 22"
+   }
+  },
+  {
+   "id": "rfi-mlr-2p1-10bb-btn",
+   "name": "RFI BTN 10bb max late 2:1",
+   "description": "Max late reg vanilla, 2:1, 10bb.",
+   "street": "preflop",
+   "situation": "RFI",
+   "heroPosition": "BTN",
+   "stack": {
+    "min": 10,
+    "max": 10
+   },
+   "ratio": {
+    "min": 2,
+    "max": 2
+   },
+   "bubble": null,
+   "tags": [
+    "rfi",
+    "max-late",
+    "vanilla"
+   ],
+   "actionIds": [
+    "fold",
+    "rfi",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "range": {
+    "rfi": "AA, AKs, AQs, KK, QQ, Q3s, Q2s, JJ, J4s, T6s, T5s, 96s, K8o, Q8o, J8o, T8o, K7o",
+    "shove": "AJs, ATs, A9s, A8s, A7s, A6s, A5s, A4s, A3s, A2s, AKo, KQs, KJs, KTs, K9s, K8s, K7s, K6s, K5s, K4s, K3s, K2s, AQo, KQo, QJs, QTs, Q9s, Q8s, Q7s, Q6s, Q5s, Q4s, AJo, KJo, QJo, JTs, J9s, J8s, J7s, J6s, J5s, ATo, KTo, QTo, JTo, TT, T9s, T8s, T7s, A9o, K9o, Q9o, J9o, T9o, 99, 98s, 97s, A8o, 88, 87s, 86s, A7o, 77, 76s, A6o, 66, 65s, A5o, 55, A4o, 44, A3o, 33, A2o, 22"
+   }
+  },
+  {
+   "id": "rfi-mlr-2p1-15bb-utg",
+   "name": "RFI UTG 15bb max late 2:1",
+   "description": "Max late reg vanilla, 2:1, 15bb.",
+   "street": "preflop",
+   "situation": "RFI",
+   "heroPosition": "UTG",
+   "stack": {
+    "min": 15,
+    "max": 15
+   },
+   "ratio": {
+    "min": 2,
+    "max": 2
+   },
+   "bubble": null,
+   "tags": [
+    "rfi",
+    "max-late",
+    "vanilla"
+   ],
+   "actionIds": [
+    "fold",
+    "rfi",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "range": {
+    "rfi": "AA, AKs, AQs, AJs, ATs, A9s, A8s, A7s, A6s, A5s, A4s, A3s, A2s, AKo, KK, KQs, KJs, KTs, K9s, K8s, AQo, KQo, QQ, QJs, QTs, Q9s, AJo, KJo, QJo, JJ, JTs, J9s, ATo, KTo, TT, T9s, A9o, 99, 88, 77, 66"
+   }
+  },
+  {
+   "id": "rfi-mlr-2p1-15bb-utg1",
+   "name": "RFI UTG1 15bb max late 2:1",
+   "description": "Max late reg vanilla, 2:1, 15bb.",
+   "street": "preflop",
+   "situation": "RFI",
+   "heroPosition": "UTG1",
+   "stack": {
+    "min": 15,
+    "max": 15
+   },
+   "ratio": {
+    "min": 2,
+    "max": 2
+   },
+   "bubble": null,
+   "tags": [
+    "rfi",
+    "max-late",
+    "vanilla"
+   ],
+   "actionIds": [
+    "fold",
+    "rfi",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "range": {
+    "rfi": "AA, AKs, AQs, AJs, ATs, A9s, A8s, A7s, A6s, A5s, A4s, A3s, A2s, AKo, KK, KQs, KJs, KTs, K9s, K8s, AQo, KQo, QQ, QJs, QTs, Q9s, AJo, KJo, QJo, JJ, JTs, J9s, ATo, KTo, TT, T9s, A9o, 99, 88, 77, 66"
+   }
+  },
+  {
+   "id": "rfi-mlr-2p1-15bb-mp",
+   "name": "RFI MP 15bb max late 2:1",
+   "description": "Max late reg vanilla, 2:1, 15bb.",
+   "street": "preflop",
+   "situation": "RFI",
+   "heroPosition": "MP",
+   "stack": {
+    "min": 15,
+    "max": 15
+   },
+   "ratio": {
+    "min": 2,
+    "max": 2
+   },
+   "bubble": null,
+   "tags": [
+    "rfi",
+    "max-late",
+    "vanilla"
+   ],
+   "actionIds": [
+    "fold",
+    "rfi",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "range": {
+    "rfi": "AA, AKs, AQs, AJs, ATs, A9s, A8s, A7s, A6s, A5s, A4s, A3s, A2s, AKo, KK, KQs, KJs, KTs, K9s, K8s, K7s, K6s, K5s, K4s, AQo, KQo, QQ, QJs, QTs, Q9s, Q8s, Q7s, AJo, KJo, QJo, JJ, JTs, J9s, J8s, ATo, KTo, QTo, TT, T9s, T8s, A9o, 99, 98s, A8o, 88, A7o, 77, 66, A5o, 55"
+   }
+  },
+  {
+   "id": "rfi-mlr-2p1-15bb-lj",
+   "name": "RFI LJ 15bb max late 2:1",
+   "description": "Max late reg vanilla, 2:1, 15bb.",
+   "street": "preflop",
+   "situation": "RFI",
+   "heroPosition": "LJ",
+   "stack": {
+    "min": 15,
+    "max": 15
+   },
+   "ratio": {
+    "min": 2,
+    "max": 2
+   },
+   "bubble": null,
+   "tags": [
+    "rfi",
+    "max-late",
+    "vanilla"
+   ],
+   "actionIds": [
+    "fold",
+    "rfi",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "range": {
+    "rfi": "AA, AKs, AQs, AJs, ATs, A9s, A8s, A7s, A6s, A5s, A4s, A3s, A2s, AKo, KK, KQs, KJs, KTs, K9s, K8s, K7s, K6s, K5s, K4s, K3s, AQo, KQo, QQ, QJs, QTs, Q9s, Q8s, Q7s, AJo, KJo, QJo, JJ, JTs, J9s, J8s, ATo, KTo, QTo, JTo, TT, T9s, T8s, A9o, 99, 98s, A8o, 88, 87s, A7o, 77, A6o, 66, A5o, 55, A4o"
+   }
+  },
+  {
+   "id": "rfi-mlr-2p1-15bb-hj",
+   "name": "RFI HJ 15bb max late 2:1",
+   "description": "Max late reg vanilla, 2:1, 15bb.",
+   "street": "preflop",
+   "situation": "RFI",
+   "heroPosition": "HJ",
+   "stack": {
+    "min": 15,
+    "max": 15
+   },
+   "ratio": {
+    "min": 2,
+    "max": 2
+   },
+   "bubble": null,
+   "tags": [
+    "rfi",
+    "max-late",
+    "vanilla"
+   ],
+   "actionIds": [
+    "fold",
+    "rfi",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "range": {
+    "rfi": "AA, AKs, AQs, AJs, ATs, A9s, A8s, A7s, A6s, A5s, A4s, A3s, A2s, AKo, KK, KQs, KJs, KTs, K9s, K8s, K7s, K6s, K5s, K4s, K3s, K2s, AQo, KQo, QQ, QJs, QTs, Q9s, Q8s, Q7s, Q6s, Q5s, Q4s, AJo, KJo, QJo, JJ, JTs, J9s, J8s, J7s, ATo, KTo, QTo, JTo, TT, T9s, T8s, T7s, A9o, K9o, Q9o, J9o, T9o, 99, 98s, 97s, A8o, K8o, 88, 87s, A7o, 77, 76s, A6o, 66, A5o, 55, A4o, 44, A3o, A2o"
+   }
+  },
+  {
+   "id": "rfi-mlr-2p1-15bb-co",
+   "name": "RFI CO 15bb max late 2:1",
+   "description": "Max late reg vanilla, 2:1, 15bb.",
+   "street": "preflop",
+   "situation": "RFI",
+   "heroPosition": "CO",
+   "stack": {
+    "min": 15,
+    "max": 15
+   },
+   "ratio": {
+    "min": 2,
+    "max": 2
+   },
+   "bubble": null,
+   "tags": [
+    "rfi",
+    "max-late",
+    "vanilla"
+   ],
+   "actionIds": [
+    "fold",
+    "rfi",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "range": {
+    "rfi": "AA, AKs, AQs, AJs, ATs, KK, K9s, K8s, K7s, K6s, K5s, K4s, K3s, K2s, QQ, Q9s, Q8s, Q7s, Q6s, Q5s, Q4s, Q3s, Q2s, KJo, QJo, JJ, J9s, J8s, J7s, J6s, J5s, J4s, KTo, QTo, JTo, TT, T9s, T8s, T7s, T6s, A9o, K9o, Q9o, J9o, T9o, 99, 98s, 97s, 96s, A8o, K8o, Q8o, J8o, 87s, 86s, A7o, K7o, 76s, 75s, A6o, 65s, A5o, 54s, A4o, A3o, A2o",
+    "shove": "A9s, A8s, A7s, A6s, A5s, A4s, A3s, A2s, AKo, KQs, KJs, KTs, AQo, KQo, QJs, QTs, AJo, JTs, ATo, 88, 77, 66, 55, 44"
+   }
+  },
+  {
+   "id": "rfi-mlr-2p1-15bb-btn",
+   "name": "RFI BTN 15bb max late 2:1",
+   "description": "Max late reg vanilla, 2:1, 15bb.",
+   "street": "preflop",
+   "situation": "RFI",
+   "heroPosition": "BTN",
+   "stack": {
+    "min": 15,
+    "max": 15
+   },
+   "ratio": {
+    "min": 2,
+    "max": 2
+   },
+   "bubble": null,
+   "tags": [
+    "rfi",
+    "max-late",
+    "vanilla"
+   ],
+   "actionIds": [
+    "fold",
+    "rfi",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "range": {
+    "rfi": "AA, AKs, AQs, AJs, ATs, AKo, KK, K9s, K8s, K7s, K6s, K5s, K4s, K3s, K2s, QQ, Q9s, Q8s, Q7s, Q6s, Q5s, Q4s, Q3s, Q2s, KJo, QJo, JJ, J9s, J8s, J7s, J6s, J5s, J4s, J3s, J2s, KTo, QTo, JTo, TT, T9s, T8s, T7s, T6s, T5s, T4s, K9o, Q9o, J9o, T9o, 99, 98s, 97s, 96s, K8o, Q8o, J8o, T8o, 98o, 87s, 86s, A7o, K7o, 76s, 75s, A6o, K6o, 65s, A5o, K5o, 54s, A4o, A3o, A2o",
+    "shove": "A9s, A8s, A7s, A6s, A5s, A4s, A3s, A2s, KQs, KJs, KTs, AQo, KQo, QJs, QTs, AJo, JTs, ATo, A9o, A8o, 88, 77, 66, 55, 44"
+   }
+  },
+  {
+   "id": "rfi-mlr-1e5p1-2bb-utg",
+   "name": "RFI UTG 2bb max late 1,5:1",
+   "description": "Max late reg vanilla, 1,5:1, 2bb.",
+   "street": "preflop",
+   "situation": "RFI",
+   "heroPosition": "UTG",
+   "stack": {
+    "min": 2,
+    "max": 2
+   },
+   "ratio": {
+    "min": 1.5,
+    "max": 1.5
+   },
+   "bubble": null,
+   "tags": [
+    "rfi",
+    "max-late",
+    "vanilla"
+   ],
+   "actionIds": [
+    "fold",
+    "rfi",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "range": {
+    "shove": "AA, AKs, AQs, AJs, ATs, A9s, A8s, A7s, A6s, A5s, A4s, A3s, A2s, AKo, KK, KQs, KJs, KTs, K9s, K8s, K7s, K6s, K5s, K4s, K3s, K2s, AQo, KQo, QQ, QJs, QTs, Q9s, Q8s, Q7s, Q6s, Q5s, AJo, KJo, QJo, JJ, JTs, J9s, J8s, J7s, ATo, KTo, QTo, JTo, TT, T9s, T8s, T7s, A9o, K9o, Q9o, J9o, T9o, 99, 98s, 97s, A8o, 88, 87s, A7o, 77, 76s, A6o, 66, A5o, 55, A4o, 44, A3o, 33, A2o"
+   }
+  },
+  {
+   "id": "rfi-mlr-1e5p1-2bb-utg1",
+   "name": "RFI UTG1 2bb max late 1,5:1",
+   "description": "Max late reg vanilla, 1,5:1, 2bb.",
+   "street": "preflop",
+   "situation": "RFI",
+   "heroPosition": "UTG1",
+   "stack": {
+    "min": 2,
+    "max": 2
+   },
+   "ratio": {
+    "min": 1.5,
+    "max": 1.5
+   },
+   "bubble": null,
+   "tags": [
+    "rfi",
+    "max-late",
+    "vanilla"
+   ],
+   "actionIds": [
+    "fold",
+    "rfi",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "range": {
+    "shove": "AA, AKs, AQs, AJs, ATs, A9s, A8s, A7s, A6s, A5s, A4s, A3s, A2s, AKo, KK, KQs, KJs, KTs, K9s, K8s, K7s, K6s, K5s, K4s, K3s, K2s, AQo, KQo, QQ, QJs, QTs, Q9s, Q8s, Q7s, Q6s, Q5s, AJo, KJo, QJo, JJ, JTs, J9s, J8s, J7s, ATo, KTo, QTo, JTo, TT, T9s, T8s, T7s, A9o, K9o, Q9o, J9o, T9o, 99, 98s, 97s, A8o, 88, 87s, A7o, 77, 76s, A6o, 66, A5o, 55, A4o, 44, A3o, 33, A2o"
+   }
+  },
+  {
+   "id": "rfi-mlr-1e5p1-2bb-mp",
+   "name": "RFI MP 2bb max late 1,5:1",
+   "description": "Max late reg vanilla, 1,5:1, 2bb.",
+   "street": "preflop",
+   "situation": "RFI",
+   "heroPosition": "MP",
+   "stack": {
+    "min": 2,
+    "max": 2
+   },
+   "ratio": {
+    "min": 1.5,
+    "max": 1.5
+   },
+   "bubble": null,
+   "tags": [
+    "rfi",
+    "max-late",
+    "vanilla"
+   ],
+   "actionIds": [
+    "fold",
+    "rfi",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "range": {
+    "shove": "AA, AKs, AQs, AJs, ATs, A9s, A8s, A7s, A6s, A5s, A4s, A3s, A2s, AKo, KK, KQs, KJs, KTs, K9s, K8s, K7s, K6s, K5s, K4s, K3s, K2s, AQo, KQo, QQ, QJs, QTs, Q9s, Q8s, Q7s, Q6s, Q5s, Q4s, AJo, KJo, QJo, JJ, JTs, J9s, J8s, J7s, ATo, KTo, QTo, JTo, TT, T9s, T8s, T7s, A9o, K9o, Q9o, J9o, T9o, 99, 98s, 97s, A8o, K8o, 88, 87s, A7o, 77, A6o, 66, A5o, 55, A4o, 44, A3o, 33, A2o"
+   }
+  },
+  {
+   "id": "rfi-mlr-1e5p1-2bb-lj",
+   "name": "RFI LJ 2bb max late 1,5:1",
+   "description": "Max late reg vanilla, 1,5:1, 2bb.",
+   "street": "preflop",
+   "situation": "RFI",
+   "heroPosition": "LJ",
+   "stack": {
+    "min": 2,
+    "max": 2
+   },
+   "ratio": {
+    "min": 1.5,
+    "max": 1.5
+   },
+   "bubble": null,
+   "tags": [
+    "rfi",
+    "max-late",
+    "vanilla"
+   ],
+   "actionIds": [
+    "fold",
+    "rfi",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "range": {
+    "shove": "AA, AKs, AQs, AJs, ATs, A9s, A8s, A7s, A6s, A5s, A4s, A3s, A2s, AKo, KK, KQs, KJs, KTs, K9s, K8s, K7s, K6s, K5s, K4s, K3s, K2s, AQo, KQo, QQ, QJs, QTs, Q9s, Q8s, Q7s, Q6s, Q5s, Q4s, Q3s, AJo, KJo, QJo, JJ, JTs, J9s, J8s, J7s, ATo, KTo, QTo, JTo, TT, T9s, T8s, T7s, A9o, K9o, Q9o, J9o, T9o, 99, 98s, 97s, A8o, K8o, Q8o, 88, 87s, A7o, K7o, 77, A6o, 66, A5o, 55, A4o, 44, A3o, 33, A2o"
+   }
+  },
+  {
+   "id": "rfi-mlr-1e5p1-2bb-hj",
+   "name": "RFI HJ 2bb max late 1,5:1",
+   "description": "Max late reg vanilla, 1,5:1, 2bb.",
+   "street": "preflop",
+   "situation": "RFI",
+   "heroPosition": "HJ",
+   "stack": {
+    "min": 2,
+    "max": 2
+   },
+   "ratio": {
+    "min": 1.5,
+    "max": 1.5
+   },
+   "bubble": null,
+   "tags": [
+    "rfi",
+    "max-late",
+    "vanilla"
+   ],
+   "actionIds": [
+    "fold",
+    "rfi",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "range": {
+    "shove": "AA, AKs, AQs, AJs, ATs, A9s, A8s, A7s, A6s, A5s, A4s, A3s, A2s, AKo, KK, KQs, KJs, KTs, K9s, K8s, K7s, K6s, K5s, K4s, K3s, K2s, AQo, KQo, QQ, QJs, QTs, Q9s, Q8s, Q7s, Q6s, Q5s, Q4s, Q3s, Q2s, AJo, KJo, QJo, JJ, JTs, J9s, J8s, J7s, J6s, J5s, ATo, KTo, QTo, JTo, TT, T9s, T8s, T7s, T6s, A9o, K9o, Q9o, J9o, T9o, 99, 98s, 97s, A8o, K8o, Q8o, J8o, T8o, 88, 87s, A7o, K7o, 77, A6o, K6o, 66, A5o, K5o, 55, A4o, K4o, 44, A3o, 33, A2o, 22"
+   }
+  },
+  {
+   "id": "rfi-mlr-1e5p1-2bb-co",
+   "name": "RFI CO 2bb max late 1,5:1",
+   "description": "Max late reg vanilla, 1,5:1, 2bb.",
+   "street": "preflop",
+   "situation": "RFI",
+   "heroPosition": "CO",
+   "stack": {
+    "min": 2,
+    "max": 2
+   },
+   "ratio": {
+    "min": 1.5,
+    "max": 1.5
+   },
+   "bubble": null,
+   "tags": [
+    "rfi",
+    "max-late",
+    "vanilla"
+   ],
+   "actionIds": [
+    "fold",
+    "rfi",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "range": {
+    "shove": "AA, AKs, AQs, AJs, ATs, A9s, A8s, A7s, A6s, A5s, A4s, A3s, A2s, AKo, KK, KQs, KJs, KTs, K9s, K8s, K7s, K6s, K5s, K4s, K3s, K2s, AQo, KQo, QQ, QJs, QTs, Q9s, Q8s, Q7s, Q6s, Q5s, Q4s, Q3s, Q2s, AJo, KJo, QJo, JJ, JTs, J9s, J8s, J7s, J6s, J5s, J4s, J3s, ATo, KTo, QTo, JTo, TT, T9s, T8s, T7s, T6s, A9o, K9o, Q9o, J9o, T9o, 99, 98s, 97s, 96s, A8o, K8o, Q8o, J8o, T8o, 98o, 88, 87s, 86s, A7o, K7o, Q7o, J7o, 77, 76s, A6o, K6o, Q6o, 66, A5o, K5o, 55, A4o, K4o, 44, A3o, K3o, 33, A2o, K2o, 22"
+   }
+  },
+  {
+   "id": "rfi-mlr-1e5p1-2bb-btn",
+   "name": "RFI BTN 2bb max late 1,5:1",
+   "description": "Max late reg vanilla, 1,5:1, 2bb.",
+   "street": "preflop",
+   "situation": "RFI",
+   "heroPosition": "BTN",
+   "stack": {
+    "min": 2,
+    "max": 2
+   },
+   "ratio": {
+    "min": 1.5,
+    "max": 1.5
+   },
+   "bubble": null,
+   "tags": [
+    "rfi",
+    "max-late",
+    "vanilla"
+   ],
+   "actionIds": [
+    "fold",
+    "rfi",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "range": {
+    "shove": "AA, AKs, AQs, AJs, ATs, A9s, A8s, A7s, A6s, A5s, A4s, A3s, A2s, AKo, KK, KQs, KJs, KTs, K9s, K8s, K7s, K6s, K5s, K4s, K3s, K2s, AQo, KQo, QQ, QJs, QTs, Q9s, Q8s, Q7s, Q6s, Q5s, Q4s, Q3s, Q2s, AJo, KJo, QJo, JJ, JTs, J9s, J8s, J7s, J6s, J5s, J4s, J3s, J2s, ATo, KTo, QTo, JTo, TT, T9s, T8s, T7s, T6s, T5s, T4s, T3s, A9o, K9o, Q9o, J9o, T9o, 99, 98s, 97s, 96s, 95s, A8o, K8o, Q8o, J8o, T8o, 98o, 88, 87s, 86s, A7o, K7o, Q7o, J7o, T7o, 97o, 77, 76s, A6o, K6o, Q6o, J6o, 66, A5o, K5o, Q5o, 55, A4o, K4o, Q4o, 44, A3o, K3o, Q3o, 33, A2o, K2o, Q2o, 22"
+   }
+  },
+  {
+   "id": "rfi-mlr-1e5p1-4bb-utg",
+   "name": "RFI UTG 4bb max late 1,5:1",
+   "description": "Max late reg vanilla, 1,5:1, 4bb.",
+   "street": "preflop",
+   "situation": "RFI",
+   "heroPosition": "UTG",
+   "stack": {
+    "min": 4,
+    "max": 4
+   },
+   "ratio": {
+    "min": 1.5,
+    "max": 1.5
+   },
+   "bubble": null,
+   "tags": [
+    "rfi",
+    "max-late",
+    "vanilla"
+   ],
+   "actionIds": [
+    "fold",
+    "rfi",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "range": {
+    "shove": "AA, AKs, AQs, AJs, ATs, A9s, A8s, A7s, A6s, A5s, A4s, A3s, A2s, AKo, KK, KQs, KJs, KTs, K9s, K8s, AQo, KQo, QQ, QJs, QTs, Q9s, AJo, KJo, QJo, JJ, JTs, J9s, ATo, KTo, TT, T9s, A9o, 99, A8o, 88, A7o, 77, A6o, 66, A5o, 55, 44, 33"
+   }
+  },
+  {
+   "id": "rfi-mlr-1e5p1-4bb-utg1",
+   "name": "RFI UTG1 4bb max late 1,5:1",
+   "description": "Max late reg vanilla, 1,5:1, 4bb.",
+   "street": "preflop",
+   "situation": "RFI",
+   "heroPosition": "UTG1",
+   "stack": {
+    "min": 4,
+    "max": 4
+   },
+   "ratio": {
+    "min": 1.5,
+    "max": 1.5
+   },
+   "bubble": null,
+   "tags": [
+    "rfi",
+    "max-late",
+    "vanilla"
+   ],
+   "actionIds": [
+    "fold",
+    "rfi",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "range": {
+    "shove": "AA, AKs, AQs, AJs, ATs, A9s, A8s, A7s, A6s, A5s, A4s, A3s, A2s, AKo, KK, KQs, KJs, KTs, K9s, K8s, AQo, KQo, QQ, QJs, QTs, Q9s, AJo, KJo, QJo, JJ, JTs, J9s, ATo, KTo, TT, T9s, A9o, 99, A8o, 88, A7o, 77, A6o, 66, A5o, 55, 44, 33"
+   }
+  },
+  {
+   "id": "rfi-mlr-1e5p1-4bb-mp",
+   "name": "RFI MP 4bb max late 1,5:1",
+   "description": "Max late reg vanilla, 1,5:1, 4bb.",
+   "street": "preflop",
+   "situation": "RFI",
+   "heroPosition": "MP",
+   "stack": {
+    "min": 4,
+    "max": 4
+   },
+   "ratio": {
+    "min": 1.5,
+    "max": 1.5
+   },
+   "bubble": null,
+   "tags": [
+    "rfi",
+    "max-late",
+    "vanilla"
+   ],
+   "actionIds": [
+    "fold",
+    "rfi",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "range": {
+    "shove": "AA, AKs, AQs, AJs, ATs, A9s, A8s, A7s, A6s, A5s, A4s, A3s, A2s, AKo, KK, KQs, KJs, KTs, K9s, K8s, K7s, K6s, AQo, KQo, QQ, QJs, QTs, Q9s, AJo, KJo, QJo, JJ, JTs, J9s, ATo, KTo, QTo, JTo, TT, T9s, T8s, A9o, 99, 98s, A8o, 88, A7o, 77, A6o, 66, A5o, 55, A4o, 44, 33, 22"
+   }
+  },
+  {
+   "id": "rfi-mlr-1e5p1-4bb-lj",
+   "name": "RFI LJ 4bb max late 1,5:1",
+   "description": "Max late reg vanilla, 1,5:1, 4bb.",
+   "street": "preflop",
+   "situation": "RFI",
+   "heroPosition": "LJ",
+   "stack": {
+    "min": 4,
+    "max": 4
+   },
+   "ratio": {
+    "min": 1.5,
+    "max": 1.5
+   },
+   "bubble": null,
+   "tags": [
+    "rfi",
+    "max-late",
+    "vanilla"
+   ],
+   "actionIds": [
+    "fold",
+    "rfi",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "range": {
+    "shove": "AA, AKs, AQs, AJs, ATs, A9s, A8s, A7s, A6s, A5s, A4s, A3s, A2s, AKo, KK, KQs, KJs, KTs, K9s, K8s, K7s, K6s, K5s, K4s, AQo, KQo, QQ, QJs, QTs, Q9s, Q8s, AJo, KJo, QJo, JJ, JTs, J9s, J8s, ATo, KTo, QTo, JTo, TT, T9s, T8s, A9o, K9o, 99, 98s, A8o, 88, A7o, 77, A6o, 66, A5o, 55, A4o, 44, A3o, 33, A2o, 22"
+   }
+  },
+  {
+   "id": "rfi-mlr-1e5p1-4bb-hj",
+   "name": "RFI HJ 4bb max late 1,5:1",
+   "description": "Max late reg vanilla, 1,5:1, 4bb.",
+   "street": "preflop",
+   "situation": "RFI",
+   "heroPosition": "HJ",
+   "stack": {
+    "min": 4,
+    "max": 4
+   },
+   "ratio": {
+    "min": 1.5,
+    "max": 1.5
+   },
+   "bubble": null,
+   "tags": [
+    "rfi",
+    "max-late",
+    "vanilla"
+   ],
+   "actionIds": [
+    "fold",
+    "rfi",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "range": {
+    "shove": "AA, AKs, AQs, AJs, ATs, A9s, A8s, A7s, A6s, A5s, A4s, A3s, A2s, AKo, KK, KQs, KJs, KTs, K9s, K8s, K7s, K6s, K5s, K4s, K3s, K2s, AQo, KQo, QQ, QJs, QTs, Q9s, Q8s, Q7s, Q6s, AJo, KJo, QJo, JJ, JTs, J9s, J8s, ATo, KTo, QTo, JTo, TT, T9s, T8s, A9o, K9o, Q9o, 99, 98s, A8o, K8o, 88, A7o, 77, A6o, 66, A5o, 55, A4o, 44, A3o, 33, A2o, 22"
+   }
+  },
+  {
+   "id": "rfi-mlr-1e5p1-4bb-co",
+   "name": "RFI CO 4bb max late 1,5:1",
+   "description": "Max late reg vanilla, 1,5:1, 4bb.",
+   "street": "preflop",
+   "situation": "RFI",
+   "heroPosition": "CO",
+   "stack": {
+    "min": 4,
+    "max": 4
+   },
+   "ratio": {
+    "min": 1.5,
+    "max": 1.5
+   },
+   "bubble": null,
+   "tags": [
+    "rfi",
+    "max-late",
+    "vanilla"
+   ],
+   "actionIds": [
+    "fold",
+    "rfi",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "range": {
+    "shove": "AA, AKs, AQs, AJs, ATs, A9s, A8s, A7s, A6s, A5s, A4s, A3s, A2s, AKo, KK, KQs, KJs, KTs, K9s, K8s, K7s, K6s, K5s, K4s, K3s, K2s, AQo, KQo, QQ, QJs, QTs, Q9s, Q8s, Q7s, Q6s, Q5s, Q4s, AJo, KJo, QJo, JJ, JTs, J9s, J8s, J7s, ATo, KTo, QTo, JTo, TT, T9s, T8s, T7s, A9o, K9o, Q9o, J9o, T9o, 99, 98s, 97s, A8o, K8o, Q8o, 88, 87s, A7o, K7o, 77, A6o, K6o, 66, A5o, K5o, 55, A4o, 44, A3o, 33, A2o, 22"
+   }
+  },
+  {
+   "id": "rfi-mlr-1e5p1-4bb-btn",
+   "name": "RFI BTN 4bb max late 1,5:1",
+   "description": "Max late reg vanilla, 1,5:1, 4bb.",
+   "street": "preflop",
+   "situation": "RFI",
+   "heroPosition": "BTN",
+   "stack": {
+    "min": 4,
+    "max": 4
+   },
+   "ratio": {
+    "min": 1.5,
+    "max": 1.5
+   },
+   "bubble": null,
+   "tags": [
+    "rfi",
+    "max-late",
+    "vanilla"
+   ],
+   "actionIds": [
+    "fold",
+    "rfi",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "range": {
+    "shove": "AA, AKs, AQs, AJs, ATs, A9s, A8s, A7s, A6s, A5s, A4s, A3s, A2s, AKo, KK, KQs, KJs, KTs, K9s, K8s, K7s, K6s, K5s, K4s, K3s, K2s, AQo, KQo, QQ, QJs, QTs, Q9s, Q8s, Q7s, Q6s, Q5s, Q4s, Q3s, Q2s, AJo, KJo, QJo, JJ, JTs, J9s, J8s, J7s, J6s, J5s, J4s, ATo, KTo, QTo, JTo, TT, T9s, T8s, T7s, T6s, A9o, K9o, Q9o, J9o, T9o, 99, 98s, 97s, 96s, A8o, K8o, Q8o, J8o, T8o, 98o, 88, 87s, 86s, A7o, K7o, Q7o, 77, 76s, A6o, K6o, Q6o, 66, A5o, K5o, Q5o, 55, A4o, K4o, 44, A3o, K3o, 33, A2o, K2o, 22"
+   }
+  },
+  {
+   "id": "rfi-mlr-1e5p1-6bb-utg",
+   "name": "RFI UTG 6bb max late 1,5:1",
+   "description": "Max late reg vanilla, 1,5:1, 6bb.",
+   "street": "preflop",
+   "situation": "RFI",
+   "heroPosition": "UTG",
+   "stack": {
+    "min": 6,
+    "max": 6
+   },
+   "ratio": {
+    "min": 1.5,
+    "max": 1.5
+   },
+   "bubble": null,
+   "tags": [
+    "rfi",
+    "max-late",
+    "vanilla"
+   ],
+   "actionIds": [
+    "fold",
+    "rfi",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "range": {
+    "shove": "AA, AKs, AQs, AJs, ATs, A9s, A8s, A7s, A6s, A5s, A4s, A3s, AKo, KK, KQs, KJs, KTs, AQo, KQo, QQ, QJs, QTs, AJo, JJ, JTs, ATo, TT, A9o, 99, 88, 77, 66, 55, 44"
+   }
+  },
+  {
+   "id": "rfi-mlr-1e5p1-6bb-utg1",
+   "name": "RFI UTG1 6bb max late 1,5:1",
+   "description": "Max late reg vanilla, 1,5:1, 6bb.",
+   "street": "preflop",
+   "situation": "RFI",
+   "heroPosition": "UTG1",
+   "stack": {
+    "min": 6,
+    "max": 6
+   },
+   "ratio": {
+    "min": 1.5,
+    "max": 1.5
+   },
+   "bubble": null,
+   "tags": [
+    "rfi",
+    "max-late",
+    "vanilla"
+   ],
+   "actionIds": [
+    "fold",
+    "rfi",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "range": {
+    "shove": "AA, AKs, AQs, AJs, ATs, A9s, A8s, A7s, A6s, A5s, A4s, A3s, AKo, KK, KQs, KJs, KTs, AQo, KQo, QQ, QJs, QTs, AJo, JJ, JTs, ATo, TT, A9o, 99, 88, 77, 66, 55, 44"
+   }
+  },
+  {
+   "id": "rfi-mlr-1e5p1-6bb-mp",
+   "name": "RFI MP 6bb max late 1,5:1",
+   "description": "Max late reg vanilla, 1,5:1, 6bb.",
+   "street": "preflop",
+   "situation": "RFI",
+   "heroPosition": "MP",
+   "stack": {
+    "min": 6,
+    "max": 6
+   },
+   "ratio": {
+    "min": 1.5,
+    "max": 1.5
+   },
+   "bubble": null,
+   "tags": [
+    "rfi",
+    "max-late",
+    "vanilla"
+   ],
+   "actionIds": [
+    "fold",
+    "rfi",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "range": {
+    "shove": "AA, AKs, AQs, AJs, ATs, A9s, A8s, A7s, A6s, A5s, A4s, A3s, A2s, AKo, KK, KQs, KJs, KTs, K9s, AQo, KQo, QQ, QJs, QTs, AJo, KJo, QJo, JJ, JTs, ATo, KTo, TT, T9s, A9o, 99, A8o, 88, A7o, 77, 66, 55, 44, 33"
+   }
+  },
+  {
+   "id": "rfi-mlr-1e5p1-6bb-lj",
+   "name": "RFI LJ 6bb max late 1,5:1",
+   "description": "Max late reg vanilla, 1,5:1, 6bb.",
+   "street": "preflop",
+   "situation": "RFI",
+   "heroPosition": "LJ",
+   "stack": {
+    "min": 6,
+    "max": 6
+   },
+   "ratio": {
+    "min": 1.5,
+    "max": 1.5
+   },
+   "bubble": null,
+   "tags": [
+    "rfi",
+    "max-late",
+    "vanilla"
+   ],
+   "actionIds": [
+    "fold",
+    "rfi",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "range": {
+    "shove": "AA, AKs, AQs, AJs, ATs, A9s, A8s, A7s, A6s, A5s, A4s, A3s, A2s, AKo, KK, KQs, KJs, KTs, K9s, K8s, AQo, KQo, QQ, QJs, QTs, Q9s, AJo, KJo, QJo, JJ, JTs, J9s, ATo, KTo, QTo, JTo, TT, T9s, A9o, 99, A8o, 88, A7o, 77, A6o, 66, A5o, 55, A4o, 44, A3o, 33, 22"
+   }
+  },
+  {
+   "id": "rfi-mlr-1e5p1-6bb-hj",
+   "name": "RFI HJ 6bb max late 1,5:1",
+   "description": "Max late reg vanilla, 1,5:1, 6bb.",
+   "street": "preflop",
+   "situation": "RFI",
+   "heroPosition": "HJ",
+   "stack": {
+    "min": 6,
+    "max": 6
+   },
+   "ratio": {
+    "min": 1.5,
+    "max": 1.5
+   },
+   "bubble": null,
+   "tags": [
+    "rfi",
+    "max-late",
+    "vanilla"
+   ],
+   "actionIds": [
+    "fold",
+    "rfi",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "range": {
+    "shove": "AA, AKs, AQs, AJs, ATs, A9s, A8s, A7s, A6s, A5s, A4s, A3s, A2s, AKo, KK, KQs, KJs, KTs, K9s, K8s, K7s, K6s, K5s, AQo, KQo, QQ, QJs, QTs, Q9s, Q8s, AJo, KJo, QJo, JJ, JTs, J9s, J8s, ATo, KTo, QTo, JTo, TT, T9s, T8s, A9o, 99, 98s, A8o, 88, A7o, 77, A6o, 66, A5o, 55, A4o, 44, A3o, 33, A2o, 22"
+   }
+  },
+  {
+   "id": "rfi-mlr-1e5p1-6bb-co",
+   "name": "RFI CO 6bb max late 1,5:1",
+   "description": "Max late reg vanilla, 1,5:1, 6bb.",
+   "street": "preflop",
+   "situation": "RFI",
+   "heroPosition": "CO",
+   "stack": {
+    "min": 6,
+    "max": 6
+   },
+   "ratio": {
+    "min": 1.5,
+    "max": 1.5
+   },
+   "bubble": null,
+   "tags": [
+    "rfi",
+    "max-late",
+    "vanilla"
+   ],
+   "actionIds": [
+    "fold",
+    "rfi",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "range": {
+    "shove": "AA, AKs, AQs, AJs, ATs, A9s, A8s, A7s, A6s, A5s, A4s, A3s, A2s, AKo, KK, KQs, KJs, KTs, K9s, K8s, K7s, K6s, K5s, K4s, K3s, K2s, AQo, KQo, QQ, QJs, QTs, Q9s, Q8s, Q7s, Q6s, Q5s, AJo, KJo, QJo, JJ, JTs, J9s, J8s, J7s, ATo, KTo, QTo, JTo, TT, T9s, T8s, T7s, A9o, K9o, Q9o, J9o, T9o, 99, 98s, 97s, A8o, K8o, 88, 87s, 86s, A7o, 77, 76s, A6o, 66, 65s, A5o, 55, A4o, 44, A3o, 33, A2o, 22"
+   }
+  },
+  {
+   "id": "rfi-mlr-1e5p1-6bb-btn",
+   "name": "RFI BTN 6bb max late 1,5:1",
+   "description": "Max late reg vanilla, 1,5:1, 6bb.",
+   "street": "preflop",
+   "situation": "RFI",
+   "heroPosition": "BTN",
+   "stack": {
+    "min": 6,
+    "max": 6
+   },
+   "ratio": {
+    "min": 1.5,
+    "max": 1.5
+   },
+   "bubble": null,
+   "tags": [
+    "rfi",
+    "max-late",
+    "vanilla"
+   ],
+   "actionIds": [
+    "fold",
+    "rfi",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "range": {
+    "shove": "AA, AKs, AQs, AJs, ATs, A9s, A8s, A7s, A6s, A5s, A4s, A3s, A2s, AKo, KK, KQs, KJs, KTs, K9s, K8s, K7s, K6s, K5s, K4s, K3s, K2s, AQo, KQo, QQ, QJs, QTs, Q9s, Q8s, Q7s, Q6s, Q5s, Q4s, Q3s, Q2s, AJo, KJo, QJo, JJ, JTs, J9s, J8s, J7s, J6s, J5s, J4s, J3s, J2s, ATo, KTo, QTo, JTo, TT, T9s, T8s, T7s, T6s, T5s, T4s, T3s, A9o, K9o, Q9o, J9o, T9o, 99, 98s, 97s, 96s, 95s, A8o, K8o, Q8o, J8o, T8o, 98o, 88, 87s, 86s, 85s, A7o, K7o, T7o, 97o, 87o, 77, 76s, 75s, A6o, K6o, 66, 65s, 64s, A5o, K5o, 55, 54s, 53s, A4o, K4o, 44, A3o, K3o, 33, A2o, K2o, 22"
+   }
+  },
+  {
+   "id": "rfi-mlr-1e5p1-8bb-utg",
+   "name": "RFI UTG 8bb max late 1,5:1",
+   "description": "Max late reg vanilla, 1,5:1, 8bb.",
+   "street": "preflop",
+   "situation": "RFI",
+   "heroPosition": "UTG",
+   "stack": {
+    "min": 8,
+    "max": 8
+   },
+   "ratio": {
+    "min": 1.5,
+    "max": 1.5
+   },
+   "bubble": null,
+   "tags": [
+    "rfi",
+    "max-late",
+    "vanilla"
+   ],
+   "actionIds": [
+    "fold",
+    "rfi",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "range": {
+    "rfi": "AA, A7s, QJs",
+    "shove": "AKs, AQs, AJs, ATs, A9s, A8s, AKo, KK, KQs, KJs, KTs, AQo, KQo, QQ, AJo, JJ, ATo, TT, 99, 88, 77, 66, 55"
+   },
+   "alsoCorrect": {
+    "fold": "KTs, ATo"
+   }
+  },
+  {
+   "id": "rfi-mlr-1e5p1-8bb-utg1",
+   "name": "RFI UTG1 8bb max late 1,5:1",
+   "description": "Max late reg vanilla, 1,5:1, 8bb.",
+   "street": "preflop",
+   "situation": "RFI",
+   "heroPosition": "UTG1",
+   "stack": {
+    "min": 8,
+    "max": 8
+   },
+   "ratio": {
+    "min": 1.5,
+    "max": 1.5
+   },
+   "bubble": null,
+   "tags": [
+    "rfi",
+    "max-late",
+    "vanilla"
+   ],
+   "actionIds": [
+    "fold",
+    "rfi",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "range": {
+    "rfi": "AA, A7s, QJs",
+    "shove": "AKs, AQs, AJs, ATs, A9s, A8s, AKo, KK, KQs, KJs, KTs, AQo, KQo, QQ, AJo, JJ, ATo, TT, 99, 88, 77, 66, 55"
+   },
+   "alsoCorrect": {
+    "fold": "KTs, ATo"
+   }
+  },
+  {
+   "id": "rfi-mlr-1e5p1-8bb-mp",
+   "name": "RFI MP 8bb max late 1,5:1",
+   "description": "Max late reg vanilla, 1,5:1, 8bb.",
+   "street": "preflop",
+   "situation": "RFI",
+   "heroPosition": "MP",
+   "stack": {
+    "min": 8,
+    "max": 8
+   },
+   "ratio": {
+    "min": 1.5,
+    "max": 1.5
+   },
+   "bubble": null,
+   "tags": [
+    "rfi",
+    "max-late",
+    "vanilla"
+   ],
+   "actionIds": [
+    "fold",
+    "rfi",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "range": {
+    "rfi": "AA, A7s, QJs",
+    "shove": "AKs, AQs, AJs, ATs, A9s, A8s, AKo, KK, KQs, KJs, KTs, AQo, KQo, QQ, AJo, JJ, ATo, TT, 99, 88, 77, 66, 55"
+   },
+   "alsoCorrect": {
+    "fold": "KTs, ATo"
+   }
+  },
+  {
+   "id": "rfi-mlr-1e5p1-8bb-lj",
+   "name": "RFI LJ 8bb max late 1,5:1",
+   "description": "Max late reg vanilla, 1,5:1, 8bb.",
+   "street": "preflop",
+   "situation": "RFI",
+   "heroPosition": "LJ",
+   "stack": {
+    "min": 8,
+    "max": 8
+   },
+   "ratio": {
+    "min": 1.5,
+    "max": 1.5
+   },
+   "bubble": null,
+   "tags": [
+    "rfi",
+    "max-late",
+    "vanilla"
+   ],
+   "actionIds": [
+    "fold",
+    "rfi",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "range": {
+    "rfi": "AA, AKs, A3s, A2s, KK, QQ, Q9s, QJo, J9s, KTo, QTo, A9o, A8o, A7o, A6o, A5o",
+    "shove": "AQs, AJs, ATs, A9s, A8s, A7s, A6s, A5s, A4s, AKo, KQs, KJs, KTs, K9s, AQo, KQo, QJs, QTs, AJo, KJo, JJ, JTs, ATo, TT, T9s, 99, 88, 77, 66, 55, 44, 33"
+   },
+   "alsoCorrect": {
+    "fold": "QTo",
+    "rfi": "A4o",
+    "shove": "22"
+   }
+  },
+  {
+   "id": "rfi-mlr-1e5p1-8bb-hj",
+   "name": "RFI HJ 8bb max late 1,5:1",
+   "description": "Max late reg vanilla, 1,5:1, 8bb.",
+   "street": "preflop",
+   "situation": "RFI",
+   "heroPosition": "HJ",
+   "stack": {
+    "min": 8,
+    "max": 8
+   },
+   "ratio": {
+    "min": 1.5,
+    "max": 1.5
+   },
+   "bubble": null,
+   "tags": [
+    "rfi",
+    "max-late",
+    "vanilla"
+   ],
+   "actionIds": [
+    "fold",
+    "rfi",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "range": {
+    "rfi": "AA, AKs, KK, K8s, K7s, K6s, K5s, QQ, Q9s, Q8s, Q7s, QJo, J8s, J7s, KTo, QTo, JTo, K9o, Q9o, 87s, A7o, A6o, A4o, A3o, A2o",
+    "shove": "AQs, AJs, ATs, A9s, A8s, A7s, A6s, A5s, A4s, A3s, A2s, AKo, KQs, KJs, KTs, K9s, AQo, KQo, QJs, QTs, AJo, KJo, JJ, JTs, J9s, ATo, TT, T9s, T8s, A9o, 99, 98s, A8o, 88, 77, 66, A5o, 55, 44, 33, 22"
+   },
+   "alsoCorrect": {
+    "fold": "J7s",
+    "rfi": "J9o"
+   }
+  },
+  {
+   "id": "rfi-mlr-1e5p1-8bb-co",
+   "name": "RFI CO 8bb max late 1,5:1",
+   "description": "Max late reg vanilla, 1,5:1, 8bb.",
+   "street": "preflop",
+   "situation": "RFI",
+   "heroPosition": "CO",
+   "stack": {
+    "min": 8,
+    "max": 8
+   },
+   "ratio": {
+    "min": 1.5,
+    "max": 1.5
+   },
+   "bubble": null,
+   "tags": [
+    "rfi",
+    "max-late",
+    "vanilla"
+   ],
+   "actionIds": [
+    "fold",
+    "rfi",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "range": {
+    "rfi": "AA, AKs, AQs, AJs, ATs, KK, K4s, K3s, K2s, QQ, Q6s, Q5s, Q4s, Q3s, JJ, J6s, J5s, T6s, K9o, Q9o, J9o, T9o, K8o, Q8o, 87s, 86s, K7o, 76s, 65s, A3o, A2o",
+    "shove": "A9s, A8s, A7s, A6s, A5s, A4s, A3s, A2s, AKo, KQs, KJs, KTs, K9s, K8s, K7s, K6s, K5s, AQo, KQo, QJs, QTs, Q9s, Q8s, Q7s, AJo, KJo, QJo, JTs, J9s, J8s, J7s, ATo, KTo, QTo, JTo, TT, T9s, T8s, T7s, A9o, 99, 98s, 97s, A8o, 88, A7o, 77, A6o, 66, A5o, 55, A4o, 44, 33, 22"
+   },
+   "alsoCorrect": {
+    "fold": "Q3s, J5s, T6s, Q8o, 65s",
+    "rfi": "J8o, T8o, K6o, A4o"
+   }
+  },
+  {
+   "id": "rfi-mlr-1e5p1-8bb-btn",
+   "name": "RFI BTN 8bb max late 1,5:1",
+   "description": "Max late reg vanilla, 1,5:1, 8bb.",
+   "street": "preflop",
+   "situation": "RFI",
+   "heroPosition": "BTN",
+   "stack": {
+    "min": 8,
+    "max": 8
+   },
+   "ratio": {
+    "min": 1.5,
+    "max": 1.5
+   },
+   "bubble": null,
+   "tags": [
+    "rfi",
+    "max-late",
+    "vanilla"
+   ],
+   "actionIds": [
+    "fold",
+    "rfi",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "range": {
+    "rfi": "AA, AKs, AQs, AJs, KK, QQ, JJ, J5s, J4s, TT, T5s, 95s, Q8o, J8o, 85s, 75s, K6o, K5o, K4o",
+    "shove": "ATs, A9s, A8s, A7s, A6s, A5s, A4s, A3s, A2s, AKo, KQs, KJs, KTs, K9s, K8s, K7s, K6s, K5s, K4s, K3s, K2s, AQo, KQo, QJs, QTs, Q9s, Q8s, Q7s, Q6s, Q5s, Q4s, Q3s, Q2s, AJo, KJo, QJo, JTs, J9s, J8s, J7s, J6s, ATo, KTo, QTo, JTo, T9s, T8s, T7s, T6s, A9o, K9o, Q9o, J9o, T9o, 99, 98s, 97s, 96s, A8o, K8o, 98o, 88, 87s, 86s, A7o, K7o, 77, 76s, A6o, 66, 65s, A5o, 55, 54s, A4o, 44, A3o, 33, A2o, 22"
+   }
+  },
+  {
+   "id": "rfi-mlr-bolha-nao-gtd-2bb-utg",
+   "name": "RFI UTG 2bb max late bolha não garantido",
+   "description": "Max late reg vanilla, bolha não garantido, 2bb.",
+   "street": "preflop",
+   "situation": "RFI",
+   "heroPosition": "UTG",
+   "stack": {
+    "min": 2,
+    "max": 2
+   },
+   "ratio": null,
+   "bubble": "itm-nao-garantido",
+   "tags": [
+    "rfi",
+    "max-late",
+    "vanilla"
+   ],
+   "actionIds": [
+    "fold",
+    "rfi",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "range": {
+    "shove": "AA, AKs, KK, QQ"
+   }
+  },
+  {
+   "id": "rfi-mlr-bolha-nao-gtd-2bb-utg1",
+   "name": "RFI UTG1 2bb max late bolha não garantido",
+   "description": "Max late reg vanilla, bolha não garantido, 2bb.",
+   "street": "preflop",
+   "situation": "RFI",
+   "heroPosition": "UTG1",
+   "stack": {
+    "min": 2,
+    "max": 2
+   },
+   "ratio": null,
+   "bubble": "itm-nao-garantido",
+   "tags": [
+    "rfi",
+    "max-late",
+    "vanilla"
+   ],
+   "actionIds": [
+    "fold",
+    "rfi",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "range": {
+    "shove": "AA, AKs, KK, QQ"
+   }
+  },
+  {
+   "id": "rfi-mlr-bolha-nao-gtd-2bb-mp",
+   "name": "RFI MP 2bb max late bolha não garantido",
+   "description": "Max late reg vanilla, bolha não garantido, 2bb.",
+   "street": "preflop",
+   "situation": "RFI",
+   "heroPosition": "MP",
+   "stack": {
+    "min": 2,
+    "max": 2
+   },
+   "ratio": null,
+   "bubble": "itm-nao-garantido",
+   "tags": [
+    "rfi",
+    "max-late",
+    "vanilla"
+   ],
+   "actionIds": [
+    "fold",
+    "rfi",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "range": {
+    "shove": "AA, AKs, KK, QQ"
+   }
+  },
+  {
+   "id": "rfi-mlr-bolha-nao-gtd-2bb-lj",
+   "name": "RFI LJ 2bb max late bolha não garantido",
+   "description": "Max late reg vanilla, bolha não garantido, 2bb.",
+   "street": "preflop",
+   "situation": "RFI",
+   "heroPosition": "LJ",
+   "stack": {
+    "min": 2,
+    "max": 2
+   },
+   "ratio": null,
+   "bubble": "itm-nao-garantido",
+   "tags": [
+    "rfi",
+    "max-late",
+    "vanilla"
+   ],
+   "actionIds": [
+    "fold",
+    "rfi",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "range": {
+    "shove": "AA, AKs, KK, QQ, JJ"
+   }
+  },
+  {
+   "id": "rfi-mlr-bolha-nao-gtd-2bb-hj",
+   "name": "RFI HJ 2bb max late bolha não garantido",
+   "description": "Max late reg vanilla, bolha não garantido, 2bb.",
+   "street": "preflop",
+   "situation": "RFI",
+   "heroPosition": "HJ",
+   "stack": {
+    "min": 2,
+    "max": 2
+   },
+   "ratio": null,
+   "bubble": "itm-nao-garantido",
+   "tags": [
+    "rfi",
+    "max-late",
+    "vanilla"
+   ],
+   "actionIds": [
+    "fold",
+    "rfi",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "range": {
+    "shove": "AA, AKs, KK, QQ, JJ"
+   }
+  },
+  {
+   "id": "rfi-mlr-bolha-nao-gtd-2bb-co",
+   "name": "RFI CO 2bb max late bolha não garantido",
+   "description": "Max late reg vanilla, bolha não garantido, 2bb.",
+   "street": "preflop",
+   "situation": "RFI",
+   "heroPosition": "CO",
+   "stack": {
+    "min": 2,
+    "max": 2
+   },
+   "ratio": null,
+   "bubble": "itm-nao-garantido",
+   "tags": [
+    "rfi",
+    "max-late",
+    "vanilla"
+   ],
+   "actionIds": [
+    "fold",
+    "rfi",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "range": {
+    "shove": "AA, AKs, KK, QQ, JJ, TT"
+   }
+  },
+  {
+   "id": "rfi-mlr-bolha-nao-gtd-2bb-btn",
+   "name": "RFI BTN 2bb max late bolha não garantido",
+   "description": "Max late reg vanilla, bolha não garantido, 2bb.",
+   "street": "preflop",
+   "situation": "RFI",
+   "heroPosition": "BTN",
+   "stack": {
+    "min": 2,
+    "max": 2
+   },
+   "ratio": null,
+   "bubble": "itm-nao-garantido",
+   "tags": [
+    "rfi",
+    "max-late",
+    "vanilla"
+   ],
+   "actionIds": [
+    "fold",
+    "rfi",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "range": {
+    "shove": "AA, AKs, KK, QQ, JJ, TT"
+   }
+  },
+  {
+   "id": "rfi-mlr-bolha-nao-gtd-4bb-utg",
+   "name": "RFI UTG 4bb max late bolha não garantido",
+   "description": "Max late reg vanilla, bolha não garantido, 4bb.",
+   "street": "preflop",
+   "situation": "RFI",
+   "heroPosition": "UTG",
+   "stack": {
+    "min": 4,
+    "max": 4
+   },
+   "ratio": null,
+   "bubble": "itm-nao-garantido",
+   "tags": [
+    "rfi",
+    "max-late",
+    "vanilla"
+   ],
+   "actionIds": [
+    "fold",
+    "rfi",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "range": {
+    "shove": "AA, AKs, AQs, KK, QQ, JJ, TT"
+   }
+  },
+  {
+   "id": "rfi-mlr-bolha-nao-gtd-4bb-utg1",
+   "name": "RFI UTG1 4bb max late bolha não garantido",
+   "description": "Max late reg vanilla, bolha não garantido, 4bb.",
+   "street": "preflop",
+   "situation": "RFI",
+   "heroPosition": "UTG1",
+   "stack": {
+    "min": 4,
+    "max": 4
+   },
+   "ratio": null,
+   "bubble": "itm-nao-garantido",
+   "tags": [
+    "rfi",
+    "max-late",
+    "vanilla"
+   ],
+   "actionIds": [
+    "fold",
+    "rfi",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "range": {
+    "shove": "AA, AKs, AQs, KK, QQ, JJ, TT"
+   }
+  },
+  {
+   "id": "rfi-mlr-bolha-nao-gtd-4bb-mp",
+   "name": "RFI MP 4bb max late bolha não garantido",
+   "description": "Max late reg vanilla, bolha não garantido, 4bb.",
+   "street": "preflop",
+   "situation": "RFI",
+   "heroPosition": "MP",
+   "stack": {
+    "min": 4,
+    "max": 4
+   },
+   "ratio": null,
+   "bubble": "itm-nao-garantido",
+   "tags": [
+    "rfi",
+    "max-late",
+    "vanilla"
+   ],
+   "actionIds": [
+    "fold",
+    "rfi",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "range": {
+    "shove": "AA, AKs, AQs, AKo, KK, AQo, QQ, JJ, TT"
+   }
+  },
+  {
+   "id": "rfi-mlr-bolha-nao-gtd-4bb-lj",
+   "name": "RFI LJ 4bb max late bolha não garantido",
+   "description": "Max late reg vanilla, bolha não garantido, 4bb.",
+   "street": "preflop",
+   "situation": "RFI",
+   "heroPosition": "LJ",
+   "stack": {
+    "min": 4,
+    "max": 4
+   },
+   "ratio": null,
+   "bubble": "itm-nao-garantido",
+   "tags": [
+    "rfi",
+    "max-late",
+    "vanilla"
+   ],
+   "actionIds": [
+    "fold",
+    "rfi",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "range": {
+    "shove": "AA, AKs, AQs, AJs, AKo, KK, AQo, QQ, JJ, TT, 99"
+   }
+  },
+  {
+   "id": "rfi-mlr-bolha-nao-gtd-4bb-hj",
+   "name": "RFI HJ 4bb max late bolha não garantido",
+   "description": "Max late reg vanilla, bolha não garantido, 4bb.",
+   "street": "preflop",
+   "situation": "RFI",
+   "heroPosition": "HJ",
+   "stack": {
+    "min": 4,
+    "max": 4
+   },
+   "ratio": null,
+   "bubble": "itm-nao-garantido",
+   "tags": [
+    "rfi",
+    "max-late",
+    "vanilla"
+   ],
+   "actionIds": [
+    "fold",
+    "rfi",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "range": {
+    "shove": "AA, AKs, AQs, AJs, ATs, AKo, KK, KQs, AQo, QQ, AJo, JJ, TT, 99, 88"
+   }
+  },
+  {
+   "id": "rfi-mlr-bolha-nao-gtd-4bb-co",
+   "name": "RFI CO 4bb max late bolha não garantido",
+   "description": "Max late reg vanilla, bolha não garantido, 4bb.",
+   "street": "preflop",
+   "situation": "RFI",
+   "heroPosition": "CO",
+   "stack": {
+    "min": 4,
+    "max": 4
+   },
+   "ratio": null,
+   "bubble": "itm-nao-garantido",
+   "tags": [
+    "rfi",
+    "max-late",
+    "vanilla"
+   ],
+   "actionIds": [
+    "fold",
+    "rfi",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "range": {
+    "shove": "AA, AKs, AQs, AJs, ATs, A9s, AKo, KK, KQs, AQo, QQ, AJo, JJ, ATo, TT, 99, 88"
+   }
+  },
+  {
+   "id": "rfi-mlr-bolha-nao-gtd-4bb-btn",
+   "name": "RFI BTN 4bb max late bolha não garantido",
+   "description": "Max late reg vanilla, bolha não garantido, 4bb.",
+   "street": "preflop",
+   "situation": "RFI",
+   "heroPosition": "BTN",
+   "stack": {
+    "min": 4,
+    "max": 4
+   },
+   "ratio": null,
+   "bubble": "itm-nao-garantido",
+   "tags": [
+    "rfi",
+    "max-late",
+    "vanilla"
+   ],
+   "actionIds": [
+    "fold",
+    "rfi",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "range": {
+    "shove": "AA, AKs, AQs, AJs, ATs, A9s, A8s, A7s, AKo, KK, KQs, KJs, AQo, KQo, QQ, AJo, JJ, ATo, TT, A9o, 99, 88, 77"
+   }
+  },
+  {
+   "id": "rfi-mlr-bolha-nao-gtd-6bb-utg",
+   "name": "RFI UTG 6bb max late bolha não garantido",
+   "description": "Max late reg vanilla, bolha não garantido, 6bb.",
+   "street": "preflop",
+   "situation": "RFI",
+   "heroPosition": "UTG",
+   "stack": {
+    "min": 6,
+    "max": 6
+   },
+   "ratio": null,
+   "bubble": "itm-nao-garantido",
+   "tags": [
+    "rfi",
+    "max-late",
+    "vanilla"
+   ],
+   "actionIds": [
+    "fold",
+    "rfi",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "range": {
+    "shove": "AA, AKs, KK, QQ, JJ"
+   }
+  },
+  {
+   "id": "rfi-mlr-bolha-nao-gtd-6bb-utg1",
+   "name": "RFI UTG1 6bb max late bolha não garantido",
+   "description": "Max late reg vanilla, bolha não garantido, 6bb.",
+   "street": "preflop",
+   "situation": "RFI",
+   "heroPosition": "UTG1",
+   "stack": {
+    "min": 6,
+    "max": 6
+   },
+   "ratio": null,
+   "bubble": "itm-nao-garantido",
+   "tags": [
+    "rfi",
+    "max-late",
+    "vanilla"
+   ],
+   "actionIds": [
+    "fold",
+    "rfi",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "range": {
+    "shove": "AA, AKs, KK, QQ, JJ"
+   }
+  },
+  {
+   "id": "rfi-mlr-bolha-nao-gtd-6bb-mp",
+   "name": "RFI MP 6bb max late bolha não garantido",
+   "description": "Max late reg vanilla, bolha não garantido, 6bb.",
+   "street": "preflop",
+   "situation": "RFI",
+   "heroPosition": "MP",
+   "stack": {
+    "min": 6,
+    "max": 6
+   },
+   "ratio": null,
+   "bubble": "itm-nao-garantido",
+   "tags": [
+    "rfi",
+    "max-late",
+    "vanilla"
+   ],
+   "actionIds": [
+    "fold",
+    "rfi",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "range": {
+    "shove": "AA, AKs, AQs, AKo, KK, QQ, JJ"
+   }
+  },
+  {
+   "id": "rfi-mlr-bolha-nao-gtd-6bb-lj",
+   "name": "RFI LJ 6bb max late bolha não garantido",
+   "description": "Max late reg vanilla, bolha não garantido, 6bb.",
+   "street": "preflop",
+   "situation": "RFI",
+   "heroPosition": "LJ",
+   "stack": {
+    "min": 6,
+    "max": 6
+   },
+   "ratio": null,
+   "bubble": "itm-nao-garantido",
+   "tags": [
+    "rfi",
+    "max-late",
+    "vanilla"
+   ],
+   "actionIds": [
+    "fold",
+    "rfi",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "range": {
+    "shove": "AA, AKs, AQs, AKo, KK, QQ, JJ, TT"
+   }
+  },
+  {
+   "id": "rfi-mlr-bolha-nao-gtd-6bb-hj",
+   "name": "RFI HJ 6bb max late bolha não garantido",
+   "description": "Max late reg vanilla, bolha não garantido, 6bb.",
+   "street": "preflop",
+   "situation": "RFI",
+   "heroPosition": "HJ",
+   "stack": {
+    "min": 6,
+    "max": 6
+   },
+   "ratio": null,
+   "bubble": "itm-nao-garantido",
+   "tags": [
+    "rfi",
+    "max-late",
+    "vanilla"
+   ],
+   "actionIds": [
+    "fold",
+    "rfi",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "range": {
+    "shove": "AA, AKs, AQs, AKo, KK, AQo, QQ, JJ, TT"
+   }
+  },
+  {
+   "id": "rfi-mlr-bolha-nao-gtd-6bb-co",
+   "name": "RFI CO 6bb max late bolha não garantido",
+   "description": "Max late reg vanilla, bolha não garantido, 6bb.",
+   "street": "preflop",
+   "situation": "RFI",
+   "heroPosition": "CO",
+   "stack": {
+    "min": 6,
+    "max": 6
+   },
+   "ratio": null,
+   "bubble": "itm-nao-garantido",
+   "tags": [
+    "rfi",
+    "max-late",
+    "vanilla"
+   ],
+   "actionIds": [
+    "fold",
+    "rfi",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "range": {
+    "shove": "AA, AKs, AQs, AJs, AKo, KK, AQo, QQ, JJ, TT, 99"
+   }
+  },
+  {
+   "id": "rfi-mlr-bolha-nao-gtd-6bb-btn",
+   "name": "RFI BTN 6bb max late bolha não garantido",
+   "description": "Max late reg vanilla, bolha não garantido, 6bb.",
+   "street": "preflop",
+   "situation": "RFI",
+   "heroPosition": "BTN",
+   "stack": {
+    "min": 6,
+    "max": 6
+   },
+   "ratio": null,
+   "bubble": "itm-nao-garantido",
+   "tags": [
+    "rfi",
+    "max-late",
+    "vanilla"
+   ],
+   "actionIds": [
+    "fold",
+    "rfi",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "range": {
+    "shove": "AA, AKs, AQs, AJs, ATs, AKo, KK, KQs, AQo, QQ, AJo, JJ, ATo, TT, 99, 88"
+   }
+  },
+  {
+   "id": "rfi-mlr-bolha-nao-gtd-8bb-utg",
+   "name": "RFI UTG 8bb max late bolha não garantido",
+   "description": "Max late reg vanilla, bolha não garantido, 8bb.",
+   "street": "preflop",
+   "situation": "RFI",
+   "heroPosition": "UTG",
+   "stack": {
+    "min": 8,
+    "max": 8
+   },
+   "ratio": null,
+   "bubble": "itm-nao-garantido",
+   "tags": [
+    "rfi",
+    "max-late",
+    "vanilla"
+   ],
+   "actionIds": [
+    "fold",
+    "rfi",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "range": {
+    "shove": "AA, AKs, QQ, JJ, TT",
+    "rfi": "AQs, AKo, KK"
+   },
+   "alsoCorrect": {
+    "shove": "AKo",
+    "rfi": "JJ, TT"
+   }
+  },
+  {
+   "id": "rfi-mlr-bolha-nao-gtd-8bb-utg1",
+   "name": "RFI UTG1 8bb max late bolha não garantido",
+   "description": "Max late reg vanilla, bolha não garantido, 8bb.",
+   "street": "preflop",
+   "situation": "RFI",
+   "heroPosition": "UTG1",
+   "stack": {
+    "min": 8,
+    "max": 8
+   },
+   "ratio": null,
+   "bubble": "itm-nao-garantido",
+   "tags": [
+    "rfi",
+    "max-late",
+    "vanilla"
+   ],
+   "actionIds": [
+    "fold",
+    "rfi",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "range": {
+    "shove": "AA, AKs, QQ, JJ, TT",
+    "rfi": "AQs, AKo, KK"
+   },
+   "alsoCorrect": {
+    "shove": "AKo",
+    "rfi": "JJ, TT"
+   }
+  },
+  {
+   "id": "rfi-mlr-bolha-nao-gtd-8bb-mp",
+   "name": "RFI MP 8bb max late bolha não garantido",
+   "description": "Max late reg vanilla, bolha não garantido, 8bb.",
+   "street": "preflop",
+   "situation": "RFI",
+   "heroPosition": "MP",
+   "stack": {
+    "min": 8,
+    "max": 8
+   },
+   "ratio": null,
+   "bubble": "itm-nao-garantido",
+   "tags": [
+    "rfi",
+    "max-late",
+    "vanilla"
+   ],
+   "actionIds": [
+    "fold",
+    "rfi",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "range": {
+    "shove": "AA, AKs, QQ, JJ, TT",
+    "rfi": "AQs, AKo, KK"
+   },
+   "alsoCorrect": {
+    "shove": "AKo",
+    "rfi": "JJ, TT"
+   }
+  },
+  {
+   "id": "rfi-mlr-bolha-nao-gtd-8bb-lj",
+   "name": "RFI LJ 8bb max late bolha não garantido",
+   "description": "Max late reg vanilla, bolha não garantido, 8bb.",
+   "street": "preflop",
+   "situation": "RFI",
+   "heroPosition": "LJ",
+   "stack": {
+    "min": 8,
+    "max": 8
+   },
+   "ratio": null,
+   "bubble": "itm-nao-garantido",
+   "tags": [
+    "rfi",
+    "max-late",
+    "vanilla"
+   ],
+   "actionIds": [
+    "fold",
+    "rfi",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "range": {
+    "shove": "AA, AKs, QQ, JJ, TT",
+    "rfi": "AQs, AJs, ATs, AKo, KK"
+   },
+   "alsoCorrect": {
+    "shove": "AKo"
+   }
+  },
+  {
+   "id": "rfi-mlr-bolha-nao-gtd-8bb-hj",
+   "name": "RFI HJ 8bb max late bolha não garantido",
+   "description": "Max late reg vanilla, bolha não garantido, 8bb.",
+   "street": "preflop",
+   "situation": "RFI",
+   "heroPosition": "HJ",
+   "stack": {
+    "min": 8,
+    "max": 8
+   },
+   "ratio": null,
+   "bubble": "itm-nao-garantido",
+   "tags": [
+    "rfi",
+    "max-late",
+    "vanilla"
+   ],
+   "actionIds": [
+    "fold",
+    "rfi",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "range": {
+    "rfi": "AA, AJs, ATs, AQo",
+    "shove": "AKs, AQs, AKo, KK, QQ, JJ, TT, 99"
+   },
+   "alsoCorrect": {
+    "shove": "AA, AQo"
+   }
+  },
+  {
+   "id": "rfi-mlr-bolha-nao-gtd-8bb-co",
+   "name": "RFI CO 8bb max late bolha não garantido",
+   "description": "Max late reg vanilla, bolha não garantido, 8bb.",
+   "street": "preflop",
+   "situation": "RFI",
+   "heroPosition": "CO",
+   "stack": {
+    "min": 8,
+    "max": 8
+   },
+   "ratio": null,
+   "bubble": "itm-nao-garantido",
+   "tags": [
+    "rfi",
+    "max-late",
+    "vanilla"
+   ],
+   "actionIds": [
+    "fold",
+    "rfi",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "range": {
+    "rfi": "AA, A9s, A8s, A5s, KJs",
+    "shove": "AKs, AQs, AJs, ATs, AKo, KK, KQs, AQo, QQ, AJo, JJ, ATo, TT, 99, 88"
+   },
+   "alsoCorrect": {
+    "shove": "AA"
+   }
+  },
+  {
+   "id": "rfi-mlr-bolha-nao-gtd-8bb-btn",
+   "name": "RFI BTN 8bb max late bolha não garantido",
+   "description": "Max late reg vanilla, bolha não garantido, 8bb.",
+   "street": "preflop",
+   "situation": "RFI",
+   "heroPosition": "BTN",
+   "stack": {
+    "min": 8,
+    "max": 8
+   },
+   "ratio": null,
+   "bubble": "itm-nao-garantido",
+   "tags": [
+    "rfi",
+    "max-late",
+    "vanilla"
+   ],
+   "actionIds": [
+    "fold",
+    "rfi",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "range": {
+    "rfi": "AA, AJs, ATs, A9s, A5s, KQs, AJo",
+    "shove": "AKs, AQs, AKo, KK, AQo, QQ, JJ, TT, 99"
+   }
+  },
+  {
+   "id": "rfi-mlr-bolha-gtd-2bb-utg",
+   "name": "RFI UTG 2bb max late bolha garantido",
+   "description": "Max late reg vanilla, bolha garantido, 2bb.",
+   "street": "preflop",
+   "situation": "RFI",
+   "heroPosition": "UTG",
+   "stack": {
+    "min": 2,
+    "max": 2
+   },
+   "ratio": null,
+   "bubble": "itm-garantido",
+   "tags": [
+    "rfi",
+    "max-late",
+    "vanilla"
+   ],
+   "actionIds": [
+    "fold",
+    "rfi",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "range": {
+    "shove": "AA, KK"
+   }
+  },
+  {
+   "id": "rfi-mlr-bolha-gtd-2bb-utg1",
+   "name": "RFI UTG1 2bb max late bolha garantido",
+   "description": "Max late reg vanilla, bolha garantido, 2bb.",
+   "street": "preflop",
+   "situation": "RFI",
+   "heroPosition": "UTG1",
+   "stack": {
+    "min": 2,
+    "max": 2
+   },
+   "ratio": null,
+   "bubble": "itm-garantido",
+   "tags": [
+    "rfi",
+    "max-late",
+    "vanilla"
+   ],
+   "actionIds": [
+    "fold",
+    "rfi",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "range": {
+    "shove": "AA, KK"
+   }
+  },
+  {
+   "id": "rfi-mlr-bolha-gtd-2bb-mp",
+   "name": "RFI MP 2bb max late bolha garantido",
+   "description": "Max late reg vanilla, bolha garantido, 2bb.",
+   "street": "preflop",
+   "situation": "RFI",
+   "heroPosition": "MP",
+   "stack": {
+    "min": 2,
+    "max": 2
+   },
+   "ratio": null,
+   "bubble": "itm-garantido",
+   "tags": [
+    "rfi",
+    "max-late",
+    "vanilla"
+   ],
+   "actionIds": [
+    "fold",
+    "rfi",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "range": {
+    "shove": "AA, KK"
+   }
+  },
+  {
+   "id": "rfi-mlr-bolha-gtd-2bb-lj",
+   "name": "RFI LJ 2bb max late bolha garantido",
+   "description": "Max late reg vanilla, bolha garantido, 2bb.",
+   "street": "preflop",
+   "situation": "RFI",
+   "heroPosition": "LJ",
+   "stack": {
+    "min": 2,
+    "max": 2
+   },
+   "ratio": null,
+   "bubble": "itm-garantido",
+   "tags": [
+    "rfi",
+    "max-late",
+    "vanilla"
+   ],
+   "actionIds": [
+    "fold",
+    "rfi",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "range": {
+    "shove": "AA, KK"
+   }
+  },
+  {
+   "id": "rfi-mlr-bolha-gtd-2bb-hj",
+   "name": "RFI HJ 2bb max late bolha garantido",
+   "description": "Max late reg vanilla, bolha garantido, 2bb.",
+   "street": "preflop",
+   "situation": "RFI",
+   "heroPosition": "HJ",
+   "stack": {
+    "min": 2,
+    "max": 2
+   },
+   "ratio": null,
+   "bubble": "itm-garantido",
+   "tags": [
+    "rfi",
+    "max-late",
+    "vanilla"
+   ],
+   "actionIds": [
+    "fold",
+    "rfi",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "range": {
+    "shove": "AA, KK"
+   }
+  },
+  {
+   "id": "rfi-mlr-bolha-gtd-2bb-co",
+   "name": "RFI CO 2bb max late bolha garantido",
+   "description": "Max late reg vanilla, bolha garantido, 2bb.",
+   "street": "preflop",
+   "situation": "RFI",
+   "heroPosition": "CO",
+   "stack": {
+    "min": 2,
+    "max": 2
+   },
+   "ratio": null,
+   "bubble": "itm-garantido",
+   "tags": [
+    "rfi",
+    "max-late",
+    "vanilla"
+   ],
+   "actionIds": [
+    "fold",
+    "rfi",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "range": {
+    "shove": "AA, KK, QQ"
+   }
+  },
+  {
+   "id": "rfi-mlr-bolha-gtd-2bb-btn",
+   "name": "RFI BTN 2bb max late bolha garantido",
+   "description": "Max late reg vanilla, bolha garantido, 2bb.",
+   "street": "preflop",
+   "situation": "RFI",
+   "heroPosition": "BTN",
+   "stack": {
+    "min": 2,
+    "max": 2
+   },
+   "ratio": null,
+   "bubble": "itm-garantido",
+   "tags": [
+    "rfi",
+    "max-late",
+    "vanilla"
+   ],
+   "actionIds": [
+    "fold",
+    "rfi",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "range": {
+    "shove": "AA, KK, QQ"
+   }
+  },
+  {
+   "id": "rfi-mlr-bolha-gtd-4bb-utg",
+   "name": "RFI UTG 4bb max late bolha garantido",
+   "description": "Max late reg vanilla, bolha garantido, 4bb.",
+   "street": "preflop",
+   "situation": "RFI",
+   "heroPosition": "UTG",
+   "stack": {
+    "min": 4,
+    "max": 4
+   },
+   "ratio": null,
+   "bubble": "itm-garantido",
+   "tags": [
+    "rfi",
+    "max-late",
+    "vanilla"
+   ],
+   "actionIds": [
+    "fold",
+    "rfi",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "range": {
+    "shove": "AA, AKs, KK, QQ"
+   }
+  },
+  {
+   "id": "rfi-mlr-bolha-gtd-4bb-utg1",
+   "name": "RFI UTG1 4bb max late bolha garantido",
+   "description": "Max late reg vanilla, bolha garantido, 4bb.",
+   "street": "preflop",
+   "situation": "RFI",
+   "heroPosition": "UTG1",
+   "stack": {
+    "min": 4,
+    "max": 4
+   },
+   "ratio": null,
+   "bubble": "itm-garantido",
+   "tags": [
+    "rfi",
+    "max-late",
+    "vanilla"
+   ],
+   "actionIds": [
+    "fold",
+    "rfi",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "range": {
+    "shove": "AA, AKs, KK, QQ"
+   }
+  },
+  {
+   "id": "rfi-mlr-bolha-gtd-4bb-mp",
+   "name": "RFI MP 4bb max late bolha garantido",
+   "description": "Max late reg vanilla, bolha garantido, 4bb.",
+   "street": "preflop",
+   "situation": "RFI",
+   "heroPosition": "MP",
+   "stack": {
+    "min": 4,
+    "max": 4
+   },
+   "ratio": null,
+   "bubble": "itm-garantido",
+   "tags": [
+    "rfi",
+    "max-late",
+    "vanilla"
+   ],
+   "actionIds": [
+    "fold",
+    "rfi",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "range": {
+    "shove": "AA, AKs, KK, QQ"
+   }
+  },
+  {
+   "id": "rfi-mlr-bolha-gtd-4bb-lj",
+   "name": "RFI LJ 4bb max late bolha garantido",
+   "description": "Max late reg vanilla, bolha garantido, 4bb.",
+   "street": "preflop",
+   "situation": "RFI",
+   "heroPosition": "LJ",
+   "stack": {
+    "min": 4,
+    "max": 4
+   },
+   "ratio": null,
+   "bubble": "itm-garantido",
+   "tags": [
+    "rfi",
+    "max-late",
+    "vanilla"
+   ],
+   "actionIds": [
+    "fold",
+    "rfi",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "range": {
+    "shove": "AA, AKs, KK, QQ, JJ"
+   }
+  },
+  {
+   "id": "rfi-mlr-bolha-gtd-4bb-hj",
+   "name": "RFI HJ 4bb max late bolha garantido",
+   "description": "Max late reg vanilla, bolha garantido, 4bb.",
+   "street": "preflop",
+   "situation": "RFI",
+   "heroPosition": "HJ",
+   "stack": {
+    "min": 4,
+    "max": 4
+   },
+   "ratio": null,
+   "bubble": "itm-garantido",
+   "tags": [
+    "rfi",
+    "max-late",
+    "vanilla"
+   ],
+   "actionIds": [
+    "fold",
+    "rfi",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "range": {
+    "shove": "AA, AKs, AQs, AKo, KK, QQ, JJ, TT"
+   }
+  },
+  {
+   "id": "rfi-mlr-bolha-gtd-4bb-co",
+   "name": "RFI CO 4bb max late bolha garantido",
+   "description": "Max late reg vanilla, bolha garantido, 4bb.",
+   "street": "preflop",
+   "situation": "RFI",
+   "heroPosition": "CO",
+   "stack": {
+    "min": 4,
+    "max": 4
+   },
+   "ratio": null,
+   "bubble": "itm-garantido",
+   "tags": [
+    "rfi",
+    "max-late",
+    "vanilla"
+   ],
+   "actionIds": [
+    "fold",
+    "rfi",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "range": {
+    "shove": "AA, AKs, AQs, AKo, KK, AQo, QQ, JJ, TT"
+   }
+  },
+  {
+   "id": "rfi-mlr-bolha-gtd-4bb-btn",
+   "name": "RFI BTN 4bb max late bolha garantido",
+   "description": "Max late reg vanilla, bolha garantido, 4bb.",
+   "street": "preflop",
+   "situation": "RFI",
+   "heroPosition": "BTN",
+   "stack": {
+    "min": 4,
+    "max": 4
+   },
+   "ratio": null,
+   "bubble": "itm-garantido",
+   "tags": [
+    "rfi",
+    "max-late",
+    "vanilla"
+   ],
+   "actionIds": [
+    "fold",
+    "rfi",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "range": {
+    "shove": "AA, AKs, AQs, AJs, ATs, AKo, KK, KQs, AQo, QQ, AJo, JJ, TT, 99"
+   }
+  },
+  {
+   "id": "rfi-mlr-bolha-gtd-6bb-utg",
+   "name": "RFI UTG 6bb max late bolha garantido",
+   "description": "Max late reg vanilla, bolha garantido, 6bb.",
+   "street": "preflop",
+   "situation": "RFI",
+   "heroPosition": "UTG",
+   "stack": {
+    "min": 6,
+    "max": 6
+   },
+   "ratio": null,
+   "bubble": "itm-garantido",
+   "tags": [
+    "rfi",
+    "max-late",
+    "vanilla"
+   ],
+   "actionIds": [
+    "fold",
+    "rfi",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "range": {
+    "shove": "AA, AKs, KK, QQ"
+   }
+  },
+  {
+   "id": "rfi-mlr-bolha-gtd-6bb-utg1",
+   "name": "RFI UTG1 6bb max late bolha garantido",
+   "description": "Max late reg vanilla, bolha garantido, 6bb.",
+   "street": "preflop",
+   "situation": "RFI",
+   "heroPosition": "UTG1",
+   "stack": {
+    "min": 6,
+    "max": 6
+   },
+   "ratio": null,
+   "bubble": "itm-garantido",
+   "tags": [
+    "rfi",
+    "max-late",
+    "vanilla"
+   ],
+   "actionIds": [
+    "fold",
+    "rfi",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "range": {
+    "shove": "AA, AKs, KK, QQ"
+   }
+  },
+  {
+   "id": "rfi-mlr-bolha-gtd-6bb-mp",
+   "name": "RFI MP 6bb max late bolha garantido",
+   "description": "Max late reg vanilla, bolha garantido, 6bb.",
+   "street": "preflop",
+   "situation": "RFI",
+   "heroPosition": "MP",
+   "stack": {
+    "min": 6,
+    "max": 6
+   },
+   "ratio": null,
+   "bubble": "itm-garantido",
+   "tags": [
+    "rfi",
+    "max-late",
+    "vanilla"
+   ],
+   "actionIds": [
+    "fold",
+    "rfi",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "range": {
+    "shove": "AA, AKs, KK, QQ"
+   }
+  },
+  {
+   "id": "rfi-mlr-bolha-gtd-6bb-lj",
+   "name": "RFI LJ 6bb max late bolha garantido",
+   "description": "Max late reg vanilla, bolha garantido, 6bb.",
+   "street": "preflop",
+   "situation": "RFI",
+   "heroPosition": "LJ",
+   "stack": {
+    "min": 6,
+    "max": 6
+   },
+   "ratio": null,
+   "bubble": "itm-garantido",
+   "tags": [
+    "rfi",
+    "max-late",
+    "vanilla"
+   ],
+   "actionIds": [
+    "fold",
+    "rfi",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "range": {
+    "shove": "AA, AKs, KK, QQ"
+   }
+  },
+  {
+   "id": "rfi-mlr-bolha-gtd-6bb-hj",
+   "name": "RFI HJ 6bb max late bolha garantido",
+   "description": "Max late reg vanilla, bolha garantido, 6bb.",
+   "street": "preflop",
+   "situation": "RFI",
+   "heroPosition": "HJ",
+   "stack": {
+    "min": 6,
+    "max": 6
+   },
+   "ratio": null,
+   "bubble": "itm-garantido",
+   "tags": [
+    "rfi",
+    "max-late",
+    "vanilla"
+   ],
+   "actionIds": [
+    "fold",
+    "rfi",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "range": {
+    "shove": "AA, AKs, KK, QQ, JJ"
+   }
+  },
+  {
+   "id": "rfi-mlr-bolha-gtd-6bb-co",
+   "name": "RFI CO 6bb max late bolha garantido",
+   "description": "Max late reg vanilla, bolha garantido, 6bb.",
+   "street": "preflop",
+   "situation": "RFI",
+   "heroPosition": "CO",
+   "stack": {
+    "min": 6,
+    "max": 6
+   },
+   "ratio": null,
+   "bubble": "itm-garantido",
+   "tags": [
+    "rfi",
+    "max-late",
+    "vanilla"
+   ],
+   "actionIds": [
+    "fold",
+    "rfi",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "range": {
+    "shove": "AA, AKs, AKo, KK, QQ, JJ, TT"
+   }
+  },
+  {
+   "id": "rfi-mlr-bolha-gtd-6bb-btn",
+   "name": "RFI BTN 6bb max late bolha garantido",
+   "description": "Max late reg vanilla, bolha garantido, 6bb.",
+   "street": "preflop",
+   "situation": "RFI",
+   "heroPosition": "BTN",
+   "stack": {
+    "min": 6,
+    "max": 6
+   },
+   "ratio": null,
+   "bubble": "itm-garantido",
+   "tags": [
+    "rfi",
+    "max-late",
+    "vanilla"
+   ],
+   "actionIds": [
+    "fold",
+    "rfi",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "range": {
+    "shove": "AA, AKs, AQs, AKo, KK, QQ, JJ, TT"
+   }
+  },
+  {
+   "id": "rfi-mlr-bolha-gtd-8bb-utg",
+   "name": "RFI UTG 8bb max late bolha garantido",
+   "description": "Max late reg vanilla, bolha garantido, 8bb.",
+   "street": "preflop",
+   "situation": "RFI",
+   "heroPosition": "UTG",
+   "stack": {
+    "min": 8,
+    "max": 8
+   },
+   "ratio": null,
+   "bubble": "itm-garantido",
+   "tags": [
+    "rfi",
+    "max-late",
+    "vanilla"
+   ],
+   "actionIds": [
+    "fold",
+    "rfi",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "range": {
+    "rfi": "AA, AKs, AQs, AJs, AKo, KK, AQo, QQ, JJ, TT"
+   }
+  },
+  {
+   "id": "rfi-mlr-bolha-gtd-8bb-utg1",
+   "name": "RFI UTG1 8bb max late bolha garantido",
+   "description": "Max late reg vanilla, bolha garantido, 8bb.",
+   "street": "preflop",
+   "situation": "RFI",
+   "heroPosition": "UTG1",
+   "stack": {
+    "min": 8,
+    "max": 8
+   },
+   "ratio": null,
+   "bubble": "itm-garantido",
+   "tags": [
+    "rfi",
+    "max-late",
+    "vanilla"
+   ],
+   "actionIds": [
+    "fold",
+    "rfi",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "range": {
+    "rfi": "AA, AKs, AQs, AJs, AKo, KK, AQo, QQ, JJ, TT"
+   }
+  },
+  {
+   "id": "rfi-mlr-bolha-gtd-8bb-mp",
+   "name": "RFI MP 8bb max late bolha garantido",
+   "description": "Max late reg vanilla, bolha garantido, 8bb.",
+   "street": "preflop",
+   "situation": "RFI",
+   "heroPosition": "MP",
+   "stack": {
+    "min": 8,
+    "max": 8
+   },
+   "ratio": null,
+   "bubble": "itm-garantido",
+   "tags": [
+    "rfi",
+    "max-late",
+    "vanilla"
+   ],
+   "actionIds": [
+    "fold",
+    "rfi",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "range": {
+    "rfi": "AA, AKs, AQs, AJs, AKo, KK, AQo, QQ, JJ, TT"
+   }
+  },
+  {
+   "id": "rfi-mlr-bolha-gtd-8bb-lj",
+   "name": "RFI LJ 8bb max late bolha garantido",
+   "description": "Max late reg vanilla, bolha garantido, 8bb.",
+   "street": "preflop",
+   "situation": "RFI",
+   "heroPosition": "LJ",
+   "stack": {
+    "min": 8,
+    "max": 8
+   },
+   "ratio": null,
+   "bubble": "itm-garantido",
+   "tags": [
+    "rfi",
+    "max-late",
+    "vanilla"
+   ],
+   "actionIds": [
+    "fold",
+    "rfi",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "range": {
+    "rfi": "AA, AKs, AQs, AJs, ATs, AKo, KK, KQs, AQo, QQ, AJo, JJ, TT"
+   }
+  },
+  {
+   "id": "rfi-mlr-bolha-gtd-8bb-hj",
+   "name": "RFI HJ 8bb max late bolha garantido",
+   "description": "Max late reg vanilla, bolha garantido, 8bb.",
+   "street": "preflop",
+   "situation": "RFI",
+   "heroPosition": "HJ",
+   "stack": {
+    "min": 8,
+    "max": 8
+   },
+   "ratio": null,
+   "bubble": "itm-garantido",
+   "tags": [
+    "rfi",
+    "max-late",
+    "vanilla"
+   ],
+   "actionIds": [
+    "fold",
+    "rfi",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "range": {
+    "rfi": "AA, AKs, AQs, AJs, ATs, A9s, A5s, AKo, KK, KQs, KJs, AQo, QQ, AJo, JJ, TT"
+   }
+  },
+  {
+   "id": "rfi-mlr-bolha-gtd-8bb-co",
+   "name": "RFI CO 8bb max late bolha garantido",
+   "description": "Max late reg vanilla, bolha garantido, 8bb.",
+   "street": "preflop",
+   "situation": "RFI",
+   "heroPosition": "CO",
+   "stack": {
+    "min": 8,
+    "max": 8
+   },
+   "ratio": null,
+   "bubble": "itm-garantido",
+   "tags": [
+    "rfi",
+    "max-late",
+    "vanilla"
+   ],
+   "actionIds": [
+    "fold",
+    "rfi",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "range": {
+    "rfi": "AA, AKs, AQs, AJs, ATs, A9s, A5s, AKo, KK, KQs, KJs, KTs, AQo, QQ, QJs, AJo, JJ, ATo, TT, 99"
+   },
+   "alsoCorrect": {
+    "shove": "AKo, QQ"
+   }
+  },
+  {
+   "id": "rfi-mlr-bolha-gtd-8bb-btn",
+   "name": "RFI BTN 8bb max late bolha garantido",
+   "description": "Max late reg vanilla, bolha garantido, 8bb.",
+   "street": "preflop",
+   "situation": "RFI",
+   "heroPosition": "BTN",
+   "stack": {
+    "min": 8,
+    "max": 8
+   },
+   "ratio": null,
+   "bubble": "itm-garantido",
+   "tags": [
+    "rfi",
+    "max-late",
+    "vanilla"
+   ],
+   "actionIds": [
+    "fold",
+    "rfi",
+    "shove"
+   ],
+   "defaultActionId": "fold",
+   "range": {
+    "rfi": "AA, AKs, AQs, AJs, ATs, A9s, A8s, A5s, KQs, KJs, KTs, AQo, KQo, QJs, AJo, ATo, TT, 99",
+    "shove": "AKo, KK, QQ, JJ"
+   },
+   "alsoCorrect": {
+    "shove": "AKs, AQo",
+    "rfi": "KK, JJ"
+   }
+  }
+ ],
+ "drills": [
+  {
+   "id": "rfi-max-late-reg-vanilla",
+   "name": "RFI Max Late Reg Vanilla",
+   "description": "Max late reg vanilla (ITM em 17). Cada mão sorteia proporção (3:1, 2:1, 1,5:1, bolha não garantido, bolha garantido), stack e posição.",
+   "variants": [
+    [
+     "rfi-mlr-3p1-2bb-utg"
+    ],
+    [
+     "rfi-mlr-3p1-2bb-utg1"
+    ],
+    [
+     "rfi-mlr-3p1-2bb-mp"
+    ],
+    [
+     "rfi-mlr-3p1-2bb-lj"
+    ],
+    [
+     "rfi-mlr-3p1-2bb-hj"
+    ],
+    [
+     "rfi-mlr-3p1-2bb-co"
+    ],
+    [
+     "rfi-mlr-3p1-2bb-btn"
+    ],
+    [
+     "rfi-mlr-3p1-4bb-utg"
+    ],
+    [
+     "rfi-mlr-3p1-4bb-utg1"
+    ],
+    [
+     "rfi-mlr-3p1-4bb-mp"
+    ],
+    [
+     "rfi-mlr-3p1-4bb-lj"
+    ],
+    [
+     "rfi-mlr-3p1-4bb-hj"
+    ],
+    [
+     "rfi-mlr-3p1-4bb-co"
+    ],
+    [
+     "rfi-mlr-3p1-4bb-btn"
+    ],
+    [
+     "rfi-mlr-3p1-6bb-utg"
+    ],
+    [
+     "rfi-mlr-3p1-6bb-utg1"
+    ],
+    [
+     "rfi-mlr-3p1-6bb-mp"
+    ],
+    [
+     "rfi-mlr-3p1-6bb-lj"
+    ],
+    [
+     "rfi-mlr-3p1-6bb-hj"
+    ],
+    [
+     "rfi-mlr-3p1-6bb-co"
+    ],
+    [
+     "rfi-mlr-3p1-6bb-btn"
+    ],
+    [
+     "rfi-mlr-3p1-8bb-utg"
+    ],
+    [
+     "rfi-mlr-3p1-8bb-utg1"
+    ],
+    [
+     "rfi-mlr-3p1-8bb-mp"
+    ],
+    [
+     "rfi-mlr-3p1-8bb-lj"
+    ],
+    [
+     "rfi-mlr-3p1-8bb-hj"
+    ],
+    [
+     "rfi-mlr-3p1-8bb-co"
+    ],
+    [
+     "rfi-mlr-3p1-8bb-btn"
+    ],
+    [
+     "rfi-mlr-3p1-10bb-utg"
+    ],
+    [
+     "rfi-mlr-3p1-10bb-utg1"
+    ],
+    [
+     "rfi-mlr-3p1-10bb-mp"
+    ],
+    [
+     "rfi-mlr-3p1-10bb-lj"
+    ],
+    [
+     "rfi-mlr-3p1-10bb-hj"
+    ],
+    [
+     "rfi-mlr-3p1-10bb-co"
+    ],
+    [
+     "rfi-mlr-3p1-10bb-btn"
+    ],
+    [
+     "rfi-mlr-3p1-15bb-utg"
+    ],
+    [
+     "rfi-mlr-3p1-15bb-utg1"
+    ],
+    [
+     "rfi-mlr-3p1-15bb-mp"
+    ],
+    [
+     "rfi-mlr-3p1-15bb-lj"
+    ],
+    [
+     "rfi-mlr-3p1-15bb-hj"
+    ],
+    [
+     "rfi-mlr-3p1-15bb-co"
+    ],
+    [
+     "rfi-mlr-3p1-15bb-btn"
+    ],
+    [
+     "rfi-mlr-2p1-2bb-utg"
+    ],
+    [
+     "rfi-mlr-2p1-2bb-utg1"
+    ],
+    [
+     "rfi-mlr-2p1-2bb-mp"
+    ],
+    [
+     "rfi-mlr-2p1-2bb-lj"
+    ],
+    [
+     "rfi-mlr-2p1-2bb-hj"
+    ],
+    [
+     "rfi-mlr-2p1-2bb-co"
+    ],
+    [
+     "rfi-mlr-2p1-2bb-btn"
+    ],
+    [
+     "rfi-mlr-2p1-4bb-utg"
+    ],
+    [
+     "rfi-mlr-2p1-4bb-utg1"
+    ],
+    [
+     "rfi-mlr-2p1-4bb-mp"
+    ],
+    [
+     "rfi-mlr-2p1-4bb-lj"
+    ],
+    [
+     "rfi-mlr-2p1-4bb-hj"
+    ],
+    [
+     "rfi-mlr-2p1-4bb-co"
+    ],
+    [
+     "rfi-mlr-2p1-4bb-btn"
+    ],
+    [
+     "rfi-mlr-2p1-6bb-utg"
+    ],
+    [
+     "rfi-mlr-2p1-6bb-utg1"
+    ],
+    [
+     "rfi-mlr-2p1-6bb-mp"
+    ],
+    [
+     "rfi-mlr-2p1-6bb-lj"
+    ],
+    [
+     "rfi-mlr-2p1-6bb-hj"
+    ],
+    [
+     "rfi-mlr-2p1-6bb-co"
+    ],
+    [
+     "rfi-mlr-2p1-6bb-btn"
+    ],
+    [
+     "rfi-mlr-2p1-8bb-utg"
+    ],
+    [
+     "rfi-mlr-2p1-8bb-utg1"
+    ],
+    [
+     "rfi-mlr-2p1-8bb-mp"
+    ],
+    [
+     "rfi-mlr-2p1-8bb-lj"
+    ],
+    [
+     "rfi-mlr-2p1-8bb-hj"
+    ],
+    [
+     "rfi-mlr-2p1-8bb-co"
+    ],
+    [
+     "rfi-mlr-2p1-8bb-btn"
+    ],
+    [
+     "rfi-mlr-2p1-10bb-utg"
+    ],
+    [
+     "rfi-mlr-2p1-10bb-utg1"
+    ],
+    [
+     "rfi-mlr-2p1-10bb-mp"
+    ],
+    [
+     "rfi-mlr-2p1-10bb-lj"
+    ],
+    [
+     "rfi-mlr-2p1-10bb-hj"
+    ],
+    [
+     "rfi-mlr-2p1-10bb-co"
+    ],
+    [
+     "rfi-mlr-2p1-10bb-btn"
+    ],
+    [
+     "rfi-mlr-2p1-15bb-utg"
+    ],
+    [
+     "rfi-mlr-2p1-15bb-utg1"
+    ],
+    [
+     "rfi-mlr-2p1-15bb-mp"
+    ],
+    [
+     "rfi-mlr-2p1-15bb-lj"
+    ],
+    [
+     "rfi-mlr-2p1-15bb-hj"
+    ],
+    [
+     "rfi-mlr-2p1-15bb-co"
+    ],
+    [
+     "rfi-mlr-2p1-15bb-btn"
+    ],
+    [
+     "rfi-mlr-1e5p1-2bb-utg"
+    ],
+    [
+     "rfi-mlr-1e5p1-2bb-utg1"
+    ],
+    [
+     "rfi-mlr-1e5p1-2bb-mp"
+    ],
+    [
+     "rfi-mlr-1e5p1-2bb-lj"
+    ],
+    [
+     "rfi-mlr-1e5p1-2bb-hj"
+    ],
+    [
+     "rfi-mlr-1e5p1-2bb-co"
+    ],
+    [
+     "rfi-mlr-1e5p1-2bb-btn"
+    ],
+    [
+     "rfi-mlr-1e5p1-4bb-utg"
+    ],
+    [
+     "rfi-mlr-1e5p1-4bb-utg1"
+    ],
+    [
+     "rfi-mlr-1e5p1-4bb-mp"
+    ],
+    [
+     "rfi-mlr-1e5p1-4bb-lj"
+    ],
+    [
+     "rfi-mlr-1e5p1-4bb-hj"
+    ],
+    [
+     "rfi-mlr-1e5p1-4bb-co"
+    ],
+    [
+     "rfi-mlr-1e5p1-4bb-btn"
+    ],
+    [
+     "rfi-mlr-1e5p1-6bb-utg"
+    ],
+    [
+     "rfi-mlr-1e5p1-6bb-utg1"
+    ],
+    [
+     "rfi-mlr-1e5p1-6bb-mp"
+    ],
+    [
+     "rfi-mlr-1e5p1-6bb-lj"
+    ],
+    [
+     "rfi-mlr-1e5p1-6bb-hj"
+    ],
+    [
+     "rfi-mlr-1e5p1-6bb-co"
+    ],
+    [
+     "rfi-mlr-1e5p1-6bb-btn"
+    ],
+    [
+     "rfi-mlr-1e5p1-8bb-utg"
+    ],
+    [
+     "rfi-mlr-1e5p1-8bb-utg1"
+    ],
+    [
+     "rfi-mlr-1e5p1-8bb-mp"
+    ],
+    [
+     "rfi-mlr-1e5p1-8bb-lj"
+    ],
+    [
+     "rfi-mlr-1e5p1-8bb-hj"
+    ],
+    [
+     "rfi-mlr-1e5p1-8bb-co"
+    ],
+    [
+     "rfi-mlr-1e5p1-8bb-btn"
+    ],
+    [
+     "rfi-mlr-bolha-nao-gtd-2bb-utg"
+    ],
+    [
+     "rfi-mlr-bolha-nao-gtd-2bb-utg1"
+    ],
+    [
+     "rfi-mlr-bolha-nao-gtd-2bb-mp"
+    ],
+    [
+     "rfi-mlr-bolha-nao-gtd-2bb-lj"
+    ],
+    [
+     "rfi-mlr-bolha-nao-gtd-2bb-hj"
+    ],
+    [
+     "rfi-mlr-bolha-nao-gtd-2bb-co"
+    ],
+    [
+     "rfi-mlr-bolha-nao-gtd-2bb-btn"
+    ],
+    [
+     "rfi-mlr-bolha-nao-gtd-4bb-utg"
+    ],
+    [
+     "rfi-mlr-bolha-nao-gtd-4bb-utg1"
+    ],
+    [
+     "rfi-mlr-bolha-nao-gtd-4bb-mp"
+    ],
+    [
+     "rfi-mlr-bolha-nao-gtd-4bb-lj"
+    ],
+    [
+     "rfi-mlr-bolha-nao-gtd-4bb-hj"
+    ],
+    [
+     "rfi-mlr-bolha-nao-gtd-4bb-co"
+    ],
+    [
+     "rfi-mlr-bolha-nao-gtd-4bb-btn"
+    ],
+    [
+     "rfi-mlr-bolha-nao-gtd-6bb-utg"
+    ],
+    [
+     "rfi-mlr-bolha-nao-gtd-6bb-utg1"
+    ],
+    [
+     "rfi-mlr-bolha-nao-gtd-6bb-mp"
+    ],
+    [
+     "rfi-mlr-bolha-nao-gtd-6bb-lj"
+    ],
+    [
+     "rfi-mlr-bolha-nao-gtd-6bb-hj"
+    ],
+    [
+     "rfi-mlr-bolha-nao-gtd-6bb-co"
+    ],
+    [
+     "rfi-mlr-bolha-nao-gtd-6bb-btn"
+    ],
+    [
+     "rfi-mlr-bolha-nao-gtd-8bb-utg"
+    ],
+    [
+     "rfi-mlr-bolha-nao-gtd-8bb-utg1"
+    ],
+    [
+     "rfi-mlr-bolha-nao-gtd-8bb-mp"
+    ],
+    [
+     "rfi-mlr-bolha-nao-gtd-8bb-lj"
+    ],
+    [
+     "rfi-mlr-bolha-nao-gtd-8bb-hj"
+    ],
+    [
+     "rfi-mlr-bolha-nao-gtd-8bb-co"
+    ],
+    [
+     "rfi-mlr-bolha-nao-gtd-8bb-btn"
+    ],
+    [
+     "rfi-mlr-bolha-gtd-2bb-utg"
+    ],
+    [
+     "rfi-mlr-bolha-gtd-2bb-utg1"
+    ],
+    [
+     "rfi-mlr-bolha-gtd-2bb-mp"
+    ],
+    [
+     "rfi-mlr-bolha-gtd-2bb-lj"
+    ],
+    [
+     "rfi-mlr-bolha-gtd-2bb-hj"
+    ],
+    [
+     "rfi-mlr-bolha-gtd-2bb-co"
+    ],
+    [
+     "rfi-mlr-bolha-gtd-2bb-btn"
+    ],
+    [
+     "rfi-mlr-bolha-gtd-4bb-utg"
+    ],
+    [
+     "rfi-mlr-bolha-gtd-4bb-utg1"
+    ],
+    [
+     "rfi-mlr-bolha-gtd-4bb-mp"
+    ],
+    [
+     "rfi-mlr-bolha-gtd-4bb-lj"
+    ],
+    [
+     "rfi-mlr-bolha-gtd-4bb-hj"
+    ],
+    [
+     "rfi-mlr-bolha-gtd-4bb-co"
+    ],
+    [
+     "rfi-mlr-bolha-gtd-4bb-btn"
+    ],
+    [
+     "rfi-mlr-bolha-gtd-6bb-utg"
+    ],
+    [
+     "rfi-mlr-bolha-gtd-6bb-utg1"
+    ],
+    [
+     "rfi-mlr-bolha-gtd-6bb-mp"
+    ],
+    [
+     "rfi-mlr-bolha-gtd-6bb-lj"
+    ],
+    [
+     "rfi-mlr-bolha-gtd-6bb-hj"
+    ],
+    [
+     "rfi-mlr-bolha-gtd-6bb-co"
+    ],
+    [
+     "rfi-mlr-bolha-gtd-6bb-btn"
+    ],
+    [
+     "rfi-mlr-bolha-gtd-8bb-utg"
+    ],
+    [
+     "rfi-mlr-bolha-gtd-8bb-utg1"
+    ],
+    [
+     "rfi-mlr-bolha-gtd-8bb-mp"
+    ],
+    [
+     "rfi-mlr-bolha-gtd-8bb-lj"
+    ],
+    [
+     "rfi-mlr-bolha-gtd-8bb-hj"
+    ],
+    [
+     "rfi-mlr-bolha-gtd-8bb-co"
+    ],
+    [
+     "rfi-mlr-bolha-gtd-8bb-btn"
+    ]
+   ],
+   "sampling": "fronteira",
+   "tags": [
+    "rfi",
+    "max-late",
+    "vanilla"
+   ],
+   "handsPerSession": 50,
+   "passAccuracy": 0.9
+  }
+ ]
+}
