@@ -74,6 +74,8 @@ export interface Strategy {
    * Ex.: vs 3-bet do CO só com mãos que o CO abre (RFI CO: "rfi").
    */
   dealFrom?: DealFrom | null;
+  /** Tamanhos desenhados na mesa (bb). Padrão: open 2bb, 3-bet 3,5× o open. */
+  tableSizes?: { open?: number; threeBet?: number } | null;
   /** Range do pré-flop. */
   range: Range;
   /** Ranges do pós-flop por textura; vale a primeira textura que combinar com o board. */

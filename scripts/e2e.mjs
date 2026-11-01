@@ -400,7 +400,8 @@ async function main() {
     );
     await page.goto(`${BASE_URL}/drills/vs3bet-30bb-vanilla-todas/treinar`);
     await page.getByTestId("hero-cards").waitFor();
-    await page.getByText("3-bet", { exact: true }).first().waitFor();
+    await page.getByText(/^3-bet · \d/).first().waitFor();
+    await page.getByText(/^Pote: \d/).waitFor();
     await shot(page, "treino-vs-3bet");
     const before3bet = await countRows("attempts");
     for (let hand = 0; hand < 8; hand++) {

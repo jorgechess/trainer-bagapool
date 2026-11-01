@@ -245,5 +245,12 @@ test("sortear só do range de outra estratégia (vs 3-bet com o range de open)",
   const seats = tableSeats(vs3bet);
   assert.equal(seats.find((s) => s.position === "BB")!.status, "raised");
   assert.equal(seats.find((s) => s.position === "SB")!.status, "folded");
-  assert.equal(knownPot(vs3bet), null);
+  // fichas: herói abriu 2bb, vilão (BB) deu 3-bet de 7bb, SB deixou 0,5bb no pote
+  assert.equal(seats.find((s) => s.position === "BTN")!.posted, 2);
+  assert.equal(seats.find((s) => s.position === "BB")!.posted, 7);
+  assert.equal(seats.find((s) => s.position === "SB")!.posted, 0.5);
+  assert.equal(knownPot(vs3bet), 9.5);
+  const custom = tableSeats({ ...vs3bet, tableSizes: { open: 2.5, threeBet: 9 } });
+  assert.equal(custom.find((s) => s.position === "BTN")!.posted, 2.5);
+  assert.equal(custom.find((s) => s.position === "BB")!.posted, 9);
 });

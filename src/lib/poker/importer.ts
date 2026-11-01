@@ -41,6 +41,7 @@ export interface ImportStrategy {
   entryActionIds?: string[];
   /** Sorteia mãos só onde outra estratégia (id ou nome) tem uma destas ações. */
   dealFrom?: { strategy: string; actionIds: string[] } | null;
+  tableSizes?: { open?: number; threeBet?: number } | null;
   range?: Record<string, string>;
   textureRanges?: ImportTextureRange[];
 }
@@ -165,6 +166,7 @@ export function parseImportBundle(
       actionIds: raw.actionIds ?? [],
       defaultActionId: raw.defaultActionId,
       entryActionIds: raw.entryActionIds ?? [],
+      tableSizes: raw.tableSizes ?? null,
       dealFrom: raw.dealFrom ? { strategyId: String(raw.dealFrom.strategy ?? ""), actionIds: raw.dealFrom.actionIds ?? [] } : null,
       range: compactRange(toRange(raw.range, where, errors), raw.defaultActionId),
       textureRanges,

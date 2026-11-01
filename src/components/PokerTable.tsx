@@ -102,7 +102,7 @@ function SeatView({
           {seat.position}
           {hero && " (você)"}
         </p>
-        <p className="text-zinc-400">{folded ? "Fold" : seat.status === "raised" ? raiseLabel : hero && raiseLabel === "3-bet" ? "Abriu" : stack}</p>
+        <p className="text-zinc-400">{folded ? "Fold" : seat.status === "raised" ? `${raiseLabel} · ${stack}` : stack}</p>
       </div>
     </div>
   );
@@ -192,7 +192,11 @@ export function PokerTable({
           <SeatView
             key={seat.position}
             seat={seat}
-            stack={stack}
+            stack={
+              strategy.stack.min === strategy.stack.max && seat.posted > 0
+                ? `${(Math.round((strategy.stack.min - seat.posted) * 10) / 10).toLocaleString("pt-BR")}bb`
+                : stack
+            }
             heroCards={heroCards}
             shape={shape}
             raiseLabel={facesThreeBet(strategy) ? "3-bet" : "Raise"}
