@@ -728,6 +728,11 @@ export function Trainer({ drill, strategies, legend }: TrainerProps) {
   const rangeMaxWidth = multi ? "min(100%, 520px, calc(100dvh - 290px))" : "min(100%, calc(100dvh - 290px))";
   const rangePanel = (
     <div className="card space-y-2">
+      {/* Entre a mesa e o range (no celular fica logo abaixo da mesa) */}
+      <label className="flex items-center gap-2 border-b border-zinc-800 pb-2 text-sm text-zinc-300">
+        <input type="checkbox" checked={autoAdvance} onChange={(e) => setAutoAdvance(e.target.checked)} />
+        Avançar sozinho quando acertar
+      </label>
       <div className="flex items-center justify-between gap-2">
         <p className="label mb-0">
           Range da estratégia{multi && panel ? ` · mesa ${panelIndex + 1}` : ""}
@@ -796,10 +801,6 @@ export function Trainer({ drill, strategies, legend }: TrainerProps) {
           </div>
         </div>
         <div className="flex flex-wrap items-center gap-3">
-          <label className="flex items-center gap-2 text-sm text-zinc-400">
-            <input type="checkbox" checked={autoAdvance} onChange={(e) => setAutoAdvance(e.target.checked)} />
-            Avançar sozinho quando acertar
-          </label>
           <button type="button" className="btn-secondary px-3 py-1.5" onClick={endSession}>
             Encerrar sessão
           </button>
