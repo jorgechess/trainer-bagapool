@@ -7,14 +7,17 @@ import { CardRow } from "@/components/PlayingCard";
 import { PokerTable } from "@/components/PokerTable";
 import { PositionChips } from "@/components/PositionChips";
 import { RangeGrid } from "@/components/RangeGrid";
+import { FilterChips } from "@/components/FilterChips";
 import { formatPercent } from "@/lib/format";
 import { LENGTH_KEY, LENGTH_OPTIONS } from "@/lib/session-length";
 import {
   type Drill,
   type HandQuestion,
   dealQuestion,
+  drillContexts,
   drillPositions,
-  filterDrillByPositions,
+  drillStacks,
+  filterDrill,
   isCorrect as isCorrectStep,
   spotSummary,
 } from "@/lib/poker/drill";
@@ -359,6 +362,8 @@ export function Trainer({ drill, strategies, legend }: TrainerProps) {
   const [saveError, setSaveError] = useState<string | null>(null);
   const [peek, setPeek] = useState(false);
   const [positions, setPositions] = useState<string[]>([]);
+  const [contexts, setContexts] = useState<string[]>([]);
+  const [stacks, setStacks] = useState<string[]>([]);
   const [tableCount, setTableCount] = useState<TableCount>(1);
   const [lengthChoice, setLengthChoice] = useState<number>(0);
   /** Mãos da sessão; null = sem limite. */
@@ -377,12 +382,17 @@ export function Trainer({ drill, strategies, legend }: TrainerProps) {
   }, []);
 
   const positionsKey = `trainer:posicoes:${drill.id}`;
+  const contextsKey = `trainer:proporcoes:${drill.id}`;
+  const stacksKey = `trainer:stacks:${drill.id}`;
   const availablePositions = useMemo(() => drillPositions(drill, strategyMap), [drill, strategyMap]);
-  /** Drill com o filtro de posições do jogador (não muda o drill de ninguém). */
-  const activeDrill = useMemo(
-    () => filterDrillByPositions(drill, strategyMap, positions),
-    [drill, strategyMap, positions],
+  const availableContexts = useMemo(() => drillContexts(drill, strategyMap), [drill, strategyMap]);
+  const availableStacks = useMemo(() => drillStacks(drill, strategyMap), [drill, strategyMap]);
+  /** Drill com os filtros do jogador (posição, proporção, stack); não muda o drill de ninguém. */
+  const filtered = useMemo(
+    () => filterDrill(drill, strategyMap, { positions, contexts, stacks }),
+    [drill, strategyMap, positions, contexts, stacks],
   );
+  const activeDrill = filtered.drill;
 
   useEffect(() => {
     // Mesa em pé no celular; tablets e telas maiores usam a mesa deitada
@@ -400,13 +410,18 @@ export function Trainer({ drill, strategies, legend }: TrainerProps) {
     if ((LENGTH_OPTIONS as readonly number[]).includes(length)) setLengthChoice(length);
     const tables = Number(readStorage(TABLES_KEY));
     if ((TABLE_OPTIONS as readonly number[]).includes(tables)) setTableCount(tables as TableCount);
-    try {
-      const saved = JSON.parse(readStorage(positionsKey) ?? "[]");
-      if (Array.isArray(saved)) setPositions(saved.filter((p) => availablePositions.includes(p)));
-    } catch {
-      // preferência inválida: começa com todas as posições
-    }
-  }, [positionsKey, availablePositions]);
+    const load = (key: string, available: string[], set: (v: string[]) => void) => {
+      try {
+        const saved = JSON.parse(readStorage(key) ?? "[]");
+        if (Array.isArray(saved)) set(saved.filter((p) => available.includes(p)));
+      } catch {
+        // preferência inválida: começa com tudo
+      }
+    };
+    load(positionsKey, availablePositions, setPositions);
+    load(contextsKey, availableContexts, setContexts);
+    load(stacksKey, availableStacks, setStacks);
+  }, [positionsKey, contextsKey, stacksKey, availablePositions, availableContexts, availableStacks]);
 
   function togglePeek() {
     setPeek((current) => {
@@ -418,6 +433,16 @@ export function Trainer({ drill, strategies, legend }: TrainerProps) {
   function changePositions(next: string[]) {
     setPositions(next);
     writeStorage(positionsKey, JSON.stringify(next));
+  }
+
+  function changeContexts(next: string[]) {
+    setContexts(next);
+    writeStorage(contextsKey, JSON.stringify(next));
+  }
+
+  function changeStacks(next: string[]) {
+    setStacks(next);
+    writeStorage(stacksKey, JSON.stringify(next));
   }
 
   function changeLength(choice: number) {
@@ -788,6 +813,17 @@ export function Trainer({ drill, strategies, legend }: TrainerProps) {
         </div>
         {availablePositions.length > 1 && (
           <PositionChips available={availablePositions} selected={positions} onChange={changePositions} />
+        )}
+        {availableContexts.length > 1 && (
+          <FilterChips label="Proporção" options={availableContexts} selected={contexts} onChange={changeContexts} />
+        )}
+        {availableStacks.length > 1 && (
+          <FilterChips label="Stack" options={availableStacks} selected={stacks} onChange={changeStacks} />
+        )}
+        {filtered.empty && (
+          <p className="w-full text-xs text-amber-400" data-testid="filtro-vazio">
+            Nenhum spot com essa combinação de filtros; treinando o drill inteiro.
+          </p>
         )}
         <p className="w-full text-xs text-zinc-500">
           Filtros só seus: o drill continua igual para o time.

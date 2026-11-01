@@ -63,3 +63,20 @@ test("jogadores restantes: ITM 17, proporção p:1 = 17 × p, bolha de 20 a 18",
   // a mesma mão sempre mostra o mesmo número
   assert.equal(playersLeft({ ratio: null, bubble: "itm-garantido" }, seedFrom("AsKd")), playersLeft({ ratio: null, bubble: "itm-garantido" }, seedFrom("AsKd")));
 });
+
+test("fim de torneio: só o herói tem o stack do spot; vilões sorteados em volta de uma média aleatória", async () => {
+  const { randomVillainStacks } = await import("../table");
+  const spot = { ...rfiBtn, stack: { min: 4, max: 4 }, ratio: { min: 2, max: 2 } };
+  const a = randomVillainStacks(spot, 123)!;
+  assert.equal(a.BTN, undefined, "herói não entra");
+  assert.equal(Object.keys(a).length, 8);
+  assert.deepEqual(randomVillainStacks(spot, 123), a, "mesma mão, mesma mesa");
+  const averages = new Set<number>();
+  for (let seed = 1; seed < 40; seed++) {
+    const v = Object.values(randomVillainStacks(spot, seed * 7919)!) as number[];
+    assert.ok(v.every((x) => x >= 2 && x <= 75));
+    averages.add(Math.round(v.reduce((s, x) => s + x, 0) / v.length / 5));
+  }
+  assert.ok(averages.size >= 3, "a média da mesa muda de mão para mão");
+  assert.equal(randomVillainStacks({ ...rfiBtn, ratio: null, bubble: null }, 1), null, "sem proporção/bolha: igual ao herói");
+});

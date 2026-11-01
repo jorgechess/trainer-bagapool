@@ -89,6 +89,27 @@ export function tableStacks(strategy: Strategy): { hero: number; others: number 
   };
 }
 
+/**
+ * Stacks dos vilões em spots de fim de torneio (proporção ou bolha): a média da mesa é sorteada
+ * (12 a 45bb) e cada vilão varia em volta dela; só o herói fica com o stack do spot.
+ * Mesmo `seed` (as cartas da mão) = mesma mesa. Retorna null nos outros spots.
+ */
+export function randomVillainStacks(strategy: Strategy, seed: number): Partial<Record<Position, number>> | null {
+  if (!strategy.ratio && !strategy.bubble) return null;
+  let state = (Math.abs(Math.trunc(seed)) % 2147483646) + 1;
+  const next = () => {
+    state = (state * 48271) % 2147483647;
+    return state / 2147483647;
+  };
+  const average = 12 + Math.floor(next() * 34);
+  const stacks: Partial<Record<Position, number>> = {};
+  for (const position of POSITIONS) {
+    if (position === strategy.heroPosition) continue;
+    stacks[position] = Math.max(2, Math.round(average * (0.35 + next() * 1.3)));
+  }
+  return stacks;
+}
+
 /** Padrão do time: o ITM paga 17 lugares; com 20 ou menos restantes já é bolha. */
 export const ITM_PLACES = 17;
 export const BUBBLE_FROM = 20;

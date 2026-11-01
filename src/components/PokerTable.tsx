@@ -7,6 +7,7 @@ import {
   facesThreeBet,
   knownPot,
   playersLeft,
+  randomVillainStacks,
   seedFrom,
   tableSeats,
   tableStacks,
@@ -188,7 +189,9 @@ export function PokerTable({
   const stack = formatNumberRange(strategy.stack, "bb");
   const pot = knownPot(strategy);
   const button = seats.find((s) => s.isButton);
-  const left = playersLeft(strategy, seedFrom(heroCards.join("")));
+  const seed = seedFrom(heroCards.join(""));
+  const left = playersLeft(strategy, seed);
+  const villainStacks = randomVillainStacks(strategy, seed);
   const bubble = left !== null && strategy.bubble != null;
 
   return (
@@ -280,7 +283,8 @@ export function PokerTable({
             stack={(() => {
               const stacks = tableStacks(strategy);
               if (!stacks) return stack;
-              const start = seat.status === "hero" ? stacks.hero : stacks.others;
+              const start =
+                seat.status === "hero" ? stacks.hero : (villainStacks?.[seat.position] ?? stacks.others);
               return `${(Math.round((start - seat.posted) * 10) / 10).toLocaleString("pt-BR")}bb`;
             })()}
             heroCards={heroCards}

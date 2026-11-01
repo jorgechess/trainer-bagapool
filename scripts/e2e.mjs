@@ -540,6 +540,19 @@ async function main() {
     const leftText = (await page.getByTestId("players-left").innerText()).split("\n")[0].trim();
     assert.match(leftText, /^(51|34|26|18|19|20) left$/i, `players left: ${leftText}`);
     await shot(page, "treino-max-late");
+    // Filtros do jogador: proporção 2:1 e stack 4bb → só spots 2:1 com 4bb (34 left; herói com 4bb, vilões variados)
+    await page.getByRole("group", { name: "Proporção" }).getByRole("button", { name: "2:1", exact: true }).click();
+    await page.getByRole("group", { name: "Stack" }).getByRole("button", { name: "4bb", exact: true }).click();
+    for (let hand = 0; hand < 3; hand++) {
+      await page.getByText(/^RFI · \w+ · 4bb · 2:1$/).waitFor();
+      assert.equal((await page.getByTestId("players-left").innerText()).split("\n")[0].trim().toLowerCase(), "34 left");
+      await page.locator("[data-testid=actions] button").first().click();
+      await page.getByRole("button", { name: /Continuar/ }).click();
+    }
+    const villainStacks = await page.locator("p.text-zinc-400").filter({ hasText: /bb$/ }).allInnerTexts();
+    assert.ok(new Set(villainStacks).size > 2, `vilões com stacks variados: ${villainStacks.join(", ")}`);
+    await shot(page, "treino-max-late-filtros");
+    log("filtros de proporção e stack no treino; vilões com stacks aleatórios");
     log(`Max Late Reg Vanilla importado; mesa mostra ${leftText}`);
 
     // 10. Cadastra pool e jogador

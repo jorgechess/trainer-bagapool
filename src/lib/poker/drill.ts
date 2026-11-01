@@ -340,13 +340,65 @@ export function drillPositions(drill: Drill, strategies: Map<string, Strategy>):
  * Não altera o drill original; lista vazia ou sem nenhuma variação compatível = drill inteiro.
  */
 export function filterDrillByPositions(drill: Drill, strategies: Map<string, Strategy>, positions: readonly string[]): Drill {
-  if (positions.length === 0) return drill;
-  const kept = drillVariants(drill).filter((v) => {
-    const position = strategies.get(v[0] ?? "")?.heroPosition;
-    return position !== undefined && positions.includes(position);
-  });
-  if (kept.length === 0) return drill;
-  return { ...drill, steps: kept[0], variants: kept };
+  return filterDrill(drill, strategies, { positions }).drill;
+}
+
+/** Proporção do spot para o filtro do jogador ("3:1", "1,5:1", "Bolha garantida"...), ou null. */
+export function contextLabel(strategy: Strategy): string | null {
+  if (strategy.bubble) return strategy.bubble === "itm-garantido" ? "Bolha garantida" : "Bolha não garantida";
+  if (strategy.ratio) return formatRatio(strategy.ratio).replace(".", ",");
+  return null;
+}
+
+function contextOrder(strategy: Strategy): number {
+  if (strategy.bubble) return strategy.bubble === "itm-nao-garantido" ? -1 : -2;
+  return strategy.ratio?.min ?? -3;
+}
+
+/** Proporções que aparecem no drill (maior para menor; bolhas por último). */
+export function drillContexts(drill: Drill, strategies: Map<string, Strategy>): string[] {
+  const found = new Map<string, number>();
+  for (const v of drillVariants(drill)) {
+    const s = strategies.get(v[0] ?? "");
+    const label = s && contextLabel(s);
+    if (s && label) found.set(label, contextOrder(s));
+  }
+  return [...found.entries()].sort((a, b) => b[1] - a[1]).map(([label]) => label);
+}
+
+/** Stacks do herói que aparecem no drill, do menor para o maior. */
+export function drillStacks(drill: Drill, strategies: Map<string, Strategy>): string[] {
+  const found = new Map<string, number>();
+  for (const v of drillVariants(drill)) {
+    const s = strategies.get(v[0] ?? "");
+    if (s) found.set(formatNumberRange(s.stack, "bb"), s.stack.min);
+  }
+  return [...found.entries()].sort((a, b) => a[1] - b[1]).map(([label]) => label);
+}
+
+export interface DrillFilter {
+  positions?: readonly string[];
+  contexts?: readonly string[];
+  stacks?: readonly string[];
+}
+
+function variantMatches(strategy: Strategy | undefined, filter: DrillFilter): boolean {
+  if (!strategy) return false;
+  if (filter.positions?.length && !filter.positions.includes(strategy.heroPosition)) return false;
+  if (filter.contexts?.length && !filter.contexts.includes(contextLabel(strategy) ?? "")) return false;
+  if (filter.stacks?.length && !filter.stacks.includes(formatNumberRange(strategy.stack, "bb"))) return false;
+  return true;
+}
+
+/**
+ * Drill só com as variações que batem com os filtros do jogador (posição, proporção, stack).
+ * Não altera o drill original; filtros vazios ou combinação sem nenhuma variação = drill inteiro (`empty` avisa).
+ */
+export function filterDrill(drill: Drill, strategies: Map<string, Strategy>, filter: DrillFilter): { drill: Drill; empty: boolean } {
+  if (!filter.positions?.length && !filter.contexts?.length && !filter.stacks?.length) return { drill, empty: false };
+  const kept = drillVariants(drill).filter((v) => variantMatches(strategies.get(v[0] ?? ""), filter));
+  if (kept.length === 0) return { drill, empty: true };
+  return { drill: { ...drill, steps: kept[0], variants: kept }, empty: false };
 }
 
 export interface StrategyFamily {
