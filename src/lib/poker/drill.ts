@@ -343,9 +343,9 @@ export function filterDrillByPositions(drill: Drill, strategies: Map<string, Str
   return filterDrill(drill, strategies, { positions }).drill;
 }
 
-/** Proporção do spot para o filtro do jogador ("3:1", "1,5:1", "Bolha garantida"...), ou null. */
+/** Proporção do spot para o filtro do jogador ("3:1", "1,5:1", "Bolha garantido"...), ou null. */
 export function contextLabel(strategy: Strategy): string | null {
-  if (strategy.bubble) return strategy.bubble === "itm-garantido" ? "Bolha garantida" : "Bolha não garantida";
+  if (strategy.bubble) return strategy.bubble === "itm-garantido" ? "Bolha garantido" : "Bolha não garantido";
   if (strategy.ratio) return formatRatio(strategy.ratio).replace(".", ",");
   return null;
 }

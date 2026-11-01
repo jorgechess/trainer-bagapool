@@ -290,12 +290,12 @@ test("filtros do jogador por proporção e stack (e posição), sem mudar o dril
   const list = [mk("a", "CO", 2, 3), mk("b", "BTN", 4, 2), mk("c", "CO", 4, 1.5), mk("d", "BTN", 2, null, "itm-garantido"), mk("e", "CO", 8, null, "itm-nao-garantido")];
   const map = new Map(list.map((s) => [s.id, s]));
   const drill = { ...preflopDrill, steps: ["a"], variants: list.map((s) => [s.id]) };
-  assert.deepEqual(drillContexts(drill, map), ["3:1", "2:1", "1,5:1", "Bolha não garantida", "Bolha garantida"]);
+  assert.deepEqual(drillContexts(drill, map), ["3:1", "2:1", "1,5:1", "Bolha não garantido", "Bolha garantido"]);
   assert.deepEqual(drillStacks(drill, map), ["2bb", "4bb", "8bb"]);
   const only = filterDrill(drill, map, { contexts: ["2:1", "1,5:1"], stacks: ["4bb"] });
   assert.deepEqual(only.drill.variants, [["b"], ["c"]]);
   assert.deepEqual(filterDrill(drill, map, { contexts: ["2:1"], stacks: ["4bb"], positions: ["CO"] }).empty, true);
   assert.equal(filterDrill(drill, map, { contexts: ["2:1"], stacks: ["4bb"], positions: ["CO"] }).drill, drill);
   assert.equal(filterDrill(drill, map, {}).drill, drill);
-  assert.deepEqual(filterDrill(drill, map, { contexts: ["Bolha garantida"] }).drill.variants, [["d"]]);
+  assert.deepEqual(filterDrill(drill, map, { contexts: ["Bolha garantido"] }).drill.variants, [["d"]]);
 });
