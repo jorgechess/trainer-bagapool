@@ -49,6 +49,7 @@ export interface ImportStrategy {
   randomStacks?: boolean;
   villainAllIn?: boolean;
   openerStack?: { min: number; max: number } | null;
+  villainCoversHero?: boolean;
   openType?: "linear" | "polar" | null;
   pko?: { coverage: "cobrindo" | "coberto"; bounty?: string; heroStack?: number; villainStack?: number } | null;
   range?: Record<string, string>;
@@ -215,6 +216,7 @@ export function parseImportBundle(
       ...(raw.randomStacks ? { randomStacks: true } : {}),
       ...(raw.villainAllIn ? { villainAllIn: true } : {}),
       ...(raw.openerStack ? { openerStack: raw.openerStack } : {}),
+      ...(raw.villainCoversHero ? { villainCoversHero: true } : {}),
       ...(raw.openType ? { openType: raw.openType } : {}),
       pko: raw.pko ?? null,
       dealFrom: raw.dealFrom

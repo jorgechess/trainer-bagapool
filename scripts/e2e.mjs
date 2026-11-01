@@ -653,6 +653,18 @@ async function main() {
     await page.getByTestId("players-left").waitFor();
     await shot(page, "treino-defesa-bb-mlr");
     log("Defesa BB Vanilla MLR: filtro de open polar e stack do vilão em destaque");
+
+    // Call em Shoves do BB MLR: vilão all-in cobrindo o herói, botões Fold e Call
+    await page.goto(`${BASE_URL}/admin/importar`);
+    await page.getByTestId("carga-call-shove-bb-mlr").getByRole("button", { name: "Importar" }).click();
+    await page.getByTestId("carga-call-shove-bb-mlr").getByText(/Importado:/).waitFor({ timeout: 60000 });
+    await page.goto(`${BASE_URL}/drills/call-shove-bb-mlr/treinar`);
+    await page.getByTestId("hero-cards").waitFor();
+    assert.equal(await page.locator("[data-testid=actions] button").count(), 2, "fold e call");
+    await page.getByText("All-in", { exact: true }).first().waitFor();
+    await page.getByTestId("players-left").waitFor();
+    await shot(page, "treino-call-shove-bb");
+    log("Call em Shoves do BB MLR treinável");
     log(`Max Late Reg Vanilla importado; mesa mostra ${leftText}`);
 
     // 10. Cadastra pool e jogador

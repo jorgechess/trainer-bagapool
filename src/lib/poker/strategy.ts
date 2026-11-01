@@ -109,6 +109,8 @@ export interface Strategy {
   openerStack?: NumberRange | null;
   /** Tipo de range do open do vilão (vem do stack dele). */
   openType?: OpenType | null;
+  /** O stack do vilão é sempre pelo menos o do herói (sorteado entre o do herói e +15bb). */
+  villainCoversHero?: boolean;
   /** O vilão que aumentou foi all-in (ex.: vs resteal): a mesa mostra o shove dele. */
   villainAllIn?: boolean;
   /** Tamanhos desenhados na mesa (bb). Padrão: open 2bb, 3-bet 3,5× o open. */

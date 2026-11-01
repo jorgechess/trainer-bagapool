@@ -11,6 +11,7 @@ import rfiPkoShortCoberto from "../../cargas/rfi-pko-short-coberto.json";
 import defesaVanillaDeep from "../../cargas/defesa-vanilla-deep.json";
 import defesaBbPkoDeep from "../../cargas/defesa-bb-pko-deep.json";
 import defesaBbVanillaMlr from "../../cargas/defesa-bb-vanilla-mlr.json";
+import callShoveBbMlr from "../../cargas/call-shove-bb-mlr.json";
 
 export interface Carga {
   id: string;
@@ -112,5 +113,13 @@ export const CARGAS: Carga[] = [
       "350 spots: BB com 4, 6, 8, 10 e 15bb em 3:1, 2:1, 1,5:1 e bolhas, contra open de UTG a BTN, range linear (vilão >16bb) ou polar (10–14bb).",
     requires: [],
     bundle: defesaBbVanillaMlr,
+  },
+  {
+    id: "call-shove-bb-mlr",
+    name: "Call em Shoves do BB MLR",
+    description:
+      "175 spots: BB com 4, 6, 8, 10 e 15bb em 3:1, 2:1, 1,5:1 e bolhas, contra shove de UTG a BTN (o vilão sempre cobre você).",
+    requires: [],
+    bundle: callShoveBbMlr,
   },
 ];

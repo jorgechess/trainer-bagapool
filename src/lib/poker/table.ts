@@ -190,6 +190,8 @@ export function tableState(strategy: Strategy, seed: number): TableState {
     const { min, max } = strategy.openerStack;
     start[strategy.villainPosition] = Math.ceil(min) + (Math.floor(Math.abs(seed) / 13) % (Math.floor(max) - Math.ceil(min) + 1));
   }
+  if (start && hero !== null && strategy.villainCoversHero && strategy.villainPosition)
+    start[strategy.villainPosition] = hero + (Math.floor(Math.abs(seed) / 17) % 16);
   if (strategy.villainAllIn && strategy.villainPosition) {
     const villain = seats.find((s) => s.position === strategy.villainPosition)!;
     if (start) villain.posted = start[villain.position]!;

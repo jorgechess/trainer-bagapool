@@ -370,3 +370,24 @@ test("carga Defesa BB Vanilla MLR: linear vs polar, com as porcentagens das lege
   assert.deepEqual(lin.ratio, { min: 2, max: 2 });
   assert.equal(get("bng", 6, "co", "polar").bubble, "itm-nao-garantido");
 });
+
+test("carga Call em Shoves do BB MLR: porcentagens exatas dos prints e vilão cobrindo o herói", async () => {
+  const { tableState } = await import("../table");
+  const result = parseImportBundle(load("call-shove-bb-mlr.json"), DEFAULT_LEGEND);
+  assert.deepEqual(result.errors, []);
+  assert.equal(result.strategies.length, 175);
+  const pct = (ctx: string, stack: number, v: string) =>
+    rangeBreakdown(result.strategies.find((s) => s.id === `call-shove-bb-mlr-${ctx}-${stack}bb-vs-${v}`)!.range, "fold").find((b) => b.actionId === "call")?.percent ?? 0;
+  const expected: [string, number, string, number][] = [
+    ["3p1", 4, "btn", 83.7], ["bg", 4, "co", 1.4], ["2p1", 6, "lj", 27.0], ["bng", 8, "btn", 14.9],
+    ["bg", 8, "btn", 3.8], ["3p1", 10, "co", 23.1], ["1e5p1", 15, "utg", 5.9], ["bg", 15, "btn", 6.6],
+  ];
+  for (const [ctx, stack, v, value] of expected) assert.equal(pct(ctx, stack, v), value, `${ctx} ${stack}bb vs ${v}`);
+  const s = result.strategies.find((x) => x.id === "call-shove-bb-mlr-2p1-6bb-vs-co")!;
+  for (let seed = 1; seed < 300; seed += 7) {
+    const t = tableState(s, seed);
+    assert.ok(t.villainStart! >= 6 && t.villainStart! <= 21, `vilão cobre: ${t.villainStart}`);
+    assert.equal(t.remaining!.CO, 0);
+    assert.equal(t.raiseLabel, "All-in");
+  }
+});
