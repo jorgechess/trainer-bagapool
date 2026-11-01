@@ -473,6 +473,12 @@ async function main() {
     await page.getByTestId("hero-cards").waitFor();
     await page.getByTestId("pko-coverage").getByText("PKO coberto").waitFor();
     await page.locator("[data-testid=actions]").getByRole("button", { name: "4-bet" }).waitFor();
+    assert.equal(await page.getByTestId("hero-chips").innerText(), "2", "open do herói à frente das cartas");
+    {
+      const chips = await page.getByTestId("hero-chips").boundingBox();
+      const cards = await page.getByTestId("hero-cards").boundingBox();
+      assert.ok(chips.y + chips.height <= cards.y + 1, "fichas do herói acima das cartas");
+    }
     await shot(page, "treino-vs3bet-pko-coberto");
     for (let hand = 0; hand < 6; hand++) {
       await page.locator("[data-testid=actions] button").first().click();
@@ -530,6 +536,9 @@ async function main() {
     await mobile.locator(".card").filter({ hasText: "RFI até o flop" }).getByRole("link", { name: "Treinar" }).click();
     await mobile.getByTestId("hero-cards").waitFor();
     await mobile.screenshot({ path: `${OUT}/90-celular-treino.png`, fullPage: true });
+    await mobile.goto(`${BASE_URL}/drills/vs3bet-50bb-pko-coberto/treinar`);
+    await mobile.getByTestId("hero-chips").waitFor();
+    await mobile.screenshot({ path: `${OUT}/90-celular-vs3bet.png`, fullPage: true });
     await mobile.getByRole("button", { name: "Menu" }).click();
     await mobile.screenshot({ path: `${OUT}/91-celular-menu.png` });
     log("treino e menu funcionam no celular");

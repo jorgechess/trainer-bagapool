@@ -76,6 +76,16 @@ function BountyTag({ text, dim }: { text: string; dim?: boolean }) {
   );
 }
 
+/** Fichas apostadas por um jogador. */
+function Chips({ amount }: { amount: number }) {
+  return (
+    <>
+      <span className="h-[1.1em] w-[1.1em] rounded-full border-2 border-dashed border-white bg-sky-600" />
+      <span className="font-semibold text-white">{amount.toLocaleString("pt-BR")}</span>
+    </>
+  );
+}
+
 function SeatView({
   seat,
   stack,
@@ -100,9 +110,20 @@ function SeatView({
       style={at(x, y)}
     >
       {hero ? (
-        <div className="flex gap-[0.25em] text-[1.9em]" data-testid="hero-cards" aria-label="Sua mão">
-          <PlayingCard card={heroCards[0]} size="fluid" />
-          <PlayingCard card={heroCards[1]} size="fluid" />
+        <div className="relative">
+          {/* Fichas do herói logo à frente das cartas, voltadas para o centro da mesa */}
+          {seat.posted > 0 && (
+            <div
+              className="absolute bottom-full left-1/2 mb-[0.4em] flex -translate-x-1/2 items-center gap-[0.3em] whitespace-nowrap"
+              data-testid="hero-chips"
+            >
+              <Chips amount={seat.posted} />
+            </div>
+          )}
+          <div className="flex gap-[0.25em] text-[1.9em]" data-testid="hero-cards" aria-label="Sua mão">
+            <PlayingCard card={heroCards[0]} size="fluid" />
+            <PlayingCard card={heroCards[1]} size="fluid" />
+          </div>
         </div>
       ) : (
         !folded && (
@@ -187,20 +208,15 @@ export function PokerTable({
 
         {/* Blinds colocados */}
         {seats
-          .filter((s) => s.posted > 0)
+          .filter((s) => s.posted > 0 && s.offset !== 0)
           .map((s) => (
             <div
               key={`chip-${s.position}`}
               className="absolute flex -translate-x-1/2 -translate-y-1/2 items-center gap-[0.3em]"
-              // Fichas sempre coladas em quem apostou; as do herói ficam ao lado das cartas (o dealer fica do outro lado)
-              style={
-                s.offset === 0
-                  ? (({ x, y }) => (vertical ? at(x - 12, y - 24) : at(x - 13, y - 10)))(seatPlacement(shape, 0))
-                  : towardCenter(shape, s.offset, vertical ? CHIP_FACTOR_TALL : CHIP_FACTOR)
-              }
+              // Fichas sempre coladas em quem apostou; as do herói ficam à frente das cartas (dentro do lugar dele)
+              style={towardCenter(shape, s.offset, vertical ? CHIP_FACTOR_TALL : CHIP_FACTOR)}
             >
-              <span className="h-[1.1em] w-[1.1em] rounded-full border-2 border-dashed border-white bg-sky-600" />
-              <span className="font-semibold text-white">{s.posted.toLocaleString("pt-BR")}</span>
+              <Chips amount={s.posted} />
             </div>
           ))}
 
