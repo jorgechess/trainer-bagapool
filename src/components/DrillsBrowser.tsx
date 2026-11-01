@@ -119,7 +119,7 @@ export function DrillsBrowser({ drills }: { drills: DrillCard[] }) {
                       {drill.description && <p className="muted mt-1">{drill.description}</p>}
                     </div>
                     <div className="flex justify-between gap-2 text-sm">
-                      <span className="text-zinc-400">Spot inicial</span>
+                      <span className="whitespace-nowrap text-zinc-400">Spot inicial</span>
                       <span className="text-right">{drill.spot}</span>
                     </div>
                     {drill.tags.length > 0 && (
