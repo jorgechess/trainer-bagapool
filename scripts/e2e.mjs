@@ -158,6 +158,8 @@ async function main() {
     await card.getByRole("link", { name: "Treinar" }).click();
     await page.getByTestId("hero-cards").waitFor();
     await page.getByLabel("Avançar sozinho quando acertar").uncheck();
+    // RFI BTN max late 2:1 → 17 × 2 = 34 jogadores restantes, no canto da mesa
+    assert.equal((await page.getByTestId("players-left").innerText()).split("\n")[0].trim(), "34 left");
     await shot(page, "treino-pergunta");
     let decisions = 0;
     let flopShot = false;

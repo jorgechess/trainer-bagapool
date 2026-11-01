@@ -88,3 +88,30 @@ export function tableStacks(strategy: Strategy): { hero: number; others: number 
     others: pko.villainStack ?? (pko.coverage === "coberto" ? bigger : base),
   };
 }
+
+/** Padrão do time: o ITM paga 17 lugares; com 20 ou menos restantes já é bolha. */
+export const ITM_PLACES = 17;
+export const BUBBLE_FROM = 20;
+
+/**
+ * Jogadores restantes mostrados na mesa (null se o spot não fala de proporção nem bolha).
+ * Proporção p:1 = 17 × p restantes (2:1 → 34, 3:1 → 51, 1,5:1 → 26). Bolha = de 20 a 18 restantes.
+ * `seed` (ex.: das cartas da mão) escolhe o número quando há uma faixa, sempre igual para a mesma mão.
+ */
+export function playersLeft(strategy: Pick<Strategy, "ratio" | "bubble">, seed = 0): number | null {
+  const pick = (lo: number, hi: number) => lo + (Math.abs(Math.trunc(seed)) % (hi - lo + 1));
+  if (strategy.bubble) return pick(ITM_PLACES + 1, BUBBLE_FROM);
+  if (strategy.ratio) {
+    const lo = Math.round(ITM_PLACES * strategy.ratio.min);
+    const hi = Math.max(lo, Math.round(ITM_PLACES * strategy.ratio.max));
+    return pick(lo, hi);
+  }
+  return null;
+}
+
+/** Número estável a partir de um texto (ex.: as cartas da mão). */
+export function seedFrom(text: string): number {
+  let h = 0;
+  for (const ch of text) h = (h * 31 + ch.charCodeAt(0)) | 0;
+  return Math.abs(h);
+}

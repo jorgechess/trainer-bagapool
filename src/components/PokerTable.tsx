@@ -1,7 +1,16 @@
 import { PlayingCard } from "@/components/PlayingCard";
 import type { Card } from "@/lib/poker/cards";
 import { formatNumberRange, type Strategy } from "@/lib/poker/strategy";
-import { type Seat, facesThreeBet, knownPot, tableSeats, tableStacks } from "@/lib/poker/table";
+import {
+  ITM_PLACES,
+  type Seat,
+  facesThreeBet,
+  knownPot,
+  playersLeft,
+  seedFrom,
+  tableSeats,
+  tableStacks,
+} from "@/lib/poker/table";
 
 interface PokerTableProps {
   strategy: Strategy;
@@ -179,6 +188,8 @@ export function PokerTable({
   const stack = formatNumberRange(strategy.stack, "bb");
   const pot = knownPot(strategy);
   const button = seats.find((s) => s.isButton);
+  const left = playersLeft(strategy, seedFrom(heroCards.join("")));
+  const bubble = left !== null && strategy.bubble != null;
 
   return (
     <div
@@ -197,6 +208,21 @@ export function PokerTable({
           className="absolute rounded-[50%] border-[0.45em] border-amber-950 bg-gradient-to-b from-emerald-800 to-emerald-950 shadow-[inset_0_0_40px_rgba(0,0,0,0.6)]"
           style={{ inset: shape.felt }}
         />
+
+        {/* Jogadores restantes (spots de proporção e bolha) */}
+        {left !== null && (
+          <div
+            className={`absolute top-0 right-0 rounded-[0.5em] border px-[0.7em] py-[0.3em] text-right leading-tight ${
+              bubble ? "border-amber-400/60 bg-amber-500/15" : "border-zinc-700 bg-black/50"
+            }`}
+            data-testid="players-left"
+          >
+            <p className="font-display text-[1.6em] tracking-wide text-baga-cream">{left} left</p>
+            <p className={`text-[0.85em] ${bubble ? "text-amber-300" : "text-zinc-400"}`}>
+              {bubble ? `Bolha · ITM ${ITM_PLACES}` : `ITM ${ITM_PLACES}`}
+            </p>
+          </div>
+        )}
 
         {/* Centro: board, textura e pote */}
         <div className="absolute top-1/2 left-1/2 flex -translate-x-1/2 -translate-y-1/2 flex-col items-center gap-[0.4em]">
