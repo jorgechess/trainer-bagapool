@@ -546,7 +546,8 @@ export function Trainer({ drill, strategies, legend }: TrainerProps) {
         api.choose(api.options[digit - 1]);
         return true;
       }
-      if (event instanceof KeyboardEvent && (event.code === "Space" || event.code === "Enter") && !bindings[CONTINUE_COMMAND]) {
+      if (event instanceof KeyboardEvent && (event.code === "Space" || event.code === "Enter" || event.code === "NumpadEnter") &&
+        !bindings[CONTINUE_COMMAND]) {
         if (next < 0) return false;
         slotApis.current[next]?.next();
         return true;

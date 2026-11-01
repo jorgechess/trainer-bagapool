@@ -384,7 +384,21 @@ async function main() {
     await page.getByLabel("Avançar sozinho quando acertar").uncheck();
     await page.keyboard.press("Numpad1");
     await page.locator("[data-feedback]").waitFor();
-    await page.keyboard.press("KeyE");
+    // Enter do teclado numérico continua quando o "continuar" está no Enter
+    await page.goto(`${BASE_URL}/atalhos`);
+    await page.getByTestId("atalho-continuar").getByRole("button", { name: "Definir" }).click();
+    await page.keyboard.press("Enter");
+    await page.getByTestId("atalho-continuar").getByText("Enter", { exact: true }).waitFor();
+    await page.goto(`${BASE_URL}/drills/rfi-30bb-vanilla-todas/treinar`);
+    await page.getByTestId("hero-cards").waitFor();
+    await page.getByLabel("Avançar sozinho quando acertar").uncheck();
+    await page.keyboard.press("Numpad1");
+    await page.locator("[data-feedback]").waitFor();
+    await page.keyboard.press("NumpadEnter");
+    await page.locator("[data-feedback]").waitFor({ state: "detached" });
+    await page.keyboard.press("Numpad1");
+    await page.locator("[data-feedback]").waitFor();
+    await page.keyboard.press("NumpadEnter");
     await page.waitForTimeout(1500);
     const [numpad] = await rows("attempts", "select=data&order=id.desc&limit=1");
     assert.equal(numpad.data.chosenActionId, "rfi", "Numpad1 = 1 do teclado de cima");

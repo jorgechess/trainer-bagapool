@@ -16,7 +16,7 @@ import {
 test("entradas de teclado e mouse e seus nomes", () => {
   assert.equal(keyInput({ code: "KeyE" }), "key:KeyE");
   assert.equal(keyInput({ code: "Numpad1" }), "key:Digit1", "1 do teclado numérico = 1 de cima");
-  assert.equal(keyInput({ code: "NumpadEnter" }), "key:NumpadEnter");
+  assert.equal(keyInput({ code: "NumpadEnter" }), "key:Enter", "Enter do teclado numérico = Enter");
   assert.equal(mouseInput({ button: 3 }), "mouse:3");
   assert.equal(inputLabel("key:KeyE"), "E");
   assert.equal(inputLabel("key:Digit2"), "2");
@@ -51,7 +51,10 @@ test("leitura do que foi salvo tolera dados inválidos", () => {
     parseBindings(JSON.stringify({ fold: "mouse:3", rfi: 5, x: "teclado", y: "mouse:0" })),
     { fold: "mouse:3" },
   );
-  assert.deepEqual(parseBindings(JSON.stringify({ rfi: "key:Numpad1" })), { rfi: "key:Digit1" });
+  assert.deepEqual(parseBindings(JSON.stringify({ rfi: "key:Numpad1", continuar: "key:NumpadEnter" })), {
+    rfi: "key:Digit1",
+    continuar: "key:Enter",
+  });
 });
 
 test("nomes curtos e campos de digitação", async () => {
