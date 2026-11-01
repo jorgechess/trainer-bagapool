@@ -634,6 +634,23 @@ async function main() {
     }
     await shot(page, "treino-defesa-bb-pko");
     log("Defesa BB PKO Deep com filtros de stack e cobertura");
+
+    // Defesa BB Vanilla MLR: open polar = vilão com 10–14bb
+    await page.goto(`${BASE_URL}/admin/importar`);
+    await page.getByTestId("carga-defesa-bb-vanilla-mlr").getByRole("button", { name: "Importar" }).click();
+    await page.getByTestId("carga-defesa-bb-vanilla-mlr").getByText(/Importado:/).waitFor({ timeout: 60000 });
+    await page.goto(`${BASE_URL}/drills/defesa-bb-vanilla-mlr/treinar`);
+    await page.getByTestId("hero-cards").waitFor();
+    await page.getByRole("group", { name: "Open do vilão" }).getByRole("button", { name: /Polar/ }).click();
+    for (let hand = 0; hand < 3; hand++) {
+      const v = await page.getByTestId("spot-villain-stack").innerText();
+      assert.match(v, /^(UTG|UTG1|MP|LJ|HJ|CO|BTN) 1[0-4]bb$/, `vilão polar: ${v}`);
+      await page.locator("[data-testid=actions] button").first().click();
+      await page.getByRole("button", { name: /Continuar/ }).click();
+    }
+    await page.getByTestId("players-left").waitFor();
+    await shot(page, "treino-defesa-bb-mlr");
+    log("Defesa BB Vanilla MLR: filtro de open polar e stack do vilão em destaque");
     log(`Max Late Reg Vanilla importado; mesa mostra ${leftText}`);
 
     // 10. Cadastra pool e jogador

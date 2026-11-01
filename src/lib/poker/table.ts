@@ -168,6 +168,8 @@ export interface TableState {
   /** Stack que sobra na frente de cada jogador (bb), ou null se não dá para saber. */
   remaining: Partial<Record<Position, number>> | null;
   pot: number | null;
+  /** Stack inicial do vilão (bb), se conhecido. */
+  villainStart: number | null;
   /** Rótulo da ação do vilão: "Raise", "3-bet" ou "All-in". */
   raiseLabel: string;
 }
@@ -184,6 +186,10 @@ export function tableState(strategy: Strategy, seed: number): TableState {
     for (const seat of seats)
       start[seat.position] = seat.status === "hero" ? hero : villainStart(strategy, hero, villains?.[seat.position], base?.others);
   }
+  if (start && strategy.openerStack && strategy.villainPosition) {
+    const { min, max } = strategy.openerStack;
+    start[strategy.villainPosition] = Math.ceil(min) + (Math.floor(Math.abs(seed) / 13) % (Math.floor(max) - Math.ceil(min) + 1));
+  }
   if (strategy.villainAllIn && strategy.villainPosition) {
     const villain = seats.find((s) => s.position === strategy.villainPosition)!;
     if (start) villain.posted = start[villain.position]!;
@@ -199,6 +205,7 @@ export function tableState(strategy: Strategy, seed: number): TableState {
   return {
     seats,
     remaining,
+    villainStart: start && strategy.villainPosition ? (start[strategy.villainPosition] ?? null) : null,
     pot,
     raiseLabel: strategy.villainAllIn ? "All-in" : facesThreeBet(strategy) ? "3-bet" : "Raise",
   };

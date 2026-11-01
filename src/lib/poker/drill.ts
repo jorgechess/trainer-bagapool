@@ -14,6 +14,7 @@ import {
   type Street,
   type Strategy,
   acceptedActions,
+  OPEN_TYPE_LABELS,
   dealSourceIds,
   formatNumberRange,
   formatRatio,
@@ -397,11 +398,27 @@ export function drillCoverages(drill: Drill, strategies: Map<string, Strategy>):
   return ["Cobrindo", "Coberto"].filter((c) => found.has(c));
 }
 
+/** Tipos de open do vilão no drill ("Linear (>16bb)", "Polar (10–14bb)"). */
+export function openTypeLabel(strategy: Strategy): string | null {
+  return strategy.openType ? OPEN_TYPE_LABELS[strategy.openType] : null;
+}
+
+export function drillOpenTypes(drill: Drill, strategies: Map<string, Strategy>): string[] {
+  const found = new Set<string>();
+  for (const v of drillVariants(drill)) {
+    const s = strategies.get(v[0] ?? "");
+    const label = s && openTypeLabel(s);
+    if (label) found.add(label);
+  }
+  return Object.values(OPEN_TYPE_LABELS).filter((l) => found.has(l));
+}
+
 export interface DrillFilter {
   positions?: readonly string[];
   contexts?: readonly string[];
   stacks?: readonly string[];
   coverages?: readonly string[];
+  openTypes?: readonly string[];
 }
 
 function variantMatches(strategy: Strategy | undefined, filter: DrillFilter): boolean {
@@ -410,6 +427,7 @@ function variantMatches(strategy: Strategy | undefined, filter: DrillFilter): bo
   if (filter.contexts?.length && !filter.contexts.includes(contextLabel(strategy) ?? "")) return false;
   if (filter.stacks?.length && !filter.stacks.includes(formatNumberRange(strategy.stack, "bb"))) return false;
   if (filter.coverages?.length && !filter.coverages.includes(coverageLabel(strategy) ?? "")) return false;
+  if (filter.openTypes?.length && !filter.openTypes.includes(openTypeLabel(strategy) ?? "")) return false;
   return true;
 }
 
@@ -418,7 +436,7 @@ function variantMatches(strategy: Strategy | undefined, filter: DrillFilter): bo
  * Não altera o drill original; filtros vazios ou combinação sem nenhuma variação = drill inteiro (`empty` avisa).
  */
 export function filterDrill(drill: Drill, strategies: Map<string, Strategy>, filter: DrillFilter): { drill: Drill; empty: boolean } {
-  if (!filter.positions?.length && !filter.contexts?.length && !filter.stacks?.length && !filter.coverages?.length)
+  if (!filter.positions?.length && !filter.contexts?.length && !filter.stacks?.length && !filter.coverages?.length && !filter.openTypes?.length)
     return { drill, empty: false };
   const kept = drillVariants(drill).filter((v) => variantMatches(strategies.get(v[0] ?? ""), filter));
   if (kept.length === 0) return { drill, empty: true };

@@ -8,7 +8,7 @@ import { PokerTable } from "@/components/PokerTable";
 import { PositionChips } from "@/components/PositionChips";
 import { RangeGrid } from "@/components/RangeGrid";
 import { FilterChips } from "@/components/FilterChips";
-import { heroStackFor, seedFrom } from "@/lib/poker/table";
+import { heroStackFor, seedFrom, tableState } from "@/lib/poker/table";
 import { formatPercent } from "@/lib/format";
 import { LENGTH_KEY, LENGTH_OPTIONS } from "@/lib/session-length";
 import {
@@ -17,6 +17,7 @@ import {
   dealQuestion,
   drillContexts,
   drillCoverages,
+  drillOpenTypes,
   drillPositions,
   drillStacks,
   filterDrill,
@@ -293,6 +294,15 @@ function TableSlot({
             return hero !== null ? `${hero.toLocaleString("pt-BR")}bb` : formatNumberRange(strategy.stack, "bb");
           })()}
         </span>
+        {strategy.openerStack && (
+          <span
+            className="rounded bg-zinc-200 px-2 py-0.5 text-sm font-bold text-black"
+            data-testid="spot-villain-stack"
+            title="Stack de quem abriu: >16bb = range linear, 10–14bb = polar"
+          >
+            {strategy.villainPosition} {tableState(strategy, seedFrom(question.heroCards.join(""))).villainStart}bb
+          </span>
+        )}
         {contextLabel(strategy) && (
           <span
             className={`rounded px-2 py-0.5 text-sm font-bold ${
@@ -398,6 +408,7 @@ export function Trainer({ drill, strategies, legend }: TrainerProps) {
   const [contexts, setContexts] = useState<string[]>([]);
   const [stacks, setStacks] = useState<string[]>([]);
   const [coverages, setCoverages] = useState<string[]>([]);
+  const [openTypes, setOpenTypes] = useState<string[]>([]);
   const [tableCount, setTableCount] = useState<TableCount>(1);
   const [lengthChoice, setLengthChoice] = useState<number>(0);
   /** Mãos da sessão; null = sem limite. */
@@ -419,14 +430,16 @@ export function Trainer({ drill, strategies, legend }: TrainerProps) {
   const contextsKey = `trainer:proporcoes:${drill.id}`;
   const stacksKey = `trainer:stacks:${drill.id}`;
   const coveragesKey = `trainer:coberturas:${drill.id}`;
+  const openTypesKey = `trainer:opens:${drill.id}`;
   const availablePositions = useMemo(() => drillPositions(drill, strategyMap), [drill, strategyMap]);
   const availableContexts = useMemo(() => drillContexts(drill, strategyMap), [drill, strategyMap]);
   const availableStacks = useMemo(() => drillStacks(drill, strategyMap), [drill, strategyMap]);
   const availableCoverages = useMemo(() => drillCoverages(drill, strategyMap), [drill, strategyMap]);
+  const availableOpenTypes = useMemo(() => drillOpenTypes(drill, strategyMap), [drill, strategyMap]);
   /** Drill com os filtros do jogador (posição, proporção, stack); não muda o drill de ninguém. */
   const filtered = useMemo(
-    () => filterDrill(drill, strategyMap, { positions, contexts, stacks, coverages }),
-    [drill, strategyMap, positions, contexts, stacks, coverages],
+    () => filterDrill(drill, strategyMap, { positions, contexts, stacks, coverages, openTypes }),
+    [drill, strategyMap, positions, contexts, stacks, coverages, openTypes],
   );
   const activeDrill = filtered.drill;
 
@@ -459,11 +472,14 @@ export function Trainer({ drill, strategies, legend }: TrainerProps) {
     load(contextsKey, availableContexts, setContexts);
     load(stacksKey, availableStacks, setStacks);
     load(coveragesKey, availableCoverages, setCoverages);
+    load(openTypesKey, availableOpenTypes, setOpenTypes);
   }, [
     positionsKey,
     contextsKey,
     stacksKey,
     coveragesKey,
+    openTypesKey,
+    availableOpenTypes,
     availablePositions,
     availableContexts,
     availableStacks,
@@ -490,6 +506,11 @@ export function Trainer({ drill, strategies, legend }: TrainerProps) {
   function changeCoverages(next: string[]) {
     setCoverages(next);
     writeStorage(coveragesKey, JSON.stringify(next));
+  }
+
+  function changeOpenTypes(next: string[]) {
+    setOpenTypes(next);
+    writeStorage(openTypesKey, JSON.stringify(next));
   }
 
   function changeStacks(next: string[]) {
@@ -882,6 +903,9 @@ export function Trainer({ drill, strategies, legend }: TrainerProps) {
         )}
         {availableCoverages.length > 1 && (
           <FilterChips label="Cobertura" options={availableCoverages} selected={coverages} onChange={changeCoverages} />
+        )}
+        {availableOpenTypes.length > 1 && (
+          <FilterChips label="Open do vilão" options={availableOpenTypes} selected={openTypes} onChange={changeOpenTypes} />
         )}
         {filtered.empty && (
           <p className="w-full text-xs text-amber-400" data-testid="filtro-vazio">

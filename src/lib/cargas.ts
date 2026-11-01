@@ -10,6 +10,7 @@ import vsRestealMaxLate from "../../cargas/vs-resteal-max-late-reg-vanilla.json"
 import rfiPkoShortCoberto from "../../cargas/rfi-pko-short-coberto.json";
 import defesaVanillaDeep from "../../cargas/defesa-vanilla-deep.json";
 import defesaBbPkoDeep from "../../cargas/defesa-bb-pko-deep.json";
+import defesaBbVanillaMlr from "../../cargas/defesa-bb-vanilla-mlr.json";
 
 export interface Carga {
   id: string;
@@ -103,5 +104,13 @@ export const CARGAS: Carga[] = [
       "BB contra open de UTG a BTN em PKO com 30 e 50bb, cobrindo e coberto (filtros no treino): flat, resteal, 3-bet/call e 3-bet/fold.",
     requires: [],
     bundle: defesaBbPkoDeep,
+  },
+  {
+    id: "defesa-bb-vanilla-mlr",
+    name: "Defesa BB Vanilla MLR",
+    description:
+      "350 spots: BB com 4, 6, 8, 10 e 15bb em 3:1, 2:1, 1,5:1 e bolhas, contra open de UTG a BTN, range linear (vilão >16bb) ou polar (10–14bb).",
+    requires: [],
+    bundle: defesaBbVanillaMlr,
   },
 ];

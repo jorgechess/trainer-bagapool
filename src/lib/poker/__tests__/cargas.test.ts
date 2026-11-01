@@ -345,3 +345,27 @@ test("carga Defesa BB PKO Deep: 30/50bb cobrindo/coberto com as porcentagens exa
       assert.ok(Math.abs(printPercent(s, action) - value) < 0.01, `${stack}bb ${coverage} vs ${villain} ${action}: ${printPercent(s, action)}`);
   }
 });
+
+test("carga Defesa BB Vanilla MLR: linear vs polar, com as porcentagens das legendas", () => {
+  const result = parseImportBundle(load("defesa-bb-vanilla-mlr.json"), DEFAULT_LEGEND);
+  assert.deepEqual(result.errors, []);
+  assert.equal(result.strategies.length, 350);
+  const get = (ctx: string, stack: number, v: string, ot: string) =>
+    result.strategies.find((s) => s.id === `bb-def-mlr-${ctx}-${stack}bb-vs-${v}-${ot}`)!;
+  // Contra linear: all-in = azul + rosa; call = verde + amarelo. Contra polar: all-in = azul; call = verde.
+  const near = (got: number, want: number, msg: string) => assert.ok(Math.abs(got - want) < 0.6, `${msg}: ${got} ≈ ${want}`);
+  near(printPercent(get("3p1", 4, "btn", "linear"), "shove"), 27.3 + 3.32, "4bb 3:1 BTN linear all-in");
+  near(printPercent(get("3p1", 4, "btn", "linear"), "call"), 54 + 15.38, "4bb 3:1 BTN linear call");
+  near(printPercent(get("3p1", 4, "btn", "polar"), "shove"), 27.3, "4bb 3:1 BTN polar all-in");
+  near(printPercent(get("3p1", 4, "btn", "polar"), "call"), 54, "4bb 3:1 BTN polar call");
+  near(printPercent(get("bng", 10, "btn", "linear"), "shove"), 4.68 + 12.97, "10bb bolha BTN linear all-in");
+  near(printPercent(get("bng", 6, "utg", "polar"), "call"), 6.03, "6bb bolha EP polar call");
+  near(printPercent(get("3p1", 15, "utg", "polar"), "call"), 41.18, "15bb 3:1 EP polar call");
+  near(printPercent(get("3p1", 15, "lj", "linear"), "call"), 41.4 + 21.12, "15bb 3:1 MP (LJ) linear call");
+  near(printPercent(get("bg", 8, "co", "polar"), "call"), 5.73, "8bb bolha garantido CO polar call");
+  const lin = get("2p1", 6, "co", "linear");
+  assert.deepEqual(lin.openerStack, { min: 17, max: 40 });
+  assert.deepEqual(get("2p1", 6, "co", "polar").openerStack, { min: 10, max: 14 });
+  assert.deepEqual(lin.ratio, { min: 2, max: 2 });
+  assert.equal(get("bng", 6, "co", "polar").bubble, "itm-nao-garantido");
+});

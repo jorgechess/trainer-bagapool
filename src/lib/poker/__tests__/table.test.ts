@@ -113,3 +113,17 @@ test("PKO coberto com stacks aleatórios: todo vilão cobre o herói", async () 
       if (seat.status !== "hero") assert.ok(t.remaining![seat.position]! + seat.posted > 20, `${seat.position} cobre`);
   }
 });
+
+test("stack de quem abriu sai da faixa da estratégia (linear >16bb, polar 10–14bb)", async () => {
+  const { tableState } = await import("../table");
+  const spot = { ...rfiBtn, heroPosition: "BB" as const, villainPosition: "CO" as const, stack: { min: 8, max: 8 },
+    ratio: { min: 2, max: 2 }, randomStacks: true, openerStack: { min: 10, max: 14 } };
+  const seen = new Set<number>();
+  for (let seed = 1; seed < 400; seed += 3) {
+    const t = tableState(spot, seed);
+    assert.ok(t.villainStart! >= 10 && t.villainStart! <= 14);
+    assert.equal(t.remaining!.CO, t.villainStart! - 2);
+    seen.add(t.villainStart!);
+  }
+  assert.equal(seen.size, 5);
+});

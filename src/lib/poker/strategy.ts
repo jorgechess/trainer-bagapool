@@ -28,6 +28,9 @@ export const BUBBLE_LABELS: Record<BubbleContext, string> = {
   "itm-nao-garantido": "Bolha sem ITM garantido",
 };
 
+export type OpenType = "linear" | "polar";
+export const OPEN_TYPE_LABELS: Record<OpenType, string> = { linear: "Linear (>16bb)", polar: "Polar (10–14bb)" };
+
 export interface NumberRange {
   min: number;
   max: number;
@@ -102,6 +105,10 @@ export interface Strategy {
   pko?: PkoInfo | null;
   /** Mesa de fim de torneio: stacks dos outros sorteados a cada mão (o do herói sai da faixa de stack). */
   randomStacks?: boolean;
+  /** Stack de quem abriu (faixa sorteada a cada mão), ex.: 17–40bb = range linear, 10–14bb = polar. */
+  openerStack?: NumberRange | null;
+  /** Tipo de range do open do vilão (vem do stack dele). */
+  openType?: OpenType | null;
   /** O vilão que aumentou foi all-in (ex.: vs resteal): a mesa mostra o shove dele. */
   villainAllIn?: boolean;
   /** Tamanhos desenhados na mesa (bb). Padrão: open 2bb, 3-bet 3,5× o open. */

@@ -48,6 +48,8 @@ export interface ImportStrategy {
   tableSizes?: { open?: number; threeBet?: number } | null;
   randomStacks?: boolean;
   villainAllIn?: boolean;
+  openerStack?: { min: number; max: number } | null;
+  openType?: "linear" | "polar" | null;
   pko?: { coverage: "cobrindo" | "coberto"; bounty?: string; heroStack?: number; villainStack?: number } | null;
   range?: Record<string, string>;
   /** Mãos mistas: ações extras também aceitas, no formato do range (a mão pode aparecer em várias ações). */
@@ -212,6 +214,8 @@ export function parseImportBundle(
       tableSizes: raw.tableSizes ?? null,
       ...(raw.randomStacks ? { randomStacks: true } : {}),
       ...(raw.villainAllIn ? { villainAllIn: true } : {}),
+      ...(raw.openerStack ? { openerStack: raw.openerStack } : {}),
+      ...(raw.openType ? { openType: raw.openType } : {}),
       pko: raw.pko ?? null,
       dealFrom: raw.dealFrom
         ? {
