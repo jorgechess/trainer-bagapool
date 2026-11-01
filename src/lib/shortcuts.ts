@@ -13,8 +13,10 @@ export const SHORTCUTS_KEY = "trainer:atalhos";
 
 export const DEFAULT_BINDINGS: Bindings = { [CONTINUE_COMMAND]: "key:Enter" };
 
+/** O 1 do teclado numérico vale o mesmo que o 1 de cima do teclado (e assim por diante). */
 export function keyInput(event: { code: string }): string {
-  return `key:${event.code}`;
+  const numpad = /^Numpad([0-9])$/.exec(event.code);
+  return `key:${numpad ? `Digit${numpad[1]}` : event.code}`;
 }
 
 export function mouseInput(event: { button: number }): string {
@@ -95,7 +97,8 @@ export function parseBindings(raw: string | null): Bindings {
     if (typeof parsed !== "object" || parsed === null || Array.isArray(parsed)) return { ...DEFAULT_BINDINGS };
     const result: Bindings = {};
     for (const [command, input] of Object.entries(parsed)) {
-      if (typeof input === "string" && /^(key|mouse):.+$/.test(input) && !isReservedInput(input)) result[command] = input;
+      if (typeof input === "string" && /^(key|mouse):.+$/.test(input) && !isReservedInput(input))
+        result[command] = input.replace(/^key:Numpad([0-9])$/, "key:Digit$1");
     }
     return result;
   } catch {

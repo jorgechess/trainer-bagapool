@@ -259,7 +259,19 @@ function TableSlot({
         <span className="rounded bg-baga-red/20 px-2 py-0.5 font-medium text-baga-cream">
           {STREET_LABELS[step.street]}
         </span>
-        <span className="text-zinc-300">{spotSummary(strategy)}</span>
+        <span className="text-zinc-300">{spotSummary({ ...strategy, pko: null })}</span>
+        {strategy.pko && (
+          <span
+            className={`rounded px-2 py-0.5 text-xs font-bold tracking-wide uppercase ${
+              strategy.pko.coverage === "coberto"
+                ? "bg-amber-500/20 text-amber-300 ring-1 ring-amber-400/60"
+                : "bg-emerald-500/20 text-emerald-300 ring-1 ring-emerald-400/60"
+            }`}
+            data-testid="pko-coverage"
+          >
+            PKO {strategy.pko.coverage}
+          </span>
+        )}
         {question.steps.length > 1 && (
           <span className="text-zinc-500">
             · decisão {stepIndex + 1} de {question.steps.length}

@@ -20,6 +20,8 @@ interface PokerTableProps {
 }
 
 const SEAT_COUNT = 9;
+/** Valor padrão da etiqueta de bounty nas mesas PKO. */
+const DEFAULT_BOUNTY = "$10.00";
 /** Distância das fichas e do botão do dealer até o centro (1 = no lugar do jogador). */
 const CHIP_FACTOR = 0.76;
 /** Na mesa em pé (celular) os lugares ficam mais juntos: fichas um pouco mais para dentro. */
@@ -180,14 +182,7 @@ export function PokerTable({
               Pote: {pot.toLocaleString("pt-BR")}bb
             </span>
           )}
-          {strategy.pko && (
-            <span
-              className="rounded-full border border-amber-300/60 bg-black/50 px-[0.8em] py-[0.15em] font-semibold text-amber-200"
-              data-testid="pko-coverage"
-            >
-              PKO · {strategy.pko.coverage === "cobrindo" ? "você cobre a mesa" : "você está coberto"}
-            </span>
-          )}
+
         </div>
 
         {/* Blinds colocados */}
@@ -237,7 +232,7 @@ export function PokerTable({
             heroCards={heroCards}
             shape={shape}
             raiseLabel={facesThreeBet(strategy) ? "3-bet" : "Raise"}
-            bounty={strategy.pko ? strategy.pko.bounty || "Bounty" : undefined}
+            bounty={strategy.pko ? strategy.pko.bounty || DEFAULT_BOUNTY : undefined}
           />
         ))}
       </div>

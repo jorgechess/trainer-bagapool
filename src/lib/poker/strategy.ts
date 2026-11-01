@@ -37,7 +37,7 @@ export type Coverage = "cobrindo" | "coberto";
 
 export interface PkoInfo {
   coverage: Coverage;
-  /** Texto da etiqueta dourada de bounty (ex.: "$25"). Padrão: "Bounty". */
+  /** Texto da etiqueta dourada de bounty (ex.: "$25.00"). Padrão: "$10.00". */
   bounty?: string;
   /** Stacks desenhados na mesa (bb). Padrão: quem cobre tem 10bb a mais que o stack da estratégia. */
   heroStack?: number;

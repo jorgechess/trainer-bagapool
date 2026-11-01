@@ -366,7 +366,7 @@ export function StrategyEditor({
           <label className="label">Etiqueta de bounty (opcional)</label>
           <input
             className="input"
-            placeholder="Bounty"
+            placeholder="$10.00"
             disabled={!s.pko}
             value={s.pko?.bounty ?? ""}
             onChange={(e) => s.pko && update({ pko: { ...s.pko, bounty: e.target.value } })}

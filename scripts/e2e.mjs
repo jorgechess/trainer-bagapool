@@ -374,7 +374,21 @@ async function main() {
     const [newest] = await rows("attempts", "select=data&order=id.desc&limit=1");
     assert.equal(newest.data.chosenActionId, "rfi", "botão do meio escolheu raise");
     void lastChoice;
-    log("atalhos de teclado e mouse definidos pelo jogador funcionam");
+    // "1" definido pelo teclado de cima também vale no teclado numérico
+    await page.goto(`${BASE_URL}/atalhos`);
+    await page.getByTestId("atalho-rfi").getByRole("button", { name: "Definir" }).click();
+    await page.keyboard.press("Digit1");
+    await page.getByTestId("atalho-rfi").getByText("1", { exact: true }).waitFor();
+    await page.goto(`${BASE_URL}/drills/rfi-30bb-vanilla-todas/treinar`);
+    await page.getByTestId("hero-cards").waitFor();
+    await page.getByLabel("Avançar sozinho quando acertar").uncheck();
+    await page.keyboard.press("Numpad1");
+    await page.locator("[data-feedback]").waitFor();
+    await page.keyboard.press("KeyE");
+    await page.waitForTimeout(1500);
+    const [numpad] = await rows("attempts", "select=data&order=id.desc&limit=1");
+    assert.equal(numpad.data.chosenActionId, "rfi", "Numpad1 = 1 do teclado de cima");
+    log("atalhos de teclado e mouse definidos pelo jogador funcionam (inclusive teclado numérico)");
 
     // Drill novo escolhendo spot e posições pelos botões
     await page.goto(`${BASE_URL}/drills/novo`);
@@ -424,8 +438,8 @@ async function main() {
     await page.goto(`${BASE_URL}/drills/rfi-50bb-pko-cobrindo/treinar`);
     await page.getByTestId("hero-cards").waitFor();
     assert.equal(await page.getByTestId("bounty-tag").count(), 9, "bounty em todos os 9 lugares");
-    await page.getByTestId("pko-coverage").getByText("você cobre a mesa").waitFor();
-    await page.getByText(/PKO cobrindo/).first().waitFor();
+    assert.equal(await page.getByTestId("bounty-tag").first().innerText(), "$10.00");
+    await page.getByTestId("pko-coverage").getByText("PKO cobrindo").waitFor();
     await page.getByText(/\(você\)/).locator("xpath=..").getByText(/^60bb$/).waitFor();
     await shot(page, "treino-pko");
     log("mesa PKO com bounty e cobertura");
