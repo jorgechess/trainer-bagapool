@@ -49,6 +49,7 @@ export default async function WarmupPage() {
       seconds={WARMUP_SECONDS}
       source={source}
       drillNames={chosen.map((d) => d.name)}
+      sourceDrillNames={Object.fromEntries(chosen.map((d) => [d.id, d.name]))}
     />
   );
 }

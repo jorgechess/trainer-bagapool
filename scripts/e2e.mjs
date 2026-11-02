@@ -657,6 +657,8 @@ async function main() {
     for (let i = 0; i < 20 && (await countRows("attempts")) < beforeWarmup + 3; i++) await page.waitForTimeout(250);
     const warm = await rows("attempts", "select=drill_id&order=id.desc&limit=3");
     assert.ok(warm.length === 3 && warm.every((a) => a.drill_id !== "aquecimento"), "decisões do warmup contam nos drills de verdade");
+    await page.getByRole("button", { name: "Encerrar sessão" }).click();
+    await page.getByTestId("warmup-by-spot").getByText(/\d+%/).first().waitFor();
     log("warmup com contagem regressiva e 15 minutos");
     log(`Max Late Reg Vanilla importado; mesa mostra ${leftText}`);
 

@@ -14,6 +14,7 @@ interface WarmupProps {
   seconds: number;
   source: string;
   drillNames: string[];
+  sourceDrillNames: Record<string, string>;
 }
 
 const STEPS = ["3", "2", "1", "Go!"] as const;
@@ -21,7 +22,7 @@ const R = 88;
 const CIRC = 2 * Math.PI * R;
 
 /** Contagem 3, 2, 1, Go! num círculo que se fecha a cada segundo, e depois o treino por tempo. */
-export function Warmup({ drill, strategies, legend, sourceDrillOf, seconds, source, drillNames }: WarmupProps) {
+export function Warmup({ drill, strategies, legend, sourceDrillOf, seconds, source, drillNames, sourceDrillNames }: WarmupProps) {
   const [step, setStep] = useState<number | null>(null);
   const [fill, setFill] = useState(false);
 
@@ -37,7 +38,7 @@ export function Warmup({ drill, strategies, legend, sourceDrillOf, seconds, sour
   }, [step]);
 
   if (step !== null && step >= STEPS.length)
-    return <Trainer drill={drill} strategies={strategies} legend={legend} timeLimitSec={seconds} sourceDrillOf={sourceDrillOf} />;
+    return <Trainer drill={drill} strategies={strategies} legend={legend} timeLimitSec={seconds} sourceDrillOf={sourceDrillOf} sourceDrillNames={sourceDrillNames} />;
 
   if (step !== null) {
     const go = STEPS[step] === "Go!";

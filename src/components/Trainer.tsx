@@ -50,6 +50,8 @@ interface TrainerProps {
   timeLimitSec?: number;
   /** Drill de origem de cada estratégia (aquecimento mistura drills; cada decisão conta no drill dela). */
   sourceDrillOf?: Record<string, string>;
+  /** Nomes dos drills de origem (relatório do aquecimento por spot). */
+  sourceDrillNames?: Record<string, string>;
 }
 
 interface Decision {
@@ -406,7 +408,7 @@ function TableSlot({
   );
 }
 
-export function Trainer({ drill, strategies, legend, timeLimitSec, sourceDrillOf }: TrainerProps) {
+export function Trainer({ drill, strategies, legend, timeLimitSec, sourceDrillOf, sourceDrillNames }: TrainerProps) {
   const strategyMap = useMemo(() => new Map(strategies.map((s) => [s.id, s])), [strategies]);
   const [decisions, setDecisions] = useState<Decision[]>([]);
   const [handsPlayed, setHandsPlayed] = useState(0);
@@ -770,6 +772,36 @@ export function Trainer({ drill, strategies, legend, timeLimitSec, sourceDrillOf
           )}
         </div>
         {saveError && <p className="text-sm text-amber-400">{saveError}</p>}
+        {sourceDrillOf && countedDecisions.length > 0 && (
+          <div className="card space-y-2" data-testid="warmup-by-spot">
+            <h2 className="font-semibold">Desempenho por spot</h2>
+            <ul className="divide-y divide-zinc-800 text-sm">
+              {[...countedDecisions.reduce((acc, d) => {
+                const id = sourceDrillOf[d.strategyId] ?? drill.id;
+                const cur = acc.get(id) ?? { total: 0, correct: 0 };
+                acc.set(id, { total: cur.total + 1, correct: cur.correct + (d.correct ? 1 : 0) });
+                return acc;
+              }, new Map<string, { total: number; correct: number }>())]
+                .sort((a, b) => a[1].correct / a[1].total - b[1].correct / b[1].total)
+                .map(([id, r]) => {
+                  const pct = r.correct / r.total;
+                  return (
+                    <li key={id} className="flex items-center gap-3 py-2">
+                      <span className="flex-1">{sourceDrillNames?.[id] ?? id}</span>
+                      <span className="text-xs text-zinc-500">
+                        {r.correct}/{r.total}
+                      </span>
+                      <span
+                        className={`w-14 text-right font-semibold ${pct >= 0.9 ? "text-green-400" : pct >= 0.75 ? "text-amber-300" : "text-red-400"}`}
+                      >
+                        {formatPercent(pct)}
+                      </span>
+                    </li>
+                  );
+                })}
+            </ul>
+          </div>
+        )}
         {mistakes.length > 0 && (
           <div className="card space-y-2">
             <h2 className="font-semibold">Erros da sessão</h2>
