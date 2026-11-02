@@ -637,6 +637,26 @@ async function main() {
     await page.locator("[data-testid=actions]").getByRole("button", { name: "Limp" }).waitFor();
     await shot(page, "treino-rfi-sb");
     log("RFI SB Chip EV na seção Blind War");
+
+    // Warmup: botão no início, contagem 3-2-1-Go e treino de 15 minutos; decisões contam no drill de origem
+    await page.goto(`${BASE_URL}/`);
+    await page.getByTestId("warmup-button").click();
+    await page.getByTestId("warmup-drills").waitFor();
+    await page.getByRole("button", { name: "Começar" }).click();
+    await page.getByTestId("warmup-countdown").getByText("3").waitFor();
+    await shot(page, "warmup-contagem");
+    await page.getByTestId("warmup-timer").waitFor({ timeout: 10000 });
+    assert.match(await page.getByTestId("warmup-timer").innerText(), /^1[45]:\d\d$/);
+    const beforeWarmup = await countRows("attempts");
+    for (let hand = 0; hand < 3; hand++) {
+      await page.locator("[data-testid=actions] button").first().click();
+      await page.getByRole("button", { name: /Continuar/ }).click();
+    }
+    await shot(page, "warmup-treino");
+    for (let i = 0; i < 20 && (await countRows("attempts")) < beforeWarmup + 3; i++) await page.waitForTimeout(250);
+    const warm = await rows("attempts", "select=drill_id&order=id.desc&limit=3");
+    assert.ok(warm.length === 3 && warm.every((a) => a.drill_id !== "aquecimento"), "decisões do warmup contam nos drills de verdade");
+    log("warmup com contagem regressiva e 15 minutos");
     log(`Max Late Reg Vanilla importado; mesa mostra ${leftText}`);
 
     // 10. Cadastra pool e jogador

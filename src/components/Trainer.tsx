@@ -46,6 +46,10 @@ interface TrainerProps {
   drill: Drill;
   strategies: Strategy[];
   legend: Legend;
+  /** Sessão por tempo (aquecimento): segundos; a sessão termina quando o tempo acaba. */
+  timeLimitSec?: number;
+  /** Drill de origem de cada estratégia (aquecimento mistura drills; cada decisão conta no drill dela). */
+  sourceDrillOf?: Record<string, string>;
 }
 
 interface Decision {
@@ -402,7 +406,7 @@ function TableSlot({
   );
 }
 
-export function Trainer({ drill, strategies, legend }: TrainerProps) {
+export function Trainer({ drill, strategies, legend, timeLimitSec, sourceDrillOf }: TrainerProps) {
   const strategyMap = useMemo(() => new Map(strategies.map((s) => [s.id, s])), [strategies]);
   const [decisions, setDecisions] = useState<Decision[]>([]);
   const [handsPlayed, setHandsPlayed] = useState(0);
@@ -421,7 +425,14 @@ export function Trainer({ drill, strategies, legend }: TrainerProps) {
   const [tableCount, setTableCount] = useState<TableCount>(1);
   const [lengthChoice, setLengthChoice] = useState<number>(0);
   /** Mãos da sessão; null = sem limite. */
-  const sessionLength = lengthChoice === -1 ? null : lengthChoice === 0 ? drill.handsPerSession : lengthChoice;
+  const sessionLength = timeLimitSec
+    ? null
+    : lengthChoice === -1
+      ? null
+      : lengthChoice === 0
+        ? drill.handsPerSession
+        : lengthChoice;
+  const [remaining, setRemaining] = useState(timeLimitSec ?? 0);
   const lengthRef = useRef<number | null>(sessionLength);
   lengthRef.current = sessionLength;
   const [vertical, setVertical] = useState(false);
@@ -579,15 +590,22 @@ export function Trainer({ drill, strategies, legend }: TrainerProps) {
     (handDecisions: Decision[]) => {
       const counted = handDecisions.filter((d) => !d.peeked);
       if (counted.length > 0) {
-        pending.current.push({
-          drillId: drill.id,
-          decisions: counted.map(({ strategyId, heroCards, board, chosenActionId }) => ({
-            strategyId,
-            heroCards,
-            board,
-            chosenActionId,
-          })),
-        });
+        // Cada decisão conta no drill de onde veio (no aquecimento, vários drills se misturam)
+        const byDrill = new Map<string, Decision[]>();
+        for (const d of counted) {
+          const id = sourceDrillOf?.[d.strategyId] ?? drill.id;
+          byDrill.set(id, [...(byDrill.get(id) ?? []), d]);
+        }
+        for (const [drillId, list] of byDrill)
+          pending.current.push({
+            drillId,
+            decisions: list.map(({ strategyId, heroCards, board, chosenActionId }) => ({
+              strategyId,
+              heroCards,
+              board,
+              chosenActionId,
+            })),
+          });
         void flush();
       }
       handsRef.current += 1;
@@ -598,13 +616,31 @@ export function Trainer({ drill, strategies, legend }: TrainerProps) {
       }
       return true;
     },
-    [drill, flush],
+    [drill, flush, sourceDrillOf],
   );
+
+  // Aquecimento: contagem regressiva; quando zera, a sessão termina
+  useEffect(() => {
+    if (!timeLimitSec || finished) return;
+    const timer = setInterval(() => {
+      setRemaining((r) => {
+        if (r <= 1) {
+          clearInterval(timer);
+          void flush();
+          setFinished(true);
+          return 0;
+        }
+        return r - 1;
+      });
+    }, 1000);
+    return () => clearInterval(timer);
+  }, [timeLimitSec, finished, flush]);
 
   const onError = useCallback((message: string) => setDealError(message), []);
 
   function restart() {
     handsRef.current = 0;
+    setRemaining(timeLimitSec ?? 0);
     setDecisions([]);
     setHandsPlayed(0);
     setFinished(false);
@@ -839,15 +875,22 @@ export function Trainer({ drill, strategies, legend }: TrainerProps) {
           <div
             className="flex min-w-20 flex-col items-center rounded-lg border border-zinc-700 bg-black/60 px-3 py-1 leading-none"
             data-testid="hand-counter"
-            title="Mão atual da sessão"
+            title={timeLimitSec ? "Tempo restante" : "Mão atual da sessão"}
           >
-            <span className="font-display text-3xl tracking-wide text-baga-cream sm:text-4xl">
-              {sessionLength === null
-                ? handsPlayed + 1
-                : `${Math.min(handsPlayed + 1, sessionLength)}/${sessionLength}`}
+            <span
+              className={`font-display text-3xl tracking-wide sm:text-4xl ${
+                timeLimitSec && remaining <= 60 ? "text-baga-red" : "text-baga-cream"
+              }`}
+              data-testid={timeLimitSec ? "warmup-timer" : undefined}
+            >
+              {timeLimitSec
+                ? `${Math.floor(remaining / 60)}:${String(remaining % 60).padStart(2, "0")}`
+                : sessionLength === null
+                  ? handsPlayed + 1
+                  : `${Math.min(handsPlayed + 1, sessionLength)}/${sessionLength}`}
             </span>
             <span className="text-[10px] tracking-wider text-zinc-500 uppercase">
-              {sessionLength === null ? "sem limite" : "mão"}
+              {timeLimitSec ? `${handsPlayed} mãos` : sessionLength === null ? "sem limite" : "mão"}
             </span>
           </div>
           <div>
@@ -867,6 +910,7 @@ export function Trainer({ drill, strategies, legend }: TrainerProps) {
       </div>
 
       <div className="card flex flex-wrap items-center gap-x-6 gap-y-2 py-3">
+        {!timeLimitSec && (
         <div className="flex flex-wrap items-center gap-1.5" role="group" aria-label="Mãos da sessão">
           <span className="mr-1 text-xs text-zinc-400">Mãos</span>
           {LENGTH_OPTIONS.filter((o) => o === 0 || o === -1 || o !== drill.handsPerSession).map((option) => (
@@ -884,6 +928,7 @@ export function Trainer({ drill, strategies, legend }: TrainerProps) {
             </button>
           ))}
         </div>
+        )}
         <div className="flex items-center gap-1.5" role="group" aria-label="Mesas">
           <span className="mr-1 text-xs text-zinc-400">Mesas</span>
           {TABLE_OPTIONS.map((count) => (
