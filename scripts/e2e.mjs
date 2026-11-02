@@ -117,12 +117,14 @@ async function main() {
     assert.ok(await countRows("drills", "&id=eq.defesa-bb-pko-short"), "drills das cargas cadastrados");
     {
       const exemplo = JSON.parse(execSync("npx tsx scripts/e2e-exemplo.ts", { encoding: "utf8" }));
-      const res = await fetch(`${API_URL}/rest/v1/strategies`, {
-        method: "POST",
-        headers: { ...adminHeaders, Prefer: "resolution=merge-duplicates" },
-        body: JSON.stringify(exemplo),
-      });
-      assert.ok(res.ok, `exemplo inserido: ${res.status}`);
+      for (const table of ["strategies", "drills"]) {
+        const res = await fetch(`${API_URL}/rest/v1/${table}`, {
+          method: "POST",
+          headers: { ...adminHeaders, Prefer: "resolution=merge-duplicates" },
+          body: JSON.stringify(exemplo[table]),
+        });
+        assert.ok(res.ok, `exemplo inserido em ${table}: ${res.status}`);
+      }
     }
     log("cargas importadas direto no banco; exemplo com 2 estratégias inserido");
 
