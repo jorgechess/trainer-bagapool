@@ -620,27 +620,30 @@ export function Trainer({ drill, strategies, legend, timeLimitSec, sourceDrillOf
   );
 
   // Aquecimento: contagem regressiva; quando zera, a sessão termina
+  const endAt = useRef<number | null>(null);
+  const flushRef = useRef(flush);
+  flushRef.current = flush;
   useEffect(() => {
     if (!timeLimitSec || finished) return;
+    endAt.current ??= Date.now() + timeLimitSec * 1000;
     const timer = setInterval(() => {
-      setRemaining((r) => {
-        if (r <= 1) {
-          clearInterval(timer);
-          void flush();
-          setFinished(true);
-          return 0;
-        }
-        return r - 1;
-      });
-    }, 1000);
+      const left = Math.max(0, Math.ceil((endAt.current! - Date.now()) / 1000));
+      setRemaining(left);
+      if (left === 0) {
+        clearInterval(timer);
+        void flushRef.current();
+        setFinished(true);
+      }
+    }, 250);
     return () => clearInterval(timer);
-  }, [timeLimitSec, finished, flush]);
+  }, [timeLimitSec, finished]);
 
   const onError = useCallback((message: string) => setDealError(message), []);
 
   function restart() {
     handsRef.current = 0;
     setRemaining(timeLimitSec ?? 0);
+    endAt.current = null;
     setDecisions([]);
     setHandsPlayed(0);
     setFinished(false);

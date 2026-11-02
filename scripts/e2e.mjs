@@ -652,6 +652,7 @@ async function main() {
       await page.locator("[data-testid=actions] button").first().click();
       await page.getByRole("button", { name: /Continuar/ }).click();
     }
+    await page.getByTestId("warmup-timer").filter({ hasText: /^14:\d\d$/ }).waitFor({ timeout: 5000 });
     await shot(page, "warmup-treino");
     for (let i = 0; i < 20 && (await countRows("attempts")) < beforeWarmup + 3; i++) await page.waitForTimeout(250);
     const warm = await rows("attempts", "select=drill_id&order=id.desc&limit=3");
