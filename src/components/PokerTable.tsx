@@ -157,7 +157,7 @@ function SeatView({
           {seat.position}
           {hero && " (você)"}
         </p>
-        <p className="text-zinc-400">{folded ? "Fold" : seat.status === "raised" ? (raiseLabel === "All-in" ? "All-in" : `${raiseLabel} · ${stack}`) : seat.status === "called" ? `Call · ${stack}` : stack}</p>
+        <p className="whitespace-nowrap text-zinc-400">{folded ? "Fold" : seat.status === "raised" ? (raiseLabel === "All-in" ? "All-in" : `${raiseLabel} · ${stack}`) : seat.status === "called" ? `Call · ${stack}` : stack}</p>
       </div>
       {bounty && hero && <BountyTag text={bounty} />}
     </div>
