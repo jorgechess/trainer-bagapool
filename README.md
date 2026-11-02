@@ -15,7 +15,6 @@ Ferramenta de treino no estilo GTO Wizard com as estratégias do time Baga Pool:
 | Estratégias | Coaches, mentores, admins | Ranges pintados na grade (ou por texto: `22+, A2s+`), com texturas no pós-flop. |
 | Legenda | Coaches, mentores, admins | Uma cor por ação e por sizing. |
 | Standards | Coaches, mentores, admins | Faixa ideal, margem, prioridade e drills de cada stat. |
-| Importar | Coaches, mentores, admins | Carga em lote de estratégias e drills em JSON. |
 | Jogadores | Admin | Cadastro de jogadores, papéis e pools. |
 
 Permissões (garantidas no banco, não só na tela): o jogador vê o próprio desempenho e o da sua pool; admin, coaches e mentores veem todos; só quem gerencia conteúdo cria drills e estratégias; só o admin cadastra pessoas.

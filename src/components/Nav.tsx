@@ -30,7 +30,6 @@ export function Nav({ name, pool, canManageContent, canManageMembers }: NavProps
           { href: "/estrategias", label: "Estratégias" },
           { href: "/legenda", label: "Legenda" },
           { href: "/admin/standards", label: "Standards" },
-          { href: "/admin/importar", label: "Importar" },
         ]
       : []),
     ...(canManageMembers ? [{ href: "/admin/jogadores", label: "Jogadores" }] : []),

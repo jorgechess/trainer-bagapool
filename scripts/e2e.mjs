@@ -1,7 +1,7 @@
 // Teste de ponta a ponta: sobe o site contra um Supabase local e usa o navegador como um jogador faria.
 // Uso: BASE_URL=http://localhost:3000 API_URL=... SERVICE_ROLE_KEY=... node scripts/e2e.mjs
 import { mkdir } from "node:fs/promises";
-import { readFileSync } from "node:fs";
+import { execSync } from "node:child_process";
 import assert from "node:assert/strict";
 import { chromium } from "playwright";
 
@@ -112,16 +112,19 @@ async function main() {
     await shot(page, "inicio-admin");
     log("admin entra e vê o início");
 
-    // 4. Importa o exemplo
-    await page.goto(`${BASE_URL}/admin/importar`);
-    await page.getByRole("button", { name: "Carregar exemplo" }).click();
-    await page.getByText("Tudo certo para importar.").waitFor();
-    await page.getByRole("button", { name: "Importar arquivo" }).click();
-    await page.getByText(/Importado:/).waitFor();
-    await shot(page, "importar");
-    assert.equal(await countRows("strategies"), 2);
-    assert.equal(await countRows("drills"), 1);
-    log("importação cria 2 estratégias e 1 drill");
+    // 4. Cargas do repositório entram sozinhas no banco; o exemplo (2 estratégias) é inserido direto
+    assert.equal(await countRows("strategies", "&id=like.rfi-mlr-*"), 168, "cargas importadas no primeiro acesso");
+    assert.ok(await countRows("drills", "&id=eq.defesa-bb-pko-short"), "drills das cargas cadastrados");
+    {
+      const exemplo = JSON.parse(execSync("npx tsx scripts/e2e-exemplo.ts", { encoding: "utf8" }));
+      const res = await fetch(`${API_URL}/rest/v1/strategies`, {
+        method: "POST",
+        headers: { ...adminHeaders, Prefer: "resolution=merge-duplicates" },
+        body: JSON.stringify(exemplo),
+      });
+      assert.ok(res.ok, `exemplo inserido: ${res.status}`);
+    }
+    log("cargas importadas direto no banco; exemplo com 2 estratégias inserido");
 
     // 5. Estratégias e editor de range
     await page.goto(`${BASE_URL}/estrategias`);
@@ -150,7 +153,7 @@ async function main() {
     await page.waitForURL(`${BASE_URL}/drills`);
     await page.getByText("RFI até o flop").waitFor();
     await shot(page, "drills");
-    assert.equal(await countRows("drills"), 2);
+    assert.equal(await countRows("drills", "&name=eq.RFI%20at%C3%A9%20o%20flop"), 1);
     log("drill novo criado pelo formulário");
 
     // 7. Treina o drill de duas decisões
@@ -229,13 +232,6 @@ async function main() {
     log("plano do mês gerado a partir dos standards");
 
     // 9b. Carga real: RFI 30bb vanilla (7 posições) e drill com variações
-    await page.goto(`${BASE_URL}/admin/importar`);
-    await page.locator("textarea").fill(readFileSync("cargas/rfi-30bb-vanilla.json", "utf8"));
-    await page.getByText("Tudo certo para importar.").waitFor();
-    await page.getByRole("button", { name: "Importar arquivo" }).click();
-    await page.getByText(/Importado:/).waitFor();
-    assert.equal(await countRows("strategies"), 9);
-    assert.equal(await countRows("drills"), 3);
     await page.goto(`${BASE_URL}/drills`);
     const rfiCard = page.locator(".card").filter({ hasText: "RFI 30bb vanilla" });
     await rfiCard.getByRole("link", { name: "Treinar" }).waitFor();
@@ -426,12 +422,6 @@ async function main() {
     log("drill criado escolhendo spot e posições pelos botões");
 
     // Carga vs 3-bet: mãos só do range de open, mesa mostra o 3-bet
-    await page.goto(`${BASE_URL}/admin/importar`);
-    await page.getByTestId("carga-rfi-30bb-vanilla").getByText("importada").waitFor();
-    await page.getByTestId("carga-vs3bet-30bb-vanilla").getByRole("button", { name: "Importar" }).click();
-    await page.getByTestId("carga-vs3bet-30bb-vanilla").getByText(/Importado:/).waitFor();
-    await shot(page, "cargas-prontas");
-    assert.equal(await countRows("strategies"), 44);
     const rfiRanges = Object.fromEntries(
       (await rows("strategies", "select=id,data&situation=eq.RFI&id=like.rfi-30bb-*")).map((s) => [s.data.heroPosition, s.data.range]),
     );
@@ -455,9 +445,6 @@ async function main() {
     log("drill vs 3-bet sorteia só mãos do range de open");
 
     // PKO: etiquetas de bounty em todos os lugares e aviso de cobertura
-    await page.goto(`${BASE_URL}/admin/importar`);
-    await page.getByTestId("carga-rfi-50bb-pko-cobrindo").getByRole("button", { name: "Importar" }).click();
-    await page.getByTestId("carga-rfi-50bb-pko-cobrindo").getByText(/Importado:/).waitFor();
     await page.goto(`${BASE_URL}/drills/rfi-50bb-pko-cobrindo/treinar`);
     await page.getByTestId("hero-cards").waitFor();
     assert.equal(await page.getByTestId("bounty-tag").count(), 9, "bounty em todos os 9 lugares");
@@ -468,11 +455,6 @@ async function main() {
     log("mesa PKO com bounty e cobertura");
 
     // vs 3-bet PKO coberto: depende do RFI coberto, acrescenta 4-bet na legenda e aceita mão mista
-    await page.goto(`${BASE_URL}/admin/importar`);
-    await page.getByTestId("carga-rfi-50bb-pko-coberto").getByRole("button", { name: "Importar" }).click();
-    await page.getByTestId("carga-rfi-50bb-pko-coberto").getByText(/Importado:/).waitFor();
-    await page.getByTestId("carga-vs3bet-50bb-pko-coberto").getByRole("button", { name: "Importar" }).click();
-    await page.getByTestId("carga-vs3bet-50bb-pko-coberto").getByText(/Importado:/).waitFor();
     const coberto = Object.fromEntries(
       (await rows("strategies", "select=data&id=like.rfi-50bb-pko-coberto-*")).map((s) => [s.data.heroPosition, s.data.range]),
     );
@@ -498,9 +480,6 @@ async function main() {
       assert.equal(coberto[a.data.heroPosition]?.[a.data.hand], "rfi", `${a.data.hand} está no open coberto do ${a.data.heroPosition}`);
     log("vs 3-bet PKO coberto: mãos do open coberto, botão 4-bet e mãos mistas");
     // vs 3-bet PKO cobrindo (RFI cobrindo já importado acima): você com 60bb
-    await page.goto(`${BASE_URL}/admin/importar`);
-    await page.getByTestId("carga-vs3bet-50bb-pko-cobrindo").getByRole("button", { name: "Importar" }).click();
-    await page.getByTestId("carga-vs3bet-50bb-pko-cobrindo").getByText(/Importado:/).waitFor();
     const [mpVsLj] = await rows("strategies", "select=data&id=eq.vs3bet-50bb-pko-cobrindo-mp-vs-lj");
     assert.deepEqual([mpVsLj.data.range.AA, ...[mpVsLj.data.alsoCorrect.AA].flat()].sort(), ["4bet", "call", "shove"]);
     await page.goto(`${BASE_URL}/drills/vs3bet-50bb-pko-cobrindo/treinar`);
@@ -514,7 +493,7 @@ async function main() {
     const vanilla = page.getByTestId("secao-vanilla");
     const pko = page.getByTestId("secao-pko");
     await vanilla.getByText("RFI 30bb vanilla").waitFor();
-    assert.equal(await pko.getByTestId("drill-card").count(), 4, "PKO: RFI e vs 3-bet, coberto e cobrindo");
+    assert.ok((await pko.getByTestId("drill-card").count()) >= 4, "PKO: RFI e vs 3-bet, coberto e cobrindo, e os outros");
     assert.equal(await page.getByRole("link", { name: "Editar" }).count(), 0, "sem botão Editar");
     assert.equal(await page.getByText("Escopo").count(), 0, "sem escopo no card");
     await shot(page, "drills-secoes");
@@ -532,9 +511,6 @@ async function main() {
     log("tela de drills com seções recolhíveis e mãos por sessão");
 
     // Max Late Reg Vanilla: 168 estratégias; a mesa mostra players left (proporção ou bolha)
-    await page.goto(`${BASE_URL}/admin/importar`);
-    await page.getByTestId("carga-rfi-max-late-reg-vanilla").getByRole("button", { name: "Importar" }).click();
-    await page.getByTestId("carga-rfi-max-late-reg-vanilla").getByText(/Importado:/).waitFor();
     assert.equal(await countRows("strategies", "&id=like.rfi-mlr-*"), 168);
     await page.goto(`${BASE_URL}/drills/rfi-max-late-reg-vanilla/treinar`);
     await page.getByTestId("hero-cards").waitFor();
@@ -558,9 +534,6 @@ async function main() {
     log("filtros de proporção e stack no treino; vilões com stacks aleatórios");
 
     // Vs Resteal Max Late: vilão all-in, herói com 12–15bb (pílula mostra o stack sorteado)
-    await page.goto(`${BASE_URL}/admin/importar`);
-    await page.getByTestId("carga-vs-resteal-max-late-reg-vanilla").getByRole("button", { name: "Importar" }).click();
-    await page.getByTestId("carga-vs-resteal-max-late-reg-vanilla").getByText(/Importado:/).waitFor();
     await page.goto(`${BASE_URL}/drills/vs-resteal-max-late-reg-vanilla/treinar`);
     await page.getByTestId("hero-cards").waitFor();
     assert.match(await page.getByTestId("spot-stack").innerText(), /^1[2-5]bb$/);
@@ -581,9 +554,6 @@ async function main() {
     log("vs resteal: vilão all-in e herói com 12–15bb");
 
     // RFI PKO short coberto: 10/15/20bb, bounty na mesa e todos os vilões cobrindo o herói
-    await page.goto(`${BASE_URL}/admin/importar`);
-    await page.getByTestId("carga-rfi-pko-short-coberto").getByRole("button", { name: "Importar" }).click();
-    await page.getByTestId("carga-rfi-pko-short-coberto").getByText(/Importado:/).waitFor();
     await page.goto(`${BASE_URL}/drills/rfi-pko-short-coberto/treinar`);
     await page.getByTestId("hero-cards").waitFor();
     await page.getByTestId("pko-coverage").getByText("PKO coberto").waitFor();
@@ -593,20 +563,6 @@ async function main() {
     log("RFI PKO short coberto importado e treinável");
 
     // Defesa Vanilla Deep: 20 e 30bb num drill só (filtro de stack); substitui os drills antigos Defesa BB 20/30bb
-    {
-      const [model] = await rows("drills", "select=name,data&id=eq.rfi-30bb-vanilla-todas");
-      const res = await fetch(`${API_URL}/rest/v1/drills`, {
-        method: "POST",
-        headers: { ...adminHeaders, "Content-Type": "application/json" },
-        body: JSON.stringify({ id: "defesa-bb-20bb", name: "Defesa BB 20bb", data: model.data, active: true }),
-      });
-      assert.ok(res.ok, `drill antigo criado: ${res.status}`);
-    }
-    await page.goto(`${BASE_URL}/admin/importar`);
-    await page.getByTestId("carga-defesa-vanilla-deep").getByRole("button", { name: "Importar" }).click();
-    await page.getByTestId("carga-defesa-vanilla-deep").getByText(/Importado:/).waitFor();
-    const [oldDrill] = await rows("drills", "select=active&id=eq.defesa-bb-20bb");
-    assert.equal(oldDrill.active, false, "drill antigo saiu da lista");
     await page.goto(`${BASE_URL}/drills/defesa-vanilla-deep/treinar`);
     await page.getByTestId("hero-cards").waitFor();
     await page.getByTestId("spot").filter({ hasText: /^vs RFI · BB · vs (UTG|UTG1|MP|LJ|HJ|CO|BTN)$/ }).waitFor();
@@ -616,12 +572,9 @@ async function main() {
     await page.getByRole("group", { name: "Stack" }).getByRole("button", { name: "30bb", exact: true }).click();
     await page.getByTestId("spot-stack").filter({ hasText: /^30bb$/ }).waitFor();
     await shot(page, "treino-defesa-bb");
-    log("Defesa Vanilla Deep: 20/30bb com filtro de stack, open do vilão na mesa, drills antigos arquivados");
+    log("Defesa Vanilla Deep: 20/30bb com filtro de stack, open do vilão na mesa");
 
     // Defesa BB PKO Deep: filtros de stack e cobertura
-    await page.goto(`${BASE_URL}/admin/importar`);
-    await page.getByTestId("carga-defesa-bb-pko-deep").getByRole("button", { name: "Importar" }).click();
-    await page.getByTestId("carga-defesa-bb-pko-deep").getByText(/Importado:/).waitFor();
     await page.goto(`${BASE_URL}/drills/defesa-bb-pko-deep/treinar`);
     await page.getByTestId("hero-cards").waitFor();
     await page.getByRole("group", { name: "Cobertura" }).getByRole("button", { name: "Coberto", exact: true }).click();
@@ -636,9 +589,6 @@ async function main() {
     log("Defesa BB PKO Deep com filtros de stack e cobertura");
 
     // Defesa BB Vanilla MLR: open polar = vilão com 10–14bb
-    await page.goto(`${BASE_URL}/admin/importar`);
-    await page.getByTestId("carga-defesa-bb-vanilla-mlr").getByRole("button", { name: "Importar" }).click();
-    await page.getByTestId("carga-defesa-bb-vanilla-mlr").getByText(/Importado:/).waitFor({ timeout: 60000 });
     await page.goto(`${BASE_URL}/drills/defesa-bb-vanilla-mlr/treinar`);
     await page.getByTestId("hero-cards").waitFor();
     await page.getByRole("group", { name: "Open do vilão" }).getByRole("button", { name: /Polar/ }).click();
@@ -655,9 +605,6 @@ async function main() {
     log("Defesa BB Vanilla MLR: filtro de open polar e stack do vilão em destaque");
 
     // Call em Shoves do BB MLR: vilão all-in cobrindo o herói, botões Fold e Call
-    await page.goto(`${BASE_URL}/admin/importar`);
-    await page.getByTestId("carga-call-shove-bb-mlr").getByRole("button", { name: "Importar" }).click();
-    await page.getByTestId("carga-call-shove-bb-mlr").getByText(/Importado:/).waitFor({ timeout: 60000 });
     await page.goto(`${BASE_URL}/drills/call-shove-bb-mlr/treinar`);
     await page.getByTestId("hero-cards").waitFor();
     assert.equal(await page.locator("[data-testid=actions] button").count(), 2, "fold e call");
@@ -666,9 +613,6 @@ async function main() {
     await shot(page, "treino-call-shove-bb");
     log("Call em Shoves do BB MLR treinável");
 
-    await page.goto(`${BASE_URL}/admin/importar`);
-    await page.getByTestId("carga-defesa-bb-pko-short").getByRole("button", { name: "Importar" }).click();
-    await page.getByTestId("carga-defesa-bb-pko-short").getByText(/Importado:/).waitFor({ timeout: 60000 });
     await page.goto(`${BASE_URL}/drills/defesa-bb-pko-short/treinar`);
     await page.getByTestId("hero-cards").waitFor();
     await page.getByTestId("pko-coverage").getByText("PKO coberto").waitFor();

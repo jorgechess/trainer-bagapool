@@ -28,7 +28,7 @@ export default async function DrillsPage() {
       {drills.length === 0 ? (
         <div className="card muted">
           Nenhum drill cadastrado ainda.
-          {manager && " Cadastre as estratégias e depois crie um drill, ou use a tela Importar."}
+          {manager && " Cadastre as estratégias e depois crie um drill."}
         </div>
       ) : (
         <DrillsBrowser

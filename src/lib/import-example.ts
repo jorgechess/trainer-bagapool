@@ -1,4 +1,4 @@
-/** Exemplo de arquivo de importação mostrado na tela Importar. */
+/** Exemplo de arquivo de importação (usado nos testes). */
 export const IMPORT_EXAMPLE = {
   strategies: [
     {

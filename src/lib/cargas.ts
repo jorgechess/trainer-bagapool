@@ -1,4 +1,4 @@
-/** Cargas prontas (pasta /cargas do repositório), oferecidas com um clique na tela Importar. */
+/** Cargas do repositório (pasta /cargas): importadas direto no banco a cada nova versão (cargas-sync). */
 import rfi30 from "../../cargas/rfi-30bb-vanilla.json";
 import vs3bet30 from "../../cargas/vs3bet-30bb-vanilla.json";
 import rfiPkoCobrindo from "../../cargas/rfi-50bb-pko-cobrindo.json";

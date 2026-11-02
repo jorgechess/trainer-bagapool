@@ -1,4 +1,5 @@
 import { Nav } from "@/components/Nav";
+import { syncCargas } from "@/lib/cargas-sync";
 import { getPool, requireProfile } from "@/lib/data";
 import { canManageContent, canManageMembers } from "@/lib/poker/permissions";
 
@@ -6,6 +7,8 @@ export const dynamic = "force-dynamic";
 
 export default async function AppLayout({ children }: { children: React.ReactNode }) {
   const profile = await requireProfile();
+  // Ranges e drills do time vêm direto do repositório (uma vez por versão)
+  await syncCargas();
   const pool = await getPool(profile.poolId);
   return (
     <div className="min-h-screen">

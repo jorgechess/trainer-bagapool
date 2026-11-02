@@ -71,7 +71,7 @@ Daqui para frente, cada mudança enviada para a branch `main` é publicada autom
 1. Entre com o e-mail e a senha do passo 4.
 2. **Legenda**: confira as cores de cada ação (já vem um padrão: RFI laranja, shove roxo, fold azul, limp verde).
 3. **Jogadores**: crie as pools e cadastre o time. O site gera uma senha inicial para cada pessoa.
-4. **Importar** ou **Estratégias**: cadastre os ranges.
+4. Os ranges das pastas `cargas/` entram sozinhos no banco a cada deploy; **Estratégias** permite ajustes.
 5. **Drills**: monte os exercícios a partir das estratégias.
 6. **Standards**: cadastre as faixas ideais dos stats do popup e ligue cada stat aos drills que treinam ele.
 
