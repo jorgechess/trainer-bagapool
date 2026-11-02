@@ -1,7 +1,7 @@
 /** Situação de cada lugar da mesa (9 jogadores) para desenhar o spot como num jogo de verdade. */
 import { POSITIONS, type Position, type Strategy } from "./strategy";
 
-export type SeatStatus = "hero" | "folded" | "waiting" | "raised" | "active";
+export type SeatStatus = "hero" | "folded" | "waiting" | "raised" | "called" | "active";
 
 export interface Seat {
   position: Position;
@@ -46,6 +46,7 @@ export function tableSeats(strategy: Strategy): Seat[] {
     let status: SeatStatus;
     if (position === strategy.heroPosition) status = "hero";
     else if (position === strategy.villainPosition) status = preflop ? "raised" : "active";
+    else if (preflop && strategy.callers?.includes(position)) status = "called";
     else if (!preflop || threeBet) status = "folded";
     else status = index < heroIndex ? "folded" : "waiting";
 
@@ -53,7 +54,8 @@ export function tableSeats(strategy: Strategy): Seat[] {
     if (threeBet && position === strategy.heroPosition) posted = sizes.open;
     if (threeBet && position === strategy.villainPosition) posted = sizes.threeBet;
     // vs RFI (ex.: defesa do BB): o vilão abriu antes do herói
-    if (preflop && !threeBet && position === strategy.villainPosition) posted = Math.max(posted, sizes.open);
+    if (preflop && !threeBet && (position === strategy.villainPosition || strategy.callers?.includes(position)))
+      posted = Math.max(posted, sizes.open);
     return {
       position,
       status,

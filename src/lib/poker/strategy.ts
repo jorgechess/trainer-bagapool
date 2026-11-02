@@ -109,6 +109,8 @@ export interface Strategy {
   openerStack?: NumberRange | null;
   /** Tipo de range do open do vilão (vem do stack dele). */
   openType?: OpenType | null;
+  /** Multiway: quem pagou o open antes do herói (ex.: vs CO + BTN). */
+  callers?: Position[] | null;
   /** O stack do vilão é sempre pelo menos o do herói (sorteado entre o do herói e +15bb). */
   villainCoversHero?: boolean;
   /** O vilão que aumentou foi all-in (ex.: vs resteal): a mesa mostra o shove dele. */

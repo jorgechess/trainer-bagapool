@@ -620,6 +620,14 @@ async function main() {
     await page.getByTestId("pko-coverage").getByText("PKO coberto").waitFor();
     await page.getByTestId("players-left").waitFor();
     log("Defesa BB PKO Short treinável");
+
+    await page.goto(`${BASE_URL}/drills/defesa-bb-vanilla-multiway/treinar`);
+    await page.getByTestId("hero-cards").waitFor();
+    await page.getByTestId("spot").filter({ hasText: / \+ / }).waitFor();
+    await page.getByText(/^Call · /).first().waitFor();
+    await page.locator("[data-testid=actions]").getByRole("button", { name: "Squeeze/Call" }).waitFor();
+    await shot(page, "treino-multiway");
+    log("Defesa BB multiway: quem pagou aparece na mesa");
     log(`Max Late Reg Vanilla importado; mesa mostra ${leftText}`);
 
     // 10. Cadastra pool e jogador

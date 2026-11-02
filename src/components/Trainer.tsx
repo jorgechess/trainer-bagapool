@@ -275,7 +275,11 @@ function TableSlot({
           {STREET_LABELS[step.street]}
         </span>
         <span className="text-zinc-300" data-testid="spot">
-          {[strategy.situation, strategy.heroPosition, strategy.villainPosition && `vs ${strategy.villainPosition}`]
+          {[
+            strategy.situation,
+            strategy.heroPosition,
+            strategy.villainPosition && `vs ${[strategy.villainPosition, ...(strategy.callers ?? [])].join(" + ")}`,
+          ]
             .filter(Boolean)
             .join(" · ")}
         </span>

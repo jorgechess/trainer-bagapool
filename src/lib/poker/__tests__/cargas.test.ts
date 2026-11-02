@@ -408,3 +408,21 @@ test("carga Defesa BB PKO Short: porcentagens das legendas", () => {
   }
   assert.equal(get("3p1", 20, "co").pko?.coverage, "coberto");
 });
+
+test("carga Defesa BB Vanilla Multiway: porcentagens exatas e callers na mesa", async () => {
+  const { tableSeats, knownPot } = await import("../table");
+  const result = parseImportBundle(load("defesa-bb-vanilla-multiway.json"), DEFAULT_LEGEND);
+  assert.deepEqual(result.errors, []);
+  assert.equal(result.strategies.length, 24);
+  const get = (id: string) => result.strategies.find((s) => s.id === `bb-def-mw-1e5p1-${id}`)!;
+  const rows: [string, string, number][] = [
+    ["3way-vs-utg-btn", "call", 40.42], ["3way-vs-mp-sb", "squeeze-call", 3.77], ["3way-vs-hj-btn", "shove", 4.52],
+    ["3way-vs-btn-sb", "shove", 12.37], ["4way-vs-utg1-co-btn", "call", 30.32], ["4way-vs-co-btn-sb", "call", 56.26],
+    ["4way-vs-lj-btn-sb", "squeeze-fold", 3.62],
+  ];
+  for (const [id, action, value] of rows) assert.ok(Math.abs(printPercent(get(id), action) - value) < 0.01, `${id} ${action}`);
+  const s = get("4way-vs-co-btn-sb");
+  const seats = tableSeats(s);
+  assert.deepEqual(seats.filter((x) => x.status === "called").map((x) => x.position), ["BTN", "SB"]);
+  assert.equal(knownPot(s), 2 + 2 + 2 + 1);
+});

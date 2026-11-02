@@ -13,6 +13,7 @@ import defesaBbPkoDeep from "../../cargas/defesa-bb-pko-deep.json";
 import defesaBbVanillaMlr from "../../cargas/defesa-bb-vanilla-mlr.json";
 import callShoveBbMlr from "../../cargas/call-shove-bb-mlr.json";
 import defesaBbPkoShort from "../../cargas/defesa-bb-pko-short.json";
+import defesaBbVanillaMultiway from "../../cargas/defesa-bb-vanilla-multiway.json";
 
 export interface Carga {
   id: string;
@@ -130,5 +131,12 @@ export const CARGAS: Carga[] = [
       "BB coberto com 10, 15 e 20bb em 3:1, 1,5:1 e bolha não garantido, contra open de UTG a BTN: flat, resteal, 3-bet/call e 3-bet/fold.",
     requires: [],
     bundle: defesaBbPkoShort,
+  },
+  {
+    id: "defesa-bb-vanilla-multiway",
+    name: "Defesa BB Vanilla Multiway",
+    description: "BB em 1,5:1 depois de open + call(s), 3-way e 4-way: call, squeeze/call, squeeze/fold ou resteal.",
+    requires: [],
+    bundle: defesaBbVanillaMultiway,
   },
 ];
