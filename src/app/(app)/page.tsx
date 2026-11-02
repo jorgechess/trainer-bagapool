@@ -43,17 +43,16 @@ export default async function HomePage() {
         </div>
       </div>
 
-      <Link
-        href="/aquecimento"
-        className="card flex items-center justify-between gap-4 border-baga-red/60 transition hover:border-baga-red hover:bg-baga-red/10"
-        data-testid="warmup-button"
-      >
-        <div>
-          <p className="font-display text-3xl tracking-wide text-baga-cream">Warmup</p>
-          <p className="muted">15 minutos com um mix do seu plano de treino.</p>
-        </div>
-        <span className="flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-baga-red text-2xl text-white">▶</span>
-      </Link>
+      <div className="flex justify-center py-2">
+        <Link
+          href="/aquecimento"
+          className="rounded-2xl bg-baga-red px-16 py-5 font-display text-5xl tracking-wider text-baga-cream shadow-lg shadow-baga-red/30 transition hover:scale-105 hover:brightness-110"
+          data-testid="warmup-button"
+          title="15 minutos com um mix do seu plano de treino"
+        >
+          WARMUP
+        </Link>
+      </div>
 
       <div className="grid gap-4 sm:grid-cols-3">
         <div className="card">
