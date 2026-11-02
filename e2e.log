@@ -1,0 +1,39 @@
+✔ visitante é mandado para o login
+✔ senha errada mostra mensagem
+✔ admin entra e vê o início
+✔ cargas importadas direto no banco; exemplo com 2 estratégias inserido
+✔ editor de estratégias abre pré-flop e pós-flop
+✔ drill novo criado pelo formulário
+✔ 10 decisões salvas no banco
+✔ correção do servidor confere com as ações gravadas
+✔ desempenho mostra as decisões
+✔ plano do mês gerado a partir dos standards
+✔ olho mostra a resposta e essas decisões não contam
+✔ carga RFI 30bb importada; drill sorteou UTG, MP, HJ, UTG1, CO, BTN
+✔ filtro de posição do jogador funciona e não altera o drill
+✔ treino com 1, 2 e 4 mesas
+✔ sessão sem limite encerrada pelo botão (13 erros no relatório)
+✔ atalhos de teclado e mouse definidos pelo jogador funcionam (inclusive teclado numérico)
+✔ drill criado escolhendo spot e posições pelos botões
+✔ drill vs 3-bet sorteia só mãos do range de open
+✔ mesa PKO com bounty e cobertura
+✔ vs 3-bet PKO coberto: mãos do open coberto, botão 4-bet e mãos mistas
+✔ vs 3-bet PKO cobrindo: herói com 60bb (58 depois do open) e AA misto em três ações
+✔ tela de drills com seções recolhíveis e mãos por sessão
+✔ filtros de proporção e stack no treino; vilões com stacks aleatórios
+✔ vs resteal: vilão all-in e herói com 12–15bb
+✔ RFI PKO short coberto importado e treinável
+✔ Defesa Vanilla Deep: 20/30bb com filtro de stack, open do vilão na mesa
+✔ Defesa BB PKO Deep com filtros de stack e cobertura
+✔ Defesa BB Vanilla MLR: filtro de open polar e stack do vilão em destaque
+✔ Call em Shoves do BB MLR treinável
+✔ Defesa BB PKO Short treinável
+✔ Defesa BB multiway: quem pagou aparece na mesa
+✔ RFI SB Chip EV na seção Blind War
+✔ Max Late Reg Vanilla importado; mesa mostra 34 left
+✔ admin cadastra pool e jogadora
+✔ jogadora não acessa gestão nem o desempenho do admin
+✔ treino e menu funcionam no celular
+✔ mesa se adapta a tela wide, notebook e tablet vertical
+
+E2E: todos os passos passaram
