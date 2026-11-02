@@ -5,7 +5,7 @@ import type { Strategy } from "./strategy";
 export const DRILL_SECTIONS = [
   { id: "vanilla", label: "Vanilla" },
   { id: "pko", label: "PKO" },
-  { id: "bw", label: "BW" },
+  { id: "bw", label: "Blind War" },
   { id: "pos-flop", label: "Pós-flop" },
   { id: "outros", label: "Outros" },
 ] as const;

@@ -298,6 +298,11 @@ function TableSlot({
             return hero !== null ? `${hero.toLocaleString("pt-BR")}bb` : formatNumberRange(strategy.stack, "bb");
           })()}
         </span>
+        {strategy.situation === "RFI" && strategy.tableSizes?.open && (
+          <span className="rounded bg-zinc-800 px-2 py-0.5 text-xs text-zinc-300" data-testid="raise-size">
+            Raise = {strategy.tableSizes.open.toLocaleString("pt-BR")}bb
+          </span>
+        )}
         {strategy.openerStack && (
           <span
             className="rounded bg-zinc-200 px-2 py-0.5 text-sm font-bold text-black"

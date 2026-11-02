@@ -628,6 +628,15 @@ async function main() {
     await page.locator("[data-testid=actions]").getByRole("button", { name: "Squeeze/Call" }).waitFor();
     await shot(page, "treino-multiway");
     log("Defesa BB multiway: quem pagou aparece na mesa");
+
+    await page.goto(`${BASE_URL}/drills`);
+    await page.getByTestId("secao-bw").getByText("Blind War").waitFor();
+    await page.goto(`${BASE_URL}/drills/rfi-sb-chip-ev/treinar`);
+    await page.getByTestId("hero-cards").waitFor();
+    await page.getByTestId("raise-size").filter({ hasText: /Raise = 3(,5)?bb/ }).waitFor();
+    await page.locator("[data-testid=actions]").getByRole("button", { name: "Limp" }).waitFor();
+    await shot(page, "treino-rfi-sb");
+    log("RFI SB Chip EV na seção Blind War");
     log(`Max Late Reg Vanilla importado; mesa mostra ${leftText}`);
 
     // 10. Cadastra pool e jogador

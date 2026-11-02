@@ -14,6 +14,7 @@ import defesaBbVanillaMlr from "../../cargas/defesa-bb-vanilla-mlr.json";
 import callShoveBbMlr from "../../cargas/call-shove-bb-mlr.json";
 import defesaBbPkoShort from "../../cargas/defesa-bb-pko-short.json";
 import defesaBbVanillaMultiway from "../../cargas/defesa-bb-vanilla-multiway.json";
+import rfiSbChipEv from "../../cargas/rfi-sb-chip-ev.json";
 
 export interface Carga {
   id: string;
@@ -138,5 +139,12 @@ export const CARGAS: Carga[] = [
     description: "BB em 1,5:1 depois de open + call(s), 3-way e 4-way: call, squeeze/call, squeeze/fold ou resteal.",
     requires: [],
     bundle: defesaBbVanillaMultiway,
+  },
+  {
+    id: "rfi-sb-chip-ev",
+    name: "RFI SB Chip EV",
+    description: "Blind war: SB com 12, 25, 50 e 100bb, limp, raise ou all-in.",
+    requires: [],
+    bundle: rfiSbChipEv,
   },
 ];

@@ -426,3 +426,18 @@ test("carga Defesa BB Vanilla Multiway: porcentagens exatas e callers na mesa", 
   assert.deepEqual(seats.filter((x) => x.status === "called").map((x) => x.position), ["BTN", "SB"]);
   assert.equal(knownPot(s), 2 + 2 + 2 + 1);
 });
+
+test("carga RFI SB Chip EV: 4 stacks, seção Blind War, raise de 3bb só com 25bb", async () => {
+  const { drillSection } = await import("../sections");
+  const result = parseImportBundle(load("rfi-sb-chip-ev.json"), DEFAULT_LEGEND);
+  assert.deepEqual(result.errors, []);
+  assert.deepEqual(result.strategies.map((s) => s.stack.min), [12, 25, 50, 100]);
+  assert.deepEqual(result.strategies.map((s) => s.tableSizes?.open), [3.5, 3, 3.5, 3.5]);
+  const map = new Map(result.strategies.map((s) => [s.id, s]));
+  assert.equal(drillSection(result.drills[0], map), "bw");
+  const s12 = map.get("rfi-sb-chipev-12bb")!;
+  assert.equal(s12.range["22"], "shove");
+  const s100 = map.get("rfi-sb-chipev-100bb")!;
+  assert.equal(s100.range["32o"], undefined, "32o fold com 100bb");
+  assert.ok(printPercent(s100, "limp") > 70);
+});
