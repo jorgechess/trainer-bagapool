@@ -35,7 +35,25 @@ export default async function ImportPage() {
         <h2 className="font-semibold">Importar outro arquivo</h2>
         <p className="muted">Cole um JSON ou abra um arquivo .json.</p>
       </div>
-      <ImportForm legend={legend} strategies={strategies} />
+      {/* Só o necessário para conferir referências (enviar todos os ranges deixa a página pesada demais) */}
+      <ImportForm
+        legend={legend}
+        strategies={strategies.map((s) => ({
+          id: s.id,
+          name: s.name,
+          street: s.street,
+          situation: s.situation,
+          heroPosition: s.heroPosition,
+          villainPosition: s.villainPosition ?? null,
+          stack: s.stack,
+          tags: [],
+          actionIds: s.actionIds,
+          defaultActionId: s.defaultActionId,
+          dealFrom: s.dealFrom ?? null,
+          range: {},
+          textureRanges: [],
+        }))}
+      />
     </div>
   );
 }
