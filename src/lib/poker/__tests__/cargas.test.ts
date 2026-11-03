@@ -441,3 +441,31 @@ test("carga RFI SB Chip EV: 4 stacks, seção Blind War, raise de 3bb só com 25
   assert.equal(s100.range["32o"], undefined, "32o fold com 100bb");
   assert.ok(printPercent(s100, "limp") > 70);
 });
+
+test("carga BW SB MLR: abertura do SB e plano contra shove/ISO, com as porcentagens das legendas", async () => {
+  const { drillSection } = await import("../sections");
+  const { tableState } = await import("../table");
+  const result = parseImportBundle(load("bw-sb-mlr.json"), DEFAULT_LEGEND);
+  assert.deepEqual(result.errors, []);
+  const map = new Map(result.strategies.map((s) => [s.id, s]));
+  assert.equal(drillSection(result.drills[0], map), "bw");
+  const pct = (id: string, action: string) => rangeBreakdown(map.get(id)!.range, "fold").find((b) => b.actionId === action)?.percent ?? 0;
+  // 3:1 15bb: limp = 8,14 + 2,11 + 13,27 + 26,24; shove 29,41
+  assert.equal(pct("bw-sb-mlr-3p1-15bb", "shove"), 29.4);
+  assert.equal(pct("bw-sb-mlr-3p1-15bb", "limp"), 49.8);
+  // vs shove depois do limp: call = verde + amarelo; vs ISO: shove = verde, call = amarelo + laranja
+  assert.equal(pct("bw-sb-mlr-3p1-15bb-limp-vs-shove", "call"), 10.3);
+  assert.equal(pct("bw-sb-mlr-3p1-15bb-limp-vs-iso", "shove"), 8.1);
+  assert.equal(pct("bw-sb-mlr-3p1-15bb-limp-vs-iso", "call"), 15.4);
+  // 1,5:1 15bb: raise = 5,88 + 12,67; raise vs shove call = 5,88
+  assert.equal(pct("bw-sb-mlr-1e5p1-15bb", "rfi"), 18.6);
+  assert.equal(pct("bw-sb-mlr-1e5p1-15bb-raise-vs-shove", "call"), 5.9);
+  assert.equal(pct("bw-sb-mlr-bng-2bb", "limp"), 59.9);
+  assert.equal(pct("bw-sb-mlr-3p1-2bb", "shove"), 100);
+  // Mesa: limp de 1bb e ISO de 3bb do BB
+  const iso = tableState(map.get("bw-sb-mlr-3p1-15bb-limp-vs-iso")!, 7);
+  assert.equal(iso.raiseLabel, "ISO");
+  assert.equal(iso.seats.find((s) => s.position === "SB")!.posted, 1);
+  assert.equal(iso.seats.find((s) => s.position === "BB")!.posted, 3);
+  assert.ok(result.drills[0].variants!.some((v) => v[1] === "bw-sb-mlr-3p1-15bb-limp-vs-shove"));
+});

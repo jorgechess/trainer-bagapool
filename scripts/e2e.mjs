@@ -639,6 +639,25 @@ async function main() {
     await shot(page, "treino-rfi-sb");
     log("RFI SB Chip EV na seção Blind War");
 
+    // BW SB MLR: abertura do SB e, se limpar, decisão contra o shove/ISO do BB
+    await page.goto(`${BASE_URL}/drills/bw-sb-mlr/treinar`);
+    await page.getByLabel("Avançar sozinho quando acertar").uncheck();
+    let segundaDecisao = false;
+    for (let hand = 0; hand < 40 && !segundaDecisao; hand++) {
+      await page.getByTestId("hero-cards").waitFor();
+      await page.locator("[data-testid=actions]").getByRole("button", { name: "Limp" }).click();
+      await page.getByRole("button", { name: /Continuar/ }).click();
+      if (await page.getByText(/decisão 2 de 2/).count()) {
+        segundaDecisao = true;
+        await page.getByText(/^(All-in|ISO) · |^All-in$/).first().waitFor();
+        await shot(page, "treino-bw-sb-segunda-decisao");
+        await page.locator("[data-testid=actions] button").first().click();
+        await page.getByRole("button", { name: /Continuar/ }).click();
+      }
+    }
+    assert.ok(segundaDecisao, "alguma mão chega à decisão contra o shove/ISO");
+    log("BW SB MLR: limp e decisão seguinte contra o BB");
+
     // Warmup: botão no início, contagem 3-2-1-Go e treino de 15 minutos; decisões contam no drill de origem
     await page.goto(`${BASE_URL}/`);
     await page.getByTestId("warmup-button").click();

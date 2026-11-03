@@ -211,6 +211,6 @@ export function tableState(strategy: Strategy, seed: number): TableState {
     remaining,
     villainStart: start && strategy.villainPosition ? (start[strategy.villainPosition] ?? null) : null,
     pot,
-    raiseLabel: strategy.villainAllIn ? "All-in" : facesThreeBet(strategy) ? "3-bet" : "Raise",
+    raiseLabel: strategy.villainLabel ?? (strategy.villainAllIn ? "All-in" : facesThreeBet(strategy) ? "3-bet" : "Raise"),
   };
 }

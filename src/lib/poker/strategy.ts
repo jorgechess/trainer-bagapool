@@ -113,6 +113,8 @@ export interface Strategy {
   callers?: Position[] | null;
   /** O stack do vilão é sempre pelo menos o do herói (sorteado entre o do herói e +15bb). */
   villainCoversHero?: boolean;
+  /** Rótulo da ação do vilão na mesa (ex.: "ISO"); padrão: Raise, 3-bet ou All-in. */
+  villainLabel?: string | null;
   /** O vilão que aumentou foi all-in (ex.: vs resteal): a mesa mostra o shove dele. */
   villainAllIn?: boolean;
   /** Tamanhos desenhados na mesa (bb). Padrão: open 2bb, 3-bet 3,5× o open. */
