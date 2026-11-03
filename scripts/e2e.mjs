@@ -2,6 +2,7 @@
 // Uso: BASE_URL=http://localhost:3000 API_URL=... SERVICE_ROLE_KEY=... node scripts/e2e.mjs
 import { mkdir } from "node:fs/promises";
 import { execSync } from "node:child_process";
+import { copyFileSync, readdirSync } from "node:fs";
 import assert from "node:assert/strict";
 import { chromium } from "playwright";
 
@@ -753,6 +754,8 @@ async function main() {
       await view.close();
     }
 
+    await capturasComercial(browser).catch((error) => console.error("capturas do comercial falharam:", error.message));
+
     assert.deepEqual(pageErrors, [], "nenhum erro de JavaScript nas páginas");
     console.log("\nE2E: todos os passos passaram");
   } catch (error) {
@@ -762,6 +765,85 @@ async function main() {
   } finally {
     await browser.close();
   }
+}
+
+/** Telas em 1920x1080 para o comercial (não fazem parte do teste: falhas só aparecem no log). */
+async function capturasComercial(browser) {
+  const dir = `${OUT}/comercial`;
+  await mkdir(dir, { recursive: true });
+  await mkdir(`${OUT}/fontes`, { recursive: true });
+  for (const f of readdirSync(".next/static/media")) if (f.endsWith(".woff2")) copyFileSync(`.next/static/media/${f}`, `${OUT}/fontes/${f}`);
+  const ctx = await browser.newContext({ viewport: { width: 1280, height: 720 }, deviceScaleFactor: 1.5 });
+  const v = await ctx.newPage();
+  const snap = (name) => v.screenshot({ path: `${dir}/${name}.jpg`, type: "jpeg", quality: 92 });
+  await v.goto(`${BASE_URL}/login`);
+  await v.fill("#email", "admin@e2e.com");
+  await v.fill("#password", "senha-admin-123");
+  await v.getByRole("button", { name: "Entrar" }).click();
+  await v.waitForURL(`${BASE_URL}/`);
+  await v.waitForTimeout(800);
+  await snap("c00-inicio");
+  await v.goto(`${BASE_URL}/drills`);
+  await v.getByTestId("secao-vanilla").waitFor();
+  await snap("c01-drills");
+  // Mesa PKO: pergunta, acerto (verde) e erro (vermelho)
+  await v.goto(`${BASE_URL}/drills/vs3bet-50bb-pko-coberto/treinar`);
+  await v.getByTestId("hero-cards").waitFor();
+  await v.waitForTimeout(500);
+  await snap("c02-mesa-pergunta");
+  let certo = false, errado = false;
+  for (let i = 0; i < 30 && !(certo && errado); i++) {
+    await v.getByTestId("hero-cards").waitFor();
+    await v.locator("[data-testid=actions] button").nth(i % 2).click();
+    const fb = await v.locator("[data-feedback]").getAttribute("data-feedback");
+    await v.waitForTimeout(300);
+    if (fb === "certo" && !certo) { await snap("c03-mesa-certo"); certo = true; }
+    if (fb === "errado" && !errado) { await snap("c04-mesa-errado"); errado = true; }
+    await v.getByRole("button", { name: /Continuar/ }).click();
+  }
+  await v.goto(`${BASE_URL}/drills/defesa-bb-vanilla-mlr/treinar`);
+  await v.getByTestId("hero-cards").waitFor();
+  await v.waitForTimeout(400);
+  await snap("c05-mesa-mlr");
+  await v.goto(`${BASE_URL}/drills/defesa-bb-vanilla-multiway/treinar`);
+  await v.getByTestId("hero-cards").waitFor();
+  await v.waitForTimeout(400);
+  await snap("c06-mesa-multiway");
+  await v.goto(`${BASE_URL}/drills/rfi-30bb-vanilla-todas/treinar`);
+  await v.getByRole("button", { name: "4 mesas" }).click();
+  await v.getByTestId("table-slot").nth(3).locator("[data-testid=hero-cards]").waitFor();
+  await v.waitForTimeout(400);
+  await snap("c07-4-mesas");
+  await v.getByRole("button", { name: "1 mesa", exact: true }).click();
+  // Warmup
+  await v.goto(`${BASE_URL}/aquecimento`);
+  await v.getByRole("button", { name: "Começar" }).waitFor();
+  await snap("c08-warmup-inicio");
+  await v.getByRole("button", { name: "Começar" }).click();
+  await v.waitForTimeout(950);
+  await snap("c09-warmup-3");
+  await v.getByText("Go!").waitFor();
+  await v.waitForTimeout(300);
+  await snap("c10-warmup-go");
+  await v.getByTestId("warmup-timer").waitFor();
+  for (let i = 0; i < 6; i++) {
+    await v.locator("[data-testid=actions] button").nth(i % 3).click();
+    await v.getByRole("button", { name: /Continuar/ }).click();
+  }
+  await v.waitForTimeout(400);
+  await snap("c11-warmup-treino");
+  await v.getByRole("button", { name: "Encerrar sessão" }).click();
+  await v.getByTestId("warmup-by-spot").waitFor();
+  await v.waitForTimeout(400);
+  await snap("c12-warmup-relatorio");
+  await v.goto(`${BASE_URL}/desempenho`);
+  await v.waitForTimeout(1200);
+  await snap("c13-desempenho");
+  await v.goto(`${BASE_URL}/plano`);
+  await v.waitForTimeout(1200);
+  await snap("c14-plano");
+  await ctx.close();
+  log("capturas do comercial");
 }
 
 main().catch((error) => {
