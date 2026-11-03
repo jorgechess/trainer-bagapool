@@ -114,6 +114,7 @@ async function main() {
     log("admin entra e vê o início");
 
     // 4. Cargas do repositório entram sozinhas no banco; o exemplo (2 estratégias) é inserido direto
+    assert.ok((await countRows("strategies")) > 1000, "mais de 1000 estratégias: a leitura precisa de páginas");
     assert.equal(await countRows("strategies", "&id=like.rfi-mlr-*"), 168, "cargas importadas no primeiro acesso");
     assert.ok(await countRows("drills", "&id=eq.defesa-bb-pko-short"), "drills das cargas cadastrados");
     {

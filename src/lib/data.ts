@@ -121,9 +121,21 @@ interface JsonRow<T> {
 
 export async function listStrategies(): Promise<Strategy[]> {
   const supabase = await createClient();
-  const { data, error } = await supabase.from("strategies").select("id, data").order("name");
-  if (error) throw new Error(error.message);
-  return (data as JsonRow<Strategy>[]).map((row) => ({ ...row.data, id: row.id }));
+  // O banco devolve no máximo 1000 linhas por consulta: lê em páginas
+  const all: Strategy[] = [];
+  const pageSize = 1000;
+  for (let from = 0; ; from += pageSize) {
+    const { data, error } = await supabase
+      .from("strategies")
+      .select("id, data")
+      .order("name")
+      .order("id")
+      .range(from, from + pageSize - 1);
+    if (error) throw new Error(error.message);
+    all.push(...(data as JsonRow<Strategy>[]).map((row) => ({ ...row.data, id: row.id })));
+    if (data.length < pageSize) break;
+  }
+  return all;
 }
 
 export async function getStrategy(id: string): Promise<Strategy | null> {
