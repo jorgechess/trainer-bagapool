@@ -773,9 +773,35 @@ async function capturasComercial(browser) {
   await mkdir(dir, { recursive: true });
   await mkdir(`${OUT}/fontes`, { recursive: true });
   for (const f of readdirSync(".next/static/media")) if (f.endsWith(".woff2")) copyFileSync(`.next/static/media/${f}`, `${OUT}/fontes/${f}`);
+  // Histórico do admin com cara de jogador treinado (~85% de acerto) para as telas de desempenho
+  const [admin] = await rows("profiles", "select=id&email=eq.admin@e2e.com");
+  const mine = await rows("attempts", `select=*&user_id=eq.${admin.id}`);
+  const fixed = mine.map((a, i) =>
+    i % 7 === 0 ? a : { ...a, correct: true, data: { ...a.data, correct: true, chosenActionId: a.data.correctActionId } },
+  );
+  if (fixed.length)
+    await fetch(`${API_URL}/rest/v1/attempts`, {
+      method: "POST",
+      headers: { ...adminHeaders, Prefer: "resolution=merge-duplicates" },
+      body: JSON.stringify(fixed),
+    });
   const ctx = await browser.newContext({ viewport: { width: 1280, height: 720 }, deviceScaleFactor: 1.5 });
   const v = await ctx.newPage();
-  const snap = (name) => v.screenshot({ path: `${dir}/${name}.jpg`, type: "jpeg", quality: 92 });
+  const snap = async (name) => {
+    await v.evaluate(() => window.scrollTo(0, 0));
+    await v.screenshot({ path: `${dir}/${name}.jpg`, type: "jpeg", quality: 92 });
+  };
+  // Descobre a resposta certa espiando o range (sem contar a decisão) e devolve o índice do botão
+  const rightIndex = async () => {
+    await v.getByRole("button", { name: "Mostrar resposta" }).click();
+    const title = await v.locator("[data-hand].ring-2").first().getAttribute("title");
+    await v.getByRole("button", { name: /Resposta à mostra/ }).click();
+    const label = title.split(": ")[1].split(" ou ")[0];
+    return v.evaluate(
+      (l) => [...document.querySelectorAll("[data-testid=actions] button")].findIndex((b) => b.lastChild.textContent.trim() === l),
+      label,
+    );
+  };
   await v.goto(`${BASE_URL}/login`);
   await v.fill("#email", "admin@e2e.com");
   await v.fill("#password", "senha-admin-123");
@@ -791,14 +817,12 @@ async function capturasComercial(browser) {
   await v.getByTestId("hero-cards").waitFor();
   await v.waitForTimeout(500);
   await snap("c02-mesa-pergunta");
-  let certo = false, errado = false;
-  for (let i = 0; i < 30 && !(certo && errado); i++) {
+  for (const [name, right] of [["c03-mesa-certo", true], ["c04-mesa-errado", false]]) {
     await v.getByTestId("hero-cards").waitFor();
-    await v.locator("[data-testid=actions] button").nth(i % 2).click();
-    const fb = await v.locator("[data-feedback]").getAttribute("data-feedback");
-    await v.waitForTimeout(300);
-    if (fb === "certo" && !certo) { await snap("c03-mesa-certo"); certo = true; }
-    if (fb === "errado" && !errado) { await snap("c04-mesa-errado"); errado = true; }
+    const idx = await rightIndex();
+    await v.locator("[data-testid=actions] button").nth(right ? idx : idx === 0 ? 1 : 0).click();
+    await v.waitForTimeout(400);
+    await snap(name);
     await v.getByRole("button", { name: /Continuar/ }).click();
   }
   await v.goto(`${BASE_URL}/drills/defesa-bb-vanilla-mlr/treinar`);
@@ -826,8 +850,10 @@ async function capturasComercial(browser) {
   await v.waitForTimeout(300);
   await snap("c10-warmup-go");
   await v.getByTestId("warmup-timer").waitFor();
-  for (let i = 0; i < 6; i++) {
-    await v.locator("[data-testid=actions] button").nth(i % 3).click();
+  for (let i = 0; i < 12; i++) {
+    await v.getByTestId("hero-cards").waitFor();
+    const idx = await rightIndex();
+    await v.locator("[data-testid=actions] button").nth(i === 4 ? (idx === 0 ? 1 : 0) : idx).click();
     await v.getByRole("button", { name: /Continuar/ }).click();
   }
   await v.waitForTimeout(400);
