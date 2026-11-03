@@ -62,9 +62,9 @@ function log(message) {
   console.log(`✔ ${message}`);
 }
 
-async function login(page, email, password) {
+async function login(page, user, password) {
   await page.goto(`${BASE_URL}/login`);
-  await page.fill("#email", email);
+  await page.fill("#login", user);
   await page.fill("#password", password);
   await page.getByRole("button", { name: "Entrar" }).click();
   await page.waitForURL(`${BASE_URL}/`);
@@ -88,10 +88,10 @@ async function main() {
     log("visitante é mandado para o login");
 
     // 2. Senha errada
-    await page.fill("#email", "ninguem@e2e.com");
+    await page.fill("#login", "ninguem");
     await page.fill("#password", "senha-errada");
     await page.getByRole("button", { name: "Entrar" }).click();
-    await page.getByText("E-mail ou senha incorretos.").waitFor();
+    await page.getByText("Nick ou senha incorretos.").waitFor();
     log("senha errada mostra mensagem");
 
     // 3. Admin entra
@@ -670,30 +670,89 @@ async function main() {
     for (let i = 0; i < 20 && (await countRows("pools", "&name=eq.Pool%20A")) === 0; i++) await page.waitForTimeout(250);
     assert.equal(await countRows("pools", "&name=eq.Pool%20A"), 1);
     const form = page.locator("form").filter({ hasText: "Novo jogador" });
-    await form.locator("input").nth(0).fill("Ana Jogadora");
-    await form.locator("input").nth(1).fill("ana@e2e.com");
-    const password = await form.locator("input").nth(2).inputValue();
-    await form.locator("select").nth(1).selectOption({ label: "Pool A" });
-    await form.getByRole("button", { name: "Cadastrar" }).click();
-    await page.getByText(/Ana Jogadora cadastrado/).waitFor();
+    const cadastrar = async (name, nick, role, pool) => {
+      await form.locator("input").nth(0).fill(name);
+      await form.locator("input").nth(1).fill(nick);
+      const pw = await form.locator("input").nth(2).inputValue();
+      if (role) await form.locator("select").nth(0).selectOption({ label: role });
+      if (pool) await form.locator("select").nth(1).selectOption({ label: pool });
+      await form.getByRole("button", { name: "Cadastrar" }).click();
+      await page.getByText(new RegExp(`${name} cadastrado`)).waitFor();
+      return pw;
+    };
+    const anaPassword = await cadastrar("Ana Jogadora", "ana_jogadora", null, "Pool A");
     await shot(page, "jogadores");
-    const [ana] = await rows("profiles", "select=role,pool_id&email=eq.ana@e2e.com");
+    const [ana] = await rows("profiles", "select=role,pool_id,email,must_change_password&nick=eq.ana_jogadora");
     assert.equal(ana.role, "jogador");
     assert.ok(ana.pool_id, "jogadora ficou na pool escolhida");
-    await form.locator("input").nth(0).fill("Caio Coach");
-    await form.locator("input").nth(1).fill("caio@e2e.com");
-    await form.locator("select").nth(0).selectOption({ label: "Coach" });
-    await form.getByRole("button", { name: "Cadastrar" }).click();
-    await page.getByText(/Caio Coach cadastrado/).waitFor();
-    const [caio] = await rows("profiles", "select=role&email=eq.caio@e2e.com");
+    assert.ok(ana.email.endsWith("@jogadores.bagapool.com.br"), "conta sem e-mail de verdade");
+    assert.equal(ana.must_change_password, true);
+    await cadastrar("Caio Coach", "caio_coach", "Coach", null);
+    const [caio] = await rows("profiles", "select=role&nick=eq.caio_coach");
     assert.equal(caio.role, "coach", "papel escolhido no cadastro é aplicado");
-    log("admin cadastra pool e jogadora");
+    const maraPassword = await cadastrar("Mara Mentora", "Mara.Mentora", "Mentor", "Pool A");
+    log("admin cadastra pool, jogadora e mentora pelo nick");
 
-    // 11. Jogadora entra e não acessa telas de gestão
+    // 11. Mentora: troca a senha provisória, vê só a própria pool, cadastra e gera senha provisória
     await page.getByRole("button", { name: "Sair" }).click();
     await page.waitForURL(/\/login/);
-    await login(page, "ana@e2e.com", password);
+    await page.goto(`${BASE_URL}/login`);
+    await page.fill("#login", "mara.mentora");
+    await page.fill("#password", "senha-errada1");
+    await page.getByRole("button", { name: "Entrar" }).click();
+    await page.getByText("Nick ou senha incorretos.").waitFor();
+    await page.fill("#password", maraPassword);
+    await page.getByRole("button", { name: "Entrar" }).click();
+    await page.waitForURL(/\/trocar-senha/);
+    await shot(page, "trocar-senha");
+    await page.goto(`${BASE_URL}/drills`);
+    await page.waitForURL(/\/trocar-senha/, { timeout: 10000 });
+    await page.fill("#nova-senha", "curta");
+    await page.fill("#confirmar-senha", "curta");
+    await page.getByRole("button", { name: "Salvar e entrar" }).click();
+    await page.getByText("A senha precisa ter pelo menos 8 caracteres.").waitFor();
+    await page.fill("#nova-senha", "MentoraBaga2026");
+    await page.fill("#confirmar-senha", "MentoraBaga2026");
+    await page.getByRole("button", { name: "Salvar e entrar" }).click();
+    await page.waitForURL(`${BASE_URL}/`);
+    await page.goto(`${BASE_URL}/admin/jogadores`);
+    await page.getByRole("heading", { name: /Jogadores · Pool A/ }).waitFor();
+    assert.equal(await page.getByPlaceholder("Nome da nova pool").count(), 0, "mentora não gerencia pools");
+    assert.equal(await page.locator("input[value='caio_coach']").count(), 0, "mentora não vê quem é de fora da pool");
+    await page.locator("input[value='ana_jogadora']").waitFor();
+    await form.locator("input").nth(0).fill("Beto Low");
+    await form.locator("input").nth(1).fill("beto_low");
+    assert.equal(await form.locator("select").count(), 0, "mentora não escolhe papel nem pool");
+    await form.getByRole("button", { name: "Cadastrar" }).click();
+    await page.getByText(/Beto Low cadastrado/).waitFor();
+    const [beto] = await rows("profiles", "select=role,pool_id&nick=eq.beto_low");
+    assert.deepEqual([beto.role, beto.pool_id], ["jogador", ana.pool_id], "mentora cadastra jogador na própria pool");
+    const anaRow = page.locator(".card").filter({ has: page.locator("input[value='ana_jogadora']") });
+    page.once("dialog", (d) => d.accept());
+    await anaRow.getByRole("button", { name: "Gerar senha provisória" }).click();
+    const msg = await anaRow.getByText(/Senha provisória: /).innerText();
+    const resetPassword = msg.match(/Senha provisória: (\S+)/)[1];
+    assert.notEqual(resetPassword, anaPassword);
+    log("mentora troca a senha provisória e gerencia só os jogadores da própria pool");
+
+    // 12. Jogadora entra pelo nick com a senha provisória, troca, e não acessa telas de gestão
+    await page.getByRole("button", { name: "Sair" }).click();
+    await page.waitForURL(/\/login/);
+    await page.goto(`${BASE_URL}/login`);
+    await page.fill("#login", "ANA_JOGADORA");
+    await page.fill("#password", anaPassword);
+    await page.getByRole("button", { name: "Entrar" }).click();
+    await page.getByText("Nick ou senha incorretos.").waitFor();
+    await page.fill("#password", resetPassword);
+    await page.getByRole("button", { name: "Entrar" }).click();
+    await page.waitForURL(/\/trocar-senha/);
+    await page.fill("#nova-senha", "AnaBaga2026");
+    await page.fill("#confirmar-senha", "AnaBaga2026");
+    await page.getByRole("button", { name: "Salvar e entrar" }).click();
+    await page.waitForURL(`${BASE_URL}/`);
     await page.getByText("Olá, Ana").waitFor();
+    const [anaDepois] = await rows("profiles", "select=must_change_password&nick=eq.ana_jogadora");
+    assert.equal(anaDepois.must_change_password, false);
     assert.equal(await page.getByRole("link", { name: "Estratégias" }).count(), 0);
     await page.goto(`${BASE_URL}/estrategias`);
     await page.waitForURL(`${BASE_URL}/`);
@@ -701,7 +760,7 @@ async function main() {
     await page.waitForURL(`${BASE_URL}/`);
     await page.goto(`${BASE_URL}/desempenho`);
     assert.equal(await page.getByText("Jorge Admin").count(), 0, "jogadora não vê o admin no seletor");
-    log("jogadora não acessa gestão nem o desempenho do admin");
+    log("jogadora entra pelo nick, troca a senha provisória e não acessa a gestão");
 
     // 12. Celular
     const mobile = await browser.newPage({ viewport: { width: 390, height: 844 }, isMobile: true, hasTouch: true });
@@ -808,7 +867,7 @@ async function capturasComercial(browser) {
     );
   };
   await v.goto(`${BASE_URL}/login`);
-  await v.fill("#email", "admin@e2e.com");
+  await v.fill("#login", "admin@e2e.com");
   await v.fill("#password", "senha-admin-123");
   await v.getByRole("button", { name: "Entrar" }).click();
   await v.waitForURL(`${BASE_URL}/`);

@@ -4,7 +4,7 @@ import { cache } from "react";
 import { createClient } from "@/lib/supabase/server";
 import type { Attempt, Drill } from "@/lib/poker/drill";
 import { DEFAULT_LEGEND, type Legend } from "@/lib/poker/legend";
-import { canManageContent, canManageMembers, type Role } from "@/lib/poker/permissions";
+import { canManageContent, canManageMembers, canManagePlayers, type Role } from "@/lib/poker/permissions";
 import { DEFAULT_PLAN_CONFIG, type MonthlyPlan, type PlanConfig, type StatStandard } from "@/lib/poker/plan";
 import type { Strategy } from "@/lib/poker/strategy";
 
@@ -12,9 +12,13 @@ export interface Profile {
   id: string;
   name: string;
   email: string;
+  /** Nick usado no login (null = entra pelo e-mail, como os admins antigos). */
+  nick: string | null;
   role: Role;
   poolId: string | null;
   active: boolean;
+  /** Senha inicial ou redefinida: precisa trocar antes de usar o app. */
+  mustChangePassword: boolean;
 }
 
 const DEFAULT_POOL_COLOR = "#a1a1aa";
@@ -30,14 +34,30 @@ interface ProfileRow {
   id: string;
   name: string;
   email: string;
+  nick?: string | null;
   role: Role;
   pool_id: string | null;
   active: boolean;
+  must_change_password?: boolean;
 }
 
 function toProfile(row: ProfileRow): Profile {
-  return { id: row.id, name: row.name, email: row.email, role: row.role, poolId: row.pool_id, active: row.active };
+  return {
+    id: row.id,
+    name: row.name,
+    email: row.email,
+    nick: row.nick ?? null,
+    role: row.role,
+    poolId: row.pool_id,
+    active: row.active,
+    mustChangePassword: row.must_change_password ?? false,
+  };
 }
+
+const PROFILE_COLUMNS = "id, name, email, nick, role, pool_id, active, must_change_password";
+const PROFILE_COLUMNS_OLD = "id, name, email, role, pool_id, active";
+/** Coluna inexistente: a migração 0003 ainda não foi rodada; o app segue com o login por e-mail. */
+const missingColumn = (error: { code?: string } | null) => error?.code === "42703";
 
 /** Perfil do usuário logado, ou null. */
 export const getCurrentProfile = cache(async (): Promise<Profile | null> => {
@@ -46,11 +66,9 @@ export const getCurrentProfile = cache(async (): Promise<Profile | null> => {
     data: { user },
   } = await supabase.auth.getUser();
   if (!user) return null;
-  const { data } = await supabase
-    .from("profiles")
-    .select("id, name, email, role, pool_id, active")
-    .eq("id", user.id)
-    .maybeSingle();
+  let { data, error } = await supabase.from("profiles").select(PROFILE_COLUMNS).eq("id", user.id).maybeSingle();
+  if (missingColumn(error))
+    ({ data, error } = await supabase.from("profiles").select(PROFILE_COLUMNS_OLD).eq("id", user.id).maybeSingle());
   if (!data || !data.active) return null;
   return toProfile(data as ProfileRow);
 });
@@ -64,6 +82,13 @@ export async function requireProfile(): Promise<Profile> {
 export async function requireContentManager(): Promise<Profile> {
   const profile = await requireProfile();
   if (!canManageContent(profile.role)) redirect("/");
+  return profile;
+}
+
+/** Admin (todo o time) ou mentor com pool (só os jogadores da própria pool). */
+export async function requireMemberManager(): Promise<Profile> {
+  const profile = await requireProfile();
+  if (!canManagePlayers(profile)) redirect("/");
   return profile;
 }
 
@@ -144,10 +169,8 @@ export async function getPool(id: string | null): Promise<Pool | null> {
 
 export async function listProfiles(): Promise<Profile[]> {
   const supabase = await createClient();
-  const { data, error } = await supabase
-    .from("profiles")
-    .select("id, name, email, role, pool_id, active")
-    .order("name");
+  let { data, error } = await supabase.from("profiles").select(PROFILE_COLUMNS).order("name");
+  if (missingColumn(error)) ({ data, error } = await supabase.from("profiles").select(PROFILE_COLUMNS_OLD).order("name"));
   if (error) throw new Error(error.message);
   return (data as ProfileRow[]).map(toProfile);
 }

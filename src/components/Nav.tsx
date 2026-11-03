@@ -63,7 +63,9 @@ export function Nav({ name, pool, canManageContent, canManageMembers }: NavProps
           ))}
         </nav>
         <div className="ml-auto hidden items-center gap-3 xl:flex">
-          <span className="text-sm whitespace-nowrap text-zinc-300">{name}</span>
+          <Link href="/trocar-senha" className="text-sm whitespace-nowrap text-zinc-300 hover:text-white" title="Trocar senha">
+            {name}
+          </Link>
           <PoolChip pool={pool} />
           <button onClick={logout} className="btn-secondary px-3 py-1.5">
             Sair
@@ -100,9 +102,14 @@ export function Nav({ name, pool, canManageContent, canManageMembers }: NavProps
               {name}
               <PoolChip pool={pool} />
             </span>
-            <button onClick={logout} className="btn-secondary px-3 py-1.5">
-              Sair
-            </button>
+            <span className="flex gap-2">
+              <Link href="/trocar-senha" onClick={() => setOpen(false)} className="btn-secondary px-3 py-1.5">
+                Senha
+              </Link>
+              <button onClick={logout} className="btn-secondary px-3 py-1.5">
+                Sair
+              </button>
+            </span>
           </div>
         </nav>
       )}

@@ -10,7 +10,7 @@ export default async function LoginPage({ searchParams }: { searchParams: Promis
         <p className="font-display mt-2 text-lg tracking-[0.3em] text-zinc-400">TRAINER</p>
       </div>
       <div className="card w-full max-w-sm space-y-6">
-        <p className="muted">Entre com o e-mail e a senha que o admin cadastrou.</p>
+        <p className="muted">Entre com o seu nick e a senha. Esqueceu a senha? Fale com o mentor ou o admin da sua pool.</p>
         {erro === "sem-acesso" && (
           <p className="rounded-lg border border-red-800 bg-red-950 p-3 text-sm text-red-200">
             Seu acesso não está ativo. Fale com o admin do time.

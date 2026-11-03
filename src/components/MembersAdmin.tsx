@@ -17,8 +17,12 @@ import { ROLES, ROLE_LABELS, type Role } from "@/lib/poker/permissions";
 
 function randomPassword(): string {
   const chars = "abcdefghjkmnpqrstuvwxyzABCDEFGHJKMNPQRSTUVWXYZ23456789";
-  const values = crypto.getRandomValues(new Uint32Array(12));
-  return Array.from(values, (v) => chars[v % chars.length]).join("");
+  // Sempre com letras e números (regra de senha do app)
+  for (;;) {
+    const values = crypto.getRandomValues(new Uint32Array(12));
+    const password = Array.from(values, (v) => chars[v % chars.length]).join("");
+    if (/\d/.test(password) && /[A-Za-z]/.test(password)) return password;
+  }
 }
 
 function Feedback({ result }: { result: ActionResult | null }) {
@@ -55,25 +59,28 @@ function RoleSelect({ value, onChange }: { value: Role; onChange: (v: Role) => v
   );
 }
 
-function NewMemberForm({ pools }: { pools: Pool[] }) {
+/** E-mails internos (jogadores criados pelo nick) não aparecem na tela. */
+const realEmail = (email: string) => (email.endsWith("@jogadores.bagapool.com.br") ? "" : email);
+
+function NewMemberForm({ pools, isAdmin, myPoolId }: { pools: Pool[]; isAdmin: boolean; myPoolId: string | null }) {
   const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
+  const [nick, setNick] = useState("");
   // Gerada só no navegador, para o HTML do servidor e o do navegador baterem
   const [password, setPassword] = useState("");
   useEffect(() => setPassword(randomPassword()), []);
   const [role, setRole] = useState<Role>("jogador");
-  const [poolId, setPoolId] = useState("");
+  const [poolId, setPoolId] = useState(myPoolId ?? "");
   const [result, setResult] = useState<ActionResult | null>(null);
   const [pending, startTransition] = useTransition();
 
   function submit(event: React.FormEvent) {
     event.preventDefault();
     startTransition(async () => {
-      const r = await createMember({ name, email, password, role, poolId: poolId || null });
-      setResult(r.ok ? { ok: true, message: `${r.message} Senha: ${password}` } : r);
+      const r = await createMember({ name, nick, password, role, poolId: poolId || null });
+      setResult(r);
       if (r.ok) {
         setName("");
-        setEmail("");
+        setNick("");
         setPassword(randomPassword());
       }
     });
@@ -88,21 +95,32 @@ function NewMemberForm({ pools }: { pools: Pool[] }) {
           <input className="input" value={name} onChange={(e) => setName(e.target.value)} required />
         </div>
         <div>
-          <label className="label">E-mail</label>
-          <input type="email" className="input" value={email} onChange={(e) => setEmail(e.target.value)} required />
+          <label className="label">Nick (login)</label>
+          <input
+            className="input"
+            value={nick}
+            onChange={(e) => setNick(e.target.value.replace(/\s/g, ""))}
+            autoCapitalize="none"
+            spellCheck={false}
+            required
+          />
         </div>
         <div>
-          <label className="label">Senha inicial</label>
+          <label className="label">Senha provisória</label>
           <input className="input font-mono" value={password} onChange={(e) => setPassword(e.target.value)} required />
         </div>
-        <div>
-          <label className="label">Papel</label>
-          <RoleSelect value={role} onChange={setRole} />
-        </div>
-        <div>
-          <label className="label">Pool</label>
-          <PoolSelect pools={pools} value={poolId} onChange={setPoolId} />
-        </div>
+        {isAdmin && (
+          <>
+            <div>
+              <label className="label">Papel</label>
+              <RoleSelect value={role} onChange={setRole} />
+            </div>
+            <div>
+              <label className="label">Pool</label>
+              <PoolSelect pools={pools} value={poolId} onChange={setPoolId} />
+            </div>
+          </>
+        )}
       </div>
       <Feedback result={result} />
       <button className="btn-primary" disabled={pending}>
@@ -112,28 +130,31 @@ function NewMemberForm({ pools }: { pools: Pool[] }) {
   );
 }
 
-function MemberRow({ profile, pools, isMe }: { profile: Profile; pools: Pool[]; isMe: boolean }) {
+function MemberRow({ profile, pools, isMe, isAdmin }: { profile: Profile; pools: Pool[]; isMe: boolean; isAdmin: boolean }) {
   const [name, setName] = useState(profile.name);
+  const [nick, setNick] = useState(profile.nick ?? "");
   const [role, setRole] = useState<Role>(profile.role);
   const [poolId, setPoolId] = useState(profile.poolId ?? "");
   const [active, setActive] = useState(profile.active);
   const [result, setResult] = useState<ActionResult | null>(null);
   const [pending, startTransition] = useTransition();
   const dirty =
-    name !== profile.name || role !== profile.role || poolId !== (profile.poolId ?? "") || active !== profile.active;
+    name !== profile.name || nick !== (profile.nick ?? "") || role !== profile.role || poolId !== (profile.poolId ?? "") || active !== profile.active;
 
   function save() {
     startTransition(async () => {
-      setResult(await updateMember({ id: profile.id, name, role, poolId: poolId || null, active }));
+      setResult(await updateMember({ id: profile.id, name, nick: nick || null, role, poolId: poolId || null, active }));
     });
   }
 
   function newPassword() {
     const password = randomPassword();
-    if (!confirm(`Trocar a senha de ${profile.name}?`)) return;
+    if (!confirm(`Gerar uma senha provisória para ${profile.name}? A senha atual deixa de funcionar.`)) return;
     startTransition(async () => {
       const r = await resetPassword(profile.id, password);
-      setResult(r.ok ? { ok: true, message: `Nova senha: ${password}` } : r);
+      setResult(
+        r.ok ? { ok: true, message: `Senha provisória: ${password} (${isMe ? "sua nova senha" : "será trocada no próximo acesso"})` } : r,
+      );
     });
   }
 
@@ -145,20 +166,37 @@ function MemberRow({ profile, pools, isMe }: { profile: Profile; pools: Pool[]; 
           <input className="input" value={name} onChange={(e) => setName(e.target.value)} />
         </div>
         <div>
-          <label className="label">E-mail</label>
-          <div className="flex items-center gap-2 py-2 text-sm text-zinc-300">
-            <span className="truncate">{profile.email}</span>
+          <label className="label">Nick (login)</label>
+          <div className="flex items-center gap-2">
+            <input
+              className="input"
+              value={nick}
+              placeholder={realEmail(profile.email) || "sem nick"}
+              onChange={(e) => setNick(e.target.value.replace(/\s/g, ""))}
+              autoCapitalize="none"
+              spellCheck={false}
+            />
             <PoolChip pool={pools.find((p) => p.id === profile.poolId) ?? null} compact />
           </div>
+          {profile.mustChangePassword && <p className="mt-1 text-xs text-amber-400">Ainda com senha provisória</p>}
         </div>
-        <div>
-          <label className="label">Papel</label>
-          <RoleSelect value={role} onChange={setRole} />
-        </div>
-        <div>
-          <label className="label">Pool</label>
-          <PoolSelect pools={pools} value={poolId} onChange={setPoolId} />
-        </div>
+        {isAdmin ? (
+          <>
+            <div>
+              <label className="label">Papel</label>
+              <RoleSelect value={role} onChange={setRole} />
+            </div>
+            <div>
+              <label className="label">Pool</label>
+              <PoolSelect pools={pools} value={poolId} onChange={setPoolId} />
+            </div>
+          </>
+        ) : (
+          <>
+            <div />
+            <div />
+          </>
+        )}
         <label className="flex items-center gap-2 py-2 text-sm">
           <input type="checkbox" checked={active} disabled={isMe} onChange={(e) => setActive(e.target.checked)} />
           Ativo
@@ -169,7 +207,7 @@ function MemberRow({ profile, pools, isMe }: { profile: Profile; pools: Pool[]; 
           Salvar
         </button>
         <button className="btn-secondary px-3 py-1.5" onClick={newPassword} disabled={pending}>
-          Gerar nova senha
+          Gerar senha provisória
         </button>
         <Feedback result={result} />
       </div>
@@ -264,27 +302,39 @@ function PoolsCard({ pools, profiles }: { pools: Pool[]; profiles: Profile[] }) 
   );
 }
 
-export function MembersAdmin({ profiles, pools, myId }: { profiles: Profile[]; pools: Pool[]; myId: string }) {
+export function MembersAdmin({
+  profiles,
+  pools,
+  myId,
+  isAdmin,
+  myPoolId,
+}: {
+  profiles: Profile[];
+  pools: Pool[];
+  myId: string;
+  isAdmin: boolean;
+  myPoolId: string | null;
+}) {
   const [filter, setFilter] = useState("");
   const filtered = profiles.filter((p) =>
-    `${p.name} ${p.email}`.toLowerCase().includes(filter.trim().toLowerCase()),
+    `${p.name} ${p.nick ?? ""} ${realEmail(p.email)}`.toLowerCase().includes(filter.trim().toLowerCase()),
   );
   return (
     <div className="space-y-6">
-      <PoolsCard pools={pools} profiles={profiles} />
-      <NewMemberForm pools={pools} />
+      {isAdmin && <PoolsCard pools={pools} profiles={profiles} />}
+      <NewMemberForm pools={pools} isAdmin={isAdmin} myPoolId={myPoolId} />
       <div className="space-y-3">
         <div className="flex flex-wrap items-center justify-between gap-2">
           <h2 className="font-semibold">Time ({profiles.length})</h2>
           <input
             className="input max-w-xs"
-            placeholder="Buscar por nome ou e-mail"
+            placeholder="Buscar por nome ou nick"
             value={filter}
             onChange={(e) => setFilter(e.target.value)}
           />
         </div>
         {filtered.map((profile) => (
-          <MemberRow key={profile.id} profile={profile} pools={pools} isMe={profile.id === myId} />
+          <MemberRow key={profile.id} profile={profile} pools={pools} isMe={profile.id === myId} isAdmin={isAdmin} />
         ))}
       </div>
     </div>

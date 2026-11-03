@@ -68,9 +68,9 @@ Daqui para frente, cada mudança enviada para a branch `main` é publicada autom
 
 ## 8. Primeiros passos no site
 
-1. Entre com o e-mail e a senha do passo 4.
+1. Entre com o e-mail e a senha do passo 4 (o campo "Nick" também aceita e-mail). Em **Jogadores**, coloque o seu nick na sua linha e salve: a partir daí você entra pelo nick.
 2. **Legenda**: confira as cores de cada ação (já vem um padrão: RFI laranja, shove roxo, fold azul, limp verde).
-3. **Jogadores**: crie as pools e cadastre o time. O site gera uma senha inicial para cada pessoa.
+3. **Jogadores**: crie as pools e cadastre o time pelo **nick** (sem e-mail). O site gera uma senha provisória; no primeiro acesso a pessoa cria a própria senha. Mentores com pool também cadastram e geram senha provisória, só para os jogadores da própria pool. As senhas ficam guardadas só como hash (bcrypt) no Supabase: ninguém consegue lê-las.
 4. Os ranges das pastas `cargas/` entram sozinhos no banco a cada deploy; **Estratégias** permite ajustes.
 5. **Drills**: monte os exercícios a partir das estratégias.
 6. **Standards**: cadastre as faixas ideais dos stats do popup e ligue cada stat aos drills que treinam ele.
@@ -83,4 +83,5 @@ No Vercel, abra o projeto → **Settings → Domains** e adicione o domínio (ex
 
 - **"Configure NEXT_PUBLIC_SUPABASE_URL"**: faltou alguma variável no Vercel. Adicione e faça um novo deploy em **Deployments → Redeploy**.
 - **Entro e volto para o login com "acesso não está ativo"**: o usuário existe no Supabase, mas está desativado na tela Jogadores.
+- **Esqueci a senha**: o mentor da pool ou o admin gera uma senha provisória em **Jogadores**; a pessoa troca no próximo acesso.
 - **Erro ao cadastrar jogador**: confira a variável `SUPABASE_SERVICE_ROLE_KEY`.

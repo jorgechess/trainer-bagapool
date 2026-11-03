@@ -207,3 +207,20 @@ test("relatório por drill: acerto, estratégias e mãos mais erradas", async ()
   assert.equal(report[0].lastAt, "2026-10-20T10:00:00.000Z");
   assert.deepEqual(reportByDrill([]), []);
 });
+
+test("permissões de acesso: mentor só gerencia jogadores da própria pool; nick e senha", async () => {
+  const { canManagePlayer, canManagePlayers, NICK_PATTERN, passwordProblem } = await import("../permissions");
+  const mentor = { id: "m", role: "mentor" as const, poolId: "p1" };
+  assert.equal(canManagePlayers(mentor), true);
+  assert.equal(canManagePlayers({ ...mentor, poolId: null }), false);
+  assert.equal(canManagePlayers({ id: "j", role: "jogador", poolId: "p1" }), false);
+  assert.equal(canManagePlayer(mentor, { id: "a", role: "jogador", poolId: "p1" }), true);
+  assert.equal(canManagePlayer(mentor, { id: "b", role: "jogador", poolId: "p2" }), false);
+  assert.equal(canManagePlayer(mentor, { id: "c", role: "coach", poolId: "p1" }), false);
+  assert.equal(canManagePlayer({ id: "x", role: "admin", poolId: null }, { id: "c", role: "coach", poolId: "p9" }), true);
+  assert.ok(NICK_PATTERN.test("chesskappa") && NICK_PATTERN.test("Low_Chess"));
+  assert.ok(!NICK_PATTERN.test("a b") && !NICK_PATTERN.test("ab"));
+  assert.ok(passwordProblem("curta1"));
+  assert.ok(passwordProblem("semnumeros"));
+  assert.equal(passwordProblem("boaSenha123"), null);
+});

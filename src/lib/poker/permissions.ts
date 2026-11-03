@@ -22,6 +22,26 @@ export function canManageMembers(role: Role): boolean {
   return role === "admin";
 }
 
+/** Gerar acesso e nova senha: admin para todo o time; mentor só para os jogadores da própria pool. */
+export function canManagePlayers(viewer: Member): boolean {
+  return viewer.role === "admin" || (viewer.role === "mentor" && viewer.poolId !== null);
+}
+
+export function canManagePlayer(viewer: Member, target: Member): boolean {
+  if (viewer.role === "admin") return true;
+  return viewer.role === "mentor" && viewer.poolId !== null && target.poolId === viewer.poolId && target.role === "jogador";
+}
+
+/** Nick do login: 3 a 30 letras, números, ponto, hífen ou sublinhado. */
+export const NICK_PATTERN = /^[A-Za-z0-9_.-]{3,30}$/;
+
+/** Senha nova do jogador: pelo menos 8 caracteres, com letra e número. */
+export function passwordProblem(password: string): string | null {
+  if (password.length < 8) return "A senha precisa ter pelo menos 8 caracteres.";
+  if (!/[A-Za-z]/.test(password) || !/\d/.test(password)) return "Use letras e números na senha.";
+  return null;
+}
+
 /** Criar e editar drills, estratégias, legenda e standards. */
 export function canManageContent(role: Role): boolean {
   return role === "admin" || role === "coach" || role === "admin_drills" || role === "mentor";

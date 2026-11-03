@@ -9,7 +9,7 @@ page.on("console", (m) => {
 });
 page.on("pageerror", (e) => messages.push(`[pageerror] ${e.message}`));
 await page.goto(`${BASE}/login`);
-await page.fill("#email", "admin@e2e.com");
+await page.fill("#login", "admin@e2e.com");
 await page.fill("#password", "senha-admin-123");
 await page.getByRole("button", { name: "Entrar" }).click();
 await page.waitForURL(`${BASE}/`, { timeout: 60000 });
