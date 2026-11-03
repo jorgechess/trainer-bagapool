@@ -66,9 +66,10 @@ export const getCurrentProfile = cache(async (): Promise<Profile | null> => {
     data: { user },
   } = await supabase.auth.getUser();
   if (!user) return null;
-  let { data, error } = await supabase.from("profiles").select(PROFILE_COLUMNS).eq("id", user.id).maybeSingle();
+  type One = { data: ProfileRow | null; error: { code?: string; message: string } | null };
+  let { data, error } = (await supabase.from("profiles").select(PROFILE_COLUMNS).eq("id", user.id).maybeSingle()) as One;
   if (missingColumn(error))
-    ({ data, error } = await supabase.from("profiles").select(PROFILE_COLUMNS_OLD).eq("id", user.id).maybeSingle());
+    ({ data, error } = (await supabase.from("profiles").select(PROFILE_COLUMNS_OLD).eq("id", user.id).maybeSingle()) as One);
   if (!data || !data.active) return null;
   return toProfile(data as ProfileRow);
 });
@@ -169,8 +170,10 @@ export async function getPool(id: string | null): Promise<Pool | null> {
 
 export async function listProfiles(): Promise<Profile[]> {
   const supabase = await createClient();
-  let { data, error } = await supabase.from("profiles").select(PROFILE_COLUMNS).order("name");
-  if (missingColumn(error)) ({ data, error } = await supabase.from("profiles").select(PROFILE_COLUMNS_OLD).order("name"));
+  type Many = { data: ProfileRow[] | null; error: { code?: string; message: string } | null };
+  let { data, error } = (await supabase.from("profiles").select(PROFILE_COLUMNS).order("name")) as Many;
+  if (missingColumn(error))
+    ({ data, error } = (await supabase.from("profiles").select(PROFILE_COLUMNS_OLD).order("name")) as Many);
   if (error) throw new Error(error.message);
   return (data as ProfileRow[]).map(toProfile);
 }
