@@ -224,3 +224,20 @@ test("permissões de acesso: mentor só gerencia jogadores da própria pool; nic
   assert.ok(passwordProblem("semnumeros"));
   assert.equal(passwordProblem("boaSenha123"), null);
 });
+
+test("plano: admin acrescenta e tira drills", async () => {
+  const { addPlanDrill, removePlanDrill, planGoals } = await import("../plan");
+  const base = {
+    month: "2026-11",
+    missing: [],
+    focus: [{ order: 1, statKey: "x", label: "X", value: 1, status: "fora" as const, direction: "abaixo" as const, goals: [{ drillId: "a", targetDecisions: 200 }] }],
+  };
+  let plan = addPlanDrill(base, "b", 100);
+  assert.deepEqual(planGoals(plan).map((g) => [g.drillId, g.targetDecisions, g.manual]), [["a", 200, false], ["b", 100, true]]);
+  plan = removePlanDrill(plan, "a");
+  assert.deepEqual(planGoals(plan).map((g) => g.drillId), ["b"]);
+  plan = addPlanDrill(plan, "a", 50);
+  assert.deepEqual(planGoals(plan).map((g) => [g.drillId, g.targetDecisions]), [["a", 200], ["b", 100]], "volta com a meta do stat");
+  plan = removePlanDrill(plan, "b");
+  assert.deepEqual(planGoals(plan).map((g) => g.drillId), ["a"]);
+});

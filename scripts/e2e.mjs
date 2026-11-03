@@ -682,6 +682,22 @@ async function main() {
     await page.getByRole("button", { name: "Encerrar sessão" }).click();
     await page.getByTestId("warmup-by-spot").getByText(/\d+%/).first().waitFor();
     log("warmup com contagem regressiva e 15 minutos");
+
+    // Admin acrescenta e tira drills do plano do mês; o warmup acompanha
+    await page.goto(`${BASE_URL}/plano`);
+    const addForm = page.getByTestId("acrescentar-drill-plano");
+    await addForm.locator("select").selectOption({ label: "RFI 30bb vanilla" });
+    await addForm.locator("input").fill("150");
+    await addForm.getByRole("button", { name: "Acrescentar" }).click();
+    await page.getByText("Acrescentados pelo admin").waitFor();
+    await page.getByTestId("drill-do-plano").filter({ hasText: "RFI 30bb vanilla" }).getByText(/\/150 decisões/).waitFor();
+    page.once("dialog", (d) => d.accept());
+    await page.getByTestId("drill-do-plano").filter({ hasText: "RFI max late 2:1" }).getByTestId("remover-drill-plano").click();
+    await page.getByText("Drills deste stat tirados do plano.").waitFor();
+    await shot(page, "plano-editado");
+    await page.goto(`${BASE_URL}/aquecimento`);
+    assert.deepEqual(await page.getByTestId("warmup-drills").locator("li").allInnerTexts(), ["RFI 30bb vanilla"], "warmup segue o plano editado");
+    log("admin acrescenta e tira drills do plano do mês");
     log(`Max Late Reg Vanilla importado; mesa mostra ${leftText}`);
 
     // 10. Cadastra pool e jogador

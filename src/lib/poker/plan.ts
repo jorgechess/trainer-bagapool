@@ -106,6 +106,51 @@ export interface MonthlyPlan {
   focus: PlanFocus[];
   /** Stats sem standard cadastrado ou standards sem valor no popup. */
   missing: string[];
+  /** Drills que o admin acrescentou à mão. */
+  manual?: { drillId: string; targetDecisions: number }[];
+  /** Drills que o admin tirou do plano (mesmo que um stat aponte para eles). */
+  removed?: string[];
+}
+
+/** Drills do plano com a meta de decisões: os dos stats (menos os removidos) e os acrescentados à mão. */
+export function planGoals(plan: MonthlyPlan): { drillId: string; targetDecisions: number; manual: boolean }[] {
+  const removed = new Set(plan.removed ?? []);
+  const targets = new Map<string, { targetDecisions: number; manual: boolean }>();
+  for (const focus of plan.focus)
+    for (const goal of focus.goals) {
+      if (removed.has(goal.drillId)) continue;
+      const cur = targets.get(goal.drillId);
+      targets.set(goal.drillId, { targetDecisions: (cur?.targetDecisions ?? 0) + goal.targetDecisions, manual: false });
+    }
+  for (const goal of plan.manual ?? []) {
+    if (removed.has(goal.drillId)) continue;
+    const cur = targets.get(goal.drillId);
+    targets.set(goal.drillId, {
+      targetDecisions: (cur?.targetDecisions ?? 0) + goal.targetDecisions,
+      manual: !cur || cur.manual,
+    });
+  }
+  return [...targets.entries()].map(([drillId, t]) => ({ drillId, ...t }));
+}
+
+/** Acrescenta (ou atualiza a meta de) um drill no plano. */
+export function addPlanDrill(plan: MonthlyPlan, drillId: string, targetDecisions: number): MonthlyPlan {
+  const manual = (plan.manual ?? []).filter((g) => g.drillId !== drillId);
+  const fromStats = plan.focus.some((f) => f.goals.some((g) => g.drillId === drillId));
+  return {
+    ...plan,
+    manual: fromStats ? manual : [...manual, { drillId, targetDecisions }],
+    removed: (plan.removed ?? []).filter((id) => id !== drillId),
+  };
+}
+
+/** Tira um drill do plano. */
+export function removePlanDrill(plan: MonthlyPlan, drillId: string): MonthlyPlan {
+  return {
+    ...plan,
+    manual: (plan.manual ?? []).filter((g) => g.drillId !== drillId),
+    removed: [...new Set([...(plan.removed ?? []), drillId])],
+  };
 }
 
 export function buildMonthlyPlan(
@@ -156,10 +201,7 @@ export function monthInBrasilia(iso: string): string {
 /** Progresso das metas do mês, contando só as decisões daquele mês (horário de Brasília). */
 export function planProgress(plan: MonthlyPlan, attempts: readonly Attempt[]): GoalProgress[] {
   const monthAttempts = attempts.filter((a) => monthInBrasilia(a.createdAt) === plan.month);
-  const targets = new Map<string, number>();
-  for (const focus of plan.focus)
-    for (const goal of focus.goals) targets.set(goal.drillId, (targets.get(goal.drillId) ?? 0) + goal.targetDecisions);
-  return [...targets.entries()].map(([drillId, targetDecisions]) => {
+  return planGoals(plan).map(({ drillId, targetDecisions }) => {
     const relevant = monthAttempts.filter((a) => a.drillId === drillId);
     const correct = relevant.filter((a) => a.correct).length;
     return {

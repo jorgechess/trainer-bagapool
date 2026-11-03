@@ -11,8 +11,9 @@ import {
   requireProfile,
 } from "@/lib/data";
 import { currentMonth, formatPercent, monthLabel, monthStartIso } from "@/lib/format";
-import { canManageContent, canViewPerformance } from "@/lib/poker/permissions";
-import { STATUS_LABELS, evaluateStat, planProgress } from "@/lib/poker/plan";
+import { AddPlanDrillForm, RemovePlanDrillButton } from "@/components/PlanDrillEditor";
+import { canManageContent, canManagePlayer, canViewPerformance } from "@/lib/poker/permissions";
+import { STATUS_LABELS, evaluateStat, planGoals, planProgress } from "@/lib/poker/plan";
 
 function recentMonths(count: number): string[] {
   const now = currentMonth();
@@ -41,6 +42,8 @@ export default async function PlanPage({
   const visible = profiles.filter((p) => p.active && canViewPerformance(viewer, p));
   const target = visible.find((p) => p.id === params.jogador) ?? viewer;
   const canEdit = target.id === viewer.id || canManageContent(viewer.role);
+  // Acrescentar/tirar drills do plano: admins (e o mentor da pool do jogador)
+  const canEditDrills = viewer.role === "admin" || canManagePlayer(viewer, target);
   const nextMonth = new Date(Date.UTC(Number(month.slice(0, 4)), Number(month.slice(5, 7)), 1));
   const monthEnd = nextMonth.toISOString().slice(0, 7);
   const [saved, attempts] = await Promise.all([getPlan(target.id, month), getAttempts(target.id, monthStartIso(month))]);
@@ -50,6 +53,34 @@ export default async function PlanPage({
   const drillName = new Map(drills.map((d) => [d.id, d.name]));
   const poolName = new Map(pools.map((p) => [p.id, p.name]));
   const standardByKey = new Map(standards.map((s) => [s.statKey, s]));
+  const removed = new Set(saved?.plan.removed ?? []);
+  const manualGoals = saved ? planGoals(saved.plan).filter((g) => g.manual) : [];
+  const inPlan = new Set(saved ? planGoals(saved.plan).map((g) => g.drillId) : []);
+  const goalRow = (goal: { drillId: string; targetDecisions: number }) => {
+    const p = progressByDrill.get(goal.drillId);
+    const done = p?.done ?? 0;
+    const name = drillName.get(goal.drillId) ?? `${goal.drillId} (arquivado)`;
+    return (
+      <li key={goal.drillId} data-testid="drill-do-plano">
+        <div className="mb-1 flex justify-between gap-2 text-sm">
+          <Link href={`/drills/${goal.drillId}/treinar`} className="hover:underline">
+            {name}
+          </Link>
+          <span className="flex items-center gap-3 text-zinc-400">
+            {done}/{p?.targetDecisions ?? goal.targetDecisions} decisões
+            {done > 0 && p ? ` · ${formatPercent(p.accuracy)}` : ""}
+            {canEditDrills && <RemovePlanDrillButton userId={target.id} month={month} drillId={goal.drillId} name={name} />}
+          </span>
+        </div>
+        <div className="h-2 overflow-hidden rounded-full bg-zinc-800">
+          <div
+            className={`h-full ${p?.completed ? "bg-green-500" : "bg-baga-red"}`}
+            style={{ width: `${Math.min(100, (done / (p?.targetDecisions ?? goal.targetDecisions)) * 100)}%` }}
+          />
+        </div>
+      </li>
+    );
+  };
 
   return (
     <div className="space-y-6">
@@ -92,7 +123,7 @@ export default async function PlanPage({
           <h2 className="font-semibold">
             Focos de {target.name} em {monthLabel(month)}
           </h2>
-          {saved.plan.focus.length === 0 && (
+          {saved.plan.focus.length === 0 && Object.keys(saved.stats).length > 0 && (
             <p className="card text-sm text-green-400">Todos os stats estão dentro dos standards. Nada a corrigir.</p>
           )}
           {saved.plan.focus.map((focus) => {
@@ -118,37 +149,21 @@ export default async function PlanPage({
                 </p>
                 {focus.goals.length === 0 ? (
                   <p className="text-sm text-amber-400">Nenhum drill ligado a este stat. Ligue drills em Standards.</p>
+                ) : focus.goals.every((g) => removed.has(g.drillId)) ? (
+                  <p className="text-sm text-zinc-500">Drills deste stat tirados do plano.</p>
                 ) : (
-                  <ul className="space-y-2">
-                    {focus.goals.map((goal) => {
-                      const p = progressByDrill.get(goal.drillId);
-                      const done = p?.done ?? 0;
-                      return (
-                        <li key={goal.drillId}>
-                          <div className="mb-1 flex justify-between gap-2 text-sm">
-                            <Link href={`/drills/${goal.drillId}/treinar`} className="hover:underline">
-                              {drillName.get(goal.drillId) ?? `${goal.drillId} (arquivado)`}
-                            </Link>
-                            <span className="text-zinc-400">
-                              {done}/{goal.targetDecisions} decisões
-                              {done > 0 && p ? ` · ${formatPercent(p.accuracy)}` : ""}
-                            </span>
-                          </div>
-                          <div className="h-2 overflow-hidden rounded-full bg-zinc-800">
-                            <div
-                              className={`h-full ${done >= goal.targetDecisions ? "bg-green-500" : "bg-baga-red"}`}
-                              style={{ width: `${Math.min(100, (done / goal.targetDecisions) * 100)}%` }}
-                            />
-                          </div>
-                        </li>
-                      );
-                    })}
-                  </ul>
+                  <ul className="space-y-2">{focus.goals.filter((g) => !removed.has(g.drillId)).map(goalRow)}</ul>
                 )}
               </div>
             );
           })}
-          {saved.plan.missing.length > 0 && (
+          {manualGoals.length > 0 && (
+            <div className="card space-y-3">
+              <p className="font-medium">Acrescentados pelo admin</p>
+              <ul className="space-y-2">{manualGoals.map(goalRow)}</ul>
+            </div>
+          )}
+          {saved.plan.missing.length > 0 && Object.keys(saved.stats).length > 0 && (
             <p className="text-sm text-zinc-500">Sem valor no relatório: {saved.plan.missing.join(", ")}.</p>
           )}
           <details className="card">
@@ -186,6 +201,17 @@ export default async function PlanPage({
         </section>
       ) : (
         <p className="card muted">Nenhum plano salvo para {monthLabel(month)}.</p>
+      )}
+
+      {canEditDrills && (
+        <section className="card space-y-3">
+          <h2 className="font-semibold">Acrescentar drill ao plano de {target.name}</h2>
+          <AddPlanDrillForm
+            userId={target.id}
+            month={month}
+            drills={drills.filter((d) => !inPlan.has(d.id)).map((d) => ({ id: d.id, name: d.name }))}
+          />
+        </section>
       )}
 
       {canEdit && (
