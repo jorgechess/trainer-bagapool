@@ -775,16 +775,21 @@ async function capturasComercial(browser) {
   for (const f of readdirSync(".next/static/media")) if (f.endsWith(".woff2")) copyFileSync(`.next/static/media/${f}`, `${OUT}/fontes/${f}`);
   // Histórico do admin com cara de jogador treinado (~85% de acerto) para as telas de desempenho
   const [admin] = await rows("profiles", "select=id&email=eq.admin@e2e.com");
-  const mine = await rows("attempts", `select=*&user_id=eq.${admin.id}`);
-  const fixed = mine.map((a, i) =>
-    i % 7 === 0 ? a : { ...a, correct: true, data: { ...a.data, correct: true, chosenActionId: a.data.correctActionId } },
-  );
-  if (fixed.length)
-    await fetch(`${API_URL}/rest/v1/attempts`, {
-      method: "POST",
-      headers: { ...adminHeaders, Prefer: "resolution=merge-duplicates" },
-      body: JSON.stringify(fixed),
-    });
+  const trained = async () => {
+    const mine = await rows("attempts", `select=id,data&user_id=eq.${admin.id}&correct=eq.false`);
+    await Promise.all(
+      mine
+        .filter((a) => a.id % 7 !== 0)
+        .map((a) =>
+          fetch(`${API_URL}/rest/v1/attempts?id=eq.${a.id}`, {
+            method: "PATCH",
+            headers: adminHeaders,
+            body: JSON.stringify({ correct: true, data: { ...a.data, correct: true, chosenActionId: a.data.correctActionId } }),
+          }),
+        ),
+    );
+  };
+  await trained();
   const ctx = await browser.newContext({ viewport: { width: 1280, height: 720 }, deviceScaleFactor: 1.5 });
   const v = await ctx.newPage();
   const snap = async (name) => {
@@ -862,6 +867,7 @@ async function capturasComercial(browser) {
   await v.getByTestId("warmup-by-spot").waitFor();
   await v.waitForTimeout(400);
   await snap("c12-warmup-relatorio");
+  await trained();
   await v.goto(`${BASE_URL}/desempenho`);
   await v.waitForTimeout(1200);
   await snap("c13-desempenho");
