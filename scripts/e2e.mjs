@@ -663,6 +663,7 @@ async function main() {
     await page.goto(`${BASE_URL}/`);
     await page.getByTestId("warmup-button").click();
     await page.getByTestId("warmup-drills").waitFor();
+    assert.deepEqual(await page.getByTestId("warmup-drills").locator("li").allInnerTexts(), ["RFI max late 2:1"], "warmup usa os drills do plano");
     await page.getByRole("button", { name: "Começar" }).click();
     await page.getByTestId("warmup-countdown").getByText("3").waitFor();
     await shot(page, "warmup-contagem");
@@ -780,6 +781,8 @@ async function main() {
     await page.waitForURL(`${BASE_URL}/`);
     await page.goto(`${BASE_URL}/desempenho`);
     assert.equal(await page.getByText("Jorge Admin").count(), 0, "jogadora não vê o admin no seletor");
+    await page.goto(`${BASE_URL}/aquecimento`);
+    await page.getByTestId("warmup-sem-plano").waitFor();
     log("jogadora entra pelo nick, troca a senha provisória e não acessa a gestão");
 
     // 12. Celular
