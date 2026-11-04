@@ -9,6 +9,7 @@ import { actionOf, borderHands } from "./range";
 import { type Rng, defaultRng, pickOne, pickWeighted, shuffle } from "./rng";
 import {
   BOARD_CARDS_BY_STREET,
+  BUBBLE_LABELS,
   POSITIONS,
   STREETS,
   type Street,
@@ -243,6 +244,8 @@ export interface Attempt {
   heroPosition: string;
   stackLabel: string;
   ratioLabel: string | null;
+  /** Bolha do MLR (ex.: "bolha não garantido"); ausente nas decisões antigas. */
+  bubbleLabel?: string | null;
   tags: string[];
   hand: HandLabel;
   heroCards: [Card, Card];
@@ -270,6 +273,7 @@ export function buildAttempt(
     heroPosition: strategy.heroPosition,
     stackLabel: formatNumberRange(strategy.stack, "bb"),
     ratioLabel: strategy.ratio ? formatRatio(strategy.ratio) : null,
+    bubbleLabel: strategy.bubble ? BUBBLE_LABELS[strategy.bubble] : null,
     tags: [...new Set([...drill.tags, ...strategy.tags])],
     hand: question.hand,
     heroCards: question.heroCards,

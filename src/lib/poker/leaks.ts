@@ -1,8 +1,10 @@
 /** Leak finder: acertos e erros agrupados por tipo de spot. */
+import type { Card } from "./cards";
 import type { Attempt } from "./drill";
-import { STREET_LABELS } from "./strategy";
+import { BUBBLE_LABELS, STREET_LABELS } from "./strategy";
+import { flopTexture } from "./texture";
 
-export const DIMENSIONS = ["situacao", "posicao", "street", "stack", "proporcao", "tag", "estrategia"] as const;
+export const DIMENSIONS = ["situacao", "posicao", "street", "stack", "proporcao", "board", "tag", "estrategia"] as const;
 export type Dimension = (typeof DIMENSIONS)[number];
 
 export const DIMENSION_LABELS: Record<Dimension, string> = {
@@ -11,6 +13,7 @@ export const DIMENSION_LABELS: Record<Dimension, string> = {
   street: "Street",
   stack: "Stack",
   proporcao: "Proporção",
+  board: "Board",
   tag: "Etiqueta",
   estrategia: "Estratégia",
 };
@@ -25,13 +28,45 @@ function keysFor(attempt: Attempt, dimension: Dimension): string[] {
       return [STREET_LABELS[attempt.street]];
     case "stack":
       return [attempt.stackLabel];
-    case "proporcao":
-      return attempt.ratioLabel ? [attempt.ratioLabel] : [];
+    case "proporcao": {
+      const label = attempt.ratioLabel ?? attempt.bubbleLabel ?? bubbleFromName(attempt.strategyName);
+      return label ? [label] : [];
+    }
+    case "board":
+      return attempt.board?.length >= 3 ? [boardType(attempt.board)] : [];
     case "tag":
       return attempt.tags;
     case "estrategia":
       return [attempt.strategyName];
   }
+}
+
+/** Decisões antigas não guardam a bolha: tira do nome da estratégia ("… bolha não garantido"). */
+function bubbleFromName(name: string): string | null {
+  const n = name.toLowerCase();
+  if (/bolha (não|nao) garantid/.test(n)) return BUBBLE_LABELS["itm-nao-garantido"];
+  if (/bolha garantid/.test(n)) return BUBBLE_LABELS["itm-garantido"];
+  return null;
+}
+
+/** Tipo do flop em sigla (HML, AHL...), com a dobra ou o monotone quando houver. */
+export function boardType(board: readonly Card[]): string {
+  const t = flopTexture(board.slice(0, 3));
+  const sigla = t.pattern.replaceAll("-", "");
+  if (t.paired !== "nao" && t.pairedClass) return `${sigla} · ${t.paired === "trinca" ? "trinca" : "dobra"} ${t.pairedClass}`;
+  if (t.suits === "monotone") return `${sigla} · mono`;
+  return sigla;
+}
+
+/**
+ * Como agrupar o desempenho de um drill no painel: pós-flop pelo tipo de board, MLR pela proporção do field
+ * (ou bolha), drills com vários stacks pela faixa de stack; senão por estratégia.
+ */
+export function breakdownDimension(attempts: readonly Attempt[]): Dimension {
+  if (attempts.some((a) => a.street !== "preflop" && a.board?.length >= 3)) return "board";
+  if (attempts.some((a) => keysFor(a, "proporcao").length > 0)) return "proporcao";
+  if (new Set(attempts.map((a) => a.stackLabel)).size > 1) return "stack";
+  return "estrategia";
 }
 
 export interface GroupStats {
@@ -111,6 +146,8 @@ export interface DrillReport {
   accuracy: number;
   /** Resultado por estratégia dentro do drill (normalmente uma por posição), do pior para o melhor. */
   byStrategy: GroupStats[];
+  /** Agrupamento do painel (board, proporção, stack ou estratégia), do pior para o melhor. */
+  breakdown: GroupStats[];
   /** Mãos mais erradas no drill, somando as estratégias. */
   missedHands: { hand: string; strategyName: string; total: number; errors: number }[];
   lastAt: string;
@@ -142,6 +179,7 @@ export function reportByDrill(attempts: readonly Attempt[], missedLimit = 8): Dr
         errors: list.length - correct,
         accuracy: list.length ? correct / list.length : 0,
         byStrategy: groupAttempts(list, "estrategia"),
+        breakdown: groupAttempts(list, breakdownDimension(list)),
         missedHands: [...missed.values()]
           .filter((m) => m.errors > 0)
           .sort((a, b) => b.errors - a.errors || a.total - b.total)

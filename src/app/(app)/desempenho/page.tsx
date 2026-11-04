@@ -4,7 +4,7 @@ import { PoolChip } from "@/components/PoolBadge";
 import { MentoredPoolsEditor } from "@/components/MentoredPoolsEditor";
 import { getAttempts, getAttemptsByUser, getMentoredPools, listDrills, listPools, listProfiles, requireProfile } from "@/lib/data";
 import { currentMonth, formatPercent, monthStartIso } from "@/lib/format";
-import { overallAccuracy, reportByDrill } from "@/lib/poker/leaks";
+import { DIMENSION_LABELS, overallAccuracy, reportByDrill } from "@/lib/poker/leaks";
 import { canViewAllPerformance, canViewPerformance } from "@/lib/poker/permissions";
 import { type PoolSummary, poolSummary } from "@/lib/poker/pool-report";
 
@@ -214,17 +214,17 @@ export default async function PerformancePage({
                 <div className="h-full rounded-full bg-baga-red" style={{ width: `${r.accuracy * 100}%` }} />
               </div>
 
-              {r.byStrategy.length > 0 && (
+              {r.breakdown.length > 0 && (
                 <table className="w-full text-sm">
                   <thead className="text-left text-xs text-zinc-500 uppercase">
                     <tr>
-                      <th className="pb-1 font-medium">Estratégia</th>
+                      <th className="pb-1 font-medium">{DIMENSION_LABELS[r.breakdown[0].dimension]}</th>
                       <th className="pb-1 text-right font-medium">Decisões</th>
                       <th className="pb-1 text-right font-medium">Acerto</th>
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-zinc-800">
-                    {r.byStrategy.map((s) => (
+                    {r.breakdown.map((s) => (
                       <tr key={s.key}>
                         <td className="py-1.5 pr-2">{s.key}</td>
                         <td className="py-1.5 pr-2 text-right text-zinc-400">{s.total}</td>

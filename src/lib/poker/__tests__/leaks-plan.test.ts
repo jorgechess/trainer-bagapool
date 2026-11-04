@@ -252,3 +252,28 @@ test("plano: admin acrescenta e tira drills", async () => {
   plan = removePlanDrill(plan, "b");
   assert.deepEqual(planGoals(plan).map((g) => g.drillId), ["a"]);
 });
+
+test("painel de desempenho: pós-flop por board, MLR por proporção, RFI por stack", async () => {
+  const { reportByDrill, boardType } = await import("../leaks");
+  const base = { strategyId: "s", strategyName: "S", situation: "x", heroPosition: "SB", tags: [], hand: "AKo", heroCards: ["As", "Kd"], chosenActionId: "a", correctActionId: "a", createdAt: "2026-11-01T00:00:00Z" };
+  const post = [
+    { ...base, drillId: "p", street: "flop", stackLabel: "30bb", ratioLabel: null, board: ["Kc", "8h", "3d"], correct: true },
+    { ...base, drillId: "p", street: "flop", stackLabel: "30bb", ratioLabel: null, board: ["Qs", "7h", "2d"], correct: false },
+    { ...base, drillId: "p", street: "flop", stackLabel: "30bb", ratioLabel: null, board: ["9s", "8h", "8d"], correct: true },
+  ];
+  const mlr = [
+    { ...base, drillId: "m", street: "preflop", stackLabel: "15bb", ratioLabel: "3:1", board: [], correct: true },
+    { ...base, drillId: "m", street: "preflop", stackLabel: "8bb", ratioLabel: "3:1", board: [], correct: false },
+    { ...base, drillId: "m", street: "preflop", stackLabel: "4bb", ratioLabel: null, strategyName: "Defesa BB vs BTN 4bb bolha não garantido", board: [], correct: true },
+  ];
+  const rfi = [
+    { ...base, drillId: "r", street: "preflop", stackLabel: "12bb", ratioLabel: null, board: [], correct: true },
+    { ...base, drillId: "r", street: "preflop", stackLabel: "25bb", ratioLabel: null, board: [], correct: false },
+  ];
+  const report = reportByDrill([...post, ...mlr, ...rfi] as never);
+  const keys = (id: string) => report.find((r) => r.drillId === id)!.breakdown.map((g) => `${g.dimension}:${g.key}`).sort();
+  assert.deepEqual(keys("p"), ["board:HML", "board:MMM · dobra M"]);
+  assert.deepEqual(keys("m"), ["proporcao:3:1", "proporcao:Bolha sem ITM garantido"]);
+  assert.deepEqual(keys("r"), ["stack:12bb", "stack:25bb"]);
+  assert.equal(boardType(["Js", "7s", "3s"] as never), "HML · mono");
+});
