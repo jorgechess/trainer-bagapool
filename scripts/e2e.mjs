@@ -662,8 +662,13 @@ async function main() {
     // BW BB: filtro de situação e vs limp com check / ISO / all-in
     await page.goto(`${BASE_URL}/drills/bw-bb/treinar`);
     await page.getByRole("group", { name: "Situação" }).getByRole("button", { name: "vs limp", exact: true }).click();
-    await page.locator("[data-testid=actions] button").first().click();
-    await page.getByRole("button", { name: /Continuar/ }).click();
+    // a mão em andamento pode seguir para o ISO vs 3-bet; responde até cair numa mão nova de vs limp
+    for (let i = 0; i < 4; i++) {
+      await page.locator("[data-testid=actions] button").first().click();
+      await page.getByRole("button", { name: /Continuar/ }).click();
+      await page.getByTestId("hero-cards").waitFor();
+      if ((await page.getByTestId("spot").innerText()).startsWith("vs limp")) break;
+    }
     await page.getByTestId("spot").filter({ hasText: /^vs limp · BB · vs SB$/ }).waitFor();
     await page.locator("[data-testid=actions]").getByRole("button", { name: "ISO" }).waitFor();
     await page.getByText(/^Limp · /).waitFor();
