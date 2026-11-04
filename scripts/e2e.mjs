@@ -684,7 +684,7 @@ async function main() {
     await page.getByText("Pote: 4,5bb").waitFor();
     for (const name of ["Check", "Bet 25%", "Bet 40%"]) await page.locator("[data-testid=actions]").getByRole("button", { name }).waitFor();
     await page.locator("[data-testid=actions] button").first().click();
-    await page.getByTestId("cbet-leitura").getByText(/^(Range bet|Split X_)B(25|40)$/i).waitFor();
+    await page.getByTestId("cbet-leitura").getByText(/^(Range bet |Split X_)B(25|40)$/i).waitFor();
     await shot(page, "treino-cbet-flop-ip");
     log("Cbet flop IP: flop, pote simples e leitura MES");
 
