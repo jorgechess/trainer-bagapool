@@ -60,12 +60,13 @@ export function boardType(board: readonly Card[]): string {
 
 /**
  * Como agrupar o desempenho de um drill no painel: pós-flop pelo tipo de board, MLR pela proporção do field
- * (ou bolha), drills com vários stacks pela faixa de stack; senão por estratégia.
+ * (ou bolha), drills com vários stacks pela faixa de stack, depois pela posição do herói (ex.: vs 3-bet); senão por estratégia.
  */
 export function breakdownDimension(attempts: readonly Attempt[]): Dimension {
   if (attempts.some((a) => a.street !== "preflop" && a.board?.length >= 3)) return "board";
   if (attempts.some((a) => keysFor(a, "proporcao").length > 0)) return "proporcao";
   if (new Set(attempts.map((a) => a.stackLabel)).size > 1) return "stack";
+  if (new Set(attempts.map((a) => a.heroPosition)).size > 1) return "posicao";
   return "estrategia";
 }
 

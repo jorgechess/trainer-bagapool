@@ -270,10 +270,16 @@ test("painel de desempenho: pós-flop por board, MLR por proporção, RFI por st
     { ...base, drillId: "r", street: "preflop", stackLabel: "12bb", ratioLabel: null, board: [], correct: true },
     { ...base, drillId: "r", street: "preflop", stackLabel: "25bb", ratioLabel: null, board: [], correct: false },
   ];
-  const report = reportByDrill([...post, ...mlr, ...rfi] as never);
+  const vs3bet = [
+    { ...base, drillId: "v", street: "preflop", stackLabel: "50bb", ratioLabel: null, heroPosition: "HJ", strategyName: "vs 3-bet HJ vs BB", board: [], correct: true },
+    { ...base, drillId: "v", street: "preflop", stackLabel: "50bb", ratioLabel: null, heroPosition: "HJ", strategyName: "vs 3-bet HJ vs SB", board: [], correct: false },
+    { ...base, drillId: "v", street: "preflop", stackLabel: "50bb", ratioLabel: null, heroPosition: "MP", strategyName: "vs 3-bet MP vs CO", board: [], correct: true },
+  ];
+  const report = reportByDrill([...post, ...mlr, ...rfi, ...vs3bet] as never);
   const keys = (id: string) => report.find((r) => r.drillId === id)!.breakdown.map((g) => `${g.dimension}:${g.key}`).sort();
   assert.deepEqual(keys("p"), ["board:HML", "board:MMM · dobra M"]);
   assert.deepEqual(keys("m"), ["proporcao:3:1", "proporcao:Bolha sem ITM garantido"]);
   assert.deepEqual(keys("r"), ["stack:12bb", "stack:25bb"]);
+  assert.deepEqual(keys("v"), ["posicao:HJ", "posicao:MP"]);
   assert.equal(boardType(["Js", "7s", "3s"] as never), "HML · mono");
 });
