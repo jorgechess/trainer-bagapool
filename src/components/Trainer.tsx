@@ -283,9 +283,20 @@ function TableSlot({
         <span className="rounded bg-baga-red/20 px-2 py-0.5 font-medium text-baga-cream">
           {STREET_LABELS[step.street]}
         </span>
+        {/* BW SB pós: tipo de pote em destaque (limped ou raised) */}
+        {strategy.cbet?.table === "bw-sb" && (
+          <span
+            className={`rounded px-2 py-0.5 text-sm font-bold uppercase tracking-wide ${
+              strategy.cbet.node === "lx" ? "bg-teal-500 text-black" : "bg-baga-red text-white"
+            }`}
+            data-testid="spot-pot-type"
+          >
+            {strategy.cbet.node === "lx" ? "Limped pot" : "Raised pot"}
+          </span>
+        )}
         <span className="text-zinc-300" data-testid="spot">
           {[
-            strategy.situation,
+            strategy.cbet?.table === "bw-sb" ? null : strategy.situation,
             strategy.heroPosition,
             strategy.villainPosition && `vs ${[strategy.villainPosition, ...(strategy.callers ?? [])].join(" + ")}`,
           ]

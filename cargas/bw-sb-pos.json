@@ -25,10 +25,10 @@
   "strategies": [
     {
       "id": "bw-sb-pos-rc",
-      "name": "BW SB pós · raise/call",
+      "name": "BW SB pós · raised pot (raise/call)",
       "description": "Blind war 30bb: você deu raise do SB e o BB pagou. Você age primeiro no flop.",
       "street": "flop",
-      "situation": "BW SB pós RC",
+      "situation": "Raised pot",
       "heroPosition": "SB",
       "villainPosition": "BB",
       "stack": {
@@ -64,10 +64,10 @@
     },
     {
       "id": "bw-sb-pos-lx",
-      "name": "BW SB pós · limp/check",
+      "name": "BW SB pós · limped pot (limp/check)",
       "description": "Blind war 30bb: você completou do SB e o BB deu check. Você age primeiro no flop (stab).",
       "street": "flop",
-      "situation": "BW SB pós LX",
+      "situation": "Limped pot",
       "heroPosition": "SB",
       "villainPosition": "BB",
       "stack": {

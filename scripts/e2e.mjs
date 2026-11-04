@@ -695,6 +695,7 @@ async function main() {
     await page.getByTestId("board").waitFor();
     assert.equal(await page.getByTestId("board").locator("> *").count(), 3, "flop com 3 cartas");
     await page.getByText(/Pote: (7,5|3,5)bb/).waitFor();
+    await page.getByTestId("spot-pot-type").getByText(/^(Limped|Raised) pot$/i).waitFor();
     await page.locator("[data-testid=actions]").getByRole("button", { name: "Check" }).waitFor();
     await page.locator("[data-testid=actions] button").first().click();
     await page
