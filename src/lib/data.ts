@@ -211,6 +211,39 @@ export async function getAttempts(userId: string, sinceIso?: string): Promise<At
   return all;
 }
 
+/** Pools que a pessoa acompanha no Desempenho ([] se a migração 0004 ainda não rodou). */
+export async function getMentoredPools(userId: string): Promise<string[]> {
+  const supabase = await createClient();
+  const { data, error } = await supabase.from("profiles").select("mentored_pools").eq("id", userId).maybeSingle();
+  if (error) return [];
+  return ((data as { mentored_pools?: string[] | null } | null)?.mentored_pools ?? []).filter(Boolean);
+}
+
+/** Tentativas de vários jogadores de uma vez, agrupadas por jogador. */
+export async function getAttemptsByUser(userIds: string[], sinceIso?: string): Promise<Map<string, Attempt[]>> {
+  const result = new Map<string, Attempt[]>(userIds.map((id) => [id, []]));
+  if (userIds.length === 0) return result;
+  const supabase = await createClient();
+  const pageSize = 1000;
+  for (let i = 0; i < userIds.length; i += 50) {
+    const ids = userIds.slice(i, i + 50);
+    for (let from = 0; from < 200_000; from += pageSize) {
+      let query = supabase
+        .from("attempts")
+        .select("user_id, data")
+        .in("user_id", ids)
+        .order("id", { ascending: true })
+        .range(from, from + pageSize - 1);
+      if (sinceIso) query = query.gte("created_at", sinceIso);
+      const { data, error } = await query;
+      if (error) throw new Error(error.message);
+      for (const row of data as { user_id: string; data: Attempt }[]) result.get(row.user_id)?.push(row.data);
+      if (data.length < pageSize) break;
+    }
+  }
+  return result;
+}
+
 export async function listStandards(): Promise<StatStandard[]> {
   const supabase = await createClient();
   const { data, error } = await supabase.from("stat_standards").select("id, data");

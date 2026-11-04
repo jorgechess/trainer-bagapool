@@ -801,6 +801,24 @@ async function main() {
     assert.notEqual(resetPassword, anaPassword);
     log("mentora troca a senha provisória e gerencia só os jogadores da própria pool");
 
+    // Desempenho: a mentora escolhe as pools que mentora e vê a pool e cada jogador
+    await page.goto(`${BASE_URL}/desempenho?visao=pools`);
+    await page.getByTestId("minhas-pools").waitFor();
+    await page.getByTestId("pool-opcao").filter({ hasText: "Pool A" }).click();
+    await page.getByRole("button", { name: "Salvar pools" }).click();
+    await page.getByTestId("pool-desempenho").first().waitFor();
+    await page.getByTestId("pool-jogador").filter({ hasText: "Ana" }).first().waitFor();
+    await shot(page, "desempenho-pools");
+    await page.goto(`${BASE_URL}/desempenho`);
+    await page.getByTestId("pool-desempenho").first().waitFor({ timeout: 10000 });
+    await page.getByTestId("pool-jogador").getByRole("link", { name: /Ana/ }).first().click();
+    await page.waitForURL(/visao=jogador&jogador=/);
+    await page.getByText("Nenhum treino neste período.").or(page.getByTestId("drill-report").first()).first().waitFor();
+    log("mentora escolhe as pools que mentora e abre um jogador pelo desempenho da pool");
+    await page.goto(`${BASE_URL}/plano`);
+    await page.getByTestId("acrescentar-drill-plano").waitFor();
+    log("mentora pode mexer nos drills do próprio plano (warmup)");
+
     // 12. Jogadora entra pelo nick com a senha provisória, troca, e não acessa telas de gestão
     await page.getByRole("button", { name: "Sair" }).click();
     await page.waitForURL(/\/login/);
@@ -826,6 +844,9 @@ async function main() {
     await page.waitForURL(`${BASE_URL}/`);
     await page.goto(`${BASE_URL}/desempenho`);
     assert.equal(await page.getByText("Jorge Admin").count(), 0, "jogadora não vê o admin no seletor");
+    await page.goto(`${BASE_URL}/plano`);
+    await page.getByRole("heading", { name: /Plano/i }).first().waitFor();
+    assert.equal(await page.getByTestId("acrescentar-drill-plano").count(), 0, "jogadora não mexe nos drills do plano");
     await page.goto(`${BASE_URL}/aquecimento`);
     await page.getByTestId("warmup-sem-plano").waitFor();
     log("jogadora entra pelo nick, troca a senha provisória e não acessa a gestão");

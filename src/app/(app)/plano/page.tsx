@@ -12,7 +12,7 @@ import {
 } from "@/lib/data";
 import { currentMonth, formatPercent, monthLabel, monthStartIso } from "@/lib/format";
 import { AddPlanDrillForm, RemovePlanDrillButton } from "@/components/PlanDrillEditor";
-import { canManageContent, canManagePlayer, canViewPerformance } from "@/lib/poker/permissions";
+import { canEditPlanDrills, canManageContent, canViewPerformance } from "@/lib/poker/permissions";
 import { STATUS_LABELS, evaluateStat, planGoals, planProgress } from "@/lib/poker/plan";
 
 function recentMonths(count: number): string[] {
@@ -42,8 +42,8 @@ export default async function PlanPage({
   const visible = profiles.filter((p) => p.active && canViewPerformance(viewer, p));
   const target = visible.find((p) => p.id === params.jogador) ?? viewer;
   const canEdit = target.id === viewer.id || canManageContent(viewer.role);
-  // Acrescentar/tirar drills do plano: admins (e o mentor da pool do jogador)
-  const canEditDrills = viewer.role === "admin" || canManagePlayer(viewer, target);
+  // Acrescentar/tirar drills do plano: admin, mentor da pool do jogador e o próprio perfil (menos jogador)
+  const canEditDrills = canEditPlanDrills(viewer, target);
   const nextMonth = new Date(Date.UTC(Number(month.slice(0, 4)), Number(month.slice(5, 7)), 1));
   const monthEnd = nextMonth.toISOString().slice(0, 7);
   const [saved, attempts] = await Promise.all([getPlan(target.id, month), getAttempts(target.id, monthStartIso(month))]);

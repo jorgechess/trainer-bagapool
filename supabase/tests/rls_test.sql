@@ -120,10 +120,25 @@ set request.jwt.claim.sub = '10000000-0000-0000-0000-000000000007';
 do $$ begin
   assert (select count(*) from public.attempts) = 4, 'mentor vê as tentativas de todos';
 end $$;
+-- Mentor escolhe as pools que acompanha (só a própria lista; ids que não são pools são ignorados)
+select public.set_my_mentored_pools(array['00000000-0000-0000-0000-0000000000b2', '00000000-0000-0000-0000-0000000000ff']::uuid[]);
+do $$ begin
+  assert (select mentored_pools from public.profiles where id = '10000000-0000-0000-0000-000000000007')
+    = array['00000000-0000-0000-0000-0000000000b2']::uuid[], 'mentor salvou as pools que acompanha';
+  assert (select count(*) from public.profiles where mentored_pools <> '{}') = 1, 'só o perfil do mentor mudou';
+end $$;
 
 -- Admin de drills cria drills mas não vê o desempenho de todos
 set request.jwt.claim.sub = '10000000-0000-0000-0000-000000000008';
 insert into public.drills (id, name, data) values ('d-adm', 'Drill do admin de drills', '{}');
+do $$ begin
+  begin
+    perform public.set_my_mentored_pools(array['00000000-0000-0000-0000-0000000000b2']::uuid[]);
+    raise exception 'FALHA: admin de drills escolheu pools';
+  exception when raise_exception then
+    if sqlerrm like 'FALHA%' then raise; end if;
+  end;
+end $$;
 do $$ begin
   assert (select count(*) from public.attempts) = 0, 'admin de drills sem pool não vê tentativas de outros';
 end $$;

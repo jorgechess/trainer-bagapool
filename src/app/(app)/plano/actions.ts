@@ -4,7 +4,7 @@ import { revalidatePath } from "next/cache";
 import { z } from "zod";
 import { getPlan, getPlanConfig, listDrills, listProfiles, listStandards, requireProfile } from "@/lib/data";
 import type { ActionResult } from "@/lib/format";
-import { canManageContent, canManagePlayer } from "@/lib/poker/permissions";
+import { canEditPlanDrills, canManageContent } from "@/lib/poker/permissions";
 import { type MonthlyPlan, addPlanDrill, buildMonthlyPlan, removePlanDrill } from "@/lib/poker/plan";
 import { createClient } from "@/lib/supabase/server";
 
@@ -49,7 +49,7 @@ const editSchema = z.object({
   targetDecisions: z.coerce.number().int().min(10).max(5000).optional(),
 });
 
-/** Admin (ou o mentor da pool do jogador) acrescenta ou tira um drill do plano do mês. */
+/** Acrescenta ou tira um drill do plano do mês (admin, mentor da pool ou o próprio perfil, se não for jogador). */
 export async function editPlanDrill(
   input: z.input<typeof editSchema>,
   operation: "add" | "remove",
@@ -59,8 +59,8 @@ export async function editPlanDrill(
   if (!parsed.success) return { ok: false, error: "Dados inválidos." };
   const { userId, month, drillId, targetDecisions } = parsed.data;
   const target = (await listProfiles()).find((p) => p.id === userId);
-  if (!target || !(me.role === "admin" || canManagePlayer(me, target)))
-    return { ok: false, error: "Só admins podem mudar os drills do plano." };
+  if (!target || !canEditPlanDrills(me, target))
+    return { ok: false, error: "Sem permissão para mudar os drills deste plano." };
   if (operation === "add" && !(await listDrills()).some((d) => d.id === drillId))
     return { ok: false, error: "Drill não encontrado." };
   const saved = await getPlan(userId, month);

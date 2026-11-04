@@ -225,6 +225,17 @@ test("permissões de acesso: mentor só gerencia jogadores da própria pool; nic
   assert.equal(passwordProblem("boaSenha123"), null);
 });
 
+test("plano do mês: todo perfil que não é jogador edita o próprio; mentor edita os da pool", async () => {
+  const { canEditPlanDrills } = await import("../permissions");
+  for (const role of ["coach", "admin_drills", "mentor"] as const)
+    assert.equal(canEditPlanDrills({ id: "u", role, poolId: null }, { id: "u", role, poolId: null }), true, role);
+  assert.equal(canEditPlanDrills({ id: "j", role: "jogador", poolId: "p1" }, { id: "j", role: "jogador", poolId: "p1" }), false);
+  assert.equal(canEditPlanDrills({ id: "c", role: "coach", poolId: "p1" }, { id: "j", role: "jogador", poolId: "p1" }), false);
+  const mentor = { id: "m", role: "mentor" as const, poolId: "p1" };
+  assert.equal(canEditPlanDrills(mentor, { id: "j", role: "jogador", poolId: "p1" }), true);
+  assert.equal(canEditPlanDrills({ id: "x", role: "admin", poolId: null }, { id: "j", role: "jogador", poolId: "p2" }), true);
+});
+
 test("plano: admin acrescenta e tira drills", async () => {
   const { addPlanDrill, removePlanDrill, planGoals } = await import("../plan");
   const base = {

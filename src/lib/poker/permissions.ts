@@ -58,3 +58,13 @@ export function canViewPerformance(viewer: Member, target: Member): boolean {
   if (canViewAllPerformance(viewer.role)) return true;
   return viewer.poolId !== null && viewer.poolId === target.poolId;
 }
+
+/**
+ * Acrescentar ou tirar drills do plano do mês (é o que alimenta o warmup):
+ * admin para todos, mentor para os jogadores da própria pool e qualquer perfil que não seja jogador no próprio plano.
+ */
+export function canEditPlanDrills(viewer: Member, target: Member): boolean {
+  if (viewer.role === "admin") return true;
+  if (viewer.id === target.id) return viewer.role !== "jogador";
+  return canManagePlayer(viewer, target);
+}

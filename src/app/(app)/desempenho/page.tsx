@@ -1,10 +1,12 @@
 import Link from "next/link";
 import { AutoSubmitSelect } from "@/components/AutoSubmitSelect";
 import { PoolChip } from "@/components/PoolBadge";
-import { getAttempts, listDrills, listPools, listProfiles, requireProfile } from "@/lib/data";
+import { MentoredPoolsEditor } from "@/components/MentoredPoolsEditor";
+import { getAttempts, getAttemptsByUser, getMentoredPools, listDrills, listPools, listProfiles, requireProfile } from "@/lib/data";
 import { currentMonth, formatPercent, monthStartIso } from "@/lib/format";
 import { overallAccuracy, reportByDrill } from "@/lib/poker/leaks";
-import { canViewPerformance } from "@/lib/poker/permissions";
+import { canViewAllPerformance, canViewPerformance } from "@/lib/poker/permissions";
+import { type PoolSummary, poolSummary } from "@/lib/poker/pool-report";
 
 const PERIODS = {
   mes: "Este mês",
@@ -30,33 +32,122 @@ function formatDate(iso: string): string {
 export default async function PerformancePage({
   searchParams,
 }: {
-  searchParams: Promise<{ jogador?: string; periodo?: string }>;
+  searchParams: Promise<{ jogador?: string; periodo?: string; visao?: string }>;
 }) {
   const viewer = await requireProfile();
   const params = await searchParams;
-  const [profiles, pools, drills] = await Promise.all([listProfiles(), listPools(), listDrills()]);
+  const canPools = canViewAllPerformance(viewer.role);
+  const [profiles, pools, drills, mentored] = await Promise.all([
+    listProfiles(),
+    listPools(),
+    listDrills(),
+    canPools ? getMentoredPools(viewer.id) : Promise.resolve([] as string[]),
+  ]);
+  const period: Period = params.periodo && params.periodo in PERIODS ? (params.periodo as Period) : "mes";
+  const drillById = new Map(drills.map((d) => [d.id, d]));
+  const view =
+    canPools && (params.visao === "pools" || (!params.visao && !params.jogador && mentored.length > 0)) ? "pools" : "jogador";
+
+  const header = (
+    <div className="flex flex-wrap items-end justify-between gap-3">
+      <div>
+        <h1 className="page-title">Desempenho</h1>
+        <p className="muted">
+          {view === "pools"
+            ? "Visão das pools que você mentora: acerto da pool, drills e cada jogador."
+            : "Resultado de cada drill: acerto, posições e as mãos que mais erra."}
+        </p>
+      </div>
+      {canPools && (
+        <nav className="flex gap-1 rounded-lg border border-zinc-800 bg-black/40 p-1 text-sm" data-testid="visao-desempenho">
+          {(
+            [
+              ["pools", "Minhas pools"],
+              ["jogador", "Individual"],
+            ] as const
+          ).map(([value, label]) => (
+            <Link
+              key={value}
+              href={`/desempenho?visao=${value}&periodo=${period}`}
+              className={`rounded-md px-3 py-1.5 ${view === value ? "bg-baga-red text-white" : "text-zinc-400 hover:text-zinc-100"}`}
+            >
+              {label}
+            </Link>
+          ))}
+        </nav>
+      )}
+    </div>
+  );
+
+  const periodSelect = (
+    <div className="min-w-40">
+      <label className="label">Período</label>
+      <AutoSubmitSelect name="periodo" defaultValue={period}>
+        {Object.entries(PERIODS).map(([value, label]) => (
+          <option key={value} value={value}>
+            {label}
+          </option>
+        ))}
+      </AutoSubmitSelect>
+    </div>
+  );
+
+  if (view === "pools") {
+    const members = profiles.filter((p) => p.active && p.poolId !== null && mentored.includes(p.poolId));
+    const attemptsByUser = await getAttemptsByUser(
+      members.map((p) => p.id),
+      sinceFor(period),
+    );
+    const summaries = mentored
+      .filter((id) => pools.some((p) => p.id === id))
+      .map((id) => poolSummary(id, members, attemptsByUser));
+    return (
+      <div className="space-y-6">
+        {header}
+        <form className="card flex flex-wrap items-end gap-3" method="get">
+          <input type="hidden" name="visao" value="pools" />
+          {periodSelect}
+          <noscript>
+            <button className="btn-secondary">Ver</button>
+          </noscript>
+        </form>
+        <MentoredPoolsEditor pools={pools} selected={mentored} />
+        {summaries.map((s) => (
+          <PoolSection
+            key={s.poolId}
+            summary={s}
+            pool={pools.find((p) => p.id === s.poolId)!}
+            drillName={(id) => drillById.get(id)?.name ?? "Drill arquivado"}
+            period={period}
+          />
+        ))}
+      </div>
+    );
+  }
+
   const visible = profiles.filter((p) => p.active && canViewPerformance(viewer, p));
   const target = visible.find((p) => p.id === params.jogador) ?? viewer;
-  const period: Period = params.periodo && params.periodo in PERIODS ? (params.periodo as Period) : "mes";
   const attempts = await getAttempts(target.id, sinceFor(period));
   const overall = overallAccuracy(attempts);
   const report = reportByDrill(attempts);
-  const drillById = new Map(drills.map((d) => [d.id, d]));
   const poolName = new Map(pools.map((p) => [p.id, p.name]));
+  // Quem é das pools que o mentor acompanha aparece primeiro no seletor
+  const ordered = [...visible].sort(
+    (a, b) =>
+      Number(b.poolId !== null && mentored.includes(b.poolId)) - Number(a.poolId !== null && mentored.includes(a.poolId)),
+  );
 
   return (
     <div className="space-y-6">
-      <div>
-        <h1 className="page-title">Desempenho</h1>
-        <p className="muted">Resultado de cada drill: acerto, posições e as mãos que mais erra.</p>
-      </div>
+      {header}
 
       <form className="card flex flex-wrap items-end gap-3" method="get">
+        <input type="hidden" name="visao" value="jogador" />
         {visible.length > 1 && (
           <div className="min-w-48 flex-1">
             <label className="label">Jogador</label>
             <AutoSubmitSelect name="jogador" defaultValue={target.id}>
-              {visible.map((p) => (
+              {ordered.map((p) => (
                 <option key={p.id} value={p.id}>
                   {p.name}
                   {p.poolId ? ` · ${poolName.get(p.poolId) ?? ""}` : ""}
@@ -65,16 +156,7 @@ export default async function PerformancePage({
             </AutoSubmitSelect>
           </div>
         )}
-        <div className="min-w-40">
-          <label className="label">Período</label>
-          <AutoSubmitSelect name="periodo" defaultValue={period}>
-            {Object.entries(PERIODS).map(([value, label]) => (
-              <option key={value} value={value}>
-                {label}
-              </option>
-            ))}
-          </AutoSubmitSelect>
-        </div>
+        {periodSelect}
         <noscript>
           <button className="btn-secondary">Ver</button>
         </noscript>
@@ -179,5 +261,109 @@ export default async function PerformancePage({
         })}
       </div>
     </div>
+  );
+}
+
+function PoolSection({
+  summary,
+  pool,
+  drillName,
+  period,
+}: {
+  summary: PoolSummary;
+  pool: { id: string; name: string; color: string; logo: string | null };
+  drillName: (id: string) => string;
+  period: Period;
+}) {
+  return (
+    <section className="card space-y-5" data-testid="pool-desempenho">
+      <div className="flex flex-wrap items-center gap-x-8 gap-y-3">
+        <div className="min-w-40 flex-1">
+          <PoolChip pool={pool} />
+        </div>
+        <div>
+          <p className="label">Jogadores</p>
+          <p className="text-2xl font-semibold">{summary.players}</p>
+        </div>
+        <div>
+          <p className="label">Treinaram</p>
+          <p className="text-2xl font-semibold">{summary.active}</p>
+        </div>
+        <div>
+          <p className="label">Decisões</p>
+          <p className="text-2xl font-semibold">{summary.total}</p>
+        </div>
+        <div>
+          <p className="label">Acerto da pool</p>
+          <p className="text-2xl font-semibold">{summary.total ? formatPercent(summary.accuracy, 1) : "—"}</p>
+        </div>
+      </div>
+
+      <div className="grid gap-6 xl:grid-cols-2">
+        <div>
+          <p className="label">Jogadores</p>
+          {summary.ranking.length === 0 ? (
+            <p className="muted text-sm">Nenhum jogador nesta pool.</p>
+          ) : (
+            <table className="w-full text-sm">
+              <thead className="text-left text-xs text-zinc-500 uppercase">
+                <tr>
+                  <th className="pb-1 font-medium">Jogador</th>
+                  <th className="pb-1 text-right font-medium">Decisões</th>
+                  <th className="pb-1 text-right font-medium">Drills</th>
+                  <th className="pb-1 text-right font-medium">Acerto</th>
+                  <th className="pb-1 text-right font-medium">Último</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-zinc-800">
+                {summary.ranking.map((r) => (
+                  <tr key={r.id} data-testid="pool-jogador">
+                    <td className="py-1.5 pr-2">
+                      <Link
+                        href={`/desempenho?visao=jogador&jogador=${r.id}&periodo=${period}`}
+                        className="hover:underline"
+                      >
+                        {r.name}
+                      </Link>
+                    </td>
+                    <td className="py-1.5 pr-2 text-right text-zinc-400">{r.total}</td>
+                    <td className="py-1.5 pr-2 text-right text-zinc-400">{r.drills}</td>
+                    <td className="py-1.5 pr-2 text-right">{r.total ? formatPercent(r.accuracy, 1) : "—"}</td>
+                    <td className="py-1.5 text-right text-zinc-500">{r.lastAt ? formatDate(r.lastAt) : "—"}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          )}
+        </div>
+        <div>
+          <p className="label">Drills da pool (pior acerto primeiro)</p>
+          {summary.drills.length === 0 ? (
+            <p className="muted text-sm">Nenhum treino neste período.</p>
+          ) : (
+            <table className="w-full text-sm">
+              <thead className="text-left text-xs text-zinc-500 uppercase">
+                <tr>
+                  <th className="pb-1 font-medium">Drill</th>
+                  <th className="pb-1 text-right font-medium">Jogadores</th>
+                  <th className="pb-1 text-right font-medium">Decisões</th>
+                  <th className="pb-1 text-right font-medium">Acerto</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-zinc-800">
+                {summary.drills.map((d) => (
+                  <tr key={d.drillId}>
+                    <td className="py-1.5 pr-2">{drillName(d.drillId)}</td>
+                    <td className="py-1.5 pr-2 text-right text-zinc-400">{d.players}</td>
+                    <td className="py-1.5 pr-2 text-right text-zinc-400">{d.total}</td>
+                    <td className="py-1.5 text-right">{formatPercent(d.accuracy, 1)}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          )}
+        </div>
+      </div>
+    </section>
   );
 }
