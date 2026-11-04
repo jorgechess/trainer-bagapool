@@ -1,0 +1,128 @@
+{
+  "legendAdd": [
+    {
+      "id": "bet-25",
+      "label": "Bet 25%",
+      "color": "#fbbf24",
+      "kind": "bet",
+      "sizing": "25%"
+    },
+    {
+      "id": "bet-67",
+      "label": "Bet 67%",
+      "color": "#dc2626",
+      "kind": "bet",
+      "sizing": "67%"
+    },
+    {
+      "id": "bet-1bb",
+      "label": "Stab 1bb",
+      "color": "#14b8a6",
+      "kind": "bet",
+      "sizing": "1bb"
+    }
+  ],
+  "strategies": [
+    {
+      "id": "bw-sb-pos-rc",
+      "name": "BW SB pós · raise/call",
+      "description": "Blind war 30bb: você deu raise do SB e o BB pagou. Você age primeiro no flop.",
+      "street": "flop",
+      "situation": "BW SB pós RC",
+      "heroPosition": "SB",
+      "villainPosition": "BB",
+      "stack": {
+        "min": 30,
+        "max": 30
+      },
+      "ratio": null,
+      "bubble": null,
+      "tags": [
+        "bw",
+        "blind-war",
+        "posflop",
+        "mes"
+      ],
+      "actionIds": [
+        "check",
+        "bet-25",
+        "bet-67"
+      ],
+      "defaultActionId": "check",
+      "tablePot": 7.5,
+      "villainCoversHero": true,
+      "cbet": {
+        "table": "bw-sb",
+        "node": "rc"
+      },
+      "dealFrom": {
+        "strategy": "rfi-sb-chipev-25bb",
+        "actionIds": [
+          "rfi"
+        ]
+      }
+    },
+    {
+      "id": "bw-sb-pos-lx",
+      "name": "BW SB pós · limp/check",
+      "description": "Blind war 30bb: você completou do SB e o BB deu check. Você age primeiro no flop (stab).",
+      "street": "flop",
+      "situation": "BW SB pós LX",
+      "heroPosition": "SB",
+      "villainPosition": "BB",
+      "stack": {
+        "min": 30,
+        "max": 30
+      },
+      "ratio": null,
+      "bubble": null,
+      "tags": [
+        "bw",
+        "blind-war",
+        "posflop",
+        "mes"
+      ],
+      "actionIds": [
+        "check",
+        "bet-1bb"
+      ],
+      "defaultActionId": "check",
+      "tablePot": 3.5,
+      "villainCoversHero": true,
+      "cbet": {
+        "table": "bw-sb",
+        "node": "lx"
+      },
+      "dealFrom": {
+        "strategy": "rfi-sb-chipev-25bb",
+        "actionIds": [
+          "limp"
+        ]
+      }
+    }
+  ],
+  "drills": [
+    {
+      "id": "bw-sb-pos",
+      "name": "BW SB pós",
+      "description": "Aula 17 (bw-sb-pós), 30bb: SB vs BB no flop, primeiro a agir. Raise/call: check, bet 25% ou bet 67% pelo guide simplificado. Limp/check: check ou stab de 1bb. Nos boards de split, a mão decide pela tabela da aula.",
+      "variants": [
+        [
+          "bw-sb-pos-rc"
+        ],
+        [
+          "bw-sb-pos-lx"
+        ]
+      ],
+      "sampling": "uniforme",
+      "tags": [
+        "bw",
+        "blind-war",
+        "posflop",
+        "mes"
+      ],
+      "handsPerSession": 50,
+      "passAccuracy": 0.9
+    }
+  ]
+}

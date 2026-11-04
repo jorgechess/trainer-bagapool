@@ -79,3 +79,63 @@ test("split 9-high- (X_B40): trinca/nuts check, pares médios check, naipe no re
   assert.equal(act("25-50", "2c3d", "AsQh9d"), "bet-40");
   assert.equal(act("15", "2c3d", "AsQh9d"), "bet-25");
 });
+
+test("BW SB pós (aula 17): guide do flop em raise/call e limp/check", async () => {
+  const { bwFlopRule } = await import("../cbet");
+  const rule = (b: string, node: "rc" | "lx" = "rc") => {
+    const r = bwFlopRule(c(b), node)!;
+    return `${r.mode}:${r.size}`;
+  };
+  // RC
+  assert.equal(rule("As8c3h"), "range:bet-25"); // Axx
+  assert.equal(rule("8s8h4d"), "range:bet-25"); // pareado
+  assert.equal(rule("Js7s3s"), "range:bet-25"); // mono
+  assert.equal(rule("Kc8h3d"), "split:bet-25"); // HMLr desconectado
+  assert.equal(rule("Kc8h3h"), "split:bet-67"); // HMLfd
+  assert.equal(rule("Qc4h3d"), "split:bet-25"); // HLL
+  assert.equal(rule("9c5h2d"), "split:bet-25"); // MLLr desconectado
+  assert.equal(rule("9c3h2d"), "split:bet-67"); // MLL conectado
+  assert.equal(rule("KsQd8c"), "split:bet-67"); // HHM
+  assert.equal(rule("7s6h5d"), "split:bet-67"); // sequência
+  assert.equal(rule("AsKdQc"), "split:bet-67"); // AHH com sequência
+  assert.equal(rule("4s3h2d"), "split:bet-67"); // LLL
+  // LX (stab 1bb)
+  assert.equal(rule("As8c3h", "lx"), "range:bet-1bb");
+  assert.equal(rule("Kc8h3d", "lx"), "range:bet-1bb"); // K83: figura desconectada
+  assert.equal(rule("6s6h2d", "lx"), "range:bet-1bb"); // dobrado
+  assert.equal(rule("Js7s3s", "lx"), "split:bet-1bb"); // mono
+  assert.equal(rule("Kc9h7d", "lx"), "split:bet-1bb"); // K97 conectado
+  assert.equal(rule("Qc6h5h", "lx"), "split:bet-1bb"); // Q65fd
+  assert.equal(rule("Qc4h3d", "lx"), "split:bet-1bb"); // Q43
+  assert.equal(rule("9c3h2d", "lx"), "split:bet-1bb"); // 932
+});
+
+test("BW SB pós: tabela do split por mão", () => {
+  const bw = (hero: string, board: string, node: "rc" | "lx" = "rc") =>
+    cbetAnswer({ table: "bw-sb", node }, c(hero), c(board))?.action;
+  // KQ8r (split polar B67)
+  assert.equal(bw("Kc8d", "KsQd8c"), "check"); // dois pares: check 100%
+  assert.equal(bw("AcAd", "KsQd8c"), "check"); // AA protege o check
+  assert.equal(bw("KcAd", "KsQd8c"), "bet-67"); // top pair kicker bom
+  assert.equal(bw("Kc5d", "KsQd8c"), "check"); // kicker baixo
+  assert.equal(bw("Qc9d", "KsQd8c"), "check"); // segundo par em board HH
+  assert.equal(bw("Jd9d", "KsQd8c"), "bet-67"); // OESD com naipe (backdoor de ouros)
+  assert.equal(bw("Jh9c", "KsQd8c"), "check"); // OESD sem naipe
+  // Kc8h3h (HMLfd, split polar)
+  assert.equal(bw("QhJh", "Kc8h3h"), "bet-67"); // flush draw sem par
+  assert.equal(bw("8d8s", "Kc8h3h"), "check"); // set
+  assert.equal(bw("Ah5h", "Kc8h3h"), "bet-67"); // flush draw
+  assert.equal(bw("Ah3h", "Kc8h3h"), "check"); // flush draw com par
+  assert.equal(bw("Jh6c", "Kc8h3h"), "bet-67"); // trash com naipe na carta alta
+  assert.equal(bw("Jc6h", "Kc8h3h"), "check"); // naipe na carta baixa
+  assert.equal(bw("Ac8d", "Kc8h3h"), "bet-67"); // segundo par com top kicker
+  assert.equal(bw("9c8d", "Kc8h3h"), "check");
+  // Kc8h3d (HMLr, split misto B25)
+  assert.equal(bw("Qh9c", "Kc8h3d"), "bet-25"); // trash com os dois naipes do board
+  assert.equal(bw("Qs9s", "Kc8h3d"), "check"); // naipe fora do board
+  assert.equal(bw("2c2d", "Kc8h3d"), "check"); // par baixo sem naipe
+  // range
+  assert.equal(bw("2c7d", "As8c3h"), "bet-25");
+  assert.equal(bw("2c7d", "As8c3h", "lx"), "bet-1bb");
+  assert.equal(bw("KcAd", "KsQd8c", "lx"), "bet-1bb"); // LX split usa a mesma tabela
+});

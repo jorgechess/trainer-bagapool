@@ -53,7 +53,7 @@ export interface ImportStrategy {
   callers?: string[] | null;
   villainLabel?: string | null;
   tablePosted?: { hero?: number; villain?: number } | null;
-  cbet?: { table: "mes-ip-vs-bb"; band: "25-50" | "15" } | null;
+  cbet?: import("./cbet").CbetSpec | null;
   tablePot?: number | null;
   openType?: "linear" | "polar" | null;
   pko?: { coverage: "cobrindo" | "coberto"; bounty?: string; heroStack?: number; villainStack?: number } | null;

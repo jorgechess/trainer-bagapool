@@ -17,6 +17,7 @@ import defesaBbVanillaMultiway from "../../cargas/defesa-bb-vanilla-multiway.jso
 import rfiSbChipEv from "../../cargas/rfi-sb-chip-ev.json";
 import bwSbMlr from "../../cargas/bw-sb-mlr.json";
 import bwBb from "../../cargas/bw-bb.json";
+import bwSbPos from "../../cargas/bw-sb-pos.json";
 import cbetFlopIp from "../../cargas/cbet-flop-ip.json";
 
 export interface Carga {
@@ -170,5 +171,12 @@ export const CARGAS: Carga[] = [
     description: "Posflop Attack: cbet do CO/BTN vs BB pela estratégia MES (25–50bb e 15bb 3:1), com boards variados por classe.",
     requires: ["rfi-30bb-vanilla", "rfi-max-late-reg-vanilla"],
     bundle: cbetFlopIp,
+  },
+  {
+    id: "bw-sb-pos",
+    name: "BW SB pós",
+    description: "Blind War pós-flop (aula 17): SB vs BB 30bb, flop depois de raise/call (check, B25, B67) e de limp/check (check, stab 1bb).",
+    requires: ["rfi-sb-chip-ev"],
+    bundle: bwSbPos,
   },
 ];

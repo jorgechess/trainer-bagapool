@@ -15,7 +15,7 @@ export const DRILL_SECTIONS = [
 export type DrillSectionId = (typeof DRILL_SECTIONS)[number]["id"];
 
 /**
- * Pós-flop: qualquer decisão depois do pré-flop. BW (tag "bw") vale para PKO e vanilla.
+ * BW (tag "bw") vale para PKO, vanilla e pós-flop; depois Pós-flop (qualquer decisão depois do pré-flop).
  * Depois PKO (tag "pko") e vanilla (tag "vanilla"); o resto fica em Outros.
  */
 export function drillSection(drill: Drill, strategies: ReadonlyMap<string, Strategy>): DrillSectionId {
@@ -25,8 +25,8 @@ export function drillSection(drill: Drill, strategies: ReadonlyMap<string, Strat
   const tags = new Set([...drill.tags, ...used.flatMap((s) => s.tags)].map((t) => t.toLowerCase()));
   if (tags.has("posflop-attack")) return "posflop-attack";
   if (tags.has("posflop-defense")) return "posflop-defense";
-  if (used.some((s) => s.street !== "preflop")) return "pos-flop";
   if (tags.has("bw")) return "bw";
+  if (used.some((s) => s.street !== "preflop")) return "pos-flop";
   if (tags.has("pko") || used.some((s) => s.pko)) return "pko";
   if (tags.has("vanilla")) return "vanilla";
   return "outros";

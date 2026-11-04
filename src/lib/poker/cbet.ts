@@ -7,13 +7,21 @@ import { type Card, type Rank, cardRank, cardSuit, rankValue } from "./cards";
 import { flopTexture } from "./texture";
 
 export type CbetBand = "25-50" | "15";
-export interface CbetSpec {
-  /** Tabela MES usada (por enquanto só a do cbet IP vs BB). */
-  table: "mes-ip-vs-bb";
-  band: CbetBand;
-}
+/** Nó da Blind War: RC = SB deu raise e o BB pagou; LX = SB completou e o BB deu check. */
+export type BwNode = "rc" | "lx";
+export type CbetSpec =
+  | {
+      /** Cbet IP vs BB (aula 05). */
+      table: "mes-ip-vs-bb";
+      band: CbetBand;
+    }
+  | {
+      /** BW SB pós (aula 17): o SB age primeiro no flop. */
+      table: "bw-sb";
+      node: BwNode;
+    };
 
-type Size = "bet-25" | "bet-40";
+type Size = "bet-25" | "bet-40" | "bet-67" | "bet-1bb";
 export interface FlopRule {
   group: string;
   label: string;
@@ -21,7 +29,12 @@ export interface FlopRule {
   size: Size;
 }
 
-const SIZE_LABEL: Record<Size, string> = { "bet-25": "B25", "bet-40": "B40" };
+const SIZE_LABEL: Record<Size, string> = { "bet-25": "B25", "bet-40": "B40", "bet-67": "B67", "bet-1bb": "Stab 1bb" };
+
+/** Regra do flop para a tabela da estratégia; null = flop fora do drill. */
+export function flopRuleFor(spec: CbetSpec, flop: readonly Card[]): FlopRule | null {
+  return spec.table === "bw-sb" ? bwFlopRule(flop, spec.node) : mesFlopRule(flop, spec.band);
+}
 
 /** Classe do flop pela tabela MES; null = flop fora do drill (trinca no board ou par de Ás). */
 export function mesFlopRule(flop: readonly Card[], band: CbetBand): FlopRule | null {
@@ -207,13 +220,160 @@ export interface CbetAnswer {
 }
 
 export function cbetAnswer(spec: CbetSpec, hero: readonly Card[], board: readonly Card[]): CbetAnswer | null {
-  const rule = mesFlopRule(board, spec.band);
+  const rule = flopRuleFor(spec, board);
   if (!rule) return null;
   if (rule.mode === "range") return { action: rule.size, rule, hand: null };
-  const hand = readHand(hero, board);
+  const hand = spec.table === "bw-sb" ? readBwHand(hero, board) : readHand(hero, board);
   return { action: hand.bet ? rule.size : "check", rule, hand };
 }
 
 export function ruleSummary(rule: FlopRule): string {
-  return rule.mode === "range" ? `Range bet ${SIZE_LABEL[rule.size]}` : `Split X_${SIZE_LABEL[rule.size]}`;
+  const size = SIZE_LABEL[rule.size];
+  if (rule.size === "bet-1bb") return rule.mode === "range" ? "Stab range 1bb" : "Split X_Stab 1bb";
+  return rule.mode === "range" ? `Range bet ${size}` : `Split X_${size}`;
+}
+
+// ---------------------------------------------------------------------------
+// BW SB pós (aula 17 "bw-sb-pós"): SB vs BB, 30bb, o SB age primeiro no flop.
+
+/** Algum par de cartas do board a no máximo 2 de distância (ex.: 97, 65, 43). */
+function connected(bv: number[]): boolean {
+  const values = [...new Set(bv)].sort((a, b) => a - b);
+  for (let i = 1; i < values.length; i++) if (values[i] - values[i - 1] <= 2) return true;
+  return false;
+}
+
+/**
+ * Guide simplificado da aula.
+ * RC (raise/call): Axx, pareado e monotone são range B25; HMLr, HLL e MLLr desconectados são split misto B25;
+ * o resto (HHx, HMM, MMx, LLL, HML/MLL com flush draw, MLL conectado e qualquer board com sequência) é split polar B67.
+ * LX (limp/check, stab de 1bb pelo MDA contra o field): board pareado, Ás ou figura desconectada é stab range;
+ * monotone, conectado, sequência possível, HLL e board sem figura são split.
+ */
+export function bwFlopRule(flop: readonly Card[], node: BwNode): FlopRule | null {
+  const board = flop.slice(0, 3);
+  const texture = flopTexture(board);
+  if (texture.paired === "trinca") return null;
+  const bv = board.map((c) => value(cardRank(c)));
+  const sigla = texture.pattern.replaceAll("-", "");
+  const classes = texture.pattern.split("-");
+  const count = (c: string) => classes.filter((x) => x === c).length;
+  const straight = nutStraightTop(bv) > 0;
+  const conn = connected(bv);
+  const fd = texture.suits === "twotone";
+  const suitTag = texture.suits === "monotone" ? "mono" : fd ? "fd" : "r";
+
+  if (node === "lx") {
+    const stab = (group: string, label: string, mode: "range" | "split"): FlopRule => ({ group, label, mode, size: "bet-1bb" });
+    if (texture.paired === "pareado") return stab("lx-pareado", `Pareado (dobra ${texture.pairedClass})`, "range");
+    if (texture.suits === "monotone") return stab("lx-mono", `Monotone (${sigla})`, "split");
+    if (straight) return stab("lx-str8", `Sequência possível (${sigla}${suitTag})`, "split");
+    if (count("A") > 0) return stab("lx-a", `Ás no board (${sigla}${suitTag})`, "range");
+    if (count("H") + count("A") === 0) return stab("lx-baixo", `Sem figura (${sigla}${suitTag})`, "split");
+    if (conn) return stab("lx-conectado", `Conectado (${sigla}${suitTag})`, "split");
+    if (sigla === "HLL") return stab("lx-hll", `HLL${suitTag}`, "split");
+    return stab("lx-figura", `Figura desconectada (${sigla}${suitTag})`, "range");
+  }
+
+  const r25 = (group: string, label: string): FlopRule => ({ group, label, mode: "range", size: "bet-25" });
+  const misto = (label: string): FlopRule => ({ group: "rc-misto", label: `${label} · split misto`, mode: "split", size: "bet-25" });
+  const polar = (label: string): FlopRule => ({ group: "rc-polar", label: `${label} · split polar`, mode: "split", size: "bet-67" });
+  if (texture.paired === "pareado") return r25("rc-pareado", `Pareado (dobra ${texture.pairedClass})`);
+  if (texture.suits === "monotone") return r25("rc-mono", `Monotone (${sigla})`);
+  if (straight) return polar(`Sequência possível (${sigla}${suitTag})`);
+  if (count("A") > 0) return r25("rc-a", `Ás no board (${sigla}${suitTag})`);
+  if (sigla === "HLL") return misto(`HLL${suitTag}`);
+  if ((sigla === "HML" || sigla === "MLL") && !fd && !conn) return misto(`${sigla}r desconectado`);
+  return polar(`${sigla}${suitTag}${conn && !fd ? " conectado" : ""}`);
+}
+
+/** Tem backdoor de flush (3 do naipe com pelo menos uma carta do herói), sem já ter flush draw. */
+function backdoorSuit(hero: readonly Card[], board: readonly Card[]): boolean {
+  const all = [...hero, ...board].map(cardSuit);
+  return hero.some((c) => all.filter((s) => s === cardSuit(c)).length === 3);
+}
+
+/**
+ * Split da aula 17 (vale para RC e LX):
+ *  aposta — overpair (escada invertida: AA protege o check), top pair kicker T+, metade dos draws
+ *  (flush draw sem par; straight draw com naipe e sem par), 2º/3º par só com kicker A/K fora de HH/sequência,
+ *  par baixo com naipe e trash com naipe na carta alta;
+ *  check — dois pares ou melhor (100%), o resto.
+ */
+export function readBwHand(hero: readonly Card[], flop: readonly Card[]): HandRead {
+  const board = flop.slice(0, 3);
+  const hv = hero.map((c) => value(cardRank(c))).sort((a, b) => b - a);
+  const bv = board.map((c) => value(cardRank(c)));
+  const top = Math.max(...bv);
+  const low = Math.min(...bv);
+  const count = (v: number) => bv.filter((x) => x === v).length;
+  const pocket = hv[0] === hv[1];
+  const pairRank = bv.find((v) => count(v) === 2);
+  const highBoard = bv.filter((v) => v >= 10).length >= 2;
+  const straightBoard = nutStraightTop(bv) > 0;
+  const suits = [...hero, ...board].map(cardSuit);
+  const flushDraw = hero.some((c) => suits.filter((s) => s === cardSuit(c)).length === 4);
+  const flush = hero.some((c) => suits.filter((s) => s === cardSuit(c)).length >= 5);
+  const straight = straightTop([...hv, ...bv]) > 0;
+  const draws = straightOuts([...hv, ...bv]);
+  const boardOnly = straightOuts(bv);
+  const straightDraw = draws.outs.length >= 1 && boardOnly.outs.length < draws.outs.length;
+  const backdoor = backdoorSuit(hero, board);
+  const pairedCards = hv.filter((v) => count(v) >= 1);
+
+  // 2P+ : check 100% (protege a linha de check)
+  if (straight) return hand("Sequência", false, "Dois pares ou melhor: check 100% (protege o check).");
+  if (flush) return hand("Flush", false, "Dois pares ou melhor: check 100% (protege o check).");
+  if (pocket && count(hv[0]) >= 1) return hand("Set", false, "Dois pares ou melhor: check 100% (protege o check).");
+  if (!pocket && pairRank !== undefined && hv.includes(pairRank))
+    return hand("Trinca", false, "Dois pares ou melhor: check 100% (protege o check).");
+  if (!pocket && pairedCards.length === 2)
+    return hand("Dois pares", false, "Dois pares ou melhor: check 100% (protege o check).");
+
+  const hasPair = pocket || pairedCards.length > 0;
+  // Overpair: 75% bet, escada invertida (o AA é o mais protegido e dá check)
+  if (pocket && hv[0] > top)
+    return hv[0] === 14
+      ? hand("Overpair AA", false, "Escada invertida: o overpair mais protegido (AA) dá check.")
+      : hand("Overpair", true, "Escada invertida: os overpairs abaixo de AA apostam.");
+  // Top pair: 75% bet, escada de kicker
+  const single = pairedCards.find((v) => v !== pairRank);
+  if (!pocket && single !== undefined && single === top) {
+    const kicker = hv[0] === single ? hv[1] : hv[0];
+    return kicker >= 10
+      ? hand("Top pair, kicker bom", true, "Escada de kicker: top pair com kicker T+ aposta.")
+      : hand("Top pair, kicker baixo", false, "Escada de kicker: kicker baixo dá check.");
+  }
+  // Draws: metade aposta
+  if (flushDraw)
+    return hasPair
+      ? hand("Flush draw com par", false, "Draw com valor de showdown dá check.")
+      : hand("Flush draw", true, "Flush draw sem valor de showdown aposta.");
+  if (straightDraw && !hasPair)
+    return backdoor
+      ? hand(draws.outs.length >= 2 ? "OESD com naipe" : "Gutshot com naipe", true, "Straight draw com naipe e sem showdown aposta.")
+      : hand(draws.outs.length >= 2 ? "OESD sem naipe" : "Gutshot sem naipe", false, "Straight draw sem naipe dá check.");
+  // Pares médios e baixos: 25% bet
+  if (hasPair) {
+    if (pocket && hv[0] < low)
+      return backdoor
+        ? hand("Par baixo com naipe", true, "Par baixo aposta só com naipe.")
+        : hand("Par baixo sem naipe", false, "Par baixo sem naipe dá check.");
+    const kicker = pocket ? 0 : hv[0] === single || hv[0] === pairRank ? hv[1] : hv[0];
+    const label = pocket || (single !== undefined && [...new Set(bv)].filter((v) => v > single).length === 1) ? "Segundo par" : "Terceiro par";
+    if (highBoard || straightBoard) return hand(label, false, "Segundo/terceiro par: 0% de bet em board HH ou com sequência.");
+    return kicker >= 13
+      ? hand(`${label}, top kicker`, true, "Segundo/terceiro par aposta só com top kicker (A/K).")
+      : hand(label, false, "Segundo/terceiro par sem top kicker dá check.");
+  }
+  // Trash: 25% bet, com naipe na carta alta
+  const highCard = hero.find((c) => value(cardRank(c)) === hv[0])!;
+  const boardSuits = board.map(cardSuit);
+  const twoTone = new Set(boardSuits).size === 2;
+  const goodSuit = twoTone
+    ? boardSuits.filter((s) => s === cardSuit(highCard)).length === 2
+    : hero.every((c) => boardSuits.includes(cardSuit(c)));
+  return goodSuit
+    ? hand("Trash com naipe", true, twoTone ? "Trash aposta com o naipe do board na carta alta." : "Trash aposta com os dois naipes do board (não bloqueia os folds).")
+    : hand("Trash sem naipe", false, "Trash sem naipe bom dá check.");
 }

@@ -688,6 +688,22 @@ async function main() {
     await shot(page, "treino-cbet-flop-ip");
     log("Cbet flop IP: flop, pote simples e leitura MES");
 
+    // BW SB pós (Blind War): SB age primeiro no flop depois de raise/call (B25/B67) ou limp/check (stab 1bb)
+    await page.goto(`${BASE_URL}/drills`);
+    await page.getByTestId("secao-bw").getByText("BW SB pós").waitFor();
+    await page.goto(`${BASE_URL}/drills/bw-sb-pos/treinar`);
+    await page.getByTestId("board").waitFor();
+    assert.equal(await page.getByTestId("board").locator("> *").count(), 3, "flop com 3 cartas");
+    await page.getByText(/Pote: (7,5|3,5)bb/).waitFor();
+    await page.locator("[data-testid=actions]").getByRole("button", { name: "Check" }).waitFor();
+    await page.locator("[data-testid=actions] button").first().click();
+    await page
+      .getByTestId("cbet-leitura")
+      .getByText(/^(Range bet B25|Split X_B(25|67)|Stab range 1bb|Split X_Stab 1bb)$/i)
+      .waitFor();
+    await shot(page, "treino-bw-sb-pos");
+    log("BW SB pós: flop do SB com leitura do guide");
+
     // Warmup: botão no início, contagem 3-2-1-Go e treino de 15 minutos; decisões contam no drill de origem
     await page.goto(`${BASE_URL}/`);
     await page.getByTestId("warmup-button").click();

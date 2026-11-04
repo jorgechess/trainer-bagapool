@@ -1,5 +1,5 @@
 /** Estratégias do time: o range certo para cada spot. */
-import { type CbetSpec, cbetAnswer, mesFlopRule } from "./cbet";
+import { type CbetSpec, cbetAnswer, flopRuleFor } from "./cbet";
 import type { Card } from "./cards";
 import type { HandLabel } from "./hands";
 import { type Legend, findAction } from "./legend";
@@ -141,7 +141,7 @@ export interface Strategy {
 export function resolveRange(strategy: Strategy, board: readonly Card[]): Range | null {
   if (strategy.street === "preflop") return strategy.range;
   // Cbet por tabela: não há range fixo; vale se o flop entra na tabela
-  if (strategy.cbet) return mesFlopRule(board.slice(0, 3), strategy.cbet.band) ? {} : null;
+  if (strategy.cbet) return flopRuleFor(strategy.cbet, board.slice(0, 3)) ? {} : null;
   const visible = board.slice(0, BOARD_CARDS_BY_STREET[strategy.street]);
   if (visible.length < BOARD_CARDS_BY_STREET[strategy.street]) throw new Error("Board incompleto para a street");
   const texture = boardTexture(visible);
