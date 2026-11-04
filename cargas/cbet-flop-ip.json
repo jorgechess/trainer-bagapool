@@ -52,7 +52,8 @@
     "actionIds": [
      "rfi"
     ]
-   }
+   },
+   "villainCoversHero": true
   },
   {
    "id": "cbet-flop-ip-co-15",
@@ -93,7 +94,8 @@
     "actionIds": [
      "rfi"
     ]
-   }
+   },
+   "villainCoversHero": true
   },
   {
    "id": "cbet-flop-ip-btn-25-50",
@@ -131,7 +133,8 @@
     "actionIds": [
      "rfi"
     ]
-   }
+   },
+   "villainCoversHero": true
   },
   {
    "id": "cbet-flop-ip-btn-15",
@@ -172,7 +175,8 @@
     "actionIds": [
      "rfi"
     ]
-   }
+   },
+   "villainCoversHero": true
   }
  ],
  "drills": [
