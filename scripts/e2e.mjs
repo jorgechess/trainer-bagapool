@@ -659,6 +659,17 @@ async function main() {
     assert.ok(segundaDecisao, "alguma mão chega à decisão contra o shove/ISO");
     log("BW SB MLR: limp e decisão seguinte contra o BB");
 
+    // BW BB: filtro de situação e vs limp com check / ISO / all-in
+    await page.goto(`${BASE_URL}/drills/bw-bb/treinar`);
+    await page.getByRole("group", { name: "Situação" }).getByRole("button", { name: "vs limp", exact: true }).click();
+    await page.locator("[data-testid=actions] button").first().click();
+    await page.getByRole("button", { name: /Continuar/ }).click();
+    await page.getByTestId("spot").filter({ hasText: /^vs limp · BB · vs SB$/ }).waitFor();
+    await page.locator("[data-testid=actions]").getByRole("button", { name: "ISO" }).waitFor();
+    await page.getByText(/^Limp · /).waitFor();
+    await shot(page, "treino-bw-bb");
+    log("BW BB: vs limp com ISO e filtro de situação");
+
     // Warmup: botão no início, contagem 3-2-1-Go e treino de 15 minutos; decisões contam no drill de origem
     await page.goto(`${BASE_URL}/`);
     await page.getByTestId("warmup-button").click();

@@ -413,12 +413,23 @@ export function drillOpenTypes(drill: Drill, strategies: Map<string, Strategy>):
   return Object.values(OPEN_TYPE_LABELS).filter((l) => found.has(l));
 }
 
+/** Situações da primeira decisão do drill (ex.: "vs limp", "vs raise"). */
+export function drillSituations(drill: Drill, strategies: Map<string, Strategy>): string[] {
+  const found = new Set<string>();
+  for (const v of drillVariants(drill)) {
+    const s = strategies.get(v[0] ?? "");
+    if (s) found.add(s.situation);
+  }
+  return [...found];
+}
+
 export interface DrillFilter {
   positions?: readonly string[];
   contexts?: readonly string[];
   stacks?: readonly string[];
   coverages?: readonly string[];
   openTypes?: readonly string[];
+  situations?: readonly string[];
 }
 
 function variantMatches(strategy: Strategy | undefined, filter: DrillFilter): boolean {
@@ -428,6 +439,7 @@ function variantMatches(strategy: Strategy | undefined, filter: DrillFilter): bo
   if (filter.stacks?.length && !filter.stacks.includes(formatNumberRange(strategy.stack, "bb"))) return false;
   if (filter.coverages?.length && !filter.coverages.includes(coverageLabel(strategy) ?? "")) return false;
   if (filter.openTypes?.length && !filter.openTypes.includes(openTypeLabel(strategy) ?? "")) return false;
+  if (filter.situations?.length && !filter.situations.includes(strategy.situation)) return false;
   return true;
 }
 
@@ -436,7 +448,7 @@ function variantMatches(strategy: Strategy | undefined, filter: DrillFilter): bo
  * Não altera o drill original; filtros vazios ou combinação sem nenhuma variação = drill inteiro (`empty` avisa).
  */
 export function filterDrill(drill: Drill, strategies: Map<string, Strategy>, filter: DrillFilter): { drill: Drill; empty: boolean } {
-  if (!filter.positions?.length && !filter.contexts?.length && !filter.stacks?.length && !filter.coverages?.length && !filter.openTypes?.length)
+  if (!filter.positions?.length && !filter.contexts?.length && !filter.stacks?.length && !filter.coverages?.length && !filter.openTypes?.length && !filter.situations?.length)
     return { drill, empty: false };
   const kept = drillVariants(drill).filter((v) => variantMatches(strategies.get(v[0] ?? ""), filter));
   if (kept.length === 0) return { drill, empty: true };

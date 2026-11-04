@@ -469,3 +469,33 @@ test("carga BW SB MLR: abertura do SB e plano contra shove/ISO, com as porcentag
   assert.equal(iso.seats.find((s) => s.position === "BB")!.posted, 3);
   assert.ok(result.drills[0].variants!.some((v) => v[1] === "bw-sb-mlr-3p1-15bb-limp-vs-shove"));
 });
+
+test("carga BW BB: vs limp (com ISO vs 3-bet) e vs raise, com as porcentagens das legendas", async () => {
+  const { tableState } = await import("../table");
+  const { drillSituations, filterDrill } = await import("../drill");
+  const result = parseImportBundle(load("bw-bb.json"), DEFAULT_LEGEND);
+  assert.deepEqual(result.errors, []);
+  const map = new Map(result.strategies.map((s) => [s.id, s]));
+  const pct = (id: string, a: string) => rangeBreakdown(map.get(id)!.range, map.get(id)!.defaultActionId).find((b) => b.actionId === a)?.percent ?? 0;
+  // vs limp 50+: check 37,71; ISO = 4,83 + 14,03 + 43,44
+  assert.equal(pct("bw-bb-vs-limp-50plus", "check"), 37.7);
+  assert.equal(pct("bw-bb-vs-limp-50plus", "iso"), 62.3);
+  assert.equal(pct("bw-bb-vs-limp-10-15", "shove"), 16.4);
+  assert.equal(pct("bw-bb-vs-limp-50plus-iso-vs-3bet", "shove"), 4.8);
+  assert.equal(pct("bw-bb-vs-limp-50plus-iso-vs-3bet", "call"), 14);
+  // vs raise
+  assert.equal(pct("bw-bb-vs-raise-50plus", "call"), 50.5);
+  assert.equal(pct("bw-bb-vs-raise-25-50", "3bet-call"), 4.7);
+  assert.equal(pct("bw-bb-vs-raise-10-15", "shove"), 27.8);
+  // Mesa: limp do SB (1bb), ISO 3bb vs 3-bet 8bb
+  const iso = tableState(map.get("bw-bb-vs-limp-25-50-iso-vs-3bet")!, 5);
+  assert.equal(iso.seats.find((s) => s.position === "BB")!.posted, 3);
+  assert.equal(iso.seats.find((s) => s.position === "SB")!.posted, 8);
+  assert.equal(iso.raiseLabel, "3-bet");
+  const limp = tableState(map.get("bw-bb-vs-limp-25-50")!, 5);
+  assert.equal(limp.seats.find((s) => s.position === "SB")!.posted, 1);
+  assert.equal(limp.pot, 2);
+  // Filtro de situação
+  assert.deepEqual(drillSituations(result.drills[0], map), ["vs limp", "vs raise"]);
+  assert.ok(filterDrill(result.drills[0], map, { situations: ["vs raise"] }).drill.variants!.every((v) => v[0].includes("vs-raise")));
+});

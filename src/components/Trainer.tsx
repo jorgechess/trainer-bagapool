@@ -18,6 +18,7 @@ import {
   drillContexts,
   drillCoverages,
   drillOpenTypes,
+  drillSituations,
   drillPositions,
   drillStacks,
   filterDrill,
@@ -424,6 +425,7 @@ export function Trainer({ drill, strategies, legend, timeLimitSec, sourceDrillOf
   const [stacks, setStacks] = useState<string[]>([]);
   const [coverages, setCoverages] = useState<string[]>([]);
   const [openTypes, setOpenTypes] = useState<string[]>([]);
+  const [situations, setSituations] = useState<string[]>([]);
   const [tableCount, setTableCount] = useState<TableCount>(1);
   const [lengthChoice, setLengthChoice] = useState<number>(0);
   /** Mãos da sessão; null = sem limite. */
@@ -453,15 +455,17 @@ export function Trainer({ drill, strategies, legend, timeLimitSec, sourceDrillOf
   const stacksKey = `trainer:stacks:${drill.id}`;
   const coveragesKey = `trainer:coberturas:${drill.id}`;
   const openTypesKey = `trainer:opens:${drill.id}`;
+  const situationsKey = `trainer:situacoes:${drill.id}`;
   const availablePositions = useMemo(() => drillPositions(drill, strategyMap), [drill, strategyMap]);
   const availableContexts = useMemo(() => drillContexts(drill, strategyMap), [drill, strategyMap]);
   const availableStacks = useMemo(() => drillStacks(drill, strategyMap), [drill, strategyMap]);
   const availableCoverages = useMemo(() => drillCoverages(drill, strategyMap), [drill, strategyMap]);
   const availableOpenTypes = useMemo(() => drillOpenTypes(drill, strategyMap), [drill, strategyMap]);
+  const availableSituations = useMemo(() => drillSituations(drill, strategyMap), [drill, strategyMap]);
   /** Drill com os filtros do jogador (posição, proporção, stack); não muda o drill de ninguém. */
   const filtered = useMemo(
-    () => filterDrill(drill, strategyMap, { positions, contexts, stacks, coverages, openTypes }),
-    [drill, strategyMap, positions, contexts, stacks, coverages, openTypes],
+    () => filterDrill(drill, strategyMap, { positions, contexts, stacks, coverages, openTypes, situations }),
+    [drill, strategyMap, positions, contexts, stacks, coverages, openTypes, situations],
   );
   const activeDrill = filtered.drill;
 
@@ -495,6 +499,7 @@ export function Trainer({ drill, strategies, legend, timeLimitSec, sourceDrillOf
     load(stacksKey, availableStacks, setStacks);
     load(coveragesKey, availableCoverages, setCoverages);
     load(openTypesKey, availableOpenTypes, setOpenTypes);
+    load(situationsKey, availableSituations, setSituations);
   }, [
     positionsKey,
     contextsKey,
@@ -502,6 +507,8 @@ export function Trainer({ drill, strategies, legend, timeLimitSec, sourceDrillOf
     coveragesKey,
     openTypesKey,
     availableOpenTypes,
+    situationsKey,
+    availableSituations,
     availablePositions,
     availableContexts,
     availableStacks,
@@ -528,6 +535,11 @@ export function Trainer({ drill, strategies, legend, timeLimitSec, sourceDrillOf
   function changeCoverages(next: string[]) {
     setCoverages(next);
     writeStorage(coveragesKey, JSON.stringify(next));
+  }
+
+  function changeSituations(next: string[]) {
+    setSituations(next);
+    writeStorage(situationsKey, JSON.stringify(next));
   }
 
   function changeOpenTypes(next: string[]) {
@@ -992,6 +1004,9 @@ export function Trainer({ drill, strategies, legend, timeLimitSec, sourceDrillOf
         )}
         {availableCoverages.length > 1 && (
           <FilterChips label="Cobertura" options={availableCoverages} selected={coverages} onChange={changeCoverages} />
+        )}
+        {availableSituations.length > 1 && (
+          <FilterChips label="Situação" options={availableSituations} selected={situations} onChange={changeSituations} />
         )}
         {availableOpenTypes.length > 1 && (
           <FilterChips label="Open do vilão" options={availableOpenTypes} selected={openTypes} onChange={changeOpenTypes} />

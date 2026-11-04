@@ -56,6 +56,8 @@ export function tableSeats(strategy: Strategy): Seat[] {
     // vs RFI (ex.: defesa do BB): o vilão abriu antes do herói
     if (preflop && !threeBet && (position === strategy.villainPosition || strategy.callers?.includes(position)))
       posted = Math.max(posted, sizes.open);
+    if (position === strategy.heroPosition && strategy.tablePosted?.hero !== undefined) posted = strategy.tablePosted.hero;
+    if (position === strategy.villainPosition && strategy.tablePosted?.villain !== undefined) posted = strategy.tablePosted.villain;
     return {
       position,
       status,

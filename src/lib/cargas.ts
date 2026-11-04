@@ -16,6 +16,7 @@ import defesaBbPkoShort from "../../cargas/defesa-bb-pko-short.json";
 import defesaBbVanillaMultiway from "../../cargas/defesa-bb-vanilla-multiway.json";
 import rfiSbChipEv from "../../cargas/rfi-sb-chip-ev.json";
 import bwSbMlr from "../../cargas/bw-sb-mlr.json";
+import bwBb from "../../cargas/bw-bb.json";
 
 export interface Carga {
   id: string;
@@ -154,5 +155,12 @@ export const CARGAS: Carga[] = [
     description: "Blind war max late: SB de 2 a 15bb em 3:1, 1,5:1 e bolha não garantido, com a decisão seguinte contra shove ou ISO do BB.",
     requires: [],
     bundle: bwSbMlr,
+  },
+  {
+    id: "bw-bb",
+    name: "BW BB",
+    description: "Blind war no BB, de 10 a 100bb: vs limp do SB (check, ISO, all-in e resposta ao 3-bet) e vs raise (fold, call, 3-bet, resteal).",
+    requires: [],
+    bundle: bwBb,
   },
 ];
