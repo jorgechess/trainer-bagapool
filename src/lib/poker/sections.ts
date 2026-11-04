@@ -6,6 +6,8 @@ export const DRILL_SECTIONS = [
   { id: "vanilla", label: "Vanilla" },
   { id: "pko", label: "PKO" },
   { id: "bw", label: "Blind War" },
+  { id: "posflop-attack", label: "Posflop Attack" },
+  { id: "posflop-defense", label: "Posflop Defense" },
   { id: "pos-flop", label: "Pós-flop" },
   { id: "outros", label: "Outros" },
 ] as const;
@@ -20,8 +22,10 @@ export function drillSection(drill: Drill, strategies: ReadonlyMap<string, Strat
   const used = drillStrategyIds(drill)
     .map((id) => strategies.get(id))
     .filter((s): s is Strategy => s !== undefined);
-  if (used.some((s) => s.street !== "preflop")) return "pos-flop";
   const tags = new Set([...drill.tags, ...used.flatMap((s) => s.tags)].map((t) => t.toLowerCase()));
+  if (tags.has("posflop-attack")) return "posflop-attack";
+  if (tags.has("posflop-defense")) return "posflop-defense";
+  if (used.some((s) => s.street !== "preflop")) return "pos-flop";
   if (tags.has("bw")) return "bw";
   if (tags.has("pko") || used.some((s) => s.pko)) return "pko";
   if (tags.has("vanilla")) return "vanilla";

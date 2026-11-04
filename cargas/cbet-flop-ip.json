@@ -1,0 +1,207 @@
+{
+ "legendAdd": [
+  {
+   "id": "bet-25",
+   "label": "Bet 25%",
+   "color": "#fbbf24",
+   "kind": "bet",
+   "sizing": "25%"
+  },
+  {
+   "id": "bet-40",
+   "label": "Bet 40%",
+   "color": "#ea580c",
+   "kind": "bet",
+   "sizing": "40%"
+  }
+ ],
+ "strategies": [
+  {
+   "id": "cbet-flop-ip-co-25-50",
+   "name": "Cbet flop IP CO vs BB 25–50bb",
+   "description": "Estratégia MES do Baga: você abriu do CO, o BB pagou e deu check.",
+   "street": "flop",
+   "situation": "Cbet flop IP",
+   "heroPosition": "CO",
+   "villainPosition": "BB",
+   "stack": {
+    "min": 25,
+    "max": 50
+   },
+   "ratio": null,
+   "bubble": null,
+   "tags": [
+    "posflop-attack",
+    "cbet",
+    "mes"
+   ],
+   "actionIds": [
+    "check",
+    "bet-25",
+    "bet-40"
+   ],
+   "defaultActionId": "check",
+   "randomStacks": true,
+   "tablePot": 4.5,
+   "cbet": {
+    "table": "mes-ip-vs-bb",
+    "band": "25-50"
+   },
+   "dealFrom": {
+    "strategy": "rfi-30bb-vanilla-co",
+    "actionIds": [
+     "rfi"
+    ]
+   }
+  },
+  {
+   "id": "cbet-flop-ip-co-15",
+   "name": "Cbet flop IP CO vs BB 15bb 3:1",
+   "description": "Estratégia MES do Baga: você abriu do CO, o BB pagou e deu check.",
+   "street": "flop",
+   "situation": "Cbet flop IP",
+   "heroPosition": "CO",
+   "villainPosition": "BB",
+   "stack": {
+    "min": 15,
+    "max": 15
+   },
+   "ratio": {
+    "min": 3,
+    "max": 3
+   },
+   "bubble": null,
+   "tags": [
+    "posflop-attack",
+    "cbet",
+    "mes"
+   ],
+   "actionIds": [
+    "check",
+    "bet-25",
+    "bet-40"
+   ],
+   "defaultActionId": "check",
+   "randomStacks": true,
+   "tablePot": 4.5,
+   "cbet": {
+    "table": "mes-ip-vs-bb",
+    "band": "15"
+   },
+   "dealFrom": {
+    "strategy": "rfi-mlr-3p1-15bb-co",
+    "actionIds": [
+     "rfi"
+    ]
+   }
+  },
+  {
+   "id": "cbet-flop-ip-btn-25-50",
+   "name": "Cbet flop IP BTN vs BB 25–50bb",
+   "description": "Estratégia MES do Baga: você abriu do BTN, o BB pagou e deu check.",
+   "street": "flop",
+   "situation": "Cbet flop IP",
+   "heroPosition": "BTN",
+   "villainPosition": "BB",
+   "stack": {
+    "min": 25,
+    "max": 50
+   },
+   "ratio": null,
+   "bubble": null,
+   "tags": [
+    "posflop-attack",
+    "cbet",
+    "mes"
+   ],
+   "actionIds": [
+    "check",
+    "bet-25",
+    "bet-40"
+   ],
+   "defaultActionId": "check",
+   "randomStacks": true,
+   "tablePot": 4.5,
+   "cbet": {
+    "table": "mes-ip-vs-bb",
+    "band": "25-50"
+   },
+   "dealFrom": {
+    "strategy": "rfi-30bb-vanilla-btn",
+    "actionIds": [
+     "rfi"
+    ]
+   }
+  },
+  {
+   "id": "cbet-flop-ip-btn-15",
+   "name": "Cbet flop IP BTN vs BB 15bb 3:1",
+   "description": "Estratégia MES do Baga: você abriu do BTN, o BB pagou e deu check.",
+   "street": "flop",
+   "situation": "Cbet flop IP",
+   "heroPosition": "BTN",
+   "villainPosition": "BB",
+   "stack": {
+    "min": 15,
+    "max": 15
+   },
+   "ratio": {
+    "min": 3,
+    "max": 3
+   },
+   "bubble": null,
+   "tags": [
+    "posflop-attack",
+    "cbet",
+    "mes"
+   ],
+   "actionIds": [
+    "check",
+    "bet-25",
+    "bet-40"
+   ],
+   "defaultActionId": "check",
+   "randomStacks": true,
+   "tablePot": 4.5,
+   "cbet": {
+    "table": "mes-ip-vs-bb",
+    "band": "15"
+   },
+   "dealFrom": {
+    "strategy": "rfi-mlr-3p1-15bb-btn",
+    "actionIds": [
+     "rfi"
+    ]
+   }
+  }
+ ],
+ "drills": [
+  {
+   "id": "cbet-flop-ip",
+   "name": "Cbet flop IP",
+   "description": "Estratégia MES do Baga (aula 05): você abriu do CO ou BTN, o BB pagou e deu check. Check, bet 25% ou bet 40% conforme a classe do flop e, nos boards de split, a sua mão.",
+   "variants": [
+    [
+     "cbet-flop-ip-co-25-50"
+    ],
+    [
+     "cbet-flop-ip-co-15"
+    ],
+    [
+     "cbet-flop-ip-btn-25-50"
+    ],
+    [
+     "cbet-flop-ip-btn-15"
+    ]
+   ],
+   "sampling": "uniforme",
+   "tags": [
+    "posflop-attack",
+    "cbet",
+    "mes"
+   ],
+   "handsPerSession": 50,
+   "passAccuracy": 0.9
+  }
+ ]
+}

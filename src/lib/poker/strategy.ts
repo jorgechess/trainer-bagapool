@@ -1,4 +1,5 @@
 /** Estratégias do time: o range certo para cada spot. */
+import { type CbetSpec, cbetAnswer, mesFlopRule } from "./cbet";
 import type { Card } from "./cards";
 import type { HandLabel } from "./hands";
 import { type Legend, findAction } from "./legend";
@@ -115,6 +116,10 @@ export interface Strategy {
   villainCoversHero?: boolean;
   /** Fichas na mesa definidas à mão (bb), ex.: ISO do herói e 3-bet do SB. */
   tablePosted?: { hero?: number; villain?: number } | null;
+  /** Cbet pós-flop por tabela (MES): a resposta sai da classe do flop e da mão, sem range fixo. */
+  cbet?: CbetSpec | null;
+  /** Pote mostrado na mesa (bb), quando não dá para calcular pelas fichas (ex.: flop de pote simples). */
+  tablePot?: number | null;
   /** Rótulo da ação do vilão na mesa (ex.: "ISO"); padrão: Raise, 3-bet ou All-in. */
   villainLabel?: string | null;
   /** O vilão que aumentou foi all-in (ex.: vs resteal): a mesa mostra o shove dele. */
@@ -135,6 +140,8 @@ export interface Strategy {
 /** Range aplicável ao board, ou null se nenhuma textura cadastrada combinar. */
 export function resolveRange(strategy: Strategy, board: readonly Card[]): Range | null {
   if (strategy.street === "preflop") return strategy.range;
+  // Cbet por tabela: não há range fixo; vale se o flop entra na tabela
+  if (strategy.cbet) return mesFlopRule(board.slice(0, 3), strategy.cbet.band) ? {} : null;
   const visible = board.slice(0, BOARD_CARDS_BY_STREET[strategy.street]);
   if (visible.length < BOARD_CARDS_BY_STREET[strategy.street]) throw new Error("Board incompleto para a street");
   const texture = boardTexture(visible);
@@ -143,7 +150,13 @@ export function resolveRange(strategy: Strategy, board: readonly Card[]): Range 
 }
 
 /** Ação correta para a mão, ou null se a estratégia não cobre esse board. */
-export function correctAction(strategy: Strategy, hand: HandLabel, board: readonly Card[]): string | null {
+export function correctAction(
+  strategy: Strategy,
+  hand: HandLabel,
+  board: readonly Card[],
+  heroCards?: readonly Card[],
+): string | null {
+  if (strategy.cbet) return heroCards ? (cbetAnswer(strategy.cbet, heroCards, board)?.action ?? null) : null;
   const range = resolveRange(strategy, board);
   return range ? actionOf(range, hand, strategy.defaultActionId) : null;
 }
@@ -159,8 +172,13 @@ export function mixedActions(mixed: MixedHands | null | undefined, hand: HandLab
 }
 
 /** Ações aceitas como certas para a mão: a principal e, em mão mista, as outras. */
-export function acceptedActions(strategy: Strategy, hand: HandLabel, board: readonly Card[]): string[] | null {
-  const correct = correctAction(strategy, hand, board);
+export function acceptedActions(
+  strategy: Strategy,
+  hand: HandLabel,
+  board: readonly Card[],
+  heroCards?: readonly Card[],
+): string[] | null {
+  const correct = correctAction(strategy, hand, board, heroCards);
   if (correct === null) return null;
   const extra = strategy.street === "preflop" ? mixedActions(strategy.alsoCorrect, hand).filter((a) => a !== correct) : [];
   return [correct, ...extra];
@@ -233,7 +251,8 @@ export function validateStrategy(strategy: Strategy, legend: Legend): string[] {
         errors.push(`Mão mista ${hand}: a segunda ação é igual à principal.`);
     }
   } else {
-    if (strategy.textureRanges.length === 0) errors.push("Cadastre pelo menos uma textura para o pós-flop.");
+    if (strategy.textureRanges.length === 0 && !strategy.cbet)
+      errors.push("Cadastre pelo menos uma textura para o pós-flop.");
     for (const tr of strategy.textureRanges) {
       for (const message of validateTextureMatch(tr.match)) errors.push(`Textura "${tr.label}": ${message}`);
       checkRange(tr.range, `Textura "${tr.label}"`);

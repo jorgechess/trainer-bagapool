@@ -210,7 +210,7 @@ export function dealQuestion(
       const previous = steps[steps.length - 1];
       if (previous && strategy.entryActionIds?.length && !strategy.entryActionIds.includes(previous.correctActionId))
         break; // a linha correta não chega nesta decisão
-      const accepted = acceptedActions(strategy, hand, fullBoard);
+      const accepted = acceptedActions(strategy, hand, fullBoard, heroCards);
       if (accepted === null) break; // estratégia não cobre este board
       const [correct, ...alsoAccepted] = accepted;
       steps.push({
@@ -301,7 +301,7 @@ export function gradeSubmission(
   if (!strategy.actionIds.includes(chosenActionId)) throw new Error("Ação inválida para esta decisão");
   const hero = heroCards as [Card, Card];
   const hand = handFromCards(hero[0], hero[1]);
-  const accepted = acceptedActions(strategy, hand, board as Card[]);
+  const accepted = acceptedActions(strategy, hand, board as Card[], hero);
   if (accepted === null) throw new Error("A estratégia não cobre este board");
   const [correct, ...alsoAccepted] = accepted;
   const step: QuestionStep = {

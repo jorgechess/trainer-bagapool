@@ -499,3 +499,31 @@ test("carga BW BB: vs limp (com ISO vs 3-bet) e vs raise, com as porcentagens da
   assert.deepEqual(drillSituations(result.drills[0], map), ["vs limp", "vs raise"]);
   assert.ok(filterDrill(result.drills[0], map, { situations: ["vs raise"] }).drill.variants!.every((v) => v[0].includes("vs-raise")));
 });
+
+test("carga Cbet flop IP: pote simples, CO/BTN vs BB, mãos do RFI e seção Posflop Attack", async () => {
+  const { drillSection } = await import("../sections");
+  const { dealQuestion, validateDrill } = await import("../drill");
+  const { knownPot } = await import("../table");
+  const { seededRng } = await import("../rng");
+  const rfi = parseImportBundle(load("rfi-30bb-vanilla.json"), DEFAULT_LEGEND);
+  const mlr = parseImportBundle(load("rfi-max-late-reg-vanilla.json"), DEFAULT_LEGEND);
+  const result = parseImportBundle(load("cbet-flop-ip.json"), DEFAULT_LEGEND, [...rfi.strategies, ...mlr.strategies]);
+  assert.deepEqual(result.errors, []);
+  const map = new Map([...rfi.strategies, ...mlr.strategies, ...result.strategies].map((s) => [s.id, s]));
+  assert.equal(drillSection(result.drills[0], map), "posflop-attack");
+  assert.deepEqual(validateDrill(result.drills[0], map), []);
+  for (const s of result.strategies) assert.equal(knownPot(s), 4.5, "pote de single raised (open 2bb + call do BB + SB)");
+  const legend = result.legend ?? DEFAULT_LEGEND;
+  const rng = seededRng(7);
+  const seen = new Set<string>();
+  for (let i = 0; i < 300; i++) {
+    const q = dealQuestion(result.drills[0], map, legend, rng);
+    assert.equal(q.steps.length, 1);
+    assert.equal(q.steps[0].board.length, 3);
+    const s = map.get(q.steps[0].strategyId)!;
+    const open = map.get(s.dealFrom!.strategyId)!;
+    assert.equal(open.range[q.hand], "rfi", `${q.hand} vem do RFI de ${s.heroPosition}`);
+    seen.add(q.steps[0].correctActionId);
+  }
+  assert.deepEqual([...seen].sort(), ["bet-25", "bet-40", "check"]);
+});

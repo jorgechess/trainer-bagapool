@@ -28,6 +28,7 @@ import {
 import type { Card } from "@/lib/poker/cards";
 import { type Legend, findAction, textColorFor } from "@/lib/poker/legend";
 import { STREET_LABELS, type Strategy, formatNumberRange, resolveRange } from "@/lib/poker/strategy";
+import { cbetAnswer, ruleSummary } from "@/lib/poker/cbet";
 import { boardTexture, describeFlop } from "@/lib/poker/texture";
 import {
   type Bindings,
@@ -76,6 +77,7 @@ interface SlotState {
   strategyId: string;
   board: string[];
   hand: string;
+  heroCards: string[];
   chosen: string | null;
 }
 
@@ -186,7 +188,7 @@ function TableSlot({
     onState(
       index,
       question && step && !done
-        ? { strategyId: step.strategyId, board: step.board, hand: question.hand, chosen }
+        ? { strategyId: step.strategyId, board: step.board, hand: question.hand, heroCards: question.heroCards, chosen }
         : null,
     );
   }, [index, question, step, chosen, done, onState]);
@@ -682,6 +684,9 @@ export function Trainer({ drill, strategies, legend, timeLimitSec, sourceDrillOf
   const panelStrategy = panel ? strategyMap.get(panel.strategyId) : undefined;
   const panelRange = panel && panelStrategy ? resolveRange(panelStrategy, panel.board as Card[]) : null;
   const showPanelRange = Boolean(panel && panelRange && (panel.chosen || peek));
+  // Cbet por tabela: em vez da grade, a leitura do board e da mão
+  const cbetRead =
+    panel && panelStrategy?.cbet ? cbetAnswer(panelStrategy.cbet, panel.heroCards as Card[], panel.board as Card[]) : null;
 
   // Atalhos: teclado e botões do mouse, definidos pelo jogador na tela Atalhos.
   const tableCountRef = useRef(tableCount);
@@ -892,7 +897,31 @@ export function Trainer({ drill, strategies, legend, timeLimitSec, sourceDrillOf
           {peek ? "Resposta à mostra" : "Mostrar resposta"}
         </button>
       </div>
-      {showPanelRange && panel && panelRange && panelStrategy ? (
+      {showPanelRange && cbetRead ? (
+        <div className="space-y-3 rounded-lg border border-zinc-800 bg-black/40 p-4 text-sm" data-testid="cbet-leitura">
+          <div>
+            <p className="label mb-1">Board</p>
+            <p className="text-zinc-200">{cbetRead.rule.label}</p>
+            <p className="font-display text-2xl tracking-wide text-baga-cream">{ruleSummary(cbetRead.rule)}</p>
+          </div>
+          {cbetRead.hand ? (
+            <div>
+              <p className="label mb-1">Sua mão</p>
+              <p className="text-zinc-200">{cbetRead.hand.category}</p>
+              <p className="text-zinc-400">
+                {cbetRead.hand.bet
+                  ? "Valor forte ou blefe com equity: aposta."
+                  : "Equity média protegida (ou sem jogo): check."}
+              </p>
+            </div>
+          ) : (
+            <p className="text-zinc-400">Range bet: todas as mãos apostam o mesmo tamanho.</p>
+          )}
+          <p className="text-lg font-semibold" style={{ color: findAction(legend, cbetRead.action)?.color }}>
+            Resposta: {findAction(legend, cbetRead.action)?.label ?? cbetRead.action}
+          </p>
+        </div>
+      ) : showPanelRange && panel && panelRange && panelStrategy ? (
         <div className="mx-auto w-full" style={{ maxWidth: rangeMaxWidth }}>
           <RangeGrid
             range={panelRange}

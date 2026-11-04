@@ -675,6 +675,19 @@ async function main() {
     await shot(page, "treino-bw-bb");
     log("BW BB: vs limp com ISO e filtro de situação");
 
+    // Cbet flop IP (Posflop Attack): flop na mesa, check/bet 25/bet 40 e leitura do board depois da resposta
+    await page.goto(`${BASE_URL}/drills`);
+    await page.getByTestId("secao-posflop-attack").getByText("Cbet flop IP").waitFor();
+    await page.goto(`${BASE_URL}/drills/cbet-flop-ip/treinar`);
+    await page.getByTestId("board").waitFor();
+    assert.equal(await page.getByTestId("board").locator("> *").count(), 3, "flop com 3 cartas");
+    await page.getByText("Pote: 4,5bb").waitFor();
+    for (const name of ["Check", "Bet 25%", "Bet 40%"]) await page.locator("[data-testid=actions]").getByRole("button", { name }).waitFor();
+    await page.locator("[data-testid=actions] button").first().click();
+    await page.getByTestId("cbet-leitura").getByText(/^(Range bet|Split X_)B(25|40)$/).waitFor();
+    await shot(page, "treino-cbet-flop-ip");
+    log("Cbet flop IP: flop, pote simples e leitura MES");
+
     // Warmup: botão no início, contagem 3-2-1-Go e treino de 15 minutos; decisões contam no drill de origem
     await page.goto(`${BASE_URL}/`);
     await page.getByTestId("warmup-button").click();

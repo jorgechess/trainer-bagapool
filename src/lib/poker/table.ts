@@ -70,6 +70,7 @@ export function tableSeats(strategy: Strategy): Seat[] {
 
 /** Pote conhecido antes da decisão: blinds no RFI; blinds + open + 3-bet no vs 3-bet. */
 export function knownPot(strategy: Strategy): number | null {
+  if (strategy.tablePot) return strategy.tablePot;
   if (strategy.street !== "preflop") return null;
   if (facesThreeBet(strategy)) {
     const total = tableSeats(strategy).reduce((sum, seat) => sum + seat.posted, 0);
