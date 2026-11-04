@@ -35,15 +35,16 @@ export function mesFlopRule(flop: readonly Card[], band: CbetBand): FlopRule | n
     return { group: "pareado-ml", label: "Pareado médio/baixo (dobra M ou L)", mode: "split", size: "bet-25" };
   }
   const classes = texture.pattern.split("-");
+  const sigla = texture.pattern.replaceAll("-", "");
   const count = (c: string) => classes.filter((x) => x === c).length;
-  if (count("A") > 0) return { group: "a", label: `Ás no board (${texture.pattern})`, mode: "range", size: b40 };
+  if (count("A") > 0) return { group: "a", label: `Ás no board (${sigla})`, mode: "range", size: b40 };
   const h = count("H");
-  if (h >= 2) return { group: "hh", label: `Dois ou mais high (${texture.pattern})`, mode: "range", size: b40 };
+  if (h >= 2) return { group: "hh", label: `Dois ou mais high (${sigla})`, mode: "range", size: b40 };
   if (h === 1) {
-    if (count("L") === 2) return { group: "h-l-l", label: "H-L-L", mode: "range", size: "bet-25" };
-    return { group: texture.pattern.toLowerCase(), label: texture.pattern, mode: "range", size: b40 };
+    if (count("L") === 2) return { group: "h-l-l", label: "HLL", mode: "range", size: "bet-25" };
+    return { group: texture.pattern.toLowerCase(), label: sigla, mode: "range", size: b40 };
   }
-  return { group: "sem-high", label: `Médio/baixo sem broadway (${texture.pattern})`, mode: "split", size: "bet-40" };
+  return { group: "sem-high", label: `Médio/baixo sem broadway (${sigla})`, mode: "split", size: "bet-40" };
 }
 
 const value = (r: Rank) => rankValue(r);

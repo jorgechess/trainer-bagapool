@@ -78,5 +78,5 @@ test("filtro de textura combina todos os campos informados", () => {
 test("validação e descrição de textura", () => {
   assert.deepEqual(validateTextureMatch({ patterns: ["H-M-L", "a-*-*"] }), []);
   assert.equal(validateTextureMatch({ patterns: ["X-M-L"] }).length, 1);
-  assert.equal(describeFlop(flopTexture(["4c", "4d", "Ks"])), "High-Low-Low · Rainbow · Pareado (dobrado) em Low");
+  assert.equal(describeFlop(flopTexture(["4c", "4d", "Ks"])), "HLL · Rainbow · dobra L");
 });

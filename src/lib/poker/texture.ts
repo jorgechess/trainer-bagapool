@@ -87,13 +87,10 @@ export function boardTexture(board: readonly Card[]): BoardTexture {
 }
 
 export function describeFlop(texture: FlopTexture): string {
-  const pattern = texture.pattern
-    .split("-")
-    .map((c) => CARD_CLASS_LABELS[c as CardClass])
-    .join("-");
-  const parts = [pattern, SUIT_TEXTURE_LABELS[texture.suits]];
+  // Sigla do time: AHM, HML, LLL...
+  const parts = [texture.pattern.replaceAll("-", ""), SUIT_TEXTURE_LABELS[texture.suits]];
   if (texture.paired !== "nao" && texture.pairedClass)
-    parts.push(`${PAIR_TEXTURE_LABELS[texture.paired]} em ${CARD_CLASS_LABELS[texture.pairedClass]}`);
+    parts.push(`${texture.paired === "trinca" ? "trinca" : "dobra"} ${texture.pairedClass}`);
   return parts.join(" · ");
 }
 
