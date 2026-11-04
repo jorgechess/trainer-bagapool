@@ -908,11 +908,7 @@ export function Trainer({ drill, strategies, legend, timeLimitSec, sourceDrillOf
             <div>
               <p className="label mb-1">Sua mão</p>
               <p className="text-zinc-200">{cbetRead.hand.category}</p>
-              <p className="text-zinc-400">
-                {cbetRead.hand.bet
-                  ? "Valor forte ou blefe com equity: aposta."
-                  : "Equity média protegida (ou sem jogo): check."}
-              </p>
+              <p className="text-zinc-400">{cbetRead.hand.reason}</p>
             </div>
           ) : (
             <p className="text-zinc-400">Range bet: todas as mãos apostam o mesmo tamanho.</p>

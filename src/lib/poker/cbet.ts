@@ -4,7 +4,7 @@
  * no split, a mão decide entre apostar e dar check.
  */
 import { type Card, type Rank, cardRank, cardSuit, rankValue } from "./cards";
-import { cardClass, flopTexture } from "./texture";
+import { flopTexture } from "./texture";
 
 export type CbetBand = "25-50" | "15";
 export interface CbetSpec {
@@ -70,52 +70,134 @@ function straightOuts(ranks: number[]): { made: boolean; outs: number[] } {
 export interface HandRead {
   category: string;
   bet: boolean;
+  /** Por que a mão aposta ou dá check, no vocabulário da aula. */
+  reason: string;
 }
 
-/** Leitura da mão no flop para os boards de split (regra confirmada pelo time). */
-export function readHand(hero: readonly Card[], flop: readonly Card[]): HandRead {
-  const board = flop.slice(0, 3);
-  const hv = hero.map((c) => value(cardRank(c)));
-  const bv = board.map((c) => value(cardRank(c)));
+const hand = (category: string, bet: boolean, reason: string): HandRead => ({ category, bet, reason });
+
+/** Maior topo de sequência possível para qualquer mão neste board (0 = board sem sequência). */
+function nutStraightTop(bv: number[]): number {
+  let best = 0;
+  for (let a = 2; a <= 14; a++) for (let b = a; b <= 14; b++) best = Math.max(best, straightTop([a, b, ...bv]));
+  return best;
+}
+
+function straightTop(ranks: number[]): number {
+  const has = new Set(ranks.flatMap((r) => (r === 14 ? [14, 1] : [r])));
+  for (let high = 14; high >= 5; high--) if ([0, 1, 2, 3, 4].every((d) => has.has(high - d))) return high;
+  return 0;
+}
+
+/**
+ * Sem mão feita (ar, Ás/Rei-alto, draws): o EV de apostar e de checar é o mesmo, então a aula
+ * divide pelo critério de naipe — combos off apostam, combos suited dão check.
+ */
+function noMadeHand(hero: readonly Card[], board: readonly Card[], hv: number[], bv: number[]): HandRead {
   const top = Math.max(...bv);
-  const boardCount = (v: number) => bv.filter((x) => x === v).length;
-  const pocket = hv[0] === hv[1];
-
-  // Feita e valor forte
-  const all = [...hv, ...bv];
-  const straight = straightOuts(all);
-  const heroBoardOnly = straightOuts(bv);
-  if (straight.made && !heroBoardOnly.made) return { category: "Sequência", bet: true };
-  if (pocket && boardCount(hv[0]) >= 1) return { category: boardCount(hv[0]) >= 2 ? "Full house" : "Set", bet: true };
-  const paired = hv.filter((v) => boardCount(v) >= 1);
-  if (!pocket && hv.some((v) => boardCount(v) >= 2)) return { category: "Trinca", bet: true };
-  const boardPair = bv.find((v) => boardCount(v) === 2);
-  if (!pocket && paired.length === 2 && hv[0] !== hv[1]) return { category: "Dois pares", bet: true };
-  if (pocket && hv[0] > top) return { category: "Overpair", bet: true };
-
-  const topPair = !pocket && hv.includes(top) && boardCount(top) === 1;
-  const kicker = topPair ? (hv[0] === top ? hv[1] : hv[0]) : 0;
-  if (topPair && kicker >= 10) return { category: "Top pair, kicker bom", bet: true };
-
-  // Draws (pelo menos uma carta do herói participa)
   const suits = [...hero, ...board].map(cardSuit);
   const flushDraw = hero.some((c) => suits.filter((s) => s === cardSuit(c)).length === 4);
-  const oesd = straight.outs.length >= 2 && heroBoardOnly.outs.length < straight.outs.length;
-  if (flushDraw && oesd) return { category: "Combo draw", bet: true };
-  if (flushDraw) return { category: "Flush draw", bet: true };
-  if (oesd) return { category: "OESD", bet: true };
+  const straight = straightOuts([...hv, ...bv]);
+  const boardOnly = straightOuts(bv);
+  const oesd = straight.outs.length >= 2 && boardOnly.outs.length < straight.outs.length;
+  const gutshot = straight.outs.length === 1 && boardOnly.outs.length === 0;
+  const kind =
+    flushDraw && oesd
+      ? "Combo draw"
+      : flushDraw
+        ? "Flush draw"
+        : oesd
+          ? "OESD"
+          : gutshot
+            ? "Gutshot"
+            : hv[0] > top && hv[1] > top
+              ? "Duas overcards"
+              : hv.includes(14)
+                ? "Ás-alto"
+                : hv.includes(13)
+                  ? "Rei-alto"
+                  : "Ar";
+  const suited = cardSuit(hero[0]) === cardSuit(hero[1]);
+  return suited
+    ? hand(`${kind} · suited`, false, "Sem mão feita: combos suited dão check (critério de naipe).")
+    : hand(`${kind} · offsuit`, true, "Sem mão feita: combos off apostam (critério de naipe).");
+}
 
-  // Equity média protegida
-  if (topPair) return { category: "Top pair, kicker fraco", bet: false };
-  if (pocket) return { category: "Underpair", bet: false };
-  if (paired.length > 0) {
-    const pairValue = paired[0];
-    const below = [...new Set(bv)].filter((v) => v > pairValue && v !== boardPair).length;
-    return { category: below >= 2 ? "Terceiro par" : "Segundo par", bet: false };
+/**
+ * Leitura da mão nos boards de split, como a aula 05 constrói o split:
+ * protege o check com as mãos mais fortes, aposta valor que precisa de proteção,
+ * escadinha invertida nos overpairs, metade de cima dos top pairs e naipe no resto.
+ */
+export function readHand(hero: readonly Card[], flop: readonly Card[]): HandRead {
+  const board = flop.slice(0, 3);
+  const hv = hero.map((c) => value(cardRank(c))).sort((a, b) => b - a);
+  const bv = board.map((c) => value(cardRank(c)));
+  const top = Math.max(...bv);
+  const low = Math.min(...bv);
+  const count = (v: number) => bv.filter((x) => x === v).length;
+  const pocket = hv[0] === hv[1];
+  const pairRank = bv.find((v) => count(v) === 2);
+
+  if (pairRank !== undefined) {
+    // Dobra média/baixa (X_B25)
+    const single = bv.find((v) => v !== pairRank)!;
+    if (pocket && hv[0] === pairRank)
+      return hand("Quadra", false, "Nuts que bloqueia o call do BB: check para proteger o range.");
+    if ((pocket && hv[0] === single) || (!pocket && hv.includes(pairRank) && hv.includes(single)))
+      return hand("Full house", false, "Nuts que bloqueia o call do BB: check para proteger o range.");
+    if (!pocket && hv.includes(pairRank))
+      return hand("Trinca", true, "Valor que ainda leva draws contra: aposta.");
+    if (pocket && hv[0] > top)
+      return hv[0] >= 13
+        ? hand("Overpair alto", false, "Escadinha invertida: KK/AA dão check.")
+        : hand("Overpair", true, "Escadinha invertida: os overpairs mais baixos apostam (pedem proteção).");
+    if (!pocket && hv.includes(single)) {
+      if (single === top) {
+        const kicker = hv[0] === top ? hv[1] : hv[0];
+        return kicker >= 10
+          ? hand("Top pair, kicker bom", true, "Metade de cima dos top pairs aposta.")
+          : hand("Top pair, kicker fraco", false, "Metade de baixo dos top pairs dá check.");
+      }
+      return hand("Par baixo", true, "Pares baixos apostam por proteção.");
+    }
+    if (pocket) {
+      if (hv[0] < low) return hand("Par abaixo do board", true, "Pares baixos apostam por proteção.");
+      return hv[0] <= 8
+        ? hand("Underpair baixo", true, "Underpairs baixos apostam por proteção.")
+        : hand("Underpair alto", false, "Underpairs altos bloqueiam os combos off que foldam: check.");
+    }
+    return noMadeHand(hero, board, hv, bv);
   }
-  if (hv[0] > top && hv[1] > top) return { category: "Overcards sem showdown", bet: true };
-  if (hv.includes(14)) return { category: "Ás-alto com showdown", bet: false };
-  return { category: "Ar sem draw", bet: false };
+
+  // Board sem broadway, sem dobra (X_B40)
+  const nutTop = nutStraightTop(bv);
+  const heroTop = straightTop([...hv, ...bv]);
+  if (heroTop > 0)
+    return heroTop === nutTop
+      ? hand("Sequência nuts", false, "A melhor mão do range dá check para proteger o check.")
+      : hand("Sequência", true, "Valor forte abaixo do nuts: aposta.");
+  if (pocket && count(hv[0]) === 1)
+    return nutTop > 0
+      ? hand("Set", true, "Com sequência possível, o set é valor que aposta.")
+      : hand("Set", false, "Melhor mão do range sem sequência no board: check para proteger.");
+  const paired = hv.filter((v) => count(v) === 1);
+  if (!pocket && paired.length === 2) return hand("Dois pares", true, "Valor forte: aposta.");
+  if (pocket && hv[0] > top)
+    return hv[0] >= 13
+      ? hand("Overpair alto", false, "Escadinha invertida: KK/AA dão check.")
+      : hand("Overpair", true, "Escadinha invertida: os overpairs mais baixos apostam.");
+  if (!pocket && paired[0] === top) {
+    const kicker = hv[0] === top ? hv[1] : hv[0];
+    return kicker >= 10
+      ? hand("Top pair, kicker bom", true, "Metade de cima dos top pairs aposta.")
+      : hand("Top pair, kicker fraco", false, "Metade de baixo dos top pairs dá check.");
+  }
+  if (pocket) return hand("Par médio", false, "Pares médios dão check.");
+  if (paired.length > 0) {
+    const below = [...new Set(bv)].filter((v) => v > paired[0]).length;
+    return hand(below >= 2 ? "Terceiro par" : "Segundo par", false, "Pares médios dão check.");
+  }
+  return noMadeHand(hero, board, hv, bv);
 }
 
 export interface CbetAnswer {
