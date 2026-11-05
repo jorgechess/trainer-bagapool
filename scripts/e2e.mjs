@@ -705,6 +705,40 @@ async function main() {
     await shot(page, "treino-bw-sb-pos");
     log("BW SB pós: flop do SB com leitura do guide");
 
+    // BB Leads (Posflop Defense): lead no flop, turn ou river; lead certo + turn errado = meio certo (amarelo)
+    await page.goto(`${BASE_URL}/drills`);
+    await page.getByTestId("secao-posflop-defense").getByText("BB Leads").waitFor();
+    await page.goto(`${BASE_URL}/drills/bb-leads/treinar`);
+    await page.getByTestId("board").waitFor();
+    let meioCerto = false;
+    for (let i = 0; i < 40 && !meioCerto; i++) {
+      await page.getByTestId("board").waitFor();
+      const cards = await page.getByTestId("board").locator("> *").count();
+      if (cards === 3) {
+        // flop: Bet 25% é o certo nos boards de lead
+        await page.locator("[data-testid=actions]").getByRole("button", { name: "Bet 25%" }).click();
+        const feedback = await page.getByTestId("table-slot").getAttribute("data-feedback");
+        await page.getByRole("button", { name: /Continuar/ }).click();
+        if (feedback === "certo") {
+          // turn depois do lead/call: erra de propósito com o que não for a resposta
+          await page.getByTestId("board").locator("> *").nth(3).waitFor();
+          const buttons = page.locator("[data-testid=actions] button");
+          await buttons.first().click();
+          const fb = await page.getByTestId("table-slot").getAttribute("data-feedback");
+          if (fb === "meio") {
+            meioCerto = true;
+            await shot(page, "treino-bb-leads-meio-certo");
+          }
+          await page.getByRole("button", { name: /Continuar/ }).click();
+        }
+      } else {
+        await page.locator("[data-testid=actions] button").first().click();
+        await page.getByRole("button", { name: /Continuar/ }).click();
+      }
+    }
+    assert.ok(meioCerto, "lead certo no flop e turn errado mostra meio certo");
+    log("BB Leads: lead no flop, turn depois do call e meio certo em amarelo");
+
     // Warmup: botão no início, contagem 3-2-1-Go e treino de 15 minutos; decisões contam no drill de origem
     await page.goto(`${BASE_URL}/`);
     await page.getByTestId("warmup-button").click();

@@ -1,0 +1,468 @@
+{
+  "legendAdd": [
+    {
+      "id": "bet-25",
+      "label": "Bet 25%",
+      "color": "#fbbf24",
+      "kind": "bet",
+      "sizing": "25%"
+    },
+    {
+      "id": "bet-67",
+      "label": "Bet 67%",
+      "color": "#9f1239",
+      "kind": "bet",
+      "sizing": "67%"
+    },
+    {
+      "id": "bet-10",
+      "label": "Bet 10%",
+      "color": "#06b6d4",
+      "kind": "bet",
+      "sizing": "10%"
+    },
+    {
+      "id": "bet-100",
+      "label": "Bet 100%",
+      "color": "#7c3aed",
+      "kind": "bet",
+      "sizing": "100%"
+    },
+    {
+      "id": "bet-115",
+      "label": "Bet 115%",
+      "color": "#be185d",
+      "kind": "bet",
+      "sizing": "115%"
+    }
+  ],
+  "strategies": [
+    {
+      "id": "bb-lead-flop-sim-vs-co",
+      "name": "BB Leads · flop (board de lead) vs CO",
+      "description": "SRP 30bb: o CO abriu e você pagou do BB. Flop de sequência MLL/LLL: lead de range B25.",
+      "street": "flop",
+      "situation": "Lead flop",
+      "heroPosition": "BB",
+      "villainPosition": "CO",
+      "stack": {
+        "min": 30,
+        "max": 30
+      },
+      "ratio": null,
+      "bubble": null,
+      "tags": [
+        "posflop-defense",
+        "lead",
+        "mes"
+      ],
+      "actionIds": [
+        "check",
+        "bet-25"
+      ],
+      "defaultActionId": "check",
+      "tablePot": 4.5,
+      "villainCoversHero": true,
+      "cbet": {
+        "table": "bb-lead",
+        "node": "flop-sim"
+      },
+      "dealFrom": {
+        "strategy": "bb-def-30bb-vs-co",
+        "actionIds": [
+          "call"
+        ]
+      }
+    },
+    {
+      "id": "bb-lead-flop-nao-vs-co",
+      "name": "BB Leads · flop vs CO",
+      "description": "SRP 30bb: o CO abriu e você pagou do BB. Fora dos boards de sequência MLL/LLL: check.",
+      "street": "flop",
+      "situation": "Lead flop",
+      "heroPosition": "BB",
+      "villainPosition": "CO",
+      "stack": {
+        "min": 30,
+        "max": 30
+      },
+      "ratio": null,
+      "bubble": null,
+      "tags": [
+        "posflop-defense",
+        "lead",
+        "mes"
+      ],
+      "actionIds": [
+        "check",
+        "bet-25"
+      ],
+      "defaultActionId": "check",
+      "tablePot": 4.5,
+      "villainCoversHero": true,
+      "cbet": {
+        "table": "bb-lead",
+        "node": "flop-nao"
+      },
+      "dealFrom": {
+        "strategy": "bb-def-30bb-vs-co",
+        "actionIds": [
+          "call"
+        ]
+      }
+    },
+    {
+      "id": "bb-lead-turn-lead-vs-co",
+      "name": "BB Leads · turn depois do lead/call vs CO",
+      "description": "Você fez lead B25 no flop e o CO pagou. O plano do turn sai do runout.",
+      "street": "turn",
+      "situation": "Lead flop",
+      "heroPosition": "BB",
+      "villainPosition": "CO",
+      "stack": {
+        "min": 30,
+        "max": 30
+      },
+      "ratio": null,
+      "bubble": null,
+      "tags": [
+        "posflop-defense",
+        "lead",
+        "mes"
+      ],
+      "actionIds": [
+        "check",
+        "bet-25",
+        "bet-67",
+        "bet-115"
+      ],
+      "defaultActionId": "check",
+      "tablePot": 6.75,
+      "villainCoversHero": true,
+      "cbet": {
+        "table": "bb-lead",
+        "node": "turn-lead"
+      },
+      "dealFrom": {
+        "strategy": "bb-def-30bb-vs-co",
+        "actionIds": [
+          "call"
+        ]
+      },
+      "entryActionIds": [
+        "bet-25"
+      ]
+    },
+    {
+      "id": "bb-lead-turn-vs-co",
+      "name": "BB Leads · turn vs CO",
+      "description": "Você deu check/call no cbet do CO no flop. Lead no turn: dobra média/baixa B67, 3S 8-high B25, 3F check.",
+      "street": "turn",
+      "situation": "Lead turn",
+      "heroPosition": "BB",
+      "villainPosition": "CO",
+      "stack": {
+        "min": 30,
+        "max": 30
+      },
+      "ratio": null,
+      "bubble": null,
+      "tags": [
+        "posflop-defense",
+        "lead",
+        "mes"
+      ],
+      "actionIds": [
+        "check",
+        "bet-25",
+        "bet-67"
+      ],
+      "defaultActionId": "check",
+      "tablePot": 7.5,
+      "villainCoversHero": true,
+      "cbet": {
+        "table": "bb-lead",
+        "node": "turn"
+      },
+      "dealFrom": {
+        "strategy": "bb-def-30bb-vs-co",
+        "actionIds": [
+          "call"
+        ]
+      }
+    },
+    {
+      "id": "bb-lead-river-vs-co",
+      "name": "BB Leads · river vs CO",
+      "description": "Você deu check/call no flop e no turn contra o CO. Lead polar no river: B10 nos runouts favoráveis, B100 na dobra do 2º par.",
+      "street": "river",
+      "situation": "Lead river",
+      "heroPosition": "BB",
+      "villainPosition": "CO",
+      "stack": {
+        "min": 30,
+        "max": 30
+      },
+      "ratio": null,
+      "bubble": null,
+      "tags": [
+        "posflop-defense",
+        "lead",
+        "mes"
+      ],
+      "actionIds": [
+        "check",
+        "bet-10",
+        "bet-100"
+      ],
+      "defaultActionId": "check",
+      "tablePot": 15,
+      "villainCoversHero": true,
+      "cbet": {
+        "table": "bb-lead",
+        "node": "river"
+      },
+      "dealFrom": {
+        "strategy": "bb-def-30bb-vs-co",
+        "actionIds": [
+          "call"
+        ]
+      }
+    },
+    {
+      "id": "bb-lead-flop-sim-vs-btn",
+      "name": "BB Leads · flop (board de lead) vs BTN",
+      "description": "SRP 30bb: o BTN abriu e você pagou do BB. Flop de sequência MLL/LLL: lead de range B25.",
+      "street": "flop",
+      "situation": "Lead flop",
+      "heroPosition": "BB",
+      "villainPosition": "BTN",
+      "stack": {
+        "min": 30,
+        "max": 30
+      },
+      "ratio": null,
+      "bubble": null,
+      "tags": [
+        "posflop-defense",
+        "lead",
+        "mes"
+      ],
+      "actionIds": [
+        "check",
+        "bet-25"
+      ],
+      "defaultActionId": "check",
+      "tablePot": 4.5,
+      "villainCoversHero": true,
+      "cbet": {
+        "table": "bb-lead",
+        "node": "flop-sim"
+      },
+      "dealFrom": {
+        "strategy": "bb-def-30bb-vs-btn",
+        "actionIds": [
+          "call"
+        ]
+      }
+    },
+    {
+      "id": "bb-lead-flop-nao-vs-btn",
+      "name": "BB Leads · flop vs BTN",
+      "description": "SRP 30bb: o BTN abriu e você pagou do BB. Fora dos boards de sequência MLL/LLL: check.",
+      "street": "flop",
+      "situation": "Lead flop",
+      "heroPosition": "BB",
+      "villainPosition": "BTN",
+      "stack": {
+        "min": 30,
+        "max": 30
+      },
+      "ratio": null,
+      "bubble": null,
+      "tags": [
+        "posflop-defense",
+        "lead",
+        "mes"
+      ],
+      "actionIds": [
+        "check",
+        "bet-25"
+      ],
+      "defaultActionId": "check",
+      "tablePot": 4.5,
+      "villainCoversHero": true,
+      "cbet": {
+        "table": "bb-lead",
+        "node": "flop-nao"
+      },
+      "dealFrom": {
+        "strategy": "bb-def-30bb-vs-btn",
+        "actionIds": [
+          "call"
+        ]
+      }
+    },
+    {
+      "id": "bb-lead-turn-lead-vs-btn",
+      "name": "BB Leads · turn depois do lead/call vs BTN",
+      "description": "Você fez lead B25 no flop e o BTN pagou. O plano do turn sai do runout.",
+      "street": "turn",
+      "situation": "Lead flop",
+      "heroPosition": "BB",
+      "villainPosition": "BTN",
+      "stack": {
+        "min": 30,
+        "max": 30
+      },
+      "ratio": null,
+      "bubble": null,
+      "tags": [
+        "posflop-defense",
+        "lead",
+        "mes"
+      ],
+      "actionIds": [
+        "check",
+        "bet-25",
+        "bet-67",
+        "bet-115"
+      ],
+      "defaultActionId": "check",
+      "tablePot": 6.75,
+      "villainCoversHero": true,
+      "cbet": {
+        "table": "bb-lead",
+        "node": "turn-lead"
+      },
+      "dealFrom": {
+        "strategy": "bb-def-30bb-vs-btn",
+        "actionIds": [
+          "call"
+        ]
+      },
+      "entryActionIds": [
+        "bet-25"
+      ]
+    },
+    {
+      "id": "bb-lead-turn-vs-btn",
+      "name": "BB Leads · turn vs BTN",
+      "description": "Você deu check/call no cbet do BTN no flop. Lead no turn: dobra média/baixa B67, 3S 8-high B25, 3F check.",
+      "street": "turn",
+      "situation": "Lead turn",
+      "heroPosition": "BB",
+      "villainPosition": "BTN",
+      "stack": {
+        "min": 30,
+        "max": 30
+      },
+      "ratio": null,
+      "bubble": null,
+      "tags": [
+        "posflop-defense",
+        "lead",
+        "mes"
+      ],
+      "actionIds": [
+        "check",
+        "bet-25",
+        "bet-67"
+      ],
+      "defaultActionId": "check",
+      "tablePot": 7.5,
+      "villainCoversHero": true,
+      "cbet": {
+        "table": "bb-lead",
+        "node": "turn"
+      },
+      "dealFrom": {
+        "strategy": "bb-def-30bb-vs-btn",
+        "actionIds": [
+          "call"
+        ]
+      }
+    },
+    {
+      "id": "bb-lead-river-vs-btn",
+      "name": "BB Leads · river vs BTN",
+      "description": "Você deu check/call no flop e no turn contra o BTN. Lead polar no river: B10 nos runouts favoráveis, B100 na dobra do 2º par.",
+      "street": "river",
+      "situation": "Lead river",
+      "heroPosition": "BB",
+      "villainPosition": "BTN",
+      "stack": {
+        "min": 30,
+        "max": 30
+      },
+      "ratio": null,
+      "bubble": null,
+      "tags": [
+        "posflop-defense",
+        "lead",
+        "mes"
+      ],
+      "actionIds": [
+        "check",
+        "bet-10",
+        "bet-100"
+      ],
+      "defaultActionId": "check",
+      "tablePot": 15,
+      "villainCoversHero": true,
+      "cbet": {
+        "table": "bb-lead",
+        "node": "river"
+      },
+      "dealFrom": {
+        "strategy": "bb-def-30bb-vs-btn",
+        "actionIds": [
+          "call"
+        ]
+      }
+    }
+  ],
+  "drills": [
+    {
+      "id": "bb-leads",
+      "name": "BB Leads",
+      "description": "Donk bets do BB (30bb, vs CO e BTN) no flop, no turn e no river, pelas guidelines do time. No flop de lead, o vilão paga e vem a decisão do turn: acertar o lead e errar o turn é meio certo.",
+      "variants": [
+        [
+          "bb-lead-flop-sim-vs-co",
+          "bb-lead-turn-lead-vs-co"
+        ],
+        [
+          "bb-lead-flop-nao-vs-co"
+        ],
+        [
+          "bb-lead-turn-vs-co"
+        ],
+        [
+          "bb-lead-river-vs-co"
+        ],
+        [
+          "bb-lead-flop-sim-vs-btn",
+          "bb-lead-turn-lead-vs-btn"
+        ],
+        [
+          "bb-lead-flop-nao-vs-btn"
+        ],
+        [
+          "bb-lead-turn-vs-btn"
+        ],
+        [
+          "bb-lead-river-vs-btn"
+        ]
+      ],
+      "sampling": "uniforme",
+      "tags": [
+        "posflop-defense",
+        "lead",
+        "mes"
+      ],
+      "handsPerSession": 50,
+      "passAccuracy": 0.9
+    }
+  ]
+}

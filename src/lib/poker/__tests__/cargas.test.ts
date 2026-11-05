@@ -554,3 +554,39 @@ test("carga BW SB pós: SB vs BB no flop, raise/call e limp/check, seção Blind
   assert.deepEqual([...seen.rc].sort(), ["bet-25", "bet-67", "check"]);
   assert.deepEqual([...seen.lx].sort(), ["bet-1bb", "check"]);
 });
+
+test("carga BB Leads: flop com continuação no turn, turn e river; seção Posflop Defense", async () => {
+  const { drillSection } = await import("../sections");
+  const { dealQuestion, validateDrill } = await import("../drill");
+  const { seededRng } = await import("../rng");
+  const deep = parseImportBundle(load("defesa-vanilla-deep.json"), DEFAULT_LEGEND);
+  const result = parseImportBundle(load("bb-leads.json"), DEFAULT_LEGEND, deep.strategies);
+  assert.deepEqual(result.errors, []);
+  const map = new Map([...deep.strategies, ...result.strategies].map((s) => [s.id, s]));
+  const drill = result.drills[0];
+  assert.equal(drillSection(drill, map), "posflop-defense");
+  assert.deepEqual(validateDrill(drill, map), []);
+  const legend = result.legend ?? DEFAULT_LEGEND;
+  const rng = seededRng(5);
+  const answers = new Map<string, Set<string>>();
+  for (let i = 0; i < 600; i++) {
+    const q = dealQuestion(drill, map, legend, rng);
+    const first = map.get(q.steps[0].strategyId)!;
+    const call = map.get(first.dealFrom!.strategyId)!;
+    assert.equal(call.range[q.hand], "call", `${q.hand} vem do call do BB`);
+    if (first.cbet?.table === "bb-lead" && first.cbet.node === "flop-sim") {
+      assert.equal(q.steps.length, 2, "lead no flop tem a decisão do turn");
+      assert.equal(q.steps[1].board.length, 4);
+    } else assert.equal(q.steps.length, 1);
+    for (const s of q.steps) {
+      const node = (map.get(s.strategyId)!.cbet as { node: string }).node;
+      if (!answers.has(node)) answers.set(node, new Set());
+      answers.get(node)!.add(s.correctActionId);
+    }
+  }
+  assert.deepEqual([...answers.get("flop-sim")!], ["bet-25"]);
+  assert.deepEqual([...answers.get("flop-nao")!], ["check"]);
+  assert.deepEqual([...answers.get("turn-lead")!].sort(), ["bet-115", "bet-25", "bet-67", "check"]);
+  assert.deepEqual([...answers.get("turn")!].sort(), ["bet-25", "bet-67", "check"]);
+  assert.deepEqual([...answers.get("river")!].sort(), ["bet-10", "bet-100", "check"]);
+});

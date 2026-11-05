@@ -19,9 +19,21 @@ export type CbetSpec =
       /** BW SB pós (aula 17): o SB age primeiro no flop. */
       table: "bw-sb";
       node: BwNode;
+    }
+  | {
+      /** BB Leads (Posflop Defense): donk bet do BB no flop, no turn depois do lead/call, no turn e no river. */
+      table: "bb-lead";
+      node: BbLeadNode;
     };
 
-type Size = "bet-25" | "bet-40" | "bet-67" | "bet-1bb";
+/**
+ * flop-sim: flop de lead (sequência MLL/LLL); flop-nao: os outros flops (check);
+ * turn-lead: turn depois de lead no flop e call; turn: BB check/call no flop e lidera o turn;
+ * river: BB check/call no flop e no turn e lidera o river.
+ */
+export type BbLeadNode = "flop-sim" | "flop-nao" | "turn-lead" | "turn" | "river";
+
+type Size = "bet-25" | "bet-40" | "bet-67" | "bet-1bb" | "bet-10" | "bet-100" | "bet-115" | "check";
 export interface FlopRule {
   group: string;
   label: string;
@@ -29,11 +41,21 @@ export interface FlopRule {
   size: Size;
 }
 
-const SIZE_LABEL: Record<Size, string> = { "bet-25": "B25", "bet-40": "B40", "bet-67": "B67", "bet-1bb": "Stab 1bb" };
+const SIZE_LABEL: Record<Size, string> = {
+  "bet-25": "B25",
+  "bet-40": "B40",
+  "bet-67": "B67",
+  "bet-1bb": "Stab 1bb",
+  "bet-10": "B10",
+  "bet-100": "B100",
+  "bet-115": "B115",
+  check: "Check",
+};
 
 /** Regra do flop para a tabela da estratégia; null = flop fora do drill. */
-export function flopRuleFor(spec: CbetSpec, flop: readonly Card[]): FlopRule | null {
-  return spec.table === "bw-sb" ? bwFlopRule(flop, spec.node) : mesFlopRule(flop, spec.band);
+export function flopRuleFor(spec: CbetSpec, board: readonly Card[]): FlopRule | null {
+  if (spec.table === "bb-lead") return bbLeadRule(board, spec.node);
+  return spec.table === "bw-sb" ? bwFlopRule(board, spec.node) : mesFlopRule(board, spec.band);
 }
 
 /** Classe do flop pela tabela MES; null = flop fora do drill (trinca no board ou par de Ás). */
@@ -223,12 +245,18 @@ export function cbetAnswer(spec: CbetSpec, hero: readonly Card[], board: readonl
   const rule = flopRuleFor(spec, board);
   if (!rule) return null;
   if (rule.mode === "range") return { action: rule.size, rule, hand: null };
-  const hand = spec.table === "bw-sb" ? readBwHand(hero, board) : readHand(hero, board);
+  const hand =
+    spec.table === "bb-lead"
+      ? readPolarHand(hero, board.slice(0, BB_LEAD_CARDS[spec.node]), spec.node === "river" ? "river" : "turn")
+      : spec.table === "bw-sb"
+        ? readBwHand(hero, board)
+        : readHand(hero, board);
   return { action: hand.bet ? rule.size : "check", rule, hand };
 }
 
 export function ruleSummary(rule: FlopRule): string {
   const size = SIZE_LABEL[rule.size];
+  if (rule.size === "check") return "Check range";
   if (rule.size === "bet-1bb") return rule.mode === "range" ? "Stab range 1bb" : "Split X_Stab 1bb";
   return rule.mode === "range" ? `Range bet ${size}` : `Split X_${size}`;
 }
@@ -376,4 +404,138 @@ export function readBwHand(hero: readonly Card[], flop: readonly Card[]): HandRe
   return goodSuit
     ? hand("Trash com naipe", true, twoTone ? "Trash aposta com o naipe do board na carta alta." : "Trash aposta com os dois naipes do board (não bloqueia os folds).")
     : hand("Trash sem naipe", false, "Trash sem naipe bom dá check.");
+}
+
+// ---------------------------------------------------------------------------
+// BB Leads (Posflop Defense): guidelines do time para o donk bet do BB.
+
+const BB_LEAD_CARDS: Record<BbLeadNode, number> = { "flop-sim": 3, "flop-nao": 3, "turn-lead": 4, turn: 4, river: 5 };
+
+/** Classe usada nas guidelines de lead: L = 2–6, M = 7–9 (765 é MLL, 654 é LLL). */
+const leadClass = (v: number) => (v === 14 ? "A" : v >= 10 ? "H" : v >= 7 ? "M" : "L");
+
+/** Flop de lead: sequência possível em board MLL ou LLL (L = 2–6, M = 7–9), sem dobra. */
+export function isLeadFlop(flop: readonly Card[]): boolean {
+  const bv = flop.slice(0, 3).map((c) => value(cardRank(c)));
+  if (new Set(bv).size < 3) return false;
+  const classes = bv.map(leadClass);
+  const m = classes.filter((c) => c === "M").length;
+  const l = classes.filter((c) => c === "L").length;
+  return l + m === 3 && m <= 1 && nutStraightTop(bv) > 0;
+}
+
+/** Janela de 5 valores (A conta como 1 e 14) com pelo menos `n` cartas distintas do board. */
+function windowWith(bv: readonly number[], n: number, test: (low: number, high: number) => boolean = () => true): boolean {
+  const ranks = new Set(bv.flatMap((v) => (v === 14 ? [14, 1] : [v])));
+  for (let low = 1; low <= 10; low++) {
+    let count = 0;
+    for (let v = low; v < low + 5; v++) if (ranks.has(v)) count++;
+    if (count >= n && test(low, low + 4)) return true;
+  }
+  return false;
+}
+
+const rangeRule = (group: string, label: string, size: Size): FlopRule => ({ group, label, mode: "range", size });
+const polarRule = (group: string, label: string, size: Size): FlopRule => ({ group, label, mode: "split", size });
+
+export function bbLeadRule(board: readonly Card[], node: BbLeadNode): FlopRule | null {
+  const flop = board.slice(0, 3);
+  const fv = flop.map((c) => value(cardRank(c)));
+  const sigla = (vs: number[]) =>
+    [...vs]
+      .sort((a, b) => b - a)
+      .map(leadClass)
+      .join("");
+
+  if (node === "flop-sim")
+    return isLeadFlop(flop) ? rangeRule("lead-flop", `Board straight ${sigla(fv)}`, "bet-25") : null;
+  if (node === "flop-nao") {
+    if (isLeadFlop(flop) || new Set(fv).size === 1) return null;
+    return rangeRule("check-flop", `Fora dos boards de lead (${sigla(fv)})`, "check");
+  }
+
+  if (board.length < 4) return null;
+  const turn = board[3];
+  const tv = value(cardRank(turn));
+
+  if (node === "turn-lead") {
+    if (!isLeadFlop(flop)) return null;
+    const low = Math.min(...fv);
+    if (fv.includes(tv)) return rangeRule("tl-dobra", "Turn dobra o board", "bet-67");
+    if (tv === 13 || tv === 14) return polarRule("tl-ka", "Turn K ou A", "bet-115");
+    const four = windowWith([...fv, tv], 4);
+    if (four && tv < low) return rangeRule("tl-4-baixo", "Turn: 4ª pra sequência por baixo", "bet-67");
+    if (four) return rangeRule("tl-4-cima", "Turn: 4ª pra sequência por cima", "bet-25");
+    return rangeRule("tl-outros", tv >= 9 ? "Turn do 9 ao Q" : "Turn baixo sem 4ª pra sequência", "bet-25");
+  }
+
+  const tSuits = board.slice(0, 4).map(cardSuit);
+  if (node === "turn") {
+    if (new Set(fv).size < 3) return null; // flop pareado fica fora
+    if (tSuits.filter((x) => x === cardSuit(turn)).length === 3) return rangeRule("t-3f", "Turn: 3º naipe (3F)", "check");
+    if (fv.includes(tv) && tv <= 9) return rangeRule("t-dobra", "Turn dobra carta média/baixa", "bet-67");
+    const tvs = [...fv, tv];
+    if (!windowWith(fv, 3) && windowWith(tvs, 3, (_, high) => high <= 8))
+      return rangeRule("t-3s", "Turn: 3 pra sequência, 8-high ou menor (3S)", "bet-25");
+    return rangeRule("t-check", "Turn sem lead", "check");
+  }
+
+  // river
+  if (board.length < 5 || new Set(fv).size < 3) return null;
+  const river = board[4];
+  const rv = value(cardRank(river));
+  const turnBoard = [...fv, tv];
+  const distinct = [...new Set(turnBoard)].sort((a, b) => b - a);
+  if (distinct.includes(rv))
+    return rv === distinct[1]
+      ? polarRule("r-dobra-2p", "River dobra o 2º par", "bet-100")
+      : polarRule("r-dobra", "River dobra o board", "bet-10");
+  const rSuits = board.map(cardSuit);
+  if (rSuits.filter((x) => x === cardSuit(river)).length === 3)
+    return polarRule("r-flush", "River completa o flush", "bet-10");
+  // Sequência de duas pontas: alguém com 2 cartas tinha OESD (4 seguidas, 2 delas no board) e o river é uma ponta
+  const tRanks = new Set(turnBoard.flatMap((v) => (v === 14 ? [14, 1] : [v])));
+  const rvs = rv === 14 ? [14, 1] : [rv];
+  for (let a = 2; a <= 10; a++) {
+    const inBoard = [0, 1, 2, 3].filter((d) => tRanks.has(a + d)).length;
+    if (inBoard === 2 && rvs.some((r) => r === a - 1 || r === a + 4))
+      return polarRule("r-str8", "River completa sequência (duas pontas)", "bet-10");
+  }
+  return rangeRule("r-check", "River sem lead", "check");
+}
+
+/**
+ * Lead polar mão a mão: dois pares ou melhor e ar (sem par) apostam; um par dá check.
+ * No turn polar (K/A depois do lead/call) apostam 2P+ e draws (flush draw ou OESD).
+ */
+function readPolarHand(hero: readonly Card[], board: readonly Card[], street: "turn" | "river"): HandRead {
+  const hv = hero.map((c) => value(cardRank(c))).sort((a, b) => b - a);
+  const bv = board.map((c) => value(cardRank(c)));
+  const count = (v: number) => bv.filter((x) => x === v).length;
+  const pocket = hv[0] === hv[1];
+  const suits = [...hero, ...board].map(cardSuit);
+  const flush = hero.some((c) => suits.filter((x) => x === cardSuit(c)).length >= 5);
+  const straight = straightTop([...hv, ...bv]) > 0;
+  const boardPairs = [...new Set(bv)].filter((v) => count(v) >= 2);
+  const heroPaired = hv.filter((v) => count(v) >= 1);
+  const strong =
+    straight ||
+    flush ||
+    (pocket && count(hv[0]) >= 1) ||
+    heroPaired.some((v) => boardPairs.includes(v)) ||
+    (!pocket && heroPaired.length === 2);
+  if (strong) return hand("Dois pares ou melhor", true, "Polar: valor forte aposta.");
+  const onePair = pocket || heroPaired.length > 0;
+  if (street === "turn") {
+    const flushDraw = hero.some((c) => suits.filter((x) => x === cardSuit(c)).length === 4);
+    const draws = straightOuts([...hv, ...bv]);
+    const oesd = draws.outs.length >= 2 && straightOuts(bv).outs.length < draws.outs.length;
+    if (flushDraw || oesd) return hand(flushDraw ? "Flush draw" : "OESD", true, "Polar: draws apostam.");
+    return onePair
+      ? hand("Um par", false, "Polar: mãos médias dão check.")
+      : hand("Sem par e sem draw", false, "No turn polar só 2P+ e draws apostam.");
+  }
+  return onePair
+    ? hand("Um par", false, "Polar: mãos médias (um par) dão check.")
+    : hand("Ar", true, "Polar: blefe com as mãos sem showdown.");
 }

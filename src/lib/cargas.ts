@@ -17,6 +17,7 @@ import defesaBbVanillaMultiway from "../../cargas/defesa-bb-vanilla-multiway.jso
 import rfiSbChipEv from "../../cargas/rfi-sb-chip-ev.json";
 import bwSbMlr from "../../cargas/bw-sb-mlr.json";
 import bwBb from "../../cargas/bw-bb.json";
+import bbLeads from "../../cargas/bb-leads.json";
 import bwSbPos from "../../cargas/bw-sb-pos.json";
 import cbetFlopIp from "../../cargas/cbet-flop-ip.json";
 
@@ -178,5 +179,12 @@ export const CARGAS: Carga[] = [
     description: "Blind War pós-flop (aula 17): SB vs BB 30bb, flop depois de raise/call (check, B25, B67) e de limp/check (check, stab 1bb).",
     requires: ["rfi-sb-chip-ev"],
     bundle: bwSbPos,
+  },
+  {
+    id: "bb-leads",
+    name: "BB Leads",
+    description: "Posflop Defense: donk bets do BB 30bb vs CO e BTN no flop (com o turn depois do lead/call), no turn e no river.",
+    requires: ["defesa-vanilla-deep"],
+    bundle: bbLeads,
   },
 ];

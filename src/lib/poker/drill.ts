@@ -163,7 +163,7 @@ export function drillDependencyIds(drill: Drill, strategies: Map<string, Strateg
 }
 
 const FRONTEIRA_WEIGHT = 4;
-const MAX_BOARD_TRIES = 200;
+const MAX_BOARD_TRIES = 1000;
 
 /**
  * Sorteia uma mão e monta a sequência de decisões.

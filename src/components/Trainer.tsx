@@ -228,6 +228,9 @@ function TableSlot({
   }, [question, chosen, done, stepIndex, handDecisions, onHandComplete, deal]);
 
   const isCorrect = chosen !== null && step !== undefined && isCorrectStep(step, chosen);
+  // Mão com várias decisões em que acertou umas e errou outras (ex.: lead certo no flop, turn errado)
+  const halfRight =
+    chosen !== null && handDecisions.length > 1 && handDecisions.some((d) => d.correct) && handDecisions.some((d) => !d.correct);
 
   useEffect(() => {
     if (chosen && isCorrect && autoAdvance) {
@@ -271,11 +274,13 @@ function TableSlot({
           ? keyboard === "choose" && multi
             ? "border-zinc-600"
             : ""
-          : isCorrect
-            ? "border-green-500 ring-2 ring-green-500"
-            : "border-red-500 ring-2 ring-red-500"
+          : halfRight
+            ? "border-yellow-400 ring-2 ring-yellow-400"
+            : isCorrect
+              ? "border-green-500 ring-2 ring-green-500"
+              : "border-red-500 ring-2 ring-red-500"
       }`}
-      data-feedback={chosen === null ? undefined : isCorrect ? "certo" : "errado"}
+      data-feedback={chosen === null ? undefined : halfRight ? "meio" : isCorrect ? "certo" : "errado"}
       data-testid="table-slot"
     >
       <div className="flex flex-wrap items-center gap-2 text-sm">
@@ -403,7 +408,10 @@ function TableSlot({
 
       {chosen && (
         <div className="flex flex-wrap items-center justify-between gap-3">
-          <span className={`text-sm font-medium ${isCorrect ? "text-green-400" : "text-red-400"}`}>
+          <span
+            className={`text-sm font-medium ${halfRight ? "text-yellow-300" : isCorrect ? "text-green-400" : "text-red-400"}`}
+          >
+            {halfRight ? "Meio certo · " : ""}
             {isCorrect
               ? step.alsoAccepted?.length
                 ? `Certo (mão mista: ${acceptedLabels})`
@@ -922,7 +930,11 @@ export function Trainer({ drill, strategies, legend, timeLimitSec, sourceDrillOf
               <p className="text-zinc-400">{cbetRead.hand.reason}</p>
             </div>
           ) : (
-            <p className="text-zinc-400">Range bet: todas as mãos apostam o mesmo tamanho.</p>
+            <p className="text-zinc-400">
+              {cbetRead.action === "check"
+                ? "Check range: todas as mãos dão check."
+                : "Range bet: todas as mãos apostam o mesmo tamanho."}
+            </p>
           )}
           <p className="text-lg font-semibold" style={{ color: findAction(legend, cbetRead.action)?.color }}>
             Resposta: {findAction(legend, cbetRead.action)?.label ?? cbetRead.action}

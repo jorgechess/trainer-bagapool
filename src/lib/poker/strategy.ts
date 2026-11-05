@@ -141,7 +141,7 @@ export interface Strategy {
 export function resolveRange(strategy: Strategy, board: readonly Card[]): Range | null {
   if (strategy.street === "preflop") return strategy.range;
   // Cbet por tabela: não há range fixo; vale se o flop entra na tabela
-  if (strategy.cbet) return flopRuleFor(strategy.cbet, board.slice(0, 3)) ? {} : null;
+  if (strategy.cbet) return flopRuleFor(strategy.cbet, board) ? {} : null;
   const visible = board.slice(0, BOARD_CARDS_BY_STREET[strategy.street]);
   if (visible.length < BOARD_CARDS_BY_STREET[strategy.street]) throw new Error("Board incompleto para a street");
   const texture = boardTexture(visible);

@@ -139,3 +139,51 @@ test("BW SB pós: tabela do split por mão", () => {
   assert.equal(bw("2c7d", "As8c3h", "lx"), "bet-1bb");
   assert.equal(bw("KcAd", "KsQd8c", "lx"), "bet-1bb"); // LX split usa a mesma tabela
 });
+
+test("BB Leads: flop, turn depois do lead/call, turn e river pelas guidelines", async () => {
+  const { bbLeadRule, isLeadFlop } = await import("../cbet");
+  type N = "flop-sim" | "flop-nao" | "turn-lead" | "turn" | "river";
+  const rule = (b: string, node: N) => {
+    const r = bbLeadRule(c(b), node);
+    return r ? `${r.mode}:${r.size}` : null;
+  };
+  const lead = (hero: string, board: string, node: N) => cbetAnswer({ table: "bb-lead", node }, c(hero), c(board))?.action;
+  // flop: sequência MLL/LLL (L = 2–6, M = 7–9)
+  assert.equal(isLeadFlop(c("7c6h5s")), true);
+  assert.equal(isLeadFlop(c("6c5h4s")), true);
+  assert.equal(isLeadFlop(c("9c6h5s")), true);
+  assert.equal(isLeadFlop(c("8c7h5s")), false); // MML
+  assert.equal(isLeadFlop(c("Kc6h5s")), false);
+  assert.equal(isLeadFlop(c("6c6h4s")), false);
+  assert.equal(rule("6c5h4s", "flop-sim"), "range:bet-25");
+  assert.equal(rule("Kc8h3s", "flop-sim"), null);
+  assert.equal(rule("Kc8h3s", "flop-nao"), "range:check");
+  assert.equal(rule("6c5h4s", "flop-nao"), null);
+  // turn depois de lead/call no 654
+  assert.equal(rule("6c5h4s2s", "turn-lead"), "range:bet-67"); // 4ª por baixo
+  assert.equal(rule("6c5h4s5d", "turn-lead"), "range:bet-67"); // dobra
+  assert.equal(rule("6c5h4s7c", "turn-lead"), "range:bet-25"); // 4ª por cima
+  assert.equal(rule("6c5h4sTh", "turn-lead"), "range:bet-25"); // 9 ao Q
+  assert.equal(rule("6c5h4sKh", "turn-lead"), "split:bet-115");
+  assert.equal(lead("Kd6d", "6c5h4sKh", "turn-lead"), "bet-115"); // dois pares
+  assert.equal(lead("3d3c", "6c5h4sKh", "turn-lead"), "bet-115"); // sequência
+  assert.equal(lead("8d7d", "6c5h4sKd", "turn-lead"), "bet-115"); // sequência (8-4)
+  assert.equal(lead("Qd9d", "6d5h4sKd", "turn-lead"), "bet-115"); // flush draw
+  assert.equal(lead("Ad6d", "6c5h4sKh", "turn-lead"), "check"); // um par
+  // turn avulso (BB check/call no flop)
+  assert.equal(rule("Kc8h3h2h", "turn"), "range:check"); // 3F
+  assert.equal(rule("Kc8h3s8d", "turn"), "range:bet-67"); // dobra média
+  assert.equal(rule("Kc8h3sKd", "turn"), "range:check"); // dobra alta
+  assert.equal(rule("Kc7h3s5d", "turn"), "range:bet-25"); // 3S 7-high (7-5-3)
+  assert.equal(rule("Kc9h3s7d", "turn"), "range:check"); // 9-7 + K: sequência alta, não é 8-high
+  assert.equal(rule("Kc8h3sJd", "turn"), "range:check");
+  // river avulso
+  assert.equal(rule("Kc8h3sJd8s", "river"), "split:bet-10"); // dobra (não é o 2º par: J)
+  assert.equal(rule("Kc8h3sJdJs", "river"), "split:bet-100"); // dobra do 2º par
+  assert.equal(rule("Kc8h3hJd2h", "river"), "split:bet-10"); // flush completo
+  assert.equal(rule("Kc9h3sTd8s", "river"), "split:bet-10"); // QJ/76 completam pelas duas pontas
+  assert.equal(rule("Kc8h3s2d4d", "river"), "range:check");
+  assert.equal(lead("AdJc", "Kc8h3sJdJs", "river"), "bet-100"); // trinca
+  assert.equal(lead("Ad4c", "Kc8h3sJdJs", "river"), "bet-100"); // ar
+  assert.equal(lead("Kd4c", "Kc8h3sJdJs", "river"), "check"); // um par (o par do board não conta)
+});
