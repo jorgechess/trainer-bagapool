@@ -718,7 +718,13 @@ async function main() {
         // flop: Bet 25% é o certo nos boards de lead
         await page.locator("[data-testid=actions]").getByRole("button", { name: "Bet 25%" }).click();
         const feedback = await page.getByTestId("table-slot").getAttribute("data-feedback");
+        const flopBoard = await page.getByTestId("board").textContent();
         await page.getByRole("button", { name: /Continuar/ }).click();
+        if (feedback !== "certo") {
+          // errou o flop: a mão acaba, sem turn (próximo board é outro flop)
+          await page.waitForFunction((b) => document.querySelector("[data-testid=board]")?.textContent !== b, flopBoard);
+          assert.notEqual(await page.getByTestId("board").locator("> *").count(), 4, "flop errado não vai pro turn");
+        }
         if (feedback === "certo") {
           // turn depois do lead/call: erra de propósito com o que não for a resposta
           await page.getByTestId("board").locator("> *").nth(3).waitFor();

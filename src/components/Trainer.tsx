@@ -218,14 +218,17 @@ function TableSlot({
 
   const next = useCallback(() => {
     if (!question || !chosen || done) return;
-    if (stepIndex + 1 < question.steps.length) {
+    // Pós-flop (ex.: BB Leads): errou a ação que leva à próxima street, a mão acaba aqui
+    const following = question.steps[stepIndex + 1] ? strategyMap.get(question.steps[stepIndex + 1].strategyId) : undefined;
+    const cutShort = Boolean(following?.cbet && following.entryActionIds?.length && !following.entryActionIds.includes(chosen));
+    if (stepIndex + 1 < question.steps.length && !cutShort) {
       setStepIndex((i) => i + 1);
       setChosen(null);
       return;
     }
     if (onHandComplete(handDecisions)) deal();
     else setDone(true);
-  }, [question, chosen, done, stepIndex, handDecisions, onHandComplete, deal]);
+  }, [question, chosen, done, stepIndex, handDecisions, onHandComplete, deal, strategyMap]);
 
   const isCorrect = chosen !== null && step !== undefined && isCorrectStep(step, chosen);
   // Mão com várias decisões em que acertou umas e errou outras (ex.: lead certo no flop, turn errado)
@@ -359,7 +362,8 @@ function TableSlot({
             PKO {strategy.pko.coverage}
           </span>
         )}
-        {question.steps.length > 1 && (
+        {/* No pós-flop o contador entregaria a resposta (só o lead certo tem a decisão seguinte) */}
+        {question.steps.length > 1 && !strategy.cbet && (
           <span className="text-zinc-500">
             · decisão {stepIndex + 1} de {question.steps.length}
           </span>
