@@ -304,7 +304,8 @@ function TableSlot({
         )}
         <span className="text-zinc-300" data-testid="spot">
           {[
-            strategy.cbet?.table === "bw-sb" ? null : strategy.situation,
+            // BW SB pós já mostra o pote em destaque; no BB Probes a classe do flop entregaria a resposta
+            strategy.cbet?.table === "bw-sb" || strategy.cbet?.table === "bb-probe" ? null : strategy.situation,
             strategy.heroPosition,
             strategy.villainPosition && `vs ${[strategy.villainPosition, ...(strategy.callers ?? [])].join(" + ")}`,
           ]
