@@ -1,1 +1,513 @@
-{"legendAdd": [{"id": "iso", "label": "ISO", "color": "#16a34a", "kind": "raise"}, {"id": "3bet-call", "label": "3-bet/Call", "color": "#b91c1c", "kind": "raise"}, {"id": "3bet-fold", "label": "3-bet/Fold", "color": "#fb7185", "kind": "raise"}], "strategies": [{"street": "preflop", "heroPosition": "BB", "villainPosition": "SB", "ratio": null, "bubble": null, "tags": ["bw", "blind-war"], "defaultActionId": "check", "randomStacks": true, "stack": {"min": 50, "max": 100}, "id": "bw-bb-vs-limp-50plus", "name": "BW BB vs limp 50+bb", "situation": "vs limp", "villainLabel": "Limp", "description": "Blind war: o SB limpou e você está no BB com 50+bb.", "actionIds": ["check", "iso", "shove"], "tableSizes": {"open": 1}, "range": {"iso": "AA, AKs, AQs, AJs, ATs, A9s, A8s, A7s, A6s, A5s, A4s, A3s, A2s, AKo, KK, KQs, KJs, KTs, K9s, K8s, AQo, KQo, QQ, QJs, QTs, Q9s, Q8s, AJo, KJo, QJo, JJ, JTs, J9s, J8s, ATo, KTo, TT, T9s, A9o, Q9o, 99, 94s, 93s, 92s, Q8o, J8o, 88, 83s, 82s, Q7o, J7o, T7o, 97o, 72s, Q6o, J6o, T6o, 96o, 86o, Q5o, J5o, T5o, 95o, 85o, 75o, K4o, Q4o, J4o, T4o, 94o, 84o, 74o, 64o, K3o, Q3o, J3o, T3o, 93o, 83o, 73o, 63o, 53o, K2o, Q2o, J2o, T2o, 92o, 82o, 72o, 62o, 52o, 42o, 32o", "check": "K7s, K6s, K5s, K4s, K3s, K2s, Q7s, Q6s, Q5s, Q4s, Q3s, Q2s, J7s, J6s, J5s, J4s, J3s, J2s, QTo, JTo, T8s, T7s, T6s, T5s, T4s, T3s, T2s, K9o, J9o, T9o, 98s, 97s, 96s, 95s, A8o, K8o, T8o, 98o, 87s, 86s, 85s, 84s, A7o, K7o, 87o, 77, 76s, 75s, 74s, 73s, A6o, K6o, 76o, 66, 65s, 64s, 63s, 62s, A5o, K5o, 65o, 55, 54s, 53s, 52s, A4o, 54o, 44, 43s, 42s, A3o, 43o, 33, 32s, A2o, 22"}}, {"street": "preflop", "heroPosition": "BB", "villainPosition": "SB", "ratio": null, "bubble": null, "tags": ["bw", "blind-war"], "defaultActionId": "fold", "randomStacks": true, "stack": {"min": 50, "max": 100}, "id": "bw-bb-vs-limp-50plus-iso-vs-3bet", "name": "BW BB vs limp 50+bb · ISO vs 3-bet", "situation": "ISO vs 3-bet", "villainLabel": "3-bet", "description": "Você isolou o limp do SB (3bb) e ele deu 3-bet (8bb).", "entryActionIds": ["iso"], "actionIds": ["fold", "call", "shove"], "tablePosted": {"hero": 3, "villain": 8}, "range": {"call": "AA, AQs, AJs, ATs, A9s, A8s, A7s, A6s, A5s, KQs, KJs, KTs, K9s, K8s, AQo, KQo, QJs, QTs, Q9s, Q8s, AJo, KJo, QJo, JTs, J9s, J8s, ATo, KTo, T9s, A9o", "shove": "AKs, A4s, A3s, A2s, AKo, KK, QQ, JJ, TT, 99, 88"}}, {"street": "preflop", "heroPosition": "BB", "villainPosition": "SB", "ratio": null, "bubble": null, "tags": ["bw", "blind-war"], "defaultActionId": "fold", "randomStacks": true, "stack": {"min": 50, "max": 100}, "id": "bw-bb-vs-raise-50plus", "name": "BW BB vs raise 50+bb", "situation": "vs raise", "description": "Blind war: o SB deu raise (3bb) e você está no BB com 50+bb.", "actionIds": ["fold", "call", "3bet-call", "3bet-fold", "shove"], "tableSizes": {"open": 3}, "range": {"3bet-call": "AA, AKs, AQs, AKo, KK, AQo, QQ, JJ", "call": "AJs, ATs, A9s, A8s, A7s, A6s, A5s, A4s, A3s, A2s, KQs, KJs, KTs, K9s, K8s, K7s, K6s, K5s, K4s, K3s, K2s, KQo, QJs, QTs, Q9s, Q8s, Q7s, Q6s, Q5s, Q4s, Q3s, Q2s, AJo, KJo, QJo, JTs, J9s, J8s, J7s, J6s, J5s, J4s, J3s, J2s, ATo, KTo, QTo, JTo, TT, T9s, T8s, T7s, T6s, T5s, T4s, T3s, T2s, A9o, K9o, Q9o, J9o, T9o, 99, 98s, 97s, 96s, 95s, 94s, 93s, 92s, A8o, K8o, Q8o, J8o, T8o, 98o, 88, 87s, 86s, 85s, 84s, A7o, K7o, 87o, 77, 76s, 75s, 74s, 73s, A6o, K6o, 66, 65s, 64s, 63s, 62s, A5o, K5o, 55, 54s, 53s, 52s, A4o, 44, 43s, 42s, 33, 32s, 22", "3bet-fold": "Q7o, J7o, T7o, 97o, K4o, A3o, A2o"}}, {"street": "preflop", "heroPosition": "BB", "villainPosition": "SB", "ratio": null, "bubble": null, "tags": ["bw", "blind-war"], "defaultActionId": "check", "randomStacks": true, "stack": {"min": 25, "max": 50}, "id": "bw-bb-vs-limp-25-50", "name": "BW BB vs limp 25-50bb", "situation": "vs limp", "villainLabel": "Limp", "description": "Blind war: o SB limpou e você está no BB com 25-50bb.", "actionIds": ["check", "iso", "shove"], "tableSizes": {"open": 1}, "range": {"iso": "AA, AKs, AQs, AJs, ATs, A9s, A8s, A7s, AKo, KK, KQs, KJs, AQo, KQo, QQ, AJo, KJo, JJ, ATo, KTo, TT, A9o, 99, 94s, 93s, 92s, J8o, T8o, 88, 83s, 82s, J7o, T7o, 97o, 72s, J6o, T6o, 96o, 86o, J5o, T5o, 95o, 85o, 75o, J4o, T4o, 94o, 84o, 74o, 64o, Q3o, J3o, T3o, 93o, 83o, 73o, 63o, 53o, Q2o, J2o, T2o, 92o, 82o, 72o, 62o, 52o, 42o, 32o", "check": "A6s, A5s, A4s, A3s, A2s, KTs, K9s, K8s, K7s, K6s, K5s, K4s, K3s, K2s, QJs, QTs, Q9s, Q8s, Q7s, Q6s, Q5s, Q4s, Q3s, Q2s, QJo, JTs, J9s, J8s, J7s, J6s, J5s, J4s, J3s, J2s, QTo, JTo, T9s, T8s, T7s, T6s, T5s, T4s, T3s, T2s, K9o, Q9o, J9o, T9o, 98s, 97s, 96s, 95s, A8o, K8o, Q8o, 98o, 87s, 86s, 85s, 84s, A7o, K7o, Q7o, 87o, 77, 76s, 75s, 74s, 73s, A6o, K6o, Q6o, 76o, 66, 65s, 64s, 63s, 62s, A5o, K5o, Q5o, 65o, 55, 54s, 53s, 52s, A4o, K4o, Q4o, 54o, 44, 43s, 42s, A3o, K3o, 43o, 33, 32s, A2o, K2o, 22"}}, {"street": "preflop", "heroPosition": "BB", "villainPosition": "SB", "ratio": null, "bubble": null, "tags": ["bw", "blind-war"], "defaultActionId": "fold", "randomStacks": true, "stack": {"min": 25, "max": 50}, "id": "bw-bb-vs-limp-25-50-iso-vs-3bet", "name": "BW BB vs limp 25-50bb · ISO vs 3-bet", "situation": "ISO vs 3-bet", "villainLabel": "3-bet", "description": "Você isolou o limp do SB (3bb) e ele deu 3-bet (8bb).", "entryActionIds": ["iso"], "actionIds": ["fold", "call", "shove"], "tablePosted": {"hero": 3, "villain": 8}, "range": {"call": "AA, AJs, ATs, A9s, A8s, A7s, KQs, KJs, KJo, ATo, KTo, A9o", "shove": "AKs, AQs, AKo, KK, AQo, KQo, QQ, AJo, JJ, TT, 99, 88"}}, {"street": "preflop", "heroPosition": "BB", "villainPosition": "SB", "ratio": null, "bubble": null, "tags": ["bw", "blind-war"], "defaultActionId": "fold", "randomStacks": true, "stack": {"min": 25, "max": 50}, "id": "bw-bb-vs-raise-25-50", "name": "BW BB vs raise 25-50bb", "situation": "vs raise", "description": "Blind war: o SB deu raise (3bb) e você está no BB com 25-50bb.", "actionIds": ["fold", "call", "3bet-call", "3bet-fold", "shove"], "tableSizes": {"open": 3}, "range": {"3bet-call": "AA, AKs, AQs, AKo, KK, AQo, QQ, JJ, TT", "call": "AJs, ATs, A9s, A8s, A7s, A6s, A5s, A4s, A3s, A2s, KQs, KJs, KTs, K9s, K8s, K7s, K6s, K5s, K4s, K3s, K2s, KQo, QJs, QTs, Q9s, Q8s, Q7s, Q6s, Q5s, Q4s, Q3s, Q2s, AJo, KJo, QJo, JTs, J9s, J8s, J7s, J6s, J5s, J4s, J3s, J2s, ATo, KTo, QTo, JTo, T9s, T8s, T7s, T6s, T5s, T4s, T3s, T2s, A9o, K9o, Q9o, J9o, T9o, 99, 98s, 97s, 96s, 95s, 94s, 93s, 92s, A8o, K8o, Q8o, J8o, T8o, 98o, 88, 87s, 86s, 85s, 84s, 83s, 82s, A7o, K7o, Q7o, J7o, T7o, 97o, 87o, 77, 76s, 75s, 74s, 73s, 72s, A6o, K6o, Q6o, 76o, 66, 65s, 64s, 63s, 62s, A5o, K5o, Q5o, 55, 54s, 53s, 52s, A4o, K4o, 44, 43s, 42s, A3o, 33, 32s, 22", "3bet-fold": "J6o, T6o, 96o, 86o, Q4o, K3o, A2o"}}, {"street": "preflop", "heroPosition": "BB", "villainPosition": "SB", "ratio": null, "bubble": null, "tags": ["bw", "blind-war"], "defaultActionId": "check", "randomStacks": true, "stack": {"min": 15, "max": 25}, "id": "bw-bb-vs-limp-15-25", "name": "BW BB vs limp 15-25bb", "situation": "vs limp", "villainLabel": "Limp", "description": "Blind war: o SB limpou e você está no BB com 15-25bb.", "actionIds": ["check", "iso", "shove"], "tableSizes": {"open": 1}, "range": {"iso": "AA, AKs, AQs, AJs, ATs, A9s, AKo, KK, KQs, KJs, AQo, KQo, QQ, AJo, JJ, TT, 99, 96o, 86o, T5o, 95o, 85o, 75o, J4o, T4o, 94o, 84o, 74o, 64o, Q3o, J3o, T3o, 93o, 83o, 73o, 63o, 53o, 92o, 82o, 72o, 62o, 52o, 42o, 32o", "check": "A8s, A7s, A6s, A5s, A4s, A3s, A2s, KTs, K9s, K8s, K7s, K6s, K5s, K4s, K3s, K2s, QJs, QTs, Q9s, Q8s, Q7s, Q6s, Q5s, Q4s, Q3s, Q2s, KJo, QJo, JTs, J9s, J8s, J7s, J6s, J5s, J4s, J3s, J2s, KTo, QTo, JTo, T9s, T8s, T7s, T6s, T5s, T4s, T3s, T2s, K9o, Q9o, J9o, T9o, 98s, 97s, 96s, 95s, 94s, 93s, 92s, K8o, Q8o, J8o, T8o, 98o, 87s, 86s, 85s, 84s, 83s, 82s, K7o, Q7o, J7o, T7o, 97o, 87o, 76s, 75s, 74s, 73s, 72s, K6o, Q6o, J6o, T6o, 76o, 65s, 64s, 63s, 62s, K5o, Q5o, J5o, 65o, 54s, 53s, 52s, K4o, Q4o, 54o, 43s, 42s, K3o, 43o, 32s", "shove": "ATo, A9o, A8o, 88, A7o, 77, A6o, 66, A5o, 55, A4o, 44, A3o, 33, A2o, K2o, Q2o, J2o, T2o, 22"}}, {"street": "preflop", "heroPosition": "BB", "villainPosition": "SB", "ratio": null, "bubble": null, "tags": ["bw", "blind-war"], "defaultActionId": "fold", "randomStacks": true, "stack": {"min": 15, "max": 25}, "id": "bw-bb-vs-limp-15-25-iso-vs-3bet", "name": "BW BB vs limp 15-25bb · ISO vs 3-bet", "situation": "ISO vs 3-bet", "villainLabel": "3-bet", "description": "Você isolou o limp do SB (3bb) e ele deu 3-bet (8bb).", "entryActionIds": ["iso"], "actionIds": ["fold", "call", "shove"], "tablePosted": {"hero": 3, "villain": 8}, "range": {"call": "AA, AJs, ATs, A9s, KQs, KJs", "shove": "AKs, AQs, AKo, KK, AQo, KQo, QQ, AJo, JJ, TT, 99"}}, {"street": "preflop", "heroPosition": "BB", "villainPosition": "SB", "ratio": null, "bubble": null, "tags": ["bw", "blind-war"], "defaultActionId": "fold", "randomStacks": true, "stack": {"min": 15, "max": 25}, "id": "bw-bb-vs-raise-15-25", "name": "BW BB vs raise 15-25bb", "situation": "vs raise", "description": "Blind war: o SB deu raise (3bb) e você está no BB com 15-25bb.", "actionIds": ["fold", "call", "3bet-call", "3bet-fold", "shove"], "tableSizes": {"open": 3}, "range": {"call": "AA, ATs, A9s, A8s, A7s, A6s, A5s, A4s, A3s, KQs, KJs, KTs, K9s, K8s, K7s, K6s, K5s, K4s, K3s, KQo, QJs, QTs, Q9s, Q8s, Q7s, Q6s, Q5s, Q4s, Q3s, KJo, QJo, JTs, J9s, J8s, J7s, J6s, J5s, J4s, J3s, KTo, QTo, JTo, T9s, T8s, T7s, T6s, T5s, T4s, T3s, T2s, K9o, Q9o, J9o, T9o, 98s, 97s, 96s, 95s, 94s, 93s, 92s, K8o, Q8o, J8o, T8o, 98o, 87s, 86s, 85s, 84s, 83s, 82s, K7o, 76s, 75s, 74s, 73s, 72s, K6o, 65s, 64s, 63s, 62s, K5o, 54s, 53s, 52s, 43s, 42s, 32s", "3bet-call": "AKs, AQs, AKo, KK, QQ, JJ, TT, 99", "shove": "AJs, A2s, K2s, AQo, Q2s, AJo, J2s, ATo, A9o, A8o, 88, A7o, 77, A6o, 66, A5o, 55, A4o, 44, A3o, 33, A2o, 22", "3bet-fold": "Q7o, J7o, K4o, K3o, K2o"}}, {"street": "preflop", "heroPosition": "BB", "villainPosition": "SB", "ratio": null, "bubble": null, "tags": ["bw", "blind-war"], "defaultActionId": "check", "randomStacks": true, "stack": {"min": 10, "max": 15}, "id": "bw-bb-vs-limp-10-15", "name": "BW BB vs limp 10-15bb", "situation": "vs limp", "villainLabel": "Limp", "description": "Blind war: o SB limpou e você está no BB com 10-15bb.", "actionIds": ["check", "iso", "shove"], "tableSizes": {"open": 1}, "range": {"iso": "AA, AKs, AQs, AJs, ATs, A9s, A8s, A7s, AKo, KK, KQs, AQo, KQo, QQ, AJo, KJo, JJ, ATo, KTo, TT, 99, 88, 77, T5o, 95o, 85o, J4o, T4o, 94o, 84o, 74o, J3o, T3o, 93o, 83o, 73o, 63o, J2o, T2o, 92o, 82o, 72o, 62o, 52o, 42o, 32o", "check": "A6s, A5s, A4s, KJs, KTs, K9s, K8s, K7s, K6s, K5s, K4s, K3s, K2s, QJs, QTs, Q9s, Q8s, Q7s, Q6s, Q5s, Q4s, Q3s, Q2s, QJo, JTs, J9s, J8s, J7s, J6s, J5s, J4s, J3s, J2s, QTo, JTo, T9s, T8s, T7s, T6s, T5s, T4s, T3s, T2s, K9o, Q9o, J9o, T9o, 98s, 97s, 96s, 95s, 94s, 93s, 92s, K8o, Q8o, J8o, T8o, 98o, 87s, 86s, 85s, 84s, 83s, 82s, K7o, Q7o, J7o, T7o, 97o, 87o, 76s, 75s, 74s, 73s, 72s, K6o, Q6o, J6o, T6o, 96o, 86o, 76o, 65s, 64s, 63s, 62s, Q5o, J5o, 75o, 65o, 54s, 53s, 52s, 64o, 54o, 43s, 42s, 53o, 43o, 32s", "shove": "A3s, A2s, A9o, A8o, A7o, A6o, 66, A5o, K5o, 55, A4o, K4o, Q4o, 44, A3o, K3o, Q3o, 33, A2o, K2o, Q2o, 22"}}, {"street": "preflop", "heroPosition": "BB", "villainPosition": "SB", "ratio": null, "bubble": null, "tags": ["bw", "blind-war"], "defaultActionId": "fold", "randomStacks": true, "stack": {"min": 10, "max": 15}, "id": "bw-bb-vs-limp-10-15-iso-vs-3bet", "name": "BW BB vs limp 10-15bb · ISO vs 3-bet", "situation": "ISO vs 3-bet", "villainLabel": "3-bet", "description": "Você isolou o limp do SB (3bb) e ele deu 3-bet (8bb).", "entryActionIds": ["iso"], "actionIds": ["fold", "call", "shove"], "tablePosted": {"hero": 3, "villain": 8}, "range": {"shove": "AA, AKs, AQs, AJs, ATs, A9s, A8s, A7s, AKo, KK, KQs, AQo, KQo, QQ, AJo, KJo, JJ, ATo, KTo, TT, 99, 88, 77"}}, {"street": "preflop", "heroPosition": "BB", "villainPosition": "SB", "ratio": null, "bubble": null, "tags": ["bw", "blind-war"], "defaultActionId": "fold", "randomStacks": true, "stack": {"min": 10, "max": 15}, "id": "bw-bb-vs-raise-10-15", "name": "BW BB vs raise 10-15bb", "situation": "vs raise", "description": "Blind war: o SB deu raise (3bb) e você está no BB com 10-15bb.", "actionIds": ["fold", "call", "3bet-call", "3bet-fold", "shove"], "tableSizes": {"open": 3}, "range": {"call": "AA, KK, KQs, KJs, KTs, K9s, K8s, K7s, K6s, K5s, K4s, QQ, QJs, QTs, Q9s, Q8s, Q7s, Q6s, Q5s, Q4s, QJo, JJ, JTs, J9s, J8s, J7s, J6s, J5s, J4s, QTo, JTo, TT, T9s, T8s, T7s, T6s, T5s, T4s, Q9o, J9o, T9o, 98s, 97s, 96s, 95s, 94s, 93s, 92s, K8o, Q8o, J8o, T8o, 98o, 87s, 86s, 85s, 84s, 83s, 82s, K7o, Q7o, J7o, T7o, 76s, 75s, 74s, 73s, 72s, K6o, Q6o, 65s, 64s, 63s, 62s, 54s, 53s, 52s, 43s, 42s, 32s", "shove": "AKs, AQs, AJs, ATs, A9s, A8s, A7s, A6s, A5s, A4s, A3s, A2s, AKo, K3s, K2s, AQo, KQo, Q3s, Q2s, AJo, KJo, J3s, J2s, ATo, KTo, T3s, T2s, A9o, K9o, 99, A8o, 88, A7o, 77, A6o, 66, A5o, K5o, 55, A4o, K4o, 44, A3o, K3o, 33, A2o, K2o, 22"}}], "drills": [{"id": "bw-bb", "name": "BW BB", "description": "Blind war no BB: o SB limpou ou deu raise. Contra o limp, check, ISO ou all-in (e, se isolar, a resposta ao 3-bet); contra o raise, fold, call, 3-bet ou resteal. Stack de 10 a 100bb.", "variants": [["bw-bb-vs-limp-50plus"], ["bw-bb-vs-limp-50plus", "bw-bb-vs-limp-50plus-iso-vs-3bet"], ["bw-bb-vs-raise-50plus"], ["bw-bb-vs-limp-25-50"], ["bw-bb-vs-limp-25-50", "bw-bb-vs-limp-25-50-iso-vs-3bet"], ["bw-bb-vs-raise-25-50"], ["bw-bb-vs-limp-15-25"], ["bw-bb-vs-limp-15-25", "bw-bb-vs-limp-15-25-iso-vs-3bet"], ["bw-bb-vs-raise-15-25"], ["bw-bb-vs-limp-10-15"], ["bw-bb-vs-limp-10-15", "bw-bb-vs-limp-10-15-iso-vs-3bet"], ["bw-bb-vs-raise-10-15"]], "sampling": "fronteira", "tags": ["bw", "blind-war"], "handsPerSession": 50, "passAccuracy": 0.9}]}
+{
+  "legendAdd": [
+    {
+      "id": "iso",
+      "label": "ISO",
+      "color": "#16a34a",
+      "kind": "raise"
+    },
+    {
+      "id": "3bet-call",
+      "label": "3-bet/Call",
+      "color": "#b91c1c",
+      "kind": "raise"
+    },
+    {
+      "id": "3bet-fold",
+      "label": "3-bet/Fold",
+      "color": "#fb7185",
+      "kind": "raise"
+    }
+  ],
+  "strategies": [
+    {
+      "street": "preflop",
+      "heroPosition": "BB",
+      "villainPosition": "SB",
+      "ratio": null,
+      "bubble": null,
+      "tags": [
+        "bw",
+        "blind-war"
+      ],
+      "defaultActionId": "check",
+      "randomStacks": true,
+      "stack": {
+        "min": 50,
+        "max": 100
+      },
+      "id": "bw-bb-vs-limp-50plus",
+      "name": "BW BB vs limp 50+bb",
+      "situation": "vs limp",
+      "villainLabel": "Limp",
+      "description": "Blind war: o SB limpou e você está no BB com 50+bb.",
+      "actionIds": [
+        "check",
+        "iso",
+        "shove"
+      ],
+      "tableSizes": {
+        "open": 1
+      },
+      "range": {
+        "iso": "AA, AKs, AQs, AJs, ATs, A9s, A8s, A7s, A6s, A5s, A4s, A3s, A2s, AKo, KK, KQs, KJs, KTs, K9s, K8s, AQo, KQo, QQ, QJs, QTs, Q9s, Q8s, AJo, KJo, QJo, JJ, JTs, J9s, J8s, ATo, KTo, TT, T9s, A9o, Q9o, 99, 94s, 93s, 92s, Q8o, J8o, 88, 83s, 82s, Q7o, J7o, T7o, 97o, 72s, Q6o, J6o, T6o, 96o, 86o, Q5o, J5o, T5o, 95o, 85o, 75o, K4o, Q4o, J4o, T4o, 94o, 84o, 74o, 64o, K3o, Q3o, J3o, T3o, 93o, 83o, 73o, 63o, 53o, K2o, Q2o, J2o, T2o, 92o, 82o, 72o, 62o, 52o, 42o, 32o",
+        "check": "K7s, K6s, K5s, K4s, K3s, K2s, Q7s, Q6s, Q5s, Q4s, Q3s, Q2s, J7s, J6s, J5s, J4s, J3s, J2s, QTo, JTo, T8s, T7s, T6s, T5s, T4s, T3s, T2s, K9o, J9o, T9o, 98s, 97s, 96s, 95s, A8o, K8o, T8o, 98o, 87s, 86s, 85s, 84s, A7o, K7o, 87o, 77, 76s, 75s, 74s, 73s, A6o, K6o, 76o, 66, 65s, 64s, 63s, 62s, A5o, K5o, 65o, 55, 54s, 53s, 52s, A4o, 54o, 44, 43s, 42s, A3o, 43o, 33, 32s, A2o, 22"
+      }
+    },
+    {
+      "street": "preflop",
+      "heroPosition": "BB",
+      "villainPosition": "SB",
+      "ratio": null,
+      "bubble": null,
+      "tags": [
+        "bw",
+        "blind-war"
+      ],
+      "defaultActionId": "fold",
+      "randomStacks": true,
+      "stack": {
+        "min": 50,
+        "max": 100
+      },
+      "id": "bw-bb-vs-limp-50plus-iso-vs-3bet",
+      "name": "BW BB vs limp 50+bb · ISO vs 3-bet",
+      "situation": "ISO vs 3-bet",
+      "villainLabel": "3-bet",
+      "description": "Você isolou o limp do SB (3bb) e ele deu 3-bet (8bb).",
+      "entryActionIds": [
+        "iso"
+      ],
+      "actionIds": [
+        "fold",
+        "call",
+        "shove"
+      ],
+      "tablePosted": {
+        "hero": 3,
+        "villain": 8
+      },
+      "range": {
+        "call": "AA, AQs, AJs, ATs, A9s, A8s, A7s, A6s, A5s, KQs, KJs, KTs, K9s, K8s, AQo, KQo, QJs, QTs, Q9s, Q8s, AJo, KJo, QJo, JTs, J9s, J8s, ATo, KTo, T9s, A9o",
+        "shove": "AKs, A4s, A3s, A2s, AKo, KK, QQ, JJ, TT, 99, 88"
+      }
+    },
+    {
+      "street": "preflop",
+      "heroPosition": "BB",
+      "villainPosition": "SB",
+      "ratio": null,
+      "bubble": null,
+      "tags": [
+        "bw",
+        "blind-war"
+      ],
+      "defaultActionId": "fold",
+      "randomStacks": true,
+      "stack": {
+        "min": 50,
+        "max": 100
+      },
+      "id": "bw-bb-vs-raise-50plus",
+      "name": "BW BB vs raise 50+bb",
+      "situation": "vs raise",
+      "description": "Blind war: o SB deu raise (3bb) e você está no BB com 50+bb.",
+      "actionIds": [
+        "fold",
+        "call",
+        "3bet-call",
+        "3bet-fold",
+        "shove"
+      ],
+      "tableSizes": {
+        "open": 3
+      },
+      "range": {
+        "3bet-call": "AA, AKs, AQs, AKo, KK, AQo, QQ, JJ",
+        "call": "AJs, ATs, A9s, A8s, A7s, A6s, A5s, A4s, A3s, A2s, KQs, KJs, KTs, K9s, K8s, K7s, K6s, K5s, K4s, K3s, K2s, KQo, QJs, QTs, Q9s, Q8s, Q7s, Q6s, Q5s, Q4s, Q3s, Q2s, AJo, KJo, QJo, JTs, J9s, J8s, J7s, J6s, J5s, J4s, J3s, J2s, ATo, KTo, QTo, JTo, TT, T9s, T8s, T7s, T6s, T5s, T4s, T3s, T2s, A9o, K9o, Q9o, J9o, T9o, 99, 98s, 97s, 96s, 95s, 94s, 93s, 92s, A8o, K8o, Q8o, J8o, T8o, 98o, 88, 87s, 86s, 85s, 84s, A7o, K7o, 87o, 77, 76s, 75s, 74s, 73s, A6o, K6o, 66, 65s, 64s, 63s, 62s, A5o, K5o, 55, 54s, 53s, 52s, A4o, 44, 43s, 42s, 33, 32s, 22",
+        "3bet-fold": "Q7o, J7o, T7o, 97o, K4o, A3o, A2o"
+      }
+    },
+    {
+      "street": "preflop",
+      "heroPosition": "BB",
+      "villainPosition": "SB",
+      "ratio": null,
+      "bubble": null,
+      "tags": [
+        "bw",
+        "blind-war"
+      ],
+      "defaultActionId": "check",
+      "randomStacks": true,
+      "stack": {
+        "min": 25,
+        "max": 50
+      },
+      "id": "bw-bb-vs-limp-25-50",
+      "name": "BW BB vs limp 25-50bb",
+      "situation": "vs limp",
+      "villainLabel": "Limp",
+      "description": "Blind war: o SB limpou e você está no BB com 25-50bb.",
+      "actionIds": [
+        "check",
+        "iso",
+        "shove"
+      ],
+      "tableSizes": {
+        "open": 1
+      },
+      "range": {
+        "iso": "AA, AKs, AQs, AJs, ATs, A9s, A8s, A7s, AKo, KK, KQs, KJs, AQo, KQo, QQ, AJo, KJo, JJ, ATo, KTo, TT, A9o, 99, 94s, 93s, 92s, J8o, T8o, 88, 83s, 82s, J7o, T7o, 97o, 72s, J6o, T6o, 96o, 86o, J5o, T5o, 95o, 85o, 75o, J4o, T4o, 94o, 84o, 74o, 64o, Q3o, J3o, T3o, 93o, 83o, 73o, 63o, 53o, Q2o, J2o, T2o, 92o, 82o, 72o, 62o, 52o, 42o, 32o",
+        "check": "A6s, A5s, A4s, A3s, A2s, KTs, K9s, K8s, K7s, K6s, K5s, K4s, K3s, K2s, QJs, QTs, Q9s, Q8s, Q7s, Q6s, Q5s, Q4s, Q3s, Q2s, QJo, JTs, J9s, J8s, J7s, J6s, J5s, J4s, J3s, J2s, QTo, JTo, T9s, T8s, T7s, T6s, T5s, T4s, T3s, T2s, K9o, Q9o, J9o, T9o, 98s, 97s, 96s, 95s, A8o, K8o, Q8o, 98o, 87s, 86s, 85s, 84s, A7o, K7o, Q7o, 87o, 77, 76s, 75s, 74s, 73s, A6o, K6o, Q6o, 76o, 66, 65s, 64s, 63s, 62s, A5o, K5o, Q5o, 65o, 55, 54s, 53s, 52s, A4o, K4o, Q4o, 54o, 44, 43s, 42s, A3o, K3o, 43o, 33, 32s, A2o, K2o, 22"
+      }
+    },
+    {
+      "street": "preflop",
+      "heroPosition": "BB",
+      "villainPosition": "SB",
+      "ratio": null,
+      "bubble": null,
+      "tags": [
+        "bw",
+        "blind-war"
+      ],
+      "defaultActionId": "fold",
+      "randomStacks": true,
+      "stack": {
+        "min": 25,
+        "max": 50
+      },
+      "id": "bw-bb-vs-limp-25-50-iso-vs-3bet",
+      "name": "BW BB vs limp 25-50bb · ISO vs 3-bet",
+      "situation": "ISO vs 3-bet",
+      "villainLabel": "3-bet",
+      "description": "Você isolou o limp do SB (3bb) e ele deu 3-bet (8bb).",
+      "entryActionIds": [
+        "iso"
+      ],
+      "actionIds": [
+        "fold",
+        "call",
+        "shove"
+      ],
+      "tablePosted": {
+        "hero": 3,
+        "villain": 8
+      },
+      "range": {
+        "call": "AA, AJs, ATs, A9s, A8s, A7s, KQs, KJs, KJo, ATo, KTo, A9o",
+        "shove": "AKs, AQs, AKo, KK, AQo, KQo, QQ, AJo, JJ, TT, 99, 88"
+      }
+    },
+    {
+      "street": "preflop",
+      "heroPosition": "BB",
+      "villainPosition": "SB",
+      "ratio": null,
+      "bubble": null,
+      "tags": [
+        "bw",
+        "blind-war"
+      ],
+      "defaultActionId": "fold",
+      "randomStacks": true,
+      "stack": {
+        "min": 25,
+        "max": 50
+      },
+      "id": "bw-bb-vs-raise-25-50",
+      "name": "BW BB vs raise 25-50bb",
+      "situation": "vs raise",
+      "description": "Blind war: o SB deu raise (3bb) e você está no BB com 25-50bb.",
+      "actionIds": [
+        "fold",
+        "call",
+        "3bet-call",
+        "3bet-fold",
+        "shove"
+      ],
+      "tableSizes": {
+        "open": 3
+      },
+      "range": {
+        "3bet-call": "AA, AKs, AQs, AKo, KK, AQo, QQ, JJ, TT",
+        "call": "AJs, ATs, A9s, A8s, A7s, A6s, A5s, A4s, A3s, A2s, KQs, KJs, KTs, K9s, K8s, K7s, K6s, K5s, K4s, K3s, K2s, KQo, QJs, QTs, Q9s, Q8s, Q7s, Q6s, Q5s, Q4s, Q3s, Q2s, AJo, KJo, QJo, JTs, J9s, J8s, J7s, J6s, J5s, J4s, J3s, J2s, ATo, KTo, QTo, JTo, T9s, T8s, T7s, T6s, T5s, T4s, T3s, T2s, A9o, K9o, Q9o, J9o, T9o, 99, 98s, 97s, 96s, 95s, 94s, 93s, 92s, A8o, K8o, Q8o, J8o, T8o, 98o, 88, 87s, 86s, 85s, 84s, 83s, 82s, A7o, K7o, Q7o, J7o, T7o, 97o, 87o, 77, 76s, 75s, 74s, 73s, 72s, A6o, K6o, Q6o, 76o, 66, 65s, 64s, 63s, 62s, A5o, K5o, Q5o, 55, 54s, 53s, 52s, A4o, K4o, 44, 43s, 42s, A3o, 33, 32s, 22",
+        "3bet-fold": "J6o, T6o, 96o, 86o, Q4o, K3o, A2o"
+      }
+    },
+    {
+      "street": "preflop",
+      "heroPosition": "BB",
+      "villainPosition": "SB",
+      "ratio": null,
+      "bubble": null,
+      "tags": [
+        "bw",
+        "blind-war"
+      ],
+      "defaultActionId": "check",
+      "randomStacks": true,
+      "stack": {
+        "min": 15,
+        "max": 25
+      },
+      "id": "bw-bb-vs-limp-15-25",
+      "name": "BW BB vs limp 15-25bb",
+      "situation": "vs limp",
+      "villainLabel": "Limp",
+      "description": "Blind war: o SB limpou e você está no BB com 15-25bb.",
+      "actionIds": [
+        "check",
+        "iso",
+        "shove"
+      ],
+      "tableSizes": {
+        "open": 1
+      },
+      "range": {
+        "iso": "AA, AKs, AQs, AJs, ATs, A9s, AKo, KK, KQs, KJs, AQo, KQo, QQ, AJo, JJ, TT, 99, 96o, 86o, T5o, 95o, 85o, 75o, J4o, T4o, 94o, 84o, 74o, 64o, Q3o, J3o, T3o, 93o, 83o, 73o, 63o, 53o, 92o, 82o, 72o, 62o, 52o, 42o, 32o",
+        "check": "A8s, A7s, A6s, A5s, A4s, A3s, A2s, KTs, K9s, K8s, K7s, K6s, K5s, K4s, K3s, K2s, QJs, QTs, Q9s, Q8s, Q7s, Q6s, Q5s, Q4s, Q3s, Q2s, KJo, QJo, JTs, J9s, J8s, J7s, J6s, J5s, J4s, J3s, J2s, KTo, QTo, JTo, T9s, T8s, T7s, T6s, T5s, T4s, T3s, T2s, K9o, Q9o, J9o, T9o, 98s, 97s, 96s, 95s, 94s, 93s, 92s, K8o, Q8o, J8o, T8o, 98o, 87s, 86s, 85s, 84s, 83s, 82s, K7o, Q7o, J7o, T7o, 97o, 87o, 76s, 75s, 74s, 73s, 72s, K6o, Q6o, J6o, T6o, 76o, 65s, 64s, 63s, 62s, K5o, Q5o, J5o, 65o, 54s, 53s, 52s, K4o, Q4o, 54o, 43s, 42s, K3o, 43o, 32s",
+        "shove": "ATo, A9o, A8o, 88, A7o, 77, A6o, 66, A5o, 55, A4o, 44, A3o, 33, A2o, K2o, Q2o, J2o, T2o, 22"
+      }
+    },
+    {
+      "street": "preflop",
+      "heroPosition": "BB",
+      "villainPosition": "SB",
+      "ratio": null,
+      "bubble": null,
+      "tags": [
+        "bw",
+        "blind-war"
+      ],
+      "defaultActionId": "fold",
+      "randomStacks": true,
+      "stack": {
+        "min": 15,
+        "max": 25
+      },
+      "id": "bw-bb-vs-limp-15-25-iso-vs-3bet",
+      "name": "BW BB vs limp 15-25bb · ISO vs 3-bet",
+      "situation": "ISO vs 3-bet",
+      "villainLabel": "3-bet",
+      "description": "Você isolou o limp do SB (3bb) e ele deu 3-bet (8bb).",
+      "entryActionIds": [
+        "iso"
+      ],
+      "actionIds": [
+        "fold",
+        "call",
+        "shove"
+      ],
+      "tablePosted": {
+        "hero": 3,
+        "villain": 8
+      },
+      "range": {
+        "call": "AA, AJs, ATs, A9s, KQs, KJs",
+        "shove": "AKs, AQs, AKo, KK, AQo, KQo, QQ, AJo, JJ, TT, 99"
+      }
+    },
+    {
+      "street": "preflop",
+      "heroPosition": "BB",
+      "villainPosition": "SB",
+      "ratio": null,
+      "bubble": null,
+      "tags": [
+        "bw",
+        "blind-war"
+      ],
+      "defaultActionId": "fold",
+      "randomStacks": true,
+      "stack": {
+        "min": 15,
+        "max": 25
+      },
+      "id": "bw-bb-vs-raise-15-25",
+      "name": "BW BB vs raise 15-25bb",
+      "situation": "vs raise",
+      "description": "Blind war: o SB deu raise (3bb) e você está no BB com 15-25bb.",
+      "actionIds": [
+        "fold",
+        "call",
+        "3bet-call",
+        "3bet-fold",
+        "shove"
+      ],
+      "tableSizes": {
+        "open": 3
+      },
+      "range": {
+        "call": "AA, ATs, A9s, A8s, A7s, A6s, A5s, A4s, A3s, KQs, KJs, KTs, K9s, K8s, K7s, K6s, K5s, K4s, K3s, KQo, QJs, QTs, Q9s, Q8s, Q7s, Q6s, Q5s, Q4s, Q3s, KJo, QJo, JTs, J9s, J8s, J7s, J6s, J5s, J4s, J3s, KTo, QTo, JTo, T9s, T8s, T7s, T6s, T5s, T4s, T3s, T2s, K9o, Q9o, J9o, T9o, 98s, 97s, 96s, 95s, 94s, 93s, 92s, K8o, Q8o, J8o, T8o, 98o, 87s, 86s, 85s, 84s, 83s, 82s, K7o, 76s, 75s, 74s, 73s, 72s, K6o, 65s, 64s, 63s, 62s, K5o, 54s, 53s, 52s, 43s, 42s, 32s",
+        "3bet-call": "AKs, AQs, AKo, KK, QQ, JJ, TT, 99",
+        "shove": "AJs, A2s, K2s, AQo, Q2s, AJo, J2s, ATo, A9o, A8o, 88, A7o, 77, A6o, 66, A5o, 55, A4o, 44, A3o, 33, A2o, 22",
+        "3bet-fold": "Q7o, J7o, K4o, K3o, K2o"
+      }
+    },
+    {
+      "street": "preflop",
+      "heroPosition": "BB",
+      "villainPosition": "SB",
+      "ratio": null,
+      "bubble": null,
+      "tags": [
+        "bw",
+        "blind-war"
+      ],
+      "defaultActionId": "check",
+      "randomStacks": true,
+      "stack": {
+        "min": 10,
+        "max": 15
+      },
+      "id": "bw-bb-vs-limp-10-15",
+      "name": "BW BB vs limp 10-15bb",
+      "situation": "vs limp",
+      "villainLabel": "Limp",
+      "description": "Blind war: o SB limpou e você está no BB com 10-15bb.",
+      "actionIds": [
+        "check",
+        "iso",
+        "shove"
+      ],
+      "tableSizes": {
+        "open": 1
+      },
+      "range": {
+        "iso": "AA, AKs, AQs, AJs, ATs, A9s, A8s, A7s, AKo, KK, KQs, AQo, KQo, QQ, AJo, KJo, JJ, ATo, KTo, TT, 99, 88, 77, T5o, 95o, 85o, J4o, T4o, 94o, 84o, 74o, J3o, T3o, 93o, 83o, 73o, 63o, J2o, T2o, 92o, 82o, 72o, 62o, 52o, 42o, 32o",
+        "check": "A6s, A5s, A4s, KJs, KTs, K9s, K8s, K7s, K6s, K5s, K4s, K3s, K2s, QJs, QTs, Q9s, Q8s, Q7s, Q6s, Q5s, Q4s, Q3s, Q2s, QJo, JTs, J9s, J8s, J7s, J6s, J5s, J4s, J3s, J2s, QTo, JTo, T9s, T8s, T7s, T6s, T5s, T4s, T3s, T2s, K9o, Q9o, J9o, T9o, 98s, 97s, 96s, 95s, 94s, 93s, 92s, K8o, Q8o, J8o, T8o, 98o, 87s, 86s, 85s, 84s, 83s, 82s, K7o, Q7o, J7o, T7o, 97o, 87o, 76s, 75s, 74s, 73s, 72s, K6o, Q6o, J6o, T6o, 96o, 86o, 76o, 65s, 64s, 63s, 62s, Q5o, J5o, 75o, 65o, 54s, 53s, 52s, 64o, 54o, 43s, 42s, 53o, 43o, 32s",
+        "shove": "A3s, A2s, A9o, A8o, A7o, A6o, 66, A5o, K5o, 55, A4o, K4o, Q4o, 44, A3o, K3o, Q3o, 33, A2o, K2o, Q2o, 22"
+      }
+    },
+    {
+      "street": "preflop",
+      "heroPosition": "BB",
+      "villainPosition": "SB",
+      "ratio": null,
+      "bubble": null,
+      "tags": [
+        "bw",
+        "blind-war"
+      ],
+      "defaultActionId": "fold",
+      "randomStacks": true,
+      "stack": {
+        "min": 10,
+        "max": 15
+      },
+      "id": "bw-bb-vs-limp-10-15-iso-vs-3bet",
+      "name": "BW BB vs limp 10-15bb · ISO vs 3-bet",
+      "situation": "ISO vs 3-bet",
+      "villainLabel": "3-bet",
+      "description": "Você isolou o limp do SB (3bb) e ele deu 3-bet (8bb).",
+      "entryActionIds": [
+        "iso"
+      ],
+      "actionIds": [
+        "fold",
+        "call",
+        "shove"
+      ],
+      "tablePosted": {
+        "hero": 3,
+        "villain": 8
+      },
+      "range": {
+        "shove": "AA, AKs, AQs, AJs, ATs, A9s, A8s, A7s, AKo, KK, KQs, AQo, KQo, QQ, AJo, KJo, JJ, ATo, KTo, TT, 99, 88, 77"
+      }
+    },
+    {
+      "street": "preflop",
+      "heroPosition": "BB",
+      "villainPosition": "SB",
+      "ratio": null,
+      "bubble": null,
+      "tags": [
+        "bw",
+        "blind-war"
+      ],
+      "defaultActionId": "fold",
+      "randomStacks": true,
+      "stack": {
+        "min": 10,
+        "max": 15
+      },
+      "id": "bw-bb-vs-raise-10-15",
+      "name": "BW BB vs raise 10-15bb",
+      "situation": "vs raise",
+      "description": "Blind war: o SB deu raise (3bb) e você está no BB com 10-15bb.",
+      "actionIds": [
+        "fold",
+        "call",
+        "3bet-call",
+        "3bet-fold",
+        "shove"
+      ],
+      "tableSizes": {
+        "open": 3
+      },
+      "range": {
+        "call": "AA, KK, KQs, KJs, KTs, K9s, K8s, K7s, K6s, K5s, K4s, QQ, QJs, QTs, Q9s, Q8s, Q7s, Q6s, Q5s, Q4s, QJo, JJ, JTs, J9s, J8s, J7s, J6s, J5s, J4s, QTo, JTo, TT, T9s, T8s, T7s, T6s, T5s, T4s, Q9o, J9o, T9o, 98s, 97s, 96s, 95s, 94s, 93s, 92s, K8o, Q8o, J8o, T8o, 98o, 87s, 86s, 85s, 84s, 83s, 82s, K7o, Q7o, J7o, T7o, 76s, 75s, 74s, 73s, 72s, K6o, Q6o, 65s, 64s, 63s, 62s, 54s, 53s, 52s, 43s, 42s, 32s",
+        "shove": "AKs, AQs, AJs, ATs, A9s, A8s, A7s, A6s, A5s, A4s, A3s, A2s, AKo, K3s, K2s, AQo, KQo, Q3s, Q2s, AJo, KJo, J3s, J2s, ATo, KTo, T3s, T2s, A9o, K9o, 99, A8o, 88, A7o, 77, A6o, 66, A5o, K5o, 55, A4o, K4o, 44, A3o, K3o, 33, A2o, K2o, 22"
+      }
+    }
+  ],
+  "drills": [
+    {
+      "id": "bw-bb",
+      "name": "BW BB Pré",
+      "description": "Blind war no BB: o SB limpou ou deu raise. Contra o limp, check, ISO ou all-in (e, se isolar, a resposta ao 3-bet); contra o raise, fold, call, 3-bet ou resteal. Stack de 10 a 100bb.",
+      "variants": [
+        [
+          "bw-bb-vs-limp-50plus"
+        ],
+        [
+          "bw-bb-vs-limp-50plus",
+          "bw-bb-vs-limp-50plus-iso-vs-3bet"
+        ],
+        [
+          "bw-bb-vs-raise-50plus"
+        ],
+        [
+          "bw-bb-vs-limp-25-50"
+        ],
+        [
+          "bw-bb-vs-limp-25-50",
+          "bw-bb-vs-limp-25-50-iso-vs-3bet"
+        ],
+        [
+          "bw-bb-vs-raise-25-50"
+        ],
+        [
+          "bw-bb-vs-limp-15-25"
+        ],
+        [
+          "bw-bb-vs-limp-15-25",
+          "bw-bb-vs-limp-15-25-iso-vs-3bet"
+        ],
+        [
+          "bw-bb-vs-raise-15-25"
+        ],
+        [
+          "bw-bb-vs-limp-10-15"
+        ],
+        [
+          "bw-bb-vs-limp-10-15",
+          "bw-bb-vs-limp-10-15-iso-vs-3bet"
+        ],
+        [
+          "bw-bb-vs-raise-10-15"
+        ]
+      ],
+      "sampling": "fronteira",
+      "tags": [
+        "bw",
+        "blind-war"
+      ],
+      "handsPerSession": 50,
+      "passAccuracy": 0.9
+    }
+  ]
+}

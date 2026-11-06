@@ -49,8 +49,8 @@ export interface PkoInfo {
 }
 
 export const COVERAGE_LABELS: Record<Coverage, string> = {
-  cobrindo: "Cobrindo",
-  coberto: "Coberto",
+  cobrindo: "COBRINDO",
+  coberto: "COBERTO",
 };
 
 export interface DealFrom {

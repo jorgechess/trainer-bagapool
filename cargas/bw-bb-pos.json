@@ -32,7 +32,7 @@
   "strategies": [
     {
       "id": "bw-bb-pos-srp-vs-cbet",
-      "name": "BW BB pós · SRP vs cbet flop",
+      "name": "BW BB Pós · SRP vs cbet flop",
       "description": "Blind war 30bb. SB deu raise (3,5bb), você pagou do BB. SB fez cbet baixo no flop.",
       "street": "flop",
       "situation": "Single raised",
@@ -76,7 +76,7 @@
     },
     {
       "id": "bw-bb-pos-srp-x",
-      "name": "BW BB pós · SRP flop após check",
+      "name": "BW BB Pós · SRP flop após check",
       "description": "Blind war 30bb. SB deu raise, você pagou. SB deu check no flop.",
       "street": "flop",
       "situation": "Single raised",
@@ -115,7 +115,7 @@
     },
     {
       "id": "bw-bb-pos-srp-2x",
-      "name": "BW BB pós · SRP turn vs 2º check",
+      "name": "BW BB Pós · SRP turn vs 2º check",
       "description": "Blind war 30bb. Flop check/check. SB deu check de novo no turn.",
       "street": "turn",
       "situation": "Single raised",
@@ -154,7 +154,7 @@
     },
     {
       "id": "bw-bb-pos-srp-delay",
-      "name": "BW BB pós · SRP turn vs delayed cbet",
+      "name": "BW BB Pós · SRP turn vs delayed cbet",
       "description": "Blind war 30bb. Flop check/check. SB apostou ≤50% no turn (delayed cbet).",
       "street": "turn",
       "situation": "Single raised",
@@ -198,7 +198,7 @@
     },
     {
       "id": "bw-bb-pos-lp-vs-stab",
-      "name": "BW BB pós · Limped vs stab flop",
+      "name": "BW BB Pós · Limped vs stab flop",
       "description": "Blind war 30bb. SB completou, você deu check. SB fez stab de 1bb no flop.",
       "street": "flop",
       "situation": "Limped",
@@ -242,7 +242,7 @@
     },
     {
       "id": "bw-bb-pos-lp-x",
-      "name": "BW BB pós · Limped flop após check",
+      "name": "BW BB Pós · Limped flop após check",
       "description": "Blind war 30bb. SB completou, você deu check. SB deu check no flop.",
       "street": "flop",
       "situation": "Limped",
@@ -281,7 +281,7 @@
     },
     {
       "id": "bw-bb-pos-iso-flop",
-      "name": "BW BB pós · ISO flop",
+      "name": "BW BB Pós · ISO flop",
       "description": "Blind war 30bb. SB limpou, você isolou e ele pagou. SB deu check no flop.",
       "street": "flop",
       "situation": "ISO",
@@ -321,7 +321,7 @@
     },
     {
       "id": "bw-bb-pos-iso-turn",
-      "name": "BW BB pós · ISO turn",
+      "name": "BW BB Pós · ISO turn",
       "description": "Blind war 30bb. Você apostou B25 no flop e o SB pagou. Check no turn.",
       "street": "turn",
       "situation": "ISO",
@@ -364,7 +364,7 @@
     },
     {
       "id": "bw-bb-pos-iso-river",
-      "name": "BW BB pós · ISO river",
+      "name": "BW BB Pós · ISO river",
       "description": "Blind war 30bb. Você apostou B67 no turn e o SB pagou. Check no river.",
       "street": "river",
       "situation": "ISO",
@@ -409,7 +409,7 @@
   "drills": [
     {
       "id": "bw-bb-pos",
-      "name": "BW BB pós",
+      "name": "BW BB Pós",
       "description": "Blind war 30bb do lado do BB, pelo guide da aula e o heat map: single raised (vs cbet, vs check, turn vs 2º check e vs delayed), limped (vs stab e vs check) e ISO (bet flop B25, funil B67 no turn e river só por valor).",
       "variants": [
         [

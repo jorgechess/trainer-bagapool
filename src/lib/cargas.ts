@@ -50,21 +50,21 @@ export const CARGAS: Carga[] = [
   },
   {
     id: "rfi-50bb-pko-cobrindo",
-    name: "RFI 50bb PKO cobrindo",
+    name: "RFI 50bb PKO COBRINDO",
     description: "7 estratégias de open (UTG a BTN) em PKO com o herói cobrindo, e o drill com todas.",
     requires: [],
     bundle: rfiPkoCobrindo,
   },
   {
     id: "rfi-50bb-pko-coberto",
-    name: "RFI 50bb PKO coberto",
+    name: "RFI 50bb PKO COBERTO",
     description: "7 estratégias de open (UTG a BTN) em PKO com o herói coberto, e o drill com todas.",
     requires: [],
     bundle: rfiPkoCoberto,
   },
   {
     id: "vs3bet-50bb-pko-coberto",
-    name: "vs 3-bet 50bb PKO coberto",
+    name: "vs 3-bet 50bb PKO COBERTO",
     description:
       "35 estratégias (quem abriu × quem deu 3-bet) em PKO com o herói coberto; mãos só do open coberto. Adiciona a ação 4-bet na legenda, se faltar.",
     requires: ["rfi-50bb-pko-coberto"],
@@ -72,7 +72,7 @@ export const CARGAS: Carga[] = [
   },
   {
     id: "vs3bet-50bb-pko-cobrindo",
-    name: "vs 3-bet 50bb PKO cobrindo",
+    name: "vs 3-bet 50bb PKO COBRINDO",
     description:
       "35 estratégias (quem abriu × quem deu 3-bet) em PKO com o herói cobrindo; mãos só do open cobrindo. Adiciona a ação 4-bet na legenda, se faltar.",
     requires: ["rfi-50bb-pko-cobrindo"],
@@ -96,7 +96,7 @@ export const CARGAS: Carga[] = [
   },
   {
     id: "rfi-pko-short-coberto",
-    name: "RFI PKO Short (RP -4% coberto)",
+    name: "RFI PKO Short (RP -4% COBERTO)",
     description: "21 estratégias de open com 10, 15 e 20bb (UTG a BTN) em PKO com o herói coberto, e o drill com todas.",
     requires: [],
     bundle: rfiPkoShortCoberto,
@@ -164,7 +164,7 @@ export const CARGAS: Carga[] = [
   },
   {
     id: "bw-bb",
-    name: "BW BB",
+    name: "BW BB Pré",
     description: "Blind war no BB, de 10 a 100bb: vs limp do SB (check, ISO, all-in e resposta ao 3-bet) e vs raise (fold, call, 3-bet, resteal).",
     requires: [],
     bundle: bwBb,
@@ -178,7 +178,7 @@ export const CARGAS: Carga[] = [
   },
   {
     id: "bw-sb-pos",
-    name: "BW SB pós",
+    name: "BW SB Pós",
     description: "Blind War pós-flop (aula 17): SB vs BB 30bb, flop depois de raise/call (check, B25, B67) e de limp/check (check, stab 1bb).",
     requires: ["rfi-sb-chip-ev"],
     bundle: bwSbPos,
@@ -199,14 +199,14 @@ export const CARGAS: Carga[] = [
   },
   {
     id: "bb-vs-cbet-flop",
-    name: "BB vs Cbet flop",
+    name: "BB vs Cbet Flop",
     description: "Posflop Defense: BB 30bb vs HJ contra cbet de size baixo no flop (X/C, X/R 3x, X/F) pela guide do time.",
     requires: ["defesa-vanilla-deep"],
     bundle: bbVsCbetFlop,
   },
   {
     id: "bw-bb-pos",
-    name: "BW BB pós",
+    name: "BW BB Pós",
     description: "Blind War pós-flop do BB 30bb vs SB: single raised, limped e ISO pelo guide da aula e o heat map do time.",
     requires: ["bw-bb"],
     bundle: bwBbPos,

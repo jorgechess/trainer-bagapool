@@ -453,7 +453,7 @@ async function main() {
     await page.getByTestId("hero-cards").waitFor();
     assert.equal(await page.getByTestId("bounty-tag").count(), 9, "bounty em todos os 9 lugares");
     assert.equal(await page.getByTestId("bounty-tag").first().innerText(), "$10.00");
-    await page.getByTestId("pko-coverage").getByText("PKO cobrindo").waitFor();
+    await page.getByTestId("pko-coverage").getByText("PKO COBRINDO").waitFor();
     await page.getByText(/\(você\)/).locator("xpath=..").getByText(/^60bb$/).waitFor();
     await shot(page, "treino-pko");
     log("mesa PKO com bounty e cobertura");
@@ -466,7 +466,7 @@ async function main() {
     assert.deepEqual([utgVsCo.data.range.AA, utgVsCo.data.alsoCorrect.AA].sort(), ["4bet", "call"]);
     await page.goto(`${BASE_URL}/drills/vs3bet-50bb-pko-coberto/treinar`);
     await page.getByTestId("hero-cards").waitFor();
-    await page.getByTestId("pko-coverage").getByText("PKO coberto").waitFor();
+    await page.getByTestId("pko-coverage").getByText("PKO COBERTO").waitFor();
     await page.locator("[data-testid=actions]").getByRole("button", { name: "4-bet" }).waitFor();
     assert.equal(await page.getByTestId("hero-chips").innerText(), "2", "open do herói à frente das cartas");
     {
@@ -487,7 +487,7 @@ async function main() {
     const [mpVsLj] = await rows("strategies", "select=data&id=eq.vs3bet-50bb-pko-cobrindo-mp-vs-lj");
     assert.deepEqual([mpVsLj.data.range.AA, ...[mpVsLj.data.alsoCorrect.AA].flat()].sort(), ["4bet", "call", "shove"]);
     await page.goto(`${BASE_URL}/drills/vs3bet-50bb-pko-cobrindo/treinar`);
-    await page.getByTestId("pko-coverage").getByText("PKO cobrindo").waitFor();
+    await page.getByTestId("pko-coverage").getByText("PKO COBRINDO").waitFor();
     await page.getByText(/\(você\)/).locator("xpath=..").getByText(/^58bb$/).waitFor();
     await shot(page, "treino-vs3bet-pko-cobrindo");
     log("vs 3-bet PKO cobrindo: herói com 60bb (58 depois do open) e AA misto em três ações");
@@ -560,7 +560,7 @@ async function main() {
     // RFI PKO short coberto: 10/15/20bb, bounty na mesa e todos os vilões cobrindo o herói
     await page.goto(`${BASE_URL}/drills/rfi-pko-short-coberto/treinar`);
     await page.getByTestId("hero-cards").waitFor();
-    await page.getByTestId("pko-coverage").getByText("PKO coberto").waitFor();
+    await page.getByTestId("pko-coverage").getByText("PKO COBERTO").waitFor();
     assert.match(await page.getByTestId("spot-stack").innerText(), /^(10|15|20)bb$/);
     assert.equal(await page.getByRole("group", { name: "Stack" }).getByRole("button").count(), 4, "Todas, 10, 15 e 20bb");
     await shot(page, "treino-pko-short");
@@ -581,10 +581,10 @@ async function main() {
     // Defesa BB PKO Deep: filtros de stack e cobertura
     await page.goto(`${BASE_URL}/drills/defesa-bb-pko-deep/treinar`);
     await page.getByTestId("hero-cards").waitFor();
-    await page.getByRole("group", { name: "Cobertura" }).getByRole("button", { name: "Coberto", exact: true }).click();
+    await page.getByRole("group", { name: "Cobertura" }).getByRole("button", { name: "COBERTO", exact: true }).click();
     await page.getByRole("group", { name: "Stack" }).getByRole("button", { name: "50bb", exact: true }).click();
     for (let hand = 0; hand < 3; hand++) {
-      await page.getByTestId("pko-coverage").getByText("PKO coberto").waitFor();
+      await page.getByTestId("pko-coverage").getByText("PKO COBERTO").waitFor();
       await page.getByTestId("spot-stack").filter({ hasText: /^50bb$/ }).waitFor();
       await page.locator("[data-testid=actions] button").first().click();
       await page.getByRole("button", { name: /Continuar/ }).click();
@@ -619,7 +619,7 @@ async function main() {
 
     await page.goto(`${BASE_URL}/drills/defesa-bb-pko-short/treinar`);
     await page.getByTestId("hero-cards").waitFor();
-    await page.getByTestId("pko-coverage").getByText("PKO coberto").waitFor();
+    await page.getByTestId("pko-coverage").getByText("PKO COBERTO").waitFor();
     await page.getByTestId("players-left").waitFor();
     log("Defesa BB PKO Short treinável");
 
@@ -690,7 +690,7 @@ async function main() {
 
     // BW SB pós (Blind War): SB age primeiro no flop depois de raise/call (B25/B67) ou limp/check (stab 1bb)
     await page.goto(`${BASE_URL}/drills`);
-    await page.getByTestId("secao-bw").getByText("BW SB pós").waitFor();
+    await page.getByTestId("secao-bw").getByText("BW SB Pós").waitFor();
     await page.goto(`${BASE_URL}/drills/bw-sb-pos/treinar`);
     await page.getByTestId("board").waitFor();
     assert.equal(await page.getByTestId("board").locator("> *").count(), 3, "flop com 3 cartas");
@@ -761,7 +761,7 @@ async function main() {
 
     // BB vs Cbet flop (Posflop Defense): flop da guide, respostas X/F, X/C, X/R 3x
     await page.goto(`${BASE_URL}/drills`);
-    await page.getByTestId("secao-posflop-defense").getByText("BB vs Cbet flop").waitFor();
+    await page.getByTestId("secao-posflop-defense").getByText("BB vs Cbet Flop").waitFor();
     await page.goto(`${BASE_URL}/drills/bb-vs-cbet-flop/treinar`);
     await page.getByTestId("board").waitFor();
     assert.equal(await page.getByTestId("board").locator("> *").count(), 3, "decisão no flop");
@@ -774,7 +774,7 @@ async function main() {
 
     // BW BB pós (Blind War): linhas do BB vs SB
     await page.goto(`${BASE_URL}/drills`);
-    await page.getByTestId("secao-bw").getByText("BW BB pós").waitFor();
+    await page.getByTestId("secao-bw").getByText("BW BB Pós").waitFor();
     await page.goto(`${BASE_URL}/drills/bw-bb-pos/treinar`);
     await page.getByTestId("board").waitFor();
     await page.locator("[data-testid=actions] button").first().click();

@@ -67,7 +67,7 @@
   "drills": [
     {
       "id": "bb-vs-cbet-flop",
-      "name": "BB vs Cbet flop",
+      "name": "BB vs Cbet Flop",
       "description": "Defesa do BB 30bb vs HJ contra o cbet de size baixo no flop, nos 29 boards da guide do time (vs EP): X/C, X/R 3x ou X/F conforme a mão.",
       "variants": [
         [

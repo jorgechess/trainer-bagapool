@@ -390,9 +390,9 @@ export function drillStacks(drill: Drill, strategies: Map<string, Strategy>): st
   return [...found.entries()].sort((a, b) => a[1] - b[1]).map(([label]) => label);
 }
 
-/** Coberturas de PKO que aparecem no drill ("Cobrindo", "Coberto"). */
+/** Coberturas de PKO que aparecem no drill ("COBRINDO", "COBERTO"). */
 export function coverageLabel(strategy: Strategy): string | null {
-  return strategy.pko ? (strategy.pko.coverage === "cobrindo" ? "Cobrindo" : "Coberto") : null;
+  return strategy.pko ? (strategy.pko.coverage === "cobrindo" ? "COBRINDO" : "COBERTO") : null;
 }
 
 export function drillCoverages(drill: Drill, strategies: Map<string, Strategy>): string[] {
@@ -402,7 +402,7 @@ export function drillCoverages(drill: Drill, strategies: Map<string, Strategy>):
     const label = s && coverageLabel(s);
     if (label) found.add(label);
   }
-  return ["Cobrindo", "Coberto"].filter((c) => found.has(c));
+  return ["COBRINDO", "COBERTO"].filter((c) => found.has(c));
 }
 
 /** Tipos de open do vilão no drill ("Linear (>16bb)", "Polar (10–14bb)"). */

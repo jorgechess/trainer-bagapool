@@ -25,7 +25,7 @@
   "strategies": [
     {
       "id": "bw-sb-pos-rc",
-      "name": "BW SB pós · raised pot (raise/call)",
+      "name": "BW SB Pós · raised pot (raise/call)",
       "description": "Blind war 30bb: você deu raise do SB e o BB pagou. Você age primeiro no flop.",
       "street": "flop",
       "situation": "Raised pot",
@@ -65,7 +65,7 @@
     },
     {
       "id": "bw-sb-pos-lx",
-      "name": "BW SB pós · limped pot (limp/check)",
+      "name": "BW SB Pós · limped pot (limp/check)",
       "description": "Blind war 30bb: você completou do SB e o BB deu check. Você age primeiro no flop (stab).",
       "street": "flop",
       "situation": "Limped pot",
@@ -106,7 +106,7 @@
   "drills": [
     {
       "id": "bw-sb-pos",
-      "name": "BW SB pós",
+      "name": "BW SB Pós",
       "description": "Aula 17 (bw-sb-pós), 30bb: SB vs BB no flop, primeiro a agir. Raise/call: check, bet 25% ou bet 67% pelo guide simplificado. Limp/check: check ou stab de 1bb. Nos boards de split, a mão decide pela tabela da aula.",
       "variants": [
         [

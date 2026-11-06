@@ -365,7 +365,7 @@ function TableSlot({
             }`}
             data-testid="pko-coverage"
           >
-            PKO {strategy.pko.coverage}
+            PKO {strategy.pko.coverage.toUpperCase()}
           </span>
         )}
         {/* No pós-flop o contador entregaria a resposta (só o lead certo tem a decisão seguinte) */}

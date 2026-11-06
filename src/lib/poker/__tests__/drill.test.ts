@@ -306,6 +306,6 @@ test("filtro de cobertura (PKO cobrindo/coberto)", async () => {
   const b = { ...rfiBtn, id: "b", pko: { coverage: "coberto" as const } };
   const map = new Map([a, b].map((s) => [s.id, s]));
   const drill = { ...preflopDrill, steps: ["a"], variants: [["a"], ["b"]] };
-  assert.deepEqual(drillCoverages(drill, map), ["Cobrindo", "Coberto"]);
-  assert.deepEqual(filterDrill(drill, map, { coverages: ["Coberto"] }).drill.variants, [["b"]]);
+  assert.deepEqual(drillCoverages(drill, map), ["COBRINDO", "COBERTO"]);
+  assert.deepEqual(filterDrill(drill, map, { coverages: ["COBERTO"] }).drill.variants, [["b"]]);
 });
