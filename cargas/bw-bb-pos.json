@@ -71,7 +71,8 @@
       "tablePosted": {
         "villain": 1.9
       },
-      "villainLabel": "Cbet 25%"
+      "villainLabel": "Cbet 25%",
+      "invested": 3.5
     },
     {
       "id": "bw-bb-pos-srp-x",
@@ -109,7 +110,8 @@
         "actionIds": [
           "call"
         ]
-      }
+      },
+      "invested": 3.5
     },
     {
       "id": "bw-bb-pos-srp-2x",
@@ -147,7 +149,8 @@
         "actionIds": [
           "call"
         ]
-      }
+      },
+      "invested": 3.5
     },
     {
       "id": "bw-bb-pos-srp-delay",
@@ -190,7 +193,8 @@
       "tablePosted": {
         "villain": 3.5
       },
-      "villainLabel": "Delayed cbet 47%"
+      "villainLabel": "Delayed cbet 47%",
+      "invested": 3.5
     },
     {
       "id": "bw-bb-pos-lp-vs-stab",
@@ -233,7 +237,8 @@
       "tablePosted": {
         "villain": 1
       },
-      "villainLabel": "Stab 1bb"
+      "villainLabel": "Stab 1bb",
+      "invested": 1
     },
     {
       "id": "bw-bb-pos-lp-x",
@@ -271,7 +276,8 @@
         "actionIds": [
           "check"
         ]
-      }
+      },
+      "invested": 1
     },
     {
       "id": "bw-bb-pos-iso-flop",
@@ -310,7 +316,8 @@
         "actionIds": [
           "iso"
         ]
-      }
+      },
+      "invested": 3.5
     },
     {
       "id": "bw-bb-pos-iso-turn",
@@ -352,7 +359,8 @@
       },
       "entryActionIds": [
         "bet-25"
-      ]
+      ],
+      "invested": 5.375
     },
     {
       "id": "bw-bb-pos-iso-river",
@@ -394,7 +402,8 @@
       },
       "entryActionIds": [
         "bet-67"
-      ]
+      ],
+      "invested": 12.875
     }
   ],
   "drills": [

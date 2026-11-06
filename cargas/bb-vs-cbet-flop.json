@@ -60,7 +60,8 @@
         "actionIds": [
           "call"
         ]
-      }
+      },
+      "invested": 2
     }
   ],
   "drills": [

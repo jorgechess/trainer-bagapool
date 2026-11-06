@@ -60,7 +60,8 @@
         "actionIds": [
           "rfi"
         ]
-      }
+      },
+      "invested": 3
     },
     {
       "id": "bw-sb-pos-lx",
@@ -98,7 +99,8 @@
         "actionIds": [
           "limp"
         ]
-      }
+      },
+      "invested": 1
     }
   ],
   "drills": [

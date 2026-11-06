@@ -60,7 +60,8 @@
         "actionIds": [
           "call"
         ]
-      }
+      },
+      "invested": 2
     },
     {
       "id": "bb-probe-turn-baixo-vs-co",
@@ -99,7 +100,8 @@
         "actionIds": [
           "call"
         ]
-      }
+      },
+      "invested": 2
     },
     {
       "id": "bb-probe-river-baixo-vs-co",
@@ -140,7 +142,8 @@
       },
       "entryActionIds": [
         "bet-25"
-      ]
+      ],
+      "invested": 3.125
     },
     {
       "id": "bb-probe-turn-3s-vs-co",
@@ -179,7 +182,8 @@
         "actionIds": [
           "call"
         ]
-      }
+      },
+      "invested": 2
     },
     {
       "id": "bb-probe-river-3s-vs-co",
@@ -220,7 +224,8 @@
       },
       "entryActionIds": [
         "bet-67"
-      ]
+      ],
+      "invested": 5
     },
     {
       "id": "bb-probe-turn-alto-vs-btn",
@@ -259,7 +264,8 @@
         "actionIds": [
           "call"
         ]
-      }
+      },
+      "invested": 2
     },
     {
       "id": "bb-probe-turn-baixo-vs-btn",
@@ -298,7 +304,8 @@
         "actionIds": [
           "call"
         ]
-      }
+      },
+      "invested": 2
     },
     {
       "id": "bb-probe-river-baixo-vs-btn",
@@ -339,7 +346,8 @@
       },
       "entryActionIds": [
         "bet-25"
-      ]
+      ],
+      "invested": 3.125
     },
     {
       "id": "bb-probe-turn-3s-vs-btn",
@@ -378,7 +386,8 @@
         "actionIds": [
           "call"
         ]
-      }
+      },
+      "invested": 2
     },
     {
       "id": "bb-probe-river-3s-vs-btn",
@@ -419,7 +428,8 @@
       },
       "entryActionIds": [
         "bet-67"
-      ]
+      ],
+      "invested": 5
     }
   ],
   "drills": [

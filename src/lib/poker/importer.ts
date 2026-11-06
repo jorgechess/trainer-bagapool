@@ -55,6 +55,7 @@ export interface ImportStrategy {
   tablePosted?: { hero?: number; villain?: number } | null;
   cbet?: import("./cbet").CbetSpec | null;
   tablePot?: number | null;
+  invested?: number | null;
   openType?: "linear" | "polar" | null;
   pko?: { coverage: "cobrindo" | "coberto"; bounty?: string; heroStack?: number; villainStack?: number } | null;
   range?: Record<string, string>;
@@ -226,6 +227,7 @@ export function parseImportBundle(
       ...(raw.tablePosted ? { tablePosted: raw.tablePosted } : {}),
       ...(raw.cbet ? { cbet: raw.cbet } : {}),
       ...(raw.tablePot ? { tablePot: raw.tablePot } : {}),
+      ...(typeof raw.invested === "number" ? { invested: raw.invested } : {}),
       ...(raw.callers?.length ? { callers: raw.callers as Strategy["heroPosition"][] } : {}),
       ...(raw.openType ? { openType: raw.openType } : {}),
       pko: raw.pko ?? null,

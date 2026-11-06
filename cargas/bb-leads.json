@@ -72,7 +72,8 @@
         "actionIds": [
           "call"
         ]
-      }
+      },
+      "invested": 2
     },
     {
       "id": "bb-lead-flop-nao-vs-co",
@@ -109,7 +110,8 @@
         "actionIds": [
           "call"
         ]
-      }
+      },
+      "invested": 2
     },
     {
       "id": "bb-lead-turn-lead-vs-co",
@@ -151,7 +153,8 @@
       },
       "entryActionIds": [
         "bet-25"
-      ]
+      ],
+      "invested": 3.125
     },
     {
       "id": "bb-lead-turn-vs-co",
@@ -189,7 +192,8 @@
         "actionIds": [
           "call"
         ]
-      }
+      },
+      "invested": 3.5
     },
     {
       "id": "bb-lead-river-vs-co",
@@ -227,7 +231,8 @@
         "actionIds": [
           "call"
         ]
-      }
+      },
+      "invested": 7.25
     },
     {
       "id": "bb-lead-flop-sim-vs-btn",
@@ -264,7 +269,8 @@
         "actionIds": [
           "call"
         ]
-      }
+      },
+      "invested": 2
     },
     {
       "id": "bb-lead-flop-nao-vs-btn",
@@ -301,7 +307,8 @@
         "actionIds": [
           "call"
         ]
-      }
+      },
+      "invested": 2
     },
     {
       "id": "bb-lead-turn-lead-vs-btn",
@@ -343,7 +350,8 @@
       },
       "entryActionIds": [
         "bet-25"
-      ]
+      ],
+      "invested": 3.125
     },
     {
       "id": "bb-lead-turn-vs-btn",
@@ -381,7 +389,8 @@
         "actionIds": [
           "call"
         ]
-      }
+      },
+      "invested": 3.5
     },
     {
       "id": "bb-lead-river-vs-btn",
@@ -419,7 +428,8 @@
         "actionIds": [
           "call"
         ]
-      }
+      },
+      "invested": 7.25
     }
   ],
   "drills": [

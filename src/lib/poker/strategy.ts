@@ -120,6 +120,8 @@ export interface Strategy {
   cbet?: CbetSpec | null;
   /** Pote mostrado na mesa (bb), quando não dá para calcular pelas fichas (ex.: flop de pote simples). */
   tablePot?: number | null;
+  /** Pós-flop: quanto cada jogador na mão já colocou no pote antes desta street (bb). Sai do stack mostrado. */
+  invested?: number | null;
   /** Rótulo da ação do vilão na mesa (ex.: "ISO"); padrão: Raise, 3-bet ou All-in. */
   villainLabel?: string | null;
   /** O vilão que aumentou foi all-in (ex.: vs resteal): a mesa mostra o shove dele. */

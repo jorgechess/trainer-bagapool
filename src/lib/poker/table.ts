@@ -168,6 +168,18 @@ function villainStart(strategy: Strategy, hero: number, drawn: number | undefine
   return drawn;
 }
 
+/**
+ * Fichas que cada jogador na mão já colocou antes desta street. Pré-flop: 0 (as fichas da street estão em `posted`).
+ * Pós-flop: o `invested` da estratégia; sem ele, metade do pote tirando o SB que foldou (pote simples).
+ */
+export function investedBefore(strategy: Strategy, pot: number | null): number {
+  if (strategy.street === "preflop") return 0;
+  if (typeof strategy.invested === "number") return strategy.invested;
+  if (pot === null) return 0;
+  const sbDead = strategy.heroPosition !== "SB" && strategy.villainPosition !== "SB" ? 0.5 : 0;
+  return Math.max(0, (pot - sbDead) / 2);
+}
+
 export interface TableState {
   seats: Seat[];
   /** Stack que sobra na frente de cada jogador (bb), ou null se não dá para saber. */
@@ -204,11 +216,18 @@ export function tableState(strategy: Strategy, seed: number): TableState {
     if (POSITIONS.indexOf(strategy.villainPosition) > POSITIONS.indexOf(strategy.heroPosition))
       opener.posted = tableSizes(strategy).open;
   }
-  const remaining = start
-    ? Object.fromEntries(seats.map((s) => [s.position, Math.round((start![s.position]! - s.posted) * 10) / 10]))
-    : null;
   const total = seats.reduce((sum, s) => sum + s.posted, 0);
   const pot = strategy.villainAllIn ? Math.round(total * 10) / 10 : knownPot(strategy);
+  // O stack do spot é o do começo da mão: no pós-flop sai o que cada um já colocou no pote
+  const inPot = investedBefore(strategy, pot);
+  const remaining = start
+    ? Object.fromEntries(
+        seats.map((s) => {
+          const already = s.status === "hero" || s.status === "active" ? inPot : 0;
+          return [s.position, Math.max(0, Math.round((start![s.position]! - already - s.posted) * 10) / 10)];
+        }),
+      )
+    : null;
   return {
     seats,
     remaining,

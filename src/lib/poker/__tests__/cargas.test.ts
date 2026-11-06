@@ -674,3 +674,18 @@ test("carga BW BB pós: linhas SRP, limped e ISO na seção Blind War", async ()
   assert.deepEqual([...seen.get("bw-bb-pos-srp-vs-cbet")!].sort(), ["call", "fold", "raise-3x"]);
   assert.deepEqual([...seen.get("bw-bb-pos-iso-river")!].sort(), ["bet-67", "check"]);
 });
+
+test("stacks no pós-flop descontam o que já foi pro pote (30bb no BB vira 28bb no flop)", async () => {
+  const { tableState } = await import("../table");
+  const deep = parseImportBundle(load("defesa-vanilla-deep.json"), DEFAULT_LEGEND);
+  const cbet = parseImportBundle(load("bb-vs-cbet-flop.json"), DEFAULT_LEGEND, deep.strategies);
+  const s = cbet.strategies[0];
+  const t = tableState(s, 1234);
+  assert.equal(t.remaining!.BB, 28, "30bb − 2bb do open defendido");
+  const villain = t.villainStart!;
+  assert.equal(t.remaining!.HJ, Math.round((villain - 2 - 1.5) * 10) / 10, "vilão: open de 2bb + cbet de 1,5bb na frente");
+  const bwbb = parseImportBundle(load("bw-bb.json"), DEFAULT_LEGEND);
+  const pos = parseImportBundle(load("bw-bb-pos.json"), DEFAULT_LEGEND, bwbb.strategies);
+  const river = pos.strategies.find((x) => x.id === "bw-bb-pos-iso-river")!;
+  assert.equal(tableState(river, 99).remaining!.BB, 17.1, "ISO no river: 30 − 12,875");
+});
