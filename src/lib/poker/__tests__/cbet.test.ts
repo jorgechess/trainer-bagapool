@@ -296,3 +296,26 @@ test("BW BB pós: categorias da mão e linhas do guide", async () => {
   assert.equal(a("Kc2h", "Qs9h5d3c7d", "iso-river"), "check");
   assert.equal(a("Qc2h", "Qs9h5d3c7d", "iso-river"), "bet-67");
 });
+
+test("BB vs 2nd Barrel: size por turn, bottom de call por posição e draws por size", async () => {
+  const { turnType, barrelSize, barrelAnswer } = await import("../bb-vs-barrel");
+  const b = (hero: string, board: string, pos: "EP" | "MP" | "LP") => barrelAnswer(c(hero), c(board), pos).action;
+  assert.equal(turnType(c("Qs9h3d8c")), "3S");
+  assert.equal(turnType(c("Qs9h3dQc")), "DH");
+  assert.equal(turnType(c("Ks9h3d2c")), "L");
+  assert.equal(barrelSize(c("Ks9h3d2c")), 125);
+  assert.equal(barrelSize(c("Ks9h3d7c")), 67);
+  assert.equal(turnType(c("Ks9h3h2h")), "3F");
+  // bottom de call: EP 2nd pair GK, MP any 2nd pair, LP 3rd pair GK
+  assert.equal(b("Ad9c", "Ks9h3d7c", "EP"), "vc-call");
+  assert.equal(b("9c6c", "Ks9h3d7c", "EP"), "vc-fold");
+  assert.equal(b("9c6c", "Ks9h3d7c", "MP"), "vc-call");
+  assert.equal(b("Ac3d", "Ks9h3d2c", "LP"), "vc-call"); // 3rd pair GK vs LP
+  assert.equal(b("Ac3d", "Ks9h3d2c", "EP"), "vc-fold");
+  assert.equal(b("Kd5c", "Ks9h3d7c", "EP"), "vc-call"); // top pair
+  assert.equal(b("Kd9c", "Ks9h3d7c", "EP"), "vc-raise"); // dois pares
+  // draws vs b125 (turn L): OESD baixo folda, combo draw X/jam
+  assert.equal(b("6c5d", "Ks7h4d2c", "EP"), "vc-fold"); // OESD 3-7 baixo? 4-5-6-7 + 3/8
+  assert.equal(b("JhTh", "Ks9h4h2c", "EP"), "vc-raise"); // FD + broca (Q) vs b125: X/jam
+  assert.equal(b("Th8h", "Ks9h4h2c", "EP"), "vc-call"); // FD médio (T) vs b125
+});

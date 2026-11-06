@@ -6,6 +6,7 @@
 import { type Card, type Rank, cardRank, cardSuit, rankValue } from "./cards";
 import { flopTexture } from "./texture";
 import { findVsCbetBoard, vsCbetAnswer } from "./vs-cbet";
+import { type BarrelPos, type BarrelSize, barrelAnswer, barrelSize, turnType } from "./bb-vs-barrel";
 import { BW_BB_CARDS, BW_BB_GUIDE, type BwBbNode, bwBbAnswer } from "./bw-bb-pos";
 
 export type CbetBand = "25-50" | "15";
@@ -26,6 +27,12 @@ export type CbetSpec =
       /** BB Leads (Posflop Defense): donk bet do BB no flop, no turn depois do lead/call, no turn e no river. */
       table: "bb-lead";
       node: BbLeadNode;
+    }
+  | {
+      /** BB vs 2nd Barrel (Posflop Defense, aula 24): BB pagou o cbet do flop e enfrenta o barrel no turn. */
+      table: "bb-vs-barrel";
+      pos: BarrelPos;
+      size: BarrelSize;
     }
   | {
       /** BW BB pós (Blind War): o BB contra o SB em single raised, limped e ISO. */
@@ -76,6 +83,11 @@ const SIZE_LABEL: Record<Size, string> = {
 
 /** Regra do flop para a tabela da estratégia; null = flop fora do drill. */
 export function flopRuleFor(spec: CbetSpec, board: readonly Card[]): FlopRule | null {
+  if (spec.table === "bb-vs-barrel") {
+    if (board.length < 4 || new Set(board.slice(0, 3).map((c) => cardRank(c))).size === 1) return null;
+    if (barrelSize(board) !== spec.size) return null;
+    return { group: "barrel", label: `Turn ${turnType(board)} · barrel b${spec.size} do ${spec.pos}`, mode: "split", size: "check" };
+  }
   if (spec.table === "bw-bb") {
     if (board.length < BW_BB_CARDS[spec.node]) return null;
     const fv = board.slice(0, 3).map((c) => cardRank(c));
@@ -278,6 +290,10 @@ export function cbetAnswer(spec: CbetSpec, hero: readonly Card[], board: readonl
   const rule = flopRuleFor(spec, board);
   if (!rule) return null;
   if (rule.mode === "range") return { action: rule.size, rule, hand: null };
+  if (spec.table === "bb-vs-barrel") {
+    const read = barrelAnswer(hero, board, spec.pos);
+    return { action: read.action, rule, hand: { category: read.category, bet: false, reason: read.reason } };
+  }
   if (spec.table === "bw-bb") {
     const read = bwBbAnswer(hero, board, spec.node);
     return { action: read.action, rule, hand: { category: read.category, bet: false, reason: read.reason } };
@@ -302,6 +318,7 @@ export function cbetAnswer(spec: CbetSpec, hero: readonly Card[], board: readonl
 export function ruleSummary(rule: FlopRule): string {
   const size = SIZE_LABEL[rule.size];
   if (rule.group === "vc") return "Call · Raise 3x · Fold";
+  if (rule.group === "barrel") return "Bottom de call e de draws (aula 24)";
   if (rule.group === "bwbb") return "Linhas Baga (heat map BW)";
   if (rule.size === "check") return "Check range";
   if (rule.size === "bet-1bb") return rule.mode === "range" ? "Stab range 1bb" : "Split X_Stab 1bb";

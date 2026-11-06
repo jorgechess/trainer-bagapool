@@ -1,0 +1,888 @@
+{
+  "legendAdd": [
+    {
+      "id": "vc-fold",
+      "label": "Fold",
+      "color": "#52525b",
+      "kind": "fold"
+    },
+    {
+      "id": "vc-call",
+      "label": "Call",
+      "color": "#166534",
+      "kind": "call"
+    },
+    {
+      "id": "vc-raise",
+      "label": "Raise",
+      "color": "#d97706",
+      "kind": "raise",
+      "sizing": "3x"
+    }
+  ],
+  "strategies": [
+    {
+      "id": "bb-vs-barrel-ep-b25",
+      "name": "BB vs 2nd Barrel vs UTG (EP) b25",
+      "description": "SRP 30bb: o UTG abriu, você pagou do BB, deu check/call no cbet do flop e ele fez barrel de 25% no turn.",
+      "street": "turn",
+      "situation": "vs EP",
+      "heroPosition": "BB",
+      "villainPosition": "UTG",
+      "stack": {
+        "min": 30,
+        "max": 30
+      },
+      "ratio": null,
+      "bubble": null,
+      "tags": [
+        "posflop-defense",
+        "vs-barrel",
+        "mes"
+      ],
+      "actionIds": [
+        "vc-fold",
+        "vc-call",
+        "vc-raise"
+      ],
+      "defaultActionId": "vc-fold",
+      "tablePot": 7.5,
+      "invested": 3.5,
+      "tablePosted": {
+        "villain": 1.88
+      },
+      "villainLabel": "Bet 25%",
+      "villainCoversHero": true,
+      "cbet": {
+        "table": "bb-vs-barrel",
+        "pos": "EP",
+        "size": 25
+      },
+      "dealFrom": {
+        "strategy": "bb-def-30bb-vs-utg",
+        "actionIds": [
+          "call"
+        ]
+      }
+    },
+    {
+      "id": "bb-vs-barrel-ep-b40",
+      "name": "BB vs 2nd Barrel vs UTG (EP) b40",
+      "description": "SRP 30bb: o UTG abriu, você pagou do BB, deu check/call no cbet do flop e ele fez barrel de 40% no turn.",
+      "street": "turn",
+      "situation": "vs EP",
+      "heroPosition": "BB",
+      "villainPosition": "UTG",
+      "stack": {
+        "min": 30,
+        "max": 30
+      },
+      "ratio": null,
+      "bubble": null,
+      "tags": [
+        "posflop-defense",
+        "vs-barrel",
+        "mes"
+      ],
+      "actionIds": [
+        "vc-fold",
+        "vc-call",
+        "vc-raise"
+      ],
+      "defaultActionId": "vc-fold",
+      "tablePot": 7.5,
+      "invested": 3.5,
+      "tablePosted": {
+        "villain": 3.0
+      },
+      "villainLabel": "Bet 40%",
+      "villainCoversHero": true,
+      "cbet": {
+        "table": "bb-vs-barrel",
+        "pos": "EP",
+        "size": 40
+      },
+      "dealFrom": {
+        "strategy": "bb-def-30bb-vs-utg",
+        "actionIds": [
+          "call"
+        ]
+      }
+    },
+    {
+      "id": "bb-vs-barrel-ep-b50",
+      "name": "BB vs 2nd Barrel vs UTG (EP) b50",
+      "description": "SRP 30bb: o UTG abriu, você pagou do BB, deu check/call no cbet do flop e ele fez barrel de 50% no turn.",
+      "street": "turn",
+      "situation": "vs EP",
+      "heroPosition": "BB",
+      "villainPosition": "UTG",
+      "stack": {
+        "min": 30,
+        "max": 30
+      },
+      "ratio": null,
+      "bubble": null,
+      "tags": [
+        "posflop-defense",
+        "vs-barrel",
+        "mes"
+      ],
+      "actionIds": [
+        "vc-fold",
+        "vc-call",
+        "vc-raise"
+      ],
+      "defaultActionId": "vc-fold",
+      "tablePot": 7.5,
+      "invested": 3.5,
+      "tablePosted": {
+        "villain": 3.75
+      },
+      "villainLabel": "Bet 50%",
+      "villainCoversHero": true,
+      "cbet": {
+        "table": "bb-vs-barrel",
+        "pos": "EP",
+        "size": 50
+      },
+      "dealFrom": {
+        "strategy": "bb-def-30bb-vs-utg",
+        "actionIds": [
+          "call"
+        ]
+      }
+    },
+    {
+      "id": "bb-vs-barrel-ep-b67",
+      "name": "BB vs 2nd Barrel vs UTG (EP) b67",
+      "description": "SRP 30bb: o UTG abriu, você pagou do BB, deu check/call no cbet do flop e ele fez barrel de 67% no turn.",
+      "street": "turn",
+      "situation": "vs EP",
+      "heroPosition": "BB",
+      "villainPosition": "UTG",
+      "stack": {
+        "min": 30,
+        "max": 30
+      },
+      "ratio": null,
+      "bubble": null,
+      "tags": [
+        "posflop-defense",
+        "vs-barrel",
+        "mes"
+      ],
+      "actionIds": [
+        "vc-fold",
+        "vc-call",
+        "vc-raise"
+      ],
+      "defaultActionId": "vc-fold",
+      "tablePot": 7.5,
+      "invested": 3.5,
+      "tablePosted": {
+        "villain": 5.03
+      },
+      "villainLabel": "Bet 67%",
+      "villainCoversHero": true,
+      "cbet": {
+        "table": "bb-vs-barrel",
+        "pos": "EP",
+        "size": 67
+      },
+      "dealFrom": {
+        "strategy": "bb-def-30bb-vs-utg",
+        "actionIds": [
+          "call"
+        ]
+      }
+    },
+    {
+      "id": "bb-vs-barrel-ep-b75",
+      "name": "BB vs 2nd Barrel vs UTG (EP) b75",
+      "description": "SRP 30bb: o UTG abriu, você pagou do BB, deu check/call no cbet do flop e ele fez barrel de 75% no turn.",
+      "street": "turn",
+      "situation": "vs EP",
+      "heroPosition": "BB",
+      "villainPosition": "UTG",
+      "stack": {
+        "min": 30,
+        "max": 30
+      },
+      "ratio": null,
+      "bubble": null,
+      "tags": [
+        "posflop-defense",
+        "vs-barrel",
+        "mes"
+      ],
+      "actionIds": [
+        "vc-fold",
+        "vc-call",
+        "vc-raise"
+      ],
+      "defaultActionId": "vc-fold",
+      "tablePot": 7.5,
+      "invested": 3.5,
+      "tablePosted": {
+        "villain": 5.62
+      },
+      "villainLabel": "Bet 75%",
+      "villainCoversHero": true,
+      "cbet": {
+        "table": "bb-vs-barrel",
+        "pos": "EP",
+        "size": 75
+      },
+      "dealFrom": {
+        "strategy": "bb-def-30bb-vs-utg",
+        "actionIds": [
+          "call"
+        ]
+      }
+    },
+    {
+      "id": "bb-vs-barrel-ep-b125",
+      "name": "BB vs 2nd Barrel vs UTG (EP) b125",
+      "description": "SRP 30bb: o UTG abriu, você pagou do BB, deu check/call no cbet do flop e ele fez barrel de 125% no turn.",
+      "street": "turn",
+      "situation": "vs EP",
+      "heroPosition": "BB",
+      "villainPosition": "UTG",
+      "stack": {
+        "min": 30,
+        "max": 30
+      },
+      "ratio": null,
+      "bubble": null,
+      "tags": [
+        "posflop-defense",
+        "vs-barrel",
+        "mes"
+      ],
+      "actionIds": [
+        "vc-fold",
+        "vc-call",
+        "vc-raise"
+      ],
+      "defaultActionId": "vc-fold",
+      "tablePot": 7.5,
+      "invested": 3.5,
+      "tablePosted": {
+        "villain": 9.38
+      },
+      "villainLabel": "Bet 125%",
+      "villainCoversHero": true,
+      "cbet": {
+        "table": "bb-vs-barrel",
+        "pos": "EP",
+        "size": 125
+      },
+      "dealFrom": {
+        "strategy": "bb-def-30bb-vs-utg",
+        "actionIds": [
+          "call"
+        ]
+      }
+    },
+    {
+      "id": "bb-vs-barrel-mp-b25",
+      "name": "BB vs 2nd Barrel vs HJ (MP) b25",
+      "description": "SRP 30bb: o HJ abriu, você pagou do BB, deu check/call no cbet do flop e ele fez barrel de 25% no turn.",
+      "street": "turn",
+      "situation": "vs MP",
+      "heroPosition": "BB",
+      "villainPosition": "HJ",
+      "stack": {
+        "min": 30,
+        "max": 30
+      },
+      "ratio": null,
+      "bubble": null,
+      "tags": [
+        "posflop-defense",
+        "vs-barrel",
+        "mes"
+      ],
+      "actionIds": [
+        "vc-fold",
+        "vc-call",
+        "vc-raise"
+      ],
+      "defaultActionId": "vc-fold",
+      "tablePot": 7.5,
+      "invested": 3.5,
+      "tablePosted": {
+        "villain": 1.88
+      },
+      "villainLabel": "Bet 25%",
+      "villainCoversHero": true,
+      "cbet": {
+        "table": "bb-vs-barrel",
+        "pos": "MP",
+        "size": 25
+      },
+      "dealFrom": {
+        "strategy": "bb-def-30bb-vs-hj",
+        "actionIds": [
+          "call"
+        ]
+      }
+    },
+    {
+      "id": "bb-vs-barrel-mp-b40",
+      "name": "BB vs 2nd Barrel vs HJ (MP) b40",
+      "description": "SRP 30bb: o HJ abriu, você pagou do BB, deu check/call no cbet do flop e ele fez barrel de 40% no turn.",
+      "street": "turn",
+      "situation": "vs MP",
+      "heroPosition": "BB",
+      "villainPosition": "HJ",
+      "stack": {
+        "min": 30,
+        "max": 30
+      },
+      "ratio": null,
+      "bubble": null,
+      "tags": [
+        "posflop-defense",
+        "vs-barrel",
+        "mes"
+      ],
+      "actionIds": [
+        "vc-fold",
+        "vc-call",
+        "vc-raise"
+      ],
+      "defaultActionId": "vc-fold",
+      "tablePot": 7.5,
+      "invested": 3.5,
+      "tablePosted": {
+        "villain": 3.0
+      },
+      "villainLabel": "Bet 40%",
+      "villainCoversHero": true,
+      "cbet": {
+        "table": "bb-vs-barrel",
+        "pos": "MP",
+        "size": 40
+      },
+      "dealFrom": {
+        "strategy": "bb-def-30bb-vs-hj",
+        "actionIds": [
+          "call"
+        ]
+      }
+    },
+    {
+      "id": "bb-vs-barrel-mp-b50",
+      "name": "BB vs 2nd Barrel vs HJ (MP) b50",
+      "description": "SRP 30bb: o HJ abriu, você pagou do BB, deu check/call no cbet do flop e ele fez barrel de 50% no turn.",
+      "street": "turn",
+      "situation": "vs MP",
+      "heroPosition": "BB",
+      "villainPosition": "HJ",
+      "stack": {
+        "min": 30,
+        "max": 30
+      },
+      "ratio": null,
+      "bubble": null,
+      "tags": [
+        "posflop-defense",
+        "vs-barrel",
+        "mes"
+      ],
+      "actionIds": [
+        "vc-fold",
+        "vc-call",
+        "vc-raise"
+      ],
+      "defaultActionId": "vc-fold",
+      "tablePot": 7.5,
+      "invested": 3.5,
+      "tablePosted": {
+        "villain": 3.75
+      },
+      "villainLabel": "Bet 50%",
+      "villainCoversHero": true,
+      "cbet": {
+        "table": "bb-vs-barrel",
+        "pos": "MP",
+        "size": 50
+      },
+      "dealFrom": {
+        "strategy": "bb-def-30bb-vs-hj",
+        "actionIds": [
+          "call"
+        ]
+      }
+    },
+    {
+      "id": "bb-vs-barrel-mp-b67",
+      "name": "BB vs 2nd Barrel vs HJ (MP) b67",
+      "description": "SRP 30bb: o HJ abriu, você pagou do BB, deu check/call no cbet do flop e ele fez barrel de 67% no turn.",
+      "street": "turn",
+      "situation": "vs MP",
+      "heroPosition": "BB",
+      "villainPosition": "HJ",
+      "stack": {
+        "min": 30,
+        "max": 30
+      },
+      "ratio": null,
+      "bubble": null,
+      "tags": [
+        "posflop-defense",
+        "vs-barrel",
+        "mes"
+      ],
+      "actionIds": [
+        "vc-fold",
+        "vc-call",
+        "vc-raise"
+      ],
+      "defaultActionId": "vc-fold",
+      "tablePot": 7.5,
+      "invested": 3.5,
+      "tablePosted": {
+        "villain": 5.03
+      },
+      "villainLabel": "Bet 67%",
+      "villainCoversHero": true,
+      "cbet": {
+        "table": "bb-vs-barrel",
+        "pos": "MP",
+        "size": 67
+      },
+      "dealFrom": {
+        "strategy": "bb-def-30bb-vs-hj",
+        "actionIds": [
+          "call"
+        ]
+      }
+    },
+    {
+      "id": "bb-vs-barrel-mp-b75",
+      "name": "BB vs 2nd Barrel vs HJ (MP) b75",
+      "description": "SRP 30bb: o HJ abriu, você pagou do BB, deu check/call no cbet do flop e ele fez barrel de 75% no turn.",
+      "street": "turn",
+      "situation": "vs MP",
+      "heroPosition": "BB",
+      "villainPosition": "HJ",
+      "stack": {
+        "min": 30,
+        "max": 30
+      },
+      "ratio": null,
+      "bubble": null,
+      "tags": [
+        "posflop-defense",
+        "vs-barrel",
+        "mes"
+      ],
+      "actionIds": [
+        "vc-fold",
+        "vc-call",
+        "vc-raise"
+      ],
+      "defaultActionId": "vc-fold",
+      "tablePot": 7.5,
+      "invested": 3.5,
+      "tablePosted": {
+        "villain": 5.62
+      },
+      "villainLabel": "Bet 75%",
+      "villainCoversHero": true,
+      "cbet": {
+        "table": "bb-vs-barrel",
+        "pos": "MP",
+        "size": 75
+      },
+      "dealFrom": {
+        "strategy": "bb-def-30bb-vs-hj",
+        "actionIds": [
+          "call"
+        ]
+      }
+    },
+    {
+      "id": "bb-vs-barrel-mp-b125",
+      "name": "BB vs 2nd Barrel vs HJ (MP) b125",
+      "description": "SRP 30bb: o HJ abriu, você pagou do BB, deu check/call no cbet do flop e ele fez barrel de 125% no turn.",
+      "street": "turn",
+      "situation": "vs MP",
+      "heroPosition": "BB",
+      "villainPosition": "HJ",
+      "stack": {
+        "min": 30,
+        "max": 30
+      },
+      "ratio": null,
+      "bubble": null,
+      "tags": [
+        "posflop-defense",
+        "vs-barrel",
+        "mes"
+      ],
+      "actionIds": [
+        "vc-fold",
+        "vc-call",
+        "vc-raise"
+      ],
+      "defaultActionId": "vc-fold",
+      "tablePot": 7.5,
+      "invested": 3.5,
+      "tablePosted": {
+        "villain": 9.38
+      },
+      "villainLabel": "Bet 125%",
+      "villainCoversHero": true,
+      "cbet": {
+        "table": "bb-vs-barrel",
+        "pos": "MP",
+        "size": 125
+      },
+      "dealFrom": {
+        "strategy": "bb-def-30bb-vs-hj",
+        "actionIds": [
+          "call"
+        ]
+      }
+    },
+    {
+      "id": "bb-vs-barrel-lp-b25",
+      "name": "BB vs 2nd Barrel vs BTN (LP) b25",
+      "description": "SRP 30bb: o BTN abriu, você pagou do BB, deu check/call no cbet do flop e ele fez barrel de 25% no turn.",
+      "street": "turn",
+      "situation": "vs LP",
+      "heroPosition": "BB",
+      "villainPosition": "BTN",
+      "stack": {
+        "min": 30,
+        "max": 30
+      },
+      "ratio": null,
+      "bubble": null,
+      "tags": [
+        "posflop-defense",
+        "vs-barrel",
+        "mes"
+      ],
+      "actionIds": [
+        "vc-fold",
+        "vc-call",
+        "vc-raise"
+      ],
+      "defaultActionId": "vc-fold",
+      "tablePot": 7.5,
+      "invested": 3.5,
+      "tablePosted": {
+        "villain": 1.88
+      },
+      "villainLabel": "Bet 25%",
+      "villainCoversHero": true,
+      "cbet": {
+        "table": "bb-vs-barrel",
+        "pos": "LP",
+        "size": 25
+      },
+      "dealFrom": {
+        "strategy": "bb-def-30bb-vs-btn",
+        "actionIds": [
+          "call"
+        ]
+      }
+    },
+    {
+      "id": "bb-vs-barrel-lp-b40",
+      "name": "BB vs 2nd Barrel vs BTN (LP) b40",
+      "description": "SRP 30bb: o BTN abriu, você pagou do BB, deu check/call no cbet do flop e ele fez barrel de 40% no turn.",
+      "street": "turn",
+      "situation": "vs LP",
+      "heroPosition": "BB",
+      "villainPosition": "BTN",
+      "stack": {
+        "min": 30,
+        "max": 30
+      },
+      "ratio": null,
+      "bubble": null,
+      "tags": [
+        "posflop-defense",
+        "vs-barrel",
+        "mes"
+      ],
+      "actionIds": [
+        "vc-fold",
+        "vc-call",
+        "vc-raise"
+      ],
+      "defaultActionId": "vc-fold",
+      "tablePot": 7.5,
+      "invested": 3.5,
+      "tablePosted": {
+        "villain": 3.0
+      },
+      "villainLabel": "Bet 40%",
+      "villainCoversHero": true,
+      "cbet": {
+        "table": "bb-vs-barrel",
+        "pos": "LP",
+        "size": 40
+      },
+      "dealFrom": {
+        "strategy": "bb-def-30bb-vs-btn",
+        "actionIds": [
+          "call"
+        ]
+      }
+    },
+    {
+      "id": "bb-vs-barrel-lp-b50",
+      "name": "BB vs 2nd Barrel vs BTN (LP) b50",
+      "description": "SRP 30bb: o BTN abriu, você pagou do BB, deu check/call no cbet do flop e ele fez barrel de 50% no turn.",
+      "street": "turn",
+      "situation": "vs LP",
+      "heroPosition": "BB",
+      "villainPosition": "BTN",
+      "stack": {
+        "min": 30,
+        "max": 30
+      },
+      "ratio": null,
+      "bubble": null,
+      "tags": [
+        "posflop-defense",
+        "vs-barrel",
+        "mes"
+      ],
+      "actionIds": [
+        "vc-fold",
+        "vc-call",
+        "vc-raise"
+      ],
+      "defaultActionId": "vc-fold",
+      "tablePot": 7.5,
+      "invested": 3.5,
+      "tablePosted": {
+        "villain": 3.75
+      },
+      "villainLabel": "Bet 50%",
+      "villainCoversHero": true,
+      "cbet": {
+        "table": "bb-vs-barrel",
+        "pos": "LP",
+        "size": 50
+      },
+      "dealFrom": {
+        "strategy": "bb-def-30bb-vs-btn",
+        "actionIds": [
+          "call"
+        ]
+      }
+    },
+    {
+      "id": "bb-vs-barrel-lp-b67",
+      "name": "BB vs 2nd Barrel vs BTN (LP) b67",
+      "description": "SRP 30bb: o BTN abriu, você pagou do BB, deu check/call no cbet do flop e ele fez barrel de 67% no turn.",
+      "street": "turn",
+      "situation": "vs LP",
+      "heroPosition": "BB",
+      "villainPosition": "BTN",
+      "stack": {
+        "min": 30,
+        "max": 30
+      },
+      "ratio": null,
+      "bubble": null,
+      "tags": [
+        "posflop-defense",
+        "vs-barrel",
+        "mes"
+      ],
+      "actionIds": [
+        "vc-fold",
+        "vc-call",
+        "vc-raise"
+      ],
+      "defaultActionId": "vc-fold",
+      "tablePot": 7.5,
+      "invested": 3.5,
+      "tablePosted": {
+        "villain": 5.03
+      },
+      "villainLabel": "Bet 67%",
+      "villainCoversHero": true,
+      "cbet": {
+        "table": "bb-vs-barrel",
+        "pos": "LP",
+        "size": 67
+      },
+      "dealFrom": {
+        "strategy": "bb-def-30bb-vs-btn",
+        "actionIds": [
+          "call"
+        ]
+      }
+    },
+    {
+      "id": "bb-vs-barrel-lp-b75",
+      "name": "BB vs 2nd Barrel vs BTN (LP) b75",
+      "description": "SRP 30bb: o BTN abriu, você pagou do BB, deu check/call no cbet do flop e ele fez barrel de 75% no turn.",
+      "street": "turn",
+      "situation": "vs LP",
+      "heroPosition": "BB",
+      "villainPosition": "BTN",
+      "stack": {
+        "min": 30,
+        "max": 30
+      },
+      "ratio": null,
+      "bubble": null,
+      "tags": [
+        "posflop-defense",
+        "vs-barrel",
+        "mes"
+      ],
+      "actionIds": [
+        "vc-fold",
+        "vc-call",
+        "vc-raise"
+      ],
+      "defaultActionId": "vc-fold",
+      "tablePot": 7.5,
+      "invested": 3.5,
+      "tablePosted": {
+        "villain": 5.62
+      },
+      "villainLabel": "Bet 75%",
+      "villainCoversHero": true,
+      "cbet": {
+        "table": "bb-vs-barrel",
+        "pos": "LP",
+        "size": 75
+      },
+      "dealFrom": {
+        "strategy": "bb-def-30bb-vs-btn",
+        "actionIds": [
+          "call"
+        ]
+      }
+    },
+    {
+      "id": "bb-vs-barrel-lp-b125",
+      "name": "BB vs 2nd Barrel vs BTN (LP) b125",
+      "description": "SRP 30bb: o BTN abriu, você pagou do BB, deu check/call no cbet do flop e ele fez barrel de 125% no turn.",
+      "street": "turn",
+      "situation": "vs LP",
+      "heroPosition": "BB",
+      "villainPosition": "BTN",
+      "stack": {
+        "min": 30,
+        "max": 30
+      },
+      "ratio": null,
+      "bubble": null,
+      "tags": [
+        "posflop-defense",
+        "vs-barrel",
+        "mes"
+      ],
+      "actionIds": [
+        "vc-fold",
+        "vc-call",
+        "vc-raise"
+      ],
+      "defaultActionId": "vc-fold",
+      "tablePot": 7.5,
+      "invested": 3.5,
+      "tablePosted": {
+        "villain": 9.38
+      },
+      "villainLabel": "Bet 125%",
+      "villainCoversHero": true,
+      "cbet": {
+        "table": "bb-vs-barrel",
+        "pos": "LP",
+        "size": 125
+      },
+      "dealFrom": {
+        "strategy": "bb-def-30bb-vs-btn",
+        "actionIds": [
+          "call"
+        ]
+      }
+    }
+  ],
+  "drills": [
+    {
+      "id": "bb-vs-2nd-barrel",
+      "name": "BB vs 2nd Barrel",
+      "description": "Aula 24: BB 30bb pagou o cbet do flop e enfrenta o barrel no turn de EP (UTG), MP (HJ) ou LP (BTN). Size pelo tipo de turn; fold, call ou raise pelo bottom de call por posição, o bottom de reação dos draws por size e os gatilhos de X/R bluff.",
+      "variants": [
+        [
+          "bb-vs-barrel-ep-b25"
+        ],
+        [
+          "bb-vs-barrel-ep-b40"
+        ],
+        [
+          "bb-vs-barrel-ep-b50"
+        ],
+        [
+          "bb-vs-barrel-ep-b67"
+        ],
+        [
+          "bb-vs-barrel-ep-b75"
+        ],
+        [
+          "bb-vs-barrel-ep-b125"
+        ],
+        [
+          "bb-vs-barrel-mp-b25"
+        ],
+        [
+          "bb-vs-barrel-mp-b40"
+        ],
+        [
+          "bb-vs-barrel-mp-b50"
+        ],
+        [
+          "bb-vs-barrel-mp-b67"
+        ],
+        [
+          "bb-vs-barrel-mp-b75"
+        ],
+        [
+          "bb-vs-barrel-mp-b125"
+        ],
+        [
+          "bb-vs-barrel-lp-b25"
+        ],
+        [
+          "bb-vs-barrel-lp-b40"
+        ],
+        [
+          "bb-vs-barrel-lp-b50"
+        ],
+        [
+          "bb-vs-barrel-lp-b67"
+        ],
+        [
+          "bb-vs-barrel-lp-b75"
+        ],
+        [
+          "bb-vs-barrel-lp-b125"
+        ]
+      ],
+      "sampling": "uniforme",
+      "tags": [
+        "posflop-defense",
+        "vs-barrel",
+        "mes"
+      ],
+      "handsPerSession": 50,
+      "passAccuracy": 0.9
+    }
+  ]
+}

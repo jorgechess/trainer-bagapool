@@ -782,6 +782,17 @@ async function main() {
     await shot(page, "treino-bw-bb-pos");
     log("BW BB pós: spot do BB com a linha do guide");
 
+    // BB vs 2nd Barrel (Posflop Defense): turn com barrel do vilão, Fold/Call/Raise
+    await page.goto(`${BASE_URL}/drills`);
+    await page.getByTestId("secao-posflop-defense").getByText("BB vs 2nd Barrel").waitFor();
+    await page.goto(`${BASE_URL}/drills/bb-vs-2nd-barrel/treinar`);
+    await page.getByTestId("board").waitFor();
+    assert.equal(await page.getByTestId("board").locator("> *").count(), 4, "decisão no turn");
+    await page.locator("[data-testid=actions] button").first().click();
+    await page.getByTestId("cbet-leitura").getByText("Bottom de call e de draws (aula 24)").waitFor();
+    await shot(page, "treino-bb-vs-2nd-barrel");
+    log("BB vs 2nd Barrel: turn com size pelo tipo de turn e leitura da mão");
+
     // Warmup: botão no início, contagem 3-2-1-Go e treino de 15 minutos; decisões contam no drill de origem
     await page.goto(`${BASE_URL}/`);
     await page.getByTestId("warmup-button").click();

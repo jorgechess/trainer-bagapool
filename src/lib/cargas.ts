@@ -19,6 +19,7 @@ import bwSbMlr from "../../cargas/bw-sb-mlr.json";
 import bwBb from "../../cargas/bw-bb.json";
 import bbLeads from "../../cargas/bb-leads.json";
 import bbProbes from "../../cargas/bb-probes.json";
+import bbVs2ndBarrel from "../../cargas/bb-vs-2nd-barrel.json";
 import bbVsCbetFlop from "../../cargas/bb-vs-cbet-flop.json";
 import bwBbPos from "../../cargas/bw-bb-pos.json";
 import bwSbPos from "../../cargas/bw-sb-pos.json";
@@ -210,5 +211,12 @@ export const CARGAS: Carga[] = [
     description: "Blind War pós-flop do BB 30bb vs SB: single raised, limped e ISO pelo guide da aula e o heat map do time.",
     requires: ["bw-bb"],
     bundle: bwBbPos,
+  },
+  {
+    id: "bb-vs-2nd-barrel",
+    name: "BB vs 2nd Barrel",
+    description: "Posflop Defense (aula 24): BB 30bb vs barrel no turn de EP, MP e LP, com o size pelo tipo de turn.",
+    requires: ["defesa-vanilla-deep"],
+    bundle: bbVs2ndBarrel,
   },
 ];

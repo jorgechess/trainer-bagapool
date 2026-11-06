@@ -689,3 +689,26 @@ test("stacks no pós-flop descontam o que já foi pro pote (30bb no BB vira 28bb
   const river = pos.strategies.find((x) => x.id === "bw-bb-pos-iso-river")!;
   assert.equal(tableState(river, 99).remaining!.BB, 17.1, "ISO no river: 30 − 12,875");
 });
+
+test("carga BB vs 2nd Barrel: size do vilão bate com o tipo de turn", async () => {
+  const { drillSection } = await import("../sections");
+  const { dealQuestion, validateDrill } = await import("../drill");
+  const { seededRng } = await import("../rng");
+  const { barrelSize } = await import("../bb-vs-barrel");
+  const deep = parseImportBundle(load("defesa-vanilla-deep.json"), DEFAULT_LEGEND);
+  const result = parseImportBundle(load("bb-vs-2nd-barrel.json"), DEFAULT_LEGEND, deep.strategies);
+  assert.deepEqual(result.errors, []);
+  const map = new Map([...deep.strategies, ...result.strategies].map((s) => [s.id, s]));
+  const drill = result.drills[0];
+  assert.equal(drillSection(drill, map), "posflop-defense");
+  assert.deepEqual(validateDrill(drill, map), []);
+  const rng = seededRng(12);
+  const seen = new Set<string>();
+  for (let i = 0; i < 400; i++) {
+    const q = dealQuestion(drill, map, result.legend ?? DEFAULT_LEGEND, rng);
+    const s = map.get(q.steps[0].strategyId)!;
+    assert.equal(barrelSize(q.steps[0].board), (s.cbet as { size: number }).size);
+    seen.add(q.steps[0].correctActionId);
+  }
+  assert.deepEqual([...seen].sort(), ["vc-call", "vc-fold", "vc-raise"]);
+});
