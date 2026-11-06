@@ -642,7 +642,7 @@ test("carga BB vs Cbet flop: boards da guide, mãos do call vs HJ", async () => 
     assert.equal(map.get("bb-def-30bb-vs-hj")!.range[q.hand], "call");
     seen.add(q.steps[0].correctActionId);
   }
-  assert.deepEqual([...seen].sort(), ["x-call", "x-fold", "x-raise"]);
+  assert.deepEqual([...seen].sort(), ["vc-call", "vc-fold", "vc-raise"]);
 });
 
 test("carga BW BB pós: linhas SRP, limped e ISO na seção Blind War", async () => {

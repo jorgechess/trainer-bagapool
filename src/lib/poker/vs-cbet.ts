@@ -6,7 +6,7 @@
  */
 import { type Card, type Rank, cardRank, cardSuit, rankValue } from "./cards";
 
-export type VsCbetAction = "x-call" | "x-raise" | "x-fold";
+export type VsCbetAction = "vc-call" | "vc-raise" | "vc-fold";
 
 const v = (r: Rank) => rankValue(r);
 const RANK_CHARS = "23456789TJQKA";
@@ -150,8 +150,8 @@ export interface VsCbetBoard {
   rules: Rule[];
 }
 
-const R = "x-raise" as const;
-const C = "x-call" as const;
+const R = "vc-raise" as const;
+const C = "vc-call" as const;
 const is = (...combos: string[]) => (f: VsCbetFeatures) => combos.includes(f.combo);
 const anyPair = (f: VsCbetFeatures) => f.pairedWith !== null || f.pocket;
 const pairOf = (rank: number) => (f: VsCbetFeatures) => f.pairedWith === rank;
@@ -586,5 +586,5 @@ export function vsCbetAnswer(hero: readonly Card[], flop: readonly Card[]): VsCb
   if (!board) return null;
   const f = vsCbetFeatures(hero, flop);
   for (const [category, test, action] of board.rules) if (test(f)) return { action, category, board };
-  return { action: "x-fold", category: f.pocket ? "Pocket sem jogo" : "Air", board };
+  return { action: "vc-fold", category: f.pocket ? "Pocket sem jogo" : "Air", board };
 }

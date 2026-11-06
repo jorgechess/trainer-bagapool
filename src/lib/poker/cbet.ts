@@ -285,7 +285,7 @@ export function cbetAnswer(spec: CbetSpec, hero: readonly Card[], board: readonl
   if (spec.table === "bb-vs-cbet") {
     const read = vsCbetAnswer(hero, board);
     if (!read) return null;
-    const label = { "x-call": "X/C", "x-raise": "X/R 3x", "x-fold": "X/F" }[read.action];
+    const label = { "vc-call": "Call", "vc-raise": "Raise 3x", "vc-fold": "Fold" }[read.action];
     return { action: read.action, rule, hand: { category: read.category, bet: false, reason: `Guide: ${label}.` } };
   }
   const hand =
@@ -301,7 +301,7 @@ export function cbetAnswer(spec: CbetSpec, hero: readonly Card[], board: readonl
 
 export function ruleSummary(rule: FlopRule): string {
   const size = SIZE_LABEL[rule.size];
-  if (rule.group === "vc") return "X/C · X/R 3x · X/F";
+  if (rule.group === "vc") return "Call · Raise 3x · Fold";
   if (rule.group === "bwbb") return "Linhas Baga (heat map BW)";
   if (rule.size === "check") return "Check range";
   if (rule.size === "bet-1bb") return rule.mode === "range" ? "Stab range 1bb" : "Split X_Stab 1bb";

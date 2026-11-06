@@ -237,33 +237,33 @@ test("BB vs Cbet flop: guide vs EP mão a mão nos boards da planilha", async ()
   const rng = seededRng(3);
   for (let i = 0; i < 50; i++) assert.ok(findVsCbetBoard(randomVsCbetFlop(rng)));
   // A♠T♥8♠
-  assert.equal(vc("AdKc", "AsTh8s"), "x-raise"); // TPGK
-  assert.equal(vc("Ad5c", "AsTh8s"), "x-call"); // par do board
-  assert.equal(vc("Ks3s", "AsTh8s"), "x-raise"); // FD com 3x
-  assert.equal(vc("KsQs", "AsTh8s"), "x-call"); // FD (e broca)
-  assert.equal(vc("KdQc", "AsTh8s"), "x-call"); // melhor broca
-  assert.equal(vc("9d6c", "AsTh8s"), "x-raise"); // pior broca
-  assert.equal(vc("5d5c", "AsTh8s"), "x-fold"); // pocket
-  assert.equal(vc("Kd4c", "AsTh8s"), "x-fold"); // air
+  assert.equal(vc("AdKc", "AsTh8s"), "vc-raise"); // TPGK
+  assert.equal(vc("Ad5c", "AsTh8s"), "vc-call"); // par do board
+  assert.equal(vc("Ks3s", "AsTh8s"), "vc-raise"); // FD com 3x
+  assert.equal(vc("KsQs", "AsTh8s"), "vc-call"); // FD (e broca)
+  assert.equal(vc("KdQc", "AsTh8s"), "vc-call"); // melhor broca
+  assert.equal(vc("9d6c", "AsTh8s"), "vc-raise"); // pior broca
+  assert.equal(vc("5d5c", "AsTh8s"), "vc-fold"); // pocket
+  assert.equal(vc("Kd4c", "AsTh8s"), "vc-fold"); // air
   // A♠9♥3♦: X/R todos os pares
-  assert.equal(vc("2d2c", "As9h3d"), "x-raise");
-  assert.equal(vc("KdQc", "As9h3d"), "x-fold");
+  assert.equal(vc("2d2c", "As9h3d"), "vc-raise");
+  assert.equal(vc("KdQc", "As9h3d"), "vc-fold");
   // K♠T♦3♥
-  assert.equal(vc("QdJc", "KsTd3h"), "x-raise"); // broadways
-  assert.equal(vc("8d8c", "KsTd3h"), "x-fold"); // pocket médio
-  assert.equal(vc("4d4c", "KsTd3h"), "x-raise"); // 55-
+  assert.equal(vc("QdJc", "KsTd3h"), "vc-raise"); // broadways
+  assert.equal(vc("8d8c", "KsTd3h"), "vc-fold"); // pocket médio
+  assert.equal(vc("4d4c", "KsTd3h"), "vc-raise"); // 55-
   // 7♠3♥2♦
-  assert.equal(vc("Jd3c", "7s3h2d"), "x-call"); // 3rd pair GK
-  assert.equal(vc("9d9c", "7s3h2d"), "x-raise"); // pocket
-  assert.equal(vc("AdTc", "7s3h2d"), "x-call");
+  assert.equal(vc("Jd3c", "7s3h2d"), "vc-call"); // 3rd pair GK
+  assert.equal(vc("9d9c", "7s3h2d"), "vc-raise"); // pocket
+  assert.equal(vc("AdTc", "7s3h2d"), "vc-call");
   // DB T♦4♥4♦
-  assert.equal(vc("Td4c", "Td4h4d"), "x-call"); // full
-  assert.equal(vc("8c8s", "Td4h4d"), "x-call"); // pocket acima da trinca
-  assert.equal(vc("3c3s", "Td4h4d"), "x-raise");
+  assert.equal(vc("Td4c", "Td4h4d"), "vc-call"); // full
+  assert.equal(vc("8c8s", "Td4h4d"), "vc-call"); // pocket acima da trinca
+  assert.equal(vc("3c3s", "Td4h4d"), "vc-raise");
   // MN 7♠3♠2♠
-  assert.equal(vc("KsQs", "7s3s2s"), "x-call"); // flush com 2 H
-  assert.equal(vc("9s8s", "7s3s2s"), "x-raise"); // flush sem 2 H
-  assert.equal(vc("2c2h", "7s3s2s"), "x-raise"); // bottom set
+  assert.equal(vc("KsQs", "7s3s2s"), "vc-call"); // flush com 2 H
+  assert.equal(vc("9s8s", "7s3s2s"), "vc-raise"); // flush sem 2 H
+  assert.equal(vc("2c2h", "7s3s2s"), "vc-raise"); // bottom set
 });
 
 test("BW BB pós: categorias da mão e linhas do guide", async () => {

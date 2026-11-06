@@ -1,21 +1,21 @@
 {
   "legendAdd": [
     {
-      "id": "x-fold",
-      "label": "X/F",
-      "color": "#475569",
+      "id": "vc-fold",
+      "label": "Fold",
+      "color": "#52525b",
       "kind": "fold"
     },
     {
-      "id": "x-call",
-      "label": "X/C",
-      "color": "#15803d",
+      "id": "vc-call",
+      "label": "Call",
+      "color": "#166534",
       "kind": "call"
     },
     {
-      "id": "x-raise",
-      "label": "X/R 3x",
-      "color": "#c2410c",
+      "id": "vc-raise",
+      "label": "Raise",
+      "color": "#d97706",
       "kind": "raise",
       "sizing": "3x"
     }
@@ -24,7 +24,7 @@
     {
       "id": "bb-vs-cbet-flop-vs-hj",
       "name": "BB vs Cbet flop vs HJ",
-      "description": "SRP 30bb: o HJ abriu, você pagou do BB, deu check e o HJ fez cbet de size baixo (33%). Responda X/C, X/R 3x ou X/F pela guide vs EP.",
+      "description": "SRP 30bb: o HJ abriu, você pagou do BB, deu check e o HJ fez cbet de size baixo (33%). Responda fold, call ou raise 3x pela guide vs EP.",
       "street": "flop",
       "situation": "vs Cbet flop",
       "heroPosition": "BB",
@@ -41,11 +41,11 @@
         "mes"
       ],
       "actionIds": [
-        "x-fold",
-        "x-call",
-        "x-raise"
+        "vc-fold",
+        "vc-call",
+        "vc-raise"
       ],
-      "defaultActionId": "x-fold",
+      "defaultActionId": "vc-fold",
       "tablePot": 4.5,
       "tablePosted": {
         "villain": 1.5

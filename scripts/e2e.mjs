@@ -765,10 +765,10 @@ async function main() {
     await page.goto(`${BASE_URL}/drills/bb-vs-cbet-flop/treinar`);
     await page.getByTestId("board").waitFor();
     assert.equal(await page.getByTestId("board").locator("> *").count(), 3, "decisão no flop");
-    for (const label of ["X/F", "X/C", "X/R 3x"])
-      await page.locator("[data-testid=actions]").getByRole("button", { name: label }).waitFor();
+    for (const label of ["Fold", "Call", "Raise"])
+      await page.locator("[data-testid=actions]").getByRole("button", { name: label, exact: false }).waitFor();
     await page.locator("[data-testid=actions] button").first().click();
-    await page.getByTestId("cbet-leitura").getByText("X/C · X/R 3x · X/F").waitFor();
+    await page.getByTestId("cbet-leitura").getByText("Call · Raise 3x · Fold").waitFor();
     await shot(page, "treino-bb-vs-cbet");
     log("BB vs Cbet flop: board da guide e leitura da mão");
 
