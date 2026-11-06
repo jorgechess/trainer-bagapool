@@ -644,3 +644,33 @@ test("carga BB vs Cbet flop: boards da guide, mãos do call vs HJ", async () => 
   }
   assert.deepEqual([...seen].sort(), ["x-call", "x-fold", "x-raise"]);
 });
+
+test("carga BW BB pós: linhas SRP, limped e ISO na seção Blind War", async () => {
+  const { drillSection } = await import("../sections");
+  const { dealQuestion, validateDrill } = await import("../drill");
+  const { seededRng } = await import("../rng");
+  const bwbb = parseImportBundle(load("bw-bb.json"), DEFAULT_LEGEND);
+  const result = parseImportBundle(load("bw-bb-pos.json"), DEFAULT_LEGEND, bwbb.strategies);
+  assert.deepEqual(result.errors, []);
+  const map = new Map([...bwbb.strategies, ...result.strategies].map((s) => [s.id, s]));
+  const drill = result.drills[0];
+  assert.equal(drillSection(drill, map), "bw");
+  assert.deepEqual(validateDrill(drill, map), []);
+  const rng = seededRng(8);
+  const seen = new Map<string, Set<string>>();
+  let iso3 = 0;
+  for (let i = 0; i < 700; i++) {
+    const q = dealQuestion(drill, map, result.legend ?? DEFAULT_LEGEND, rng);
+    if (q.steps[0].strategyId.endsWith("iso-flop")) {
+      assert.equal(q.steps.length, 3, "ISO: flop, turn e river");
+      iso3++;
+    }
+    for (const s of q.steps) {
+      if (!seen.has(s.strategyId)) seen.set(s.strategyId, new Set());
+      seen.get(s.strategyId)!.add(s.correctActionId);
+    }
+  }
+  assert.ok(iso3 > 0);
+  assert.deepEqual([...seen.get("bw-bb-pos-srp-vs-cbet")!].sort(), ["call", "fold", "raise-3x"]);
+  assert.deepEqual([...seen.get("bw-bb-pos-iso-river")!].sort(), ["bet-67", "check"]);
+});

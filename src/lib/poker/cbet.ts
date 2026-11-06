@@ -6,6 +6,7 @@
 import { type Card, type Rank, cardRank, cardSuit, rankValue } from "./cards";
 import { flopTexture } from "./texture";
 import { findVsCbetBoard, vsCbetAnswer } from "./vs-cbet";
+import { BW_BB_CARDS, BW_BB_GUIDE, type BwBbNode, bwBbAnswer } from "./bw-bb-pos";
 
 export type CbetBand = "25-50" | "15";
 /** Nó da Blind War: RC = SB deu raise e o BB pagou; LX = SB completou e o BB deu check. */
@@ -25,6 +26,11 @@ export type CbetSpec =
       /** BB Leads (Posflop Defense): donk bet do BB no flop, no turn depois do lead/call, no turn e no river. */
       table: "bb-lead";
       node: BbLeadNode;
+    }
+  | {
+      /** BW BB pós (Blind War): o BB contra o SB em single raised, limped e ISO. */
+      table: "bw-bb";
+      node: BwBbNode;
     }
   | {
       /** BB vs Cbet flop (Posflop Defense): X/C, X/R 3x ou X/F pela planilha do time, nos boards de exemplo. */
@@ -70,6 +76,12 @@ const SIZE_LABEL: Record<Size, string> = {
 
 /** Regra do flop para a tabela da estratégia; null = flop fora do drill. */
 export function flopRuleFor(spec: CbetSpec, board: readonly Card[]): FlopRule | null {
+  if (spec.table === "bw-bb") {
+    if (board.length < BW_BB_CARDS[spec.node]) return null;
+    const fv = board.slice(0, 3).map((c) => cardRank(c));
+    if (new Set(fv).size === 1) return null; // trinca no board fica fora
+    return { group: "bwbb", label: BW_BB_GUIDE[spec.node].label, mode: "split", size: "check" };
+  }
   if (spec.table === "bb-vs-cbet") {
     const guide = findVsCbetBoard(board);
     return guide ? { group: "vc", label: `Board ${guide.label} (guide vs EP)`, mode: "split", size: "check" } : null;
@@ -266,6 +278,10 @@ export function cbetAnswer(spec: CbetSpec, hero: readonly Card[], board: readonl
   const rule = flopRuleFor(spec, board);
   if (!rule) return null;
   if (rule.mode === "range") return { action: rule.size, rule, hand: null };
+  if (spec.table === "bw-bb") {
+    const read = bwBbAnswer(hero, board, spec.node);
+    return { action: read.action, rule, hand: { category: read.category, bet: false, reason: read.reason } };
+  }
   if (spec.table === "bb-vs-cbet") {
     const read = vsCbetAnswer(hero, board);
     if (!read) return null;
@@ -286,6 +302,7 @@ export function cbetAnswer(spec: CbetSpec, hero: readonly Card[], board: readonl
 export function ruleSummary(rule: FlopRule): string {
   const size = SIZE_LABEL[rule.size];
   if (rule.group === "vc") return "X/C · X/R 3x · X/F";
+  if (rule.group === "bwbb") return "Linhas Baga (heat map BW)";
   if (rule.size === "check") return "Check range";
   if (rule.size === "bet-1bb") return rule.mode === "range" ? "Stab range 1bb" : "Split X_Stab 1bb";
   return rule.mode === "range" ? `Range bet ${size}` : `Split X_${size}`;

@@ -770,6 +770,16 @@ async function main() {
     await shot(page, "treino-bb-vs-cbet");
     log("BB vs Cbet flop: board da guide e leitura da mão");
 
+    // BW BB pós (Blind War): linhas do BB vs SB
+    await page.goto(`${BASE_URL}/drills`);
+    await page.getByTestId("secao-bw").getByText("BW BB pós").waitFor();
+    await page.goto(`${BASE_URL}/drills/bw-bb-pos/treinar`);
+    await page.getByTestId("board").waitFor();
+    await page.locator("[data-testid=actions] button").first().click();
+    await page.getByTestId("cbet-leitura").getByText("Linhas Baga (heat map BW)").waitFor();
+    await shot(page, "treino-bw-bb-pos");
+    log("BW BB pós: spot do BB com a linha do guide");
+
     // Warmup: botão no início, contagem 3-2-1-Go e treino de 15 minutos; decisões contam no drill de origem
     await page.goto(`${BASE_URL}/`);
     await page.getByTestId("warmup-button").click();

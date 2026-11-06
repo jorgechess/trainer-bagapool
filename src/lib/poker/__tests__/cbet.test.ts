@@ -265,3 +265,34 @@ test("BB vs Cbet flop: guide vs EP mão a mão nos boards da planilha", async ()
   assert.equal(vc("9s8s", "7s3s2s"), "x-raise"); // flush sem 2 H
   assert.equal(vc("2c2h", "7s3s2s"), "x-raise"); // bottom set
 });
+
+test("BW BB pós: categorias da mão e linhas do guide", async () => {
+  const { bwBbAnswer, bwBbCategory } = await import("../bw-bb-pos");
+  const a = (hero: string, board: string, node: Parameters<typeof bwBbAnswer>[2]) => bwBbAnswer(c(hero), c(board), node).action;
+  assert.equal(bwBbCategory(c("Qc8d"), c("Qs8h5d")), "top");
+  assert.equal(bwBbCategory(c("Qc4d"), c("Qs8h5d")), "value");
+  assert.equal(bwBbCategory(c("9c9d"), c("Qs8h5d")), "mid");
+  assert.equal(bwBbCategory(c("7c6d"), c("Qs8h5d")), "draw");
+  assert.equal(bwBbCategory(c("9s3s"), c("Qs8h5d")), "backdoor");
+  assert.equal(bwBbCategory(c("Kc2h"), c("Qs8h5d")), "air");
+  // SRP vs cbet: float, acelera top pair, slow play dos top buckets
+  assert.equal(a("Qc4d", "Qs8h5d", "srp-vs-cbet"), "raise-3x");
+  assert.equal(a("Qc8d", "Qs8h5d", "srp-vs-cbet"), "call");
+  assert.equal(a("9s3s", "Qs8h5d", "srp-vs-cbet"), "call");
+  assert.equal(a("Kc2h", "Qs8h5d", "srp-vs-cbet"), "fold");
+  // SRP vs check: BVM só por valor
+  assert.equal(a("Qc4d", "Qs8h5d", "srp-x"), "bet-33");
+  assert.equal(a("7c6d", "Qs8h5d", "srp-x"), "check");
+  assert.equal(a("Kc2h", "Qs9h5d2c", "srp-2x"), "bet-67");
+  assert.equal(a("7c6d", "Qs8h5d2c", "srp-delay"), "raise-3x");
+  assert.equal(a("Kc3h", "Qs9h5d2c", "srp-delay"), "fold");
+  // Limped
+  assert.equal(a("Qc8d", "Qs8h5d", "lp-x"), "check");
+  assert.equal(a("Kc2h", "Qs9h5d", "lp-x"), "bet-1bb");
+  assert.equal(a("Qc4d", "Qs8h5d", "lp-vs-stab"), "raise-3x");
+  // ISO
+  assert.equal(a("Kc2h", "Qs9h5d", "iso-flop"), "bet-25");
+  assert.equal(a("Kc2h", "Qs9h5d3c", "iso-turn"), "bet-67");
+  assert.equal(a("Kc2h", "Qs9h5d3c7d", "iso-river"), "check");
+  assert.equal(a("Qc2h", "Qs9h5d3c7d", "iso-river"), "bet-67");
+});

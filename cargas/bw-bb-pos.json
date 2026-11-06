@@ -1,0 +1,441 @@
+{
+  "legendAdd": [
+    {
+      "id": "bet-25",
+      "label": "Bet 25%",
+      "color": "#fbbf24",
+      "kind": "bet",
+      "sizing": "25%"
+    },
+    {
+      "id": "bet-67",
+      "label": "Bet 67%",
+      "color": "#9f1239",
+      "kind": "bet",
+      "sizing": "67%"
+    },
+    {
+      "id": "bet-1bb",
+      "label": "Stab 1bb",
+      "color": "#14b8a6",
+      "kind": "bet",
+      "sizing": "1bb"
+    },
+    {
+      "id": "raise-3x",
+      "label": "Raise 3x",
+      "color": "#0ea5e9",
+      "kind": "raise",
+      "sizing": "3x"
+    }
+  ],
+  "strategies": [
+    {
+      "id": "bw-bb-pos-srp-vs-cbet",
+      "name": "BW BB pós · SRP vs cbet flop",
+      "description": "Blind war 30bb. SB deu raise (3,5bb), você pagou do BB. SB fez cbet baixo no flop.",
+      "street": "flop",
+      "situation": "Single raised",
+      "heroPosition": "BB",
+      "villainPosition": "SB",
+      "stack": {
+        "min": 30,
+        "max": 30
+      },
+      "ratio": null,
+      "bubble": null,
+      "tags": [
+        "bw",
+        "blind-war",
+        "posflop",
+        "mes"
+      ],
+      "actionIds": [
+        "fold",
+        "call",
+        "raise-3x"
+      ],
+      "defaultActionId": "fold",
+      "tablePot": 7.5,
+      "villainCoversHero": true,
+      "cbet": {
+        "table": "bw-bb",
+        "node": "srp-vs-cbet"
+      },
+      "dealFrom": {
+        "strategy": "bw-bb-vs-raise-25-50",
+        "actionIds": [
+          "call"
+        ]
+      },
+      "tablePosted": {
+        "villain": 1.9
+      },
+      "villainLabel": "Cbet 25%"
+    },
+    {
+      "id": "bw-bb-pos-srp-x",
+      "name": "BW BB pós · SRP flop após check",
+      "description": "Blind war 30bb. SB deu raise, você pagou. SB deu check no flop.",
+      "street": "flop",
+      "situation": "Single raised",
+      "heroPosition": "BB",
+      "villainPosition": "SB",
+      "stack": {
+        "min": 30,
+        "max": 30
+      },
+      "ratio": null,
+      "bubble": null,
+      "tags": [
+        "bw",
+        "blind-war",
+        "posflop",
+        "mes"
+      ],
+      "actionIds": [
+        "check",
+        "bet-33"
+      ],
+      "defaultActionId": "check",
+      "tablePot": 7.5,
+      "villainCoversHero": true,
+      "cbet": {
+        "table": "bw-bb",
+        "node": "srp-x"
+      },
+      "dealFrom": {
+        "strategy": "bw-bb-vs-raise-25-50",
+        "actionIds": [
+          "call"
+        ]
+      }
+    },
+    {
+      "id": "bw-bb-pos-srp-2x",
+      "name": "BW BB pós · SRP turn vs 2º check",
+      "description": "Blind war 30bb. Flop check/check. SB deu check de novo no turn.",
+      "street": "turn",
+      "situation": "Single raised",
+      "heroPosition": "BB",
+      "villainPosition": "SB",
+      "stack": {
+        "min": 30,
+        "max": 30
+      },
+      "ratio": null,
+      "bubble": null,
+      "tags": [
+        "bw",
+        "blind-war",
+        "posflop",
+        "mes"
+      ],
+      "actionIds": [
+        "check",
+        "bet-67"
+      ],
+      "defaultActionId": "check",
+      "tablePot": 7.5,
+      "villainCoversHero": true,
+      "cbet": {
+        "table": "bw-bb",
+        "node": "srp-2x"
+      },
+      "dealFrom": {
+        "strategy": "bw-bb-vs-raise-25-50",
+        "actionIds": [
+          "call"
+        ]
+      }
+    },
+    {
+      "id": "bw-bb-pos-srp-delay",
+      "name": "BW BB pós · SRP turn vs delayed cbet",
+      "description": "Blind war 30bb. Flop check/check. SB apostou ≤50% no turn (delayed cbet).",
+      "street": "turn",
+      "situation": "Single raised",
+      "heroPosition": "BB",
+      "villainPosition": "SB",
+      "stack": {
+        "min": 30,
+        "max": 30
+      },
+      "ratio": null,
+      "bubble": null,
+      "tags": [
+        "bw",
+        "blind-war",
+        "posflop",
+        "mes"
+      ],
+      "actionIds": [
+        "fold",
+        "call",
+        "raise-3x"
+      ],
+      "defaultActionId": "fold",
+      "tablePot": 7.5,
+      "villainCoversHero": true,
+      "cbet": {
+        "table": "bw-bb",
+        "node": "srp-delay"
+      },
+      "dealFrom": {
+        "strategy": "bw-bb-vs-raise-25-50",
+        "actionIds": [
+          "call"
+        ]
+      },
+      "tablePosted": {
+        "villain": 3.5
+      },
+      "villainLabel": "Delayed cbet 47%"
+    },
+    {
+      "id": "bw-bb-pos-lp-vs-stab",
+      "name": "BW BB pós · Limped vs stab flop",
+      "description": "Blind war 30bb. SB completou, você deu check. SB fez stab de 1bb no flop.",
+      "street": "flop",
+      "situation": "Limped",
+      "heroPosition": "BB",
+      "villainPosition": "SB",
+      "stack": {
+        "min": 30,
+        "max": 30
+      },
+      "ratio": null,
+      "bubble": null,
+      "tags": [
+        "bw",
+        "blind-war",
+        "posflop",
+        "mes"
+      ],
+      "actionIds": [
+        "fold",
+        "call",
+        "raise-3x"
+      ],
+      "defaultActionId": "fold",
+      "tablePot": 3.5,
+      "villainCoversHero": true,
+      "cbet": {
+        "table": "bw-bb",
+        "node": "lp-vs-stab"
+      },
+      "dealFrom": {
+        "strategy": "bw-bb-vs-limp-25-50",
+        "actionIds": [
+          "check"
+        ]
+      },
+      "tablePosted": {
+        "villain": 1
+      },
+      "villainLabel": "Stab 1bb"
+    },
+    {
+      "id": "bw-bb-pos-lp-x",
+      "name": "BW BB pós · Limped flop após check",
+      "description": "Blind war 30bb. SB completou, você deu check. SB deu check no flop.",
+      "street": "flop",
+      "situation": "Limped",
+      "heroPosition": "BB",
+      "villainPosition": "SB",
+      "stack": {
+        "min": 30,
+        "max": 30
+      },
+      "ratio": null,
+      "bubble": null,
+      "tags": [
+        "bw",
+        "blind-war",
+        "posflop",
+        "mes"
+      ],
+      "actionIds": [
+        "check",
+        "bet-1bb"
+      ],
+      "defaultActionId": "check",
+      "tablePot": 3.5,
+      "villainCoversHero": true,
+      "cbet": {
+        "table": "bw-bb",
+        "node": "lp-x"
+      },
+      "dealFrom": {
+        "strategy": "bw-bb-vs-limp-25-50",
+        "actionIds": [
+          "check"
+        ]
+      }
+    },
+    {
+      "id": "bw-bb-pos-iso-flop",
+      "name": "BW BB pós · ISO flop",
+      "description": "Blind war 30bb. SB limpou, você isolou e ele pagou. SB deu check no flop.",
+      "street": "flop",
+      "situation": "ISO",
+      "heroPosition": "BB",
+      "villainPosition": "SB",
+      "stack": {
+        "min": 30,
+        "max": 30
+      },
+      "ratio": null,
+      "bubble": null,
+      "tags": [
+        "bw",
+        "blind-war",
+        "posflop",
+        "mes"
+      ],
+      "actionIds": [
+        "check",
+        "bet-25",
+        "bet-67"
+      ],
+      "defaultActionId": "check",
+      "tablePot": 7.5,
+      "villainCoversHero": true,
+      "cbet": {
+        "table": "bw-bb",
+        "node": "iso-flop"
+      },
+      "dealFrom": {
+        "strategy": "bw-bb-vs-limp-25-50",
+        "actionIds": [
+          "iso"
+        ]
+      }
+    },
+    {
+      "id": "bw-bb-pos-iso-turn",
+      "name": "BW BB pós · ISO turn",
+      "description": "Blind war 30bb. Você apostou B25 no flop e o SB pagou. Check no turn.",
+      "street": "turn",
+      "situation": "ISO",
+      "heroPosition": "BB",
+      "villainPosition": "SB",
+      "stack": {
+        "min": 30,
+        "max": 30
+      },
+      "ratio": null,
+      "bubble": null,
+      "tags": [
+        "bw",
+        "blind-war",
+        "posflop",
+        "mes"
+      ],
+      "actionIds": [
+        "check",
+        "bet-25",
+        "bet-67"
+      ],
+      "defaultActionId": "check",
+      "tablePot": 11.25,
+      "villainCoversHero": true,
+      "cbet": {
+        "table": "bw-bb",
+        "node": "iso-turn"
+      },
+      "dealFrom": {
+        "strategy": "bw-bb-vs-limp-25-50",
+        "actionIds": [
+          "iso"
+        ]
+      },
+      "entryActionIds": [
+        "bet-25"
+      ]
+    },
+    {
+      "id": "bw-bb-pos-iso-river",
+      "name": "BW BB pós · ISO river",
+      "description": "Blind war 30bb. Você apostou B67 no turn e o SB pagou. Check no river.",
+      "street": "river",
+      "situation": "ISO",
+      "heroPosition": "BB",
+      "villainPosition": "SB",
+      "stack": {
+        "min": 30,
+        "max": 30
+      },
+      "ratio": null,
+      "bubble": null,
+      "tags": [
+        "bw",
+        "blind-war",
+        "posflop",
+        "mes"
+      ],
+      "actionIds": [
+        "check",
+        "bet-25",
+        "bet-67"
+      ],
+      "defaultActionId": "check",
+      "tablePot": 26.25,
+      "villainCoversHero": true,
+      "cbet": {
+        "table": "bw-bb",
+        "node": "iso-river"
+      },
+      "dealFrom": {
+        "strategy": "bw-bb-vs-limp-25-50",
+        "actionIds": [
+          "iso"
+        ]
+      },
+      "entryActionIds": [
+        "bet-67"
+      ]
+    }
+  ],
+  "drills": [
+    {
+      "id": "bw-bb-pos",
+      "name": "BW BB pós",
+      "description": "Blind war 30bb do lado do BB, pelo guide da aula e o heat map: single raised (vs cbet, vs check, turn vs 2º check e vs delayed), limped (vs stab e vs check) e ISO (bet flop B25, funil B67 no turn e river só por valor).",
+      "variants": [
+        [
+          "bw-bb-pos-srp-vs-cbet"
+        ],
+        [
+          "bw-bb-pos-srp-x"
+        ],
+        [
+          "bw-bb-pos-srp-2x"
+        ],
+        [
+          "bw-bb-pos-srp-delay"
+        ],
+        [
+          "bw-bb-pos-lp-vs-stab"
+        ],
+        [
+          "bw-bb-pos-lp-x"
+        ],
+        [
+          "bw-bb-pos-iso-flop",
+          "bw-bb-pos-iso-turn",
+          "bw-bb-pos-iso-river"
+        ]
+      ],
+      "sampling": "uniforme",
+      "tags": [
+        "bw",
+        "blind-war",
+        "posflop",
+        "mes"
+      ],
+      "handsPerSession": 50,
+      "passAccuracy": 0.9
+    }
+  ]
+}
