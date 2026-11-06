@@ -723,7 +723,9 @@ async function main() {
         if (feedback !== "certo") {
           // errou o flop: a mão acaba, sem turn (próximo board é outro flop)
           await page.waitForFunction((b) => document.querySelector("[data-testid=board]")?.textContent !== b, flopBoard);
-          assert.notEqual(await page.getByTestId("board").locator("> *").count(), 4, "flop errado não vai pro turn");
+          // a próxima mão pode começar no turn (variante de lead turn), mas não com o mesmo flop
+          const next = (await page.getByTestId("board").textContent()) ?? "";
+          assert.ok(!next.startsWith(flopBoard ?? "###"), "flop errado não vai pro turn");
         }
         if (feedback === "certo") {
           // turn depois do lead/call: erra de propósito com o que não for a resposta
