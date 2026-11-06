@@ -757,6 +757,19 @@ async function main() {
     await shot(page, "treino-bb-probes");
     log("BB Probes: turn depois do flop check/check com leitura da guideline");
 
+    // BB vs Cbet flop (Posflop Defense): flop da guide, respostas X/F, X/C, X/R 3x
+    await page.goto(`${BASE_URL}/drills`);
+    await page.getByTestId("secao-posflop-defense").getByText("BB vs Cbet flop").waitFor();
+    await page.goto(`${BASE_URL}/drills/bb-vs-cbet-flop/treinar`);
+    await page.getByTestId("board").waitFor();
+    assert.equal(await page.getByTestId("board").locator("> *").count(), 3, "decisão no flop");
+    for (const label of ["X/F", "X/C", "X/R 3x"])
+      await page.locator("[data-testid=actions]").getByRole("button", { name: label }).waitFor();
+    await page.locator("[data-testid=actions] button").first().click();
+    await page.getByTestId("cbet-leitura").getByText("X/C · X/R 3x · X/F").waitFor();
+    await shot(page, "treino-bb-vs-cbet");
+    log("BB vs Cbet flop: board da guide e leitura da mão");
+
     // Warmup: botão no início, contagem 3-2-1-Go e treino de 15 minutos; decisões contam no drill de origem
     await page.goto(`${BASE_URL}/`);
     await page.getByTestId("warmup-button").click();

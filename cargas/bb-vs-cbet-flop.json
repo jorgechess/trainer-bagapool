@@ -1,0 +1,86 @@
+{
+  "legendAdd": [
+    {
+      "id": "x-fold",
+      "label": "X/F",
+      "color": "#475569",
+      "kind": "fold"
+    },
+    {
+      "id": "x-call",
+      "label": "X/C",
+      "color": "#15803d",
+      "kind": "call"
+    },
+    {
+      "id": "x-raise",
+      "label": "X/R 3x",
+      "color": "#c2410c",
+      "kind": "raise",
+      "sizing": "3x"
+    }
+  ],
+  "strategies": [
+    {
+      "id": "bb-vs-cbet-flop-vs-hj",
+      "name": "BB vs Cbet flop vs HJ",
+      "description": "SRP 30bb: o HJ abriu, você pagou do BB, deu check e o HJ fez cbet de size baixo (33%). Responda X/C, X/R 3x ou X/F pela guide vs EP.",
+      "street": "flop",
+      "situation": "vs Cbet flop",
+      "heroPosition": "BB",
+      "villainPosition": "HJ",
+      "stack": {
+        "min": 30,
+        "max": 30
+      },
+      "ratio": null,
+      "bubble": null,
+      "tags": [
+        "posflop-defense",
+        "vs-cbet",
+        "mes"
+      ],
+      "actionIds": [
+        "x-fold",
+        "x-call",
+        "x-raise"
+      ],
+      "defaultActionId": "x-fold",
+      "tablePot": 4.5,
+      "tablePosted": {
+        "villain": 1.5
+      },
+      "villainLabel": "Cbet 33%",
+      "villainCoversHero": true,
+      "cbet": {
+        "table": "bb-vs-cbet"
+      },
+      "dealFrom": {
+        "strategy": "bb-def-30bb-vs-hj",
+        "actionIds": [
+          "call"
+        ]
+      }
+    }
+  ],
+  "drills": [
+    {
+      "id": "bb-vs-cbet-flop",
+      "name": "BB vs Cbet flop",
+      "description": "Defesa do BB 30bb vs HJ contra o cbet de size baixo no flop, nos 29 boards da guide do time (vs EP): X/C, X/R 3x ou X/F conforme a mão.",
+      "variants": [
+        [
+          "bb-vs-cbet-flop-vs-hj"
+        ]
+      ],
+      "sampling": "uniforme",
+      "tags": [
+        "posflop-defense",
+        "vs-cbet",
+        "mes"
+      ],
+      "handsPerSession": 50,
+      "passAccuracy": 0.9
+    }
+  ]
+}

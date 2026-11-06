@@ -621,3 +621,26 @@ test("carga BB Probes: turn, probe + barrel no river, seção Posflop Defense", 
   assert.deepEqual([...answers.get("turn-3s")!], ["bet-67"]);
   assert.deepEqual([...answers.get("river-3s")!], ["bet-67"]);
 });
+
+test("carga BB vs Cbet flop: boards da guide, mãos do call vs HJ", async () => {
+  const { drillSection } = await import("../sections");
+  const { dealQuestion, validateDrill } = await import("../drill");
+  const { seededRng } = await import("../rng");
+  const { findVsCbetBoard } = await import("../vs-cbet");
+  const deep = parseImportBundle(load("defesa-vanilla-deep.json"), DEFAULT_LEGEND);
+  const result = parseImportBundle(load("bb-vs-cbet-flop.json"), DEFAULT_LEGEND, deep.strategies);
+  assert.deepEqual(result.errors, []);
+  const map = new Map([...deep.strategies, ...result.strategies].map((s) => [s.id, s]));
+  const drill = result.drills[0];
+  assert.equal(drillSection(drill, map), "posflop-defense");
+  assert.deepEqual(validateDrill(drill, map), []);
+  const rng = seededRng(4);
+  const seen = new Set<string>();
+  for (let i = 0; i < 300; i++) {
+    const q = dealQuestion(drill, map, result.legend ?? DEFAULT_LEGEND, rng);
+    assert.ok(findVsCbetBoard(q.steps[0].board), "flop é um board da planilha");
+    assert.equal(map.get("bb-def-30bb-vs-hj")!.range[q.hand], "call");
+    seen.add(q.steps[0].correctActionId);
+  }
+  assert.deepEqual([...seen].sort(), ["x-call", "x-fold", "x-raise"]);
+});

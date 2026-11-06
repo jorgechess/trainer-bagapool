@@ -7,6 +7,7 @@ import { type HandLabel, combosOf, handFromCards, ALL_HANDS } from "./hands";
 import { type Legend, continuesHand, findAction } from "./legend";
 import { actionOf, borderHands } from "./range";
 import { type Rng, defaultRng, pickOne, pickWeighted, shuffle } from "./rng";
+import { randomVsCbetFlop } from "./vs-cbet";
 import {
   BOARD_CARDS_BY_STREET,
   BUBBLE_LABELS,
@@ -187,7 +188,9 @@ export function dealQuestion(
 
   for (let attempt = 0; attempt < MAX_BOARD_TRIES; attempt++) {
     const deck = shuffle(rng, fullDeck());
-    const fullBoard = deck.slice(0, 5);
+    // BB vs Cbet: o flop sai dos boards da planilha (naipes sorteados)
+    const preset = first.cbet?.table === "bb-vs-cbet" ? randomVsCbetFlop(rng) : null;
+    const fullBoard = preset ? [...preset, ...deck.filter((c) => !preset.includes(c)).slice(0, 2)] : deck.slice(0, 5);
     const used = new Set<Card>(fullBoard);
 
     // A primeira decisão precisa ter range para este board (pós-flop depende da textura).

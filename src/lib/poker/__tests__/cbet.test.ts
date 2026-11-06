@@ -225,3 +225,43 @@ test("BB Probes: turn por altura do flop, hotspots e probe + barrel", async () =
   assert.equal(rule("JcTh7s2dAc", "river-3s"), "range:bet-67");
   assert.equal(rule("JcTh7s2d", "turn-alto"), null);
 });
+
+test("BB vs Cbet flop: guide vs EP mão a mão nos boards da planilha", async () => {
+  const { vsCbetAnswer, findVsCbetBoard, randomVsCbetFlop, VS_CBET_BOARDS } = await import("../vs-cbet");
+  const { seededRng } = await import("../rng");
+  const vc = (hero: string, board: string) => vsCbetAnswer(c(hero), c(board))?.action;
+  assert.equal(VS_CBET_BOARDS.length, 29);
+  // naipes trocados mantendo a estrutura acham o mesmo board
+  assert.equal(findVsCbetBoard(c("AhTd8h"))?.label, "AHM");
+  assert.equal(findVsCbetBoard(c("AhTh8d")), null, "outra estrutura de naipes não é o mesmo board");
+  const rng = seededRng(3);
+  for (let i = 0; i < 50; i++) assert.ok(findVsCbetBoard(randomVsCbetFlop(rng)));
+  // A♠T♥8♠
+  assert.equal(vc("AdKc", "AsTh8s"), "x-raise"); // TPGK
+  assert.equal(vc("Ad5c", "AsTh8s"), "x-call"); // par do board
+  assert.equal(vc("Ks3s", "AsTh8s"), "x-raise"); // FD com 3x
+  assert.equal(vc("KsQs", "AsTh8s"), "x-call"); // FD (e broca)
+  assert.equal(vc("KdQc", "AsTh8s"), "x-call"); // melhor broca
+  assert.equal(vc("9d6c", "AsTh8s"), "x-raise"); // pior broca
+  assert.equal(vc("5d5c", "AsTh8s"), "x-fold"); // pocket
+  assert.equal(vc("Kd4c", "AsTh8s"), "x-fold"); // air
+  // A♠9♥3♦: X/R todos os pares
+  assert.equal(vc("2d2c", "As9h3d"), "x-raise");
+  assert.equal(vc("KdQc", "As9h3d"), "x-fold");
+  // K♠T♦3♥
+  assert.equal(vc("QdJc", "KsTd3h"), "x-raise"); // broadways
+  assert.equal(vc("8d8c", "KsTd3h"), "x-fold"); // pocket médio
+  assert.equal(vc("4d4c", "KsTd3h"), "x-raise"); // 55-
+  // 7♠3♥2♦
+  assert.equal(vc("Jd3c", "7s3h2d"), "x-call"); // 3rd pair GK
+  assert.equal(vc("9d9c", "7s3h2d"), "x-raise"); // pocket
+  assert.equal(vc("AdTc", "7s3h2d"), "x-call");
+  // DB T♦4♥4♦
+  assert.equal(vc("Td4c", "Td4h4d"), "x-call"); // full
+  assert.equal(vc("8c8s", "Td4h4d"), "x-call"); // pocket acima da trinca
+  assert.equal(vc("3c3s", "Td4h4d"), "x-raise");
+  // MN 7♠3♠2♠
+  assert.equal(vc("KsQs", "7s3s2s"), "x-call"); // flush com 2 H
+  assert.equal(vc("9s8s", "7s3s2s"), "x-raise"); // flush sem 2 H
+  assert.equal(vc("2c2h", "7s3s2s"), "x-raise"); // bottom set
+});

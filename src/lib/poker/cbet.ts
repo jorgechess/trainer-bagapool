@@ -5,6 +5,7 @@
  */
 import { type Card, type Rank, cardRank, cardSuit, rankValue } from "./cards";
 import { flopTexture } from "./texture";
+import { findVsCbetBoard, vsCbetAnswer } from "./vs-cbet";
 
 export type CbetBand = "25-50" | "15";
 /** Nó da Blind War: RC = SB deu raise e o BB pagou; LX = SB completou e o BB deu check. */
@@ -24,6 +25,10 @@ export type CbetSpec =
       /** BB Leads (Posflop Defense): donk bet do BB no flop, no turn depois do lead/call, no turn e no river. */
       table: "bb-lead";
       node: BbLeadNode;
+    }
+  | {
+      /** BB vs Cbet flop (Posflop Defense): X/C, X/R 3x ou X/F pela planilha do time, nos boards de exemplo. */
+      table: "bb-vs-cbet";
     }
   | {
       /** BB Probes (Posflop Defense): flop check/check, o BB proba o turn (e às vezes faz barrel no river). */
@@ -65,6 +70,10 @@ const SIZE_LABEL: Record<Size, string> = {
 
 /** Regra do flop para a tabela da estratégia; null = flop fora do drill. */
 export function flopRuleFor(spec: CbetSpec, board: readonly Card[]): FlopRule | null {
+  if (spec.table === "bb-vs-cbet") {
+    const guide = findVsCbetBoard(board);
+    return guide ? { group: "vc", label: `Board ${guide.label} (guide vs EP)`, mode: "split", size: "check" } : null;
+  }
   if (spec.table === "bb-probe") return bbProbeRule(board, spec.node);
   if (spec.table === "bb-lead") return bbLeadRule(board, spec.node);
   return spec.table === "bw-sb" ? bwFlopRule(board, spec.node) : mesFlopRule(board, spec.band);
@@ -248,7 +257,7 @@ export function readHand(hero: readonly Card[], flop: readonly Card[]): HandRead
 }
 
 export interface CbetAnswer {
-  action: "check" | Size;
+  action: string;
   rule: FlopRule;
   hand: HandRead | null;
 }
@@ -257,6 +266,12 @@ export function cbetAnswer(spec: CbetSpec, hero: readonly Card[], board: readonl
   const rule = flopRuleFor(spec, board);
   if (!rule) return null;
   if (rule.mode === "range") return { action: rule.size, rule, hand: null };
+  if (spec.table === "bb-vs-cbet") {
+    const read = vsCbetAnswer(hero, board);
+    if (!read) return null;
+    const label = { "x-call": "X/C", "x-raise": "X/R 3x", "x-fold": "X/F" }[read.action];
+    return { action: read.action, rule, hand: { category: read.category, bet: false, reason: `Guide: ${label}.` } };
+  }
   const hand =
     spec.table === "bb-probe"
       ? readProbeHand(hero, board.slice(0, 4))
@@ -270,6 +285,7 @@ export function cbetAnswer(spec: CbetSpec, hero: readonly Card[], board: readonl
 
 export function ruleSummary(rule: FlopRule): string {
   const size = SIZE_LABEL[rule.size];
+  if (rule.group === "vc") return "X/C · X/R 3x · X/F";
   if (rule.size === "check") return "Check range";
   if (rule.size === "bet-1bb") return rule.mode === "range" ? "Stab range 1bb" : "Split X_Stab 1bb";
   return rule.mode === "range" ? `Range bet ${size}` : `Split X_${size}`;
