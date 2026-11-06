@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { BW_BB_GUIDE } from "@/lib/poker/bw-bb-pos";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { recordDecisions } from "@/app/(app)/drills/actions";
 import { CardRow } from "@/components/PlayingCard";
@@ -305,7 +306,11 @@ function TableSlot({
         <span className="text-zinc-300" data-testid="spot">
           {[
             // BW SB pós já mostra o pote em destaque; no BB Probes a classe do flop entregaria a resposta
-            strategy.cbet?.table === "bw-sb" || strategy.cbet?.table === "bb-probe" ? null : strategy.situation,
+            strategy.cbet?.table === "bw-sb" || strategy.cbet?.table === "bb-probe"
+              ? null
+              : strategy.cbet?.table === "bw-bb"
+                ? BW_BB_GUIDE[strategy.cbet.node].label // a linha da mão (ex.: delayed cbet) precisa aparecer antes da resposta
+                : strategy.situation,
             strategy.heroPosition,
             strategy.villainPosition && `vs ${[strategy.villainPosition, ...(strategy.callers ?? [])].join(" + ")}`,
           ]
