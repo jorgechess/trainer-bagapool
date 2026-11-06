@@ -18,6 +18,7 @@ import rfiSbChipEv from "../../cargas/rfi-sb-chip-ev.json";
 import bwSbMlr from "../../cargas/bw-sb-mlr.json";
 import bwBb from "../../cargas/bw-bb.json";
 import bbLeads from "../../cargas/bb-leads.json";
+import bbProbes from "../../cargas/bb-probes.json";
 import bwSbPos from "../../cargas/bw-sb-pos.json";
 import cbetFlopIp from "../../cargas/cbet-flop-ip.json";
 
@@ -186,5 +187,12 @@ export const CARGAS: Carga[] = [
     description: "Posflop Defense: donk bets do BB 30bb vs CO e BTN no flop (com o turn depois do lead/call), no turn e no river.",
     requires: ["defesa-vanilla-deep"],
     bundle: bbLeads,
+  },
+  {
+    id: "bb-probes",
+    name: "BB Probes",
+    description: "Posflop Defense: probes do BB 30bb vs CO e BTN no turn depois do flop check/check, com barrel no river nos flops baixos e 3S médios.",
+    requires: ["defesa-vanilla-deep"],
+    bundle: bbProbes,
   },
 ];

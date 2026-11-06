@@ -745,6 +745,18 @@ async function main() {
     assert.ok(meioCerto, "lead certo no flop e turn errado mostra meio certo");
     log("BB Leads: lead no flop, turn depois do call e meio certo em amarelo");
 
+    // BB Probes (Posflop Defense): primeira decisão no turn, depois do flop check/check
+    await page.goto(`${BASE_URL}/drills`);
+    await page.getByTestId("secao-posflop-defense").getByText("BB Probes").waitFor();
+    await page.goto(`${BASE_URL}/drills/bb-probes/treinar`);
+    await page.getByTestId("board").waitFor();
+    assert.equal(await page.getByTestId("board").locator("> *").count(), 4, "probe começa no turn");
+    await page.locator("[data-testid=actions]").getByRole("button", { name: "Bet 115%" }).waitFor();
+    await page.locator("[data-testid=actions] button").first().click();
+    await page.getByTestId("cbet-leitura").waitFor();
+    await shot(page, "treino-bb-probes");
+    log("BB Probes: turn depois do flop check/check com leitura da guideline");
+
     // Warmup: botão no início, contagem 3-2-1-Go e treino de 15 minutos; decisões contam no drill de origem
     await page.goto(`${BASE_URL}/`);
     await page.getByTestId("warmup-button").click();

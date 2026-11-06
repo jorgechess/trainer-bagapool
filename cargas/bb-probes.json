@@ -1,0 +1,464 @@
+{
+  "legendAdd": [
+    {
+      "id": "bet-25",
+      "label": "Bet 25%",
+      "color": "#fbbf24",
+      "kind": "bet",
+      "sizing": "25%"
+    },
+    {
+      "id": "bet-67",
+      "label": "Bet 67%",
+      "color": "#9f1239",
+      "kind": "bet",
+      "sizing": "67%"
+    },
+    {
+      "id": "bet-115",
+      "label": "Bet 115%",
+      "color": "#be185d",
+      "kind": "bet",
+      "sizing": "115%"
+    }
+  ],
+  "strategies": [
+    {
+      "id": "bb-probe-turn-alto-vs-co",
+      "name": "BB Probes · turn (flop T-high+) vs CO",
+      "description": "SRP 30bb vs CO: flop check/check. Turn blank: probe polar B115 (TP+ e OESD+); turn A/H: check range; 3F/4S: probe range B67.",
+      "street": "turn",
+      "situation": "Flop T-high+",
+      "heroPosition": "BB",
+      "villainPosition": "CO",
+      "stack": {
+        "min": 30,
+        "max": 30
+      },
+      "ratio": null,
+      "bubble": null,
+      "tags": [
+        "posflop-defense",
+        "probe",
+        "mes"
+      ],
+      "actionIds": [
+        "check",
+        "bet-25",
+        "bet-67",
+        "bet-115"
+      ],
+      "defaultActionId": "check",
+      "tablePot": 4.5,
+      "villainCoversHero": true,
+      "cbet": {
+        "table": "bb-probe",
+        "node": "turn-alto"
+      },
+      "dealFrom": {
+        "strategy": "bb-def-30bb-vs-co",
+        "actionIds": [
+          "call"
+        ]
+      }
+    },
+    {
+      "id": "bb-probe-turn-baixo-vs-co",
+      "name": "BB Probes · turn (flop 9-high-) vs CO",
+      "description": "SRP 30bb vs CO: flop check/check. Turn blank: probe range B25; turn A/H: check range; 3F/4S: probe range B67.",
+      "street": "turn",
+      "situation": "Flop 9-high-",
+      "heroPosition": "BB",
+      "villainPosition": "CO",
+      "stack": {
+        "min": 30,
+        "max": 30
+      },
+      "ratio": null,
+      "bubble": null,
+      "tags": [
+        "posflop-defense",
+        "probe",
+        "mes"
+      ],
+      "actionIds": [
+        "check",
+        "bet-25",
+        "bet-67",
+        "bet-115"
+      ],
+      "defaultActionId": "check",
+      "tablePot": 4.5,
+      "villainCoversHero": true,
+      "cbet": {
+        "table": "bb-probe",
+        "node": "turn-baixo"
+      },
+      "dealFrom": {
+        "strategy": "bb-def-30bb-vs-co",
+        "actionIds": [
+          "call"
+        ]
+      }
+    },
+    {
+      "id": "bb-probe-river-baixo-vs-co",
+      "name": "BB Probes · river depois do probe B25 vs CO",
+      "description": "Você probou B25 no turn e o CO pagou. River blank: barrel B25 range; river A/H: check range.",
+      "street": "river",
+      "situation": "Flop 9-high-",
+      "heroPosition": "BB",
+      "villainPosition": "CO",
+      "stack": {
+        "min": 30,
+        "max": 30
+      },
+      "ratio": null,
+      "bubble": null,
+      "tags": [
+        "posflop-defense",
+        "probe",
+        "mes"
+      ],
+      "actionIds": [
+        "check",
+        "bet-25",
+        "bet-67"
+      ],
+      "defaultActionId": "check",
+      "tablePot": 6.75,
+      "villainCoversHero": true,
+      "cbet": {
+        "table": "bb-probe",
+        "node": "river-baixo"
+      },
+      "dealFrom": {
+        "strategy": "bb-def-30bb-vs-co",
+        "actionIds": [
+          "call"
+        ]
+      },
+      "entryActionIds": [
+        "bet-25"
+      ]
+    },
+    {
+      "id": "bb-probe-turn-3s-vs-co",
+      "name": "BB Probes · turn (flop 3S HMM/MMM) vs CO",
+      "description": "SRP 30bb vs CO: flop 3S médio (JT7, T86…) check/check. Hotspot: probe range B67 em qualquer turn.",
+      "street": "turn",
+      "situation": "Flop 3S médio",
+      "heroPosition": "BB",
+      "villainPosition": "CO",
+      "stack": {
+        "min": 30,
+        "max": 30
+      },
+      "ratio": null,
+      "bubble": null,
+      "tags": [
+        "posflop-defense",
+        "probe",
+        "mes"
+      ],
+      "actionIds": [
+        "check",
+        "bet-25",
+        "bet-67",
+        "bet-115"
+      ],
+      "defaultActionId": "check",
+      "tablePot": 4.5,
+      "villainCoversHero": true,
+      "cbet": {
+        "table": "bb-probe",
+        "node": "turn-3s"
+      },
+      "dealFrom": {
+        "strategy": "bb-def-30bb-vs-co",
+        "actionIds": [
+          "call"
+        ]
+      }
+    },
+    {
+      "id": "bb-probe-river-3s-vs-co",
+      "name": "BB Probes · river depois do probe B67 vs CO",
+      "description": "Você probou B67 no turn do flop 3S médio e o CO pagou. Barrel B67 range em qualquer river.",
+      "street": "river",
+      "situation": "Flop 3S médio",
+      "heroPosition": "BB",
+      "villainPosition": "CO",
+      "stack": {
+        "min": 30,
+        "max": 30
+      },
+      "ratio": null,
+      "bubble": null,
+      "tags": [
+        "posflop-defense",
+        "probe",
+        "mes"
+      ],
+      "actionIds": [
+        "check",
+        "bet-25",
+        "bet-67"
+      ],
+      "defaultActionId": "check",
+      "tablePot": 10.5,
+      "villainCoversHero": true,
+      "cbet": {
+        "table": "bb-probe",
+        "node": "river-3s"
+      },
+      "dealFrom": {
+        "strategy": "bb-def-30bb-vs-co",
+        "actionIds": [
+          "call"
+        ]
+      },
+      "entryActionIds": [
+        "bet-67"
+      ]
+    },
+    {
+      "id": "bb-probe-turn-alto-vs-btn",
+      "name": "BB Probes · turn (flop T-high+) vs BTN",
+      "description": "SRP 30bb vs BTN: flop check/check. Turn blank: probe polar B115 (TP+ e OESD+); turn A/H: check range; 3F/4S: probe range B67.",
+      "street": "turn",
+      "situation": "Flop T-high+",
+      "heroPosition": "BB",
+      "villainPosition": "BTN",
+      "stack": {
+        "min": 30,
+        "max": 30
+      },
+      "ratio": null,
+      "bubble": null,
+      "tags": [
+        "posflop-defense",
+        "probe",
+        "mes"
+      ],
+      "actionIds": [
+        "check",
+        "bet-25",
+        "bet-67",
+        "bet-115"
+      ],
+      "defaultActionId": "check",
+      "tablePot": 4.5,
+      "villainCoversHero": true,
+      "cbet": {
+        "table": "bb-probe",
+        "node": "turn-alto"
+      },
+      "dealFrom": {
+        "strategy": "bb-def-30bb-vs-btn",
+        "actionIds": [
+          "call"
+        ]
+      }
+    },
+    {
+      "id": "bb-probe-turn-baixo-vs-btn",
+      "name": "BB Probes · turn (flop 9-high-) vs BTN",
+      "description": "SRP 30bb vs BTN: flop check/check. Turn blank: probe range B25; turn A/H: check range; 3F/4S: probe range B67.",
+      "street": "turn",
+      "situation": "Flop 9-high-",
+      "heroPosition": "BB",
+      "villainPosition": "BTN",
+      "stack": {
+        "min": 30,
+        "max": 30
+      },
+      "ratio": null,
+      "bubble": null,
+      "tags": [
+        "posflop-defense",
+        "probe",
+        "mes"
+      ],
+      "actionIds": [
+        "check",
+        "bet-25",
+        "bet-67",
+        "bet-115"
+      ],
+      "defaultActionId": "check",
+      "tablePot": 4.5,
+      "villainCoversHero": true,
+      "cbet": {
+        "table": "bb-probe",
+        "node": "turn-baixo"
+      },
+      "dealFrom": {
+        "strategy": "bb-def-30bb-vs-btn",
+        "actionIds": [
+          "call"
+        ]
+      }
+    },
+    {
+      "id": "bb-probe-river-baixo-vs-btn",
+      "name": "BB Probes · river depois do probe B25 vs BTN",
+      "description": "Você probou B25 no turn e o BTN pagou. River blank: barrel B25 range; river A/H: check range.",
+      "street": "river",
+      "situation": "Flop 9-high-",
+      "heroPosition": "BB",
+      "villainPosition": "BTN",
+      "stack": {
+        "min": 30,
+        "max": 30
+      },
+      "ratio": null,
+      "bubble": null,
+      "tags": [
+        "posflop-defense",
+        "probe",
+        "mes"
+      ],
+      "actionIds": [
+        "check",
+        "bet-25",
+        "bet-67"
+      ],
+      "defaultActionId": "check",
+      "tablePot": 6.75,
+      "villainCoversHero": true,
+      "cbet": {
+        "table": "bb-probe",
+        "node": "river-baixo"
+      },
+      "dealFrom": {
+        "strategy": "bb-def-30bb-vs-btn",
+        "actionIds": [
+          "call"
+        ]
+      },
+      "entryActionIds": [
+        "bet-25"
+      ]
+    },
+    {
+      "id": "bb-probe-turn-3s-vs-btn",
+      "name": "BB Probes · turn (flop 3S HMM/MMM) vs BTN",
+      "description": "SRP 30bb vs BTN: flop 3S médio (JT7, T86…) check/check. Hotspot: probe range B67 em qualquer turn.",
+      "street": "turn",
+      "situation": "Flop 3S médio",
+      "heroPosition": "BB",
+      "villainPosition": "BTN",
+      "stack": {
+        "min": 30,
+        "max": 30
+      },
+      "ratio": null,
+      "bubble": null,
+      "tags": [
+        "posflop-defense",
+        "probe",
+        "mes"
+      ],
+      "actionIds": [
+        "check",
+        "bet-25",
+        "bet-67",
+        "bet-115"
+      ],
+      "defaultActionId": "check",
+      "tablePot": 4.5,
+      "villainCoversHero": true,
+      "cbet": {
+        "table": "bb-probe",
+        "node": "turn-3s"
+      },
+      "dealFrom": {
+        "strategy": "bb-def-30bb-vs-btn",
+        "actionIds": [
+          "call"
+        ]
+      }
+    },
+    {
+      "id": "bb-probe-river-3s-vs-btn",
+      "name": "BB Probes · river depois do probe B67 vs BTN",
+      "description": "Você probou B67 no turn do flop 3S médio e o BTN pagou. Barrel B67 range em qualquer river.",
+      "street": "river",
+      "situation": "Flop 3S médio",
+      "heroPosition": "BB",
+      "villainPosition": "BTN",
+      "stack": {
+        "min": 30,
+        "max": 30
+      },
+      "ratio": null,
+      "bubble": null,
+      "tags": [
+        "posflop-defense",
+        "probe",
+        "mes"
+      ],
+      "actionIds": [
+        "check",
+        "bet-25",
+        "bet-67"
+      ],
+      "defaultActionId": "check",
+      "tablePot": 10.5,
+      "villainCoversHero": true,
+      "cbet": {
+        "table": "bb-probe",
+        "node": "river-3s"
+      },
+      "dealFrom": {
+        "strategy": "bb-def-30bb-vs-btn",
+        "actionIds": [
+          "call"
+        ]
+      },
+      "entryActionIds": [
+        "bet-67"
+      ]
+    }
+  ],
+  "drills": [
+    {
+      "id": "bb-probes",
+      "name": "BB Probes",
+      "description": "Probes do BB (30bb, vs CO e BTN) depois do flop check/check, pela guideline do time. Flop 9-high- com probe B25 e flop 3S médio (JT7, T86) seguem para o barrel no river; acertar o probe e errar o river é meio certo.",
+      "variants": [
+        [
+          "bb-probe-turn-alto-vs-co"
+        ],
+        [
+          "bb-probe-turn-baixo-vs-co",
+          "bb-probe-river-baixo-vs-co"
+        ],
+        [
+          "bb-probe-turn-3s-vs-co",
+          "bb-probe-river-3s-vs-co"
+        ],
+        [
+          "bb-probe-turn-alto-vs-btn"
+        ],
+        [
+          "bb-probe-turn-baixo-vs-btn",
+          "bb-probe-river-baixo-vs-btn"
+        ],
+        [
+          "bb-probe-turn-3s-vs-btn",
+          "bb-probe-river-3s-vs-btn"
+        ]
+      ],
+      "sampling": "uniforme",
+      "tags": [
+        "posflop-defense",
+        "probe",
+        "mes"
+      ],
+      "handsPerSession": 50,
+      "passAccuracy": 0.9
+    }
+  ]
+}

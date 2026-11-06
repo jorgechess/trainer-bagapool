@@ -24,7 +24,18 @@ export type CbetSpec =
       /** BB Leads (Posflop Defense): donk bet do BB no flop, no turn depois do lead/call, no turn e no river. */
       table: "bb-lead";
       node: BbLeadNode;
+    }
+  | {
+      /** BB Probes (Posflop Defense): flop check/check, o BB proba o turn (e às vezes faz barrel no river). */
+      table: "bb-probe";
+      node: BbProbeNode;
     };
+
+/**
+ * turn-alto: flop T-high ou mais; turn-baixo / river-baixo: flop 9-high ou menos (probe + barrel);
+ * turn-3s / river-3s: flop 3S HMM/MMM (hotspot de probe + barrel).
+ */
+export type BbProbeNode = "turn-alto" | "turn-baixo" | "river-baixo" | "turn-3s" | "river-3s";
 
 /**
  * flop-sim: flop de lead (sequência MLL/LLL); flop-nao: os outros flops (check);
@@ -54,6 +65,7 @@ const SIZE_LABEL: Record<Size, string> = {
 
 /** Regra do flop para a tabela da estratégia; null = flop fora do drill. */
 export function flopRuleFor(spec: CbetSpec, board: readonly Card[]): FlopRule | null {
+  if (spec.table === "bb-probe") return bbProbeRule(board, spec.node);
   if (spec.table === "bb-lead") return bbLeadRule(board, spec.node);
   return spec.table === "bw-sb" ? bwFlopRule(board, spec.node) : mesFlopRule(board, spec.band);
 }
@@ -246,7 +258,9 @@ export function cbetAnswer(spec: CbetSpec, hero: readonly Card[], board: readonl
   if (!rule) return null;
   if (rule.mode === "range") return { action: rule.size, rule, hand: null };
   const hand =
-    spec.table === "bb-lead"
+    spec.table === "bb-probe"
+      ? readProbeHand(hero, board.slice(0, 4))
+      : spec.table === "bb-lead"
       ? readPolarHand(hero, board.slice(0, BB_LEAD_CARDS[spec.node]), spec.node === "river" ? "river" : "turn")
       : spec.table === "bw-sb"
         ? readBwHand(hero, board)
@@ -538,4 +552,89 @@ function readPolarHand(hero: readonly Card[], board: readonly Card[], street: "t
   return onePair
     ? hand("Um par", false, "Polar: mãos médias (um par) dão check.")
     : hand("Ar", true, "Polar: blefe com as mãos sem showdown.");
+}
+
+// ---------------------------------------------------------------------------
+// BB Probes (Posflop Defense): guideline do time, flop check/check e o BB age primeiro no turn.
+
+/**
+ * Flop 3S HMM ou MMM (JT7, T86, 987…): três cartas conectadas na faixa média, do J ao 6.
+ * Hotspot de probe + barrel.
+ */
+export function isProbeBarrelFlop(flop: readonly Card[]): boolean {
+  const bv = flop.slice(0, 3).map((c) => value(cardRank(c)));
+  return new Set(bv).size === 3 && Math.max(...bv) <= 11 && Math.min(...bv) >= 6 && windowWith(bv, 3);
+}
+
+/** Hotspot do turn: 3º naipe (3F) ou 4ª pra sequência no board (4S). */
+function probeHotspot(board: readonly Card[]): "3F" | "4S" | null {
+  const turn = board[3];
+  if (board.slice(0, 4).filter((c) => cardSuit(c) === cardSuit(turn)).length === 3) return "3F";
+  const bv = board.slice(0, 4).map((c) => value(cardRank(c)));
+  if (!windowWith(bv.slice(0, 3), 4) && windowWith(bv, 4)) return "4S";
+  return null;
+}
+
+export function bbProbeRule(board: readonly Card[], node: BbProbeNode): FlopRule | null {
+  if (board.length < 4) return null;
+  const flop = board.slice(0, 3);
+  const fv = flop.map((c) => value(cardRank(c)));
+  if (new Set(fv).size === 1 || isLeadFlop(flop)) return null; // trinca no board fica fora; flop de lead a gente lidera
+  const top = Math.max(...fv);
+  const tv = value(cardRank(board[3]));
+  const sigla = flopTexture(flop).pattern.replaceAll("-", "");
+  const barrelFlop = isProbeBarrelFlop(flop);
+  const hotspot = probeHotspot(board);
+
+  if (node === "turn-3s" || node === "river-3s") {
+    if (!barrelFlop) return null;
+    if (node === "turn-3s") return rangeRule("p-3s", `Flop 3S ${sigla}: hotspot de probe + barrel`, "bet-67");
+    return board.length < 5 ? null : rangeRule("p-3s-river", `Flop 3S ${sigla}: barrel em qualquer river`, "bet-67");
+  }
+  if (barrelFlop) return null;
+
+  if (node === "turn-alto") {
+    if (top < 10) return null;
+    if (hotspot) return rangeRule(`p-${hotspot}`, `Turn ${hotspot}: hotspot, probe range`, "bet-67");
+    if (tv > top) return rangeRule("p-alto-over", `Flop ${sigla}, turn A/H acima do board: check range`, "check");
+    return polarRule("p-alto-blank", `Flop ${sigla} (T-high+), turn blank: probe polar`, "bet-115");
+  }
+
+  // flop 9-high ou menos
+  if (top >= 10) return null;
+  if (node === "turn-baixo") {
+    if (hotspot) return rangeRule(`p-${hotspot}`, `Turn ${hotspot}: hotspot, probe range`, "bet-67");
+    if (tv >= 10) return rangeRule("p-baixo-ah", `Flop ${sigla} (9-high-), turn A/H: check range`, "check");
+    return rangeRule("p-baixo-blank", `Flop ${sigla} (9-high-), turn blank: probe range`, "bet-25");
+  }
+  // river-baixo: só depois do probe B25 no turn blank
+  if (board.length < 5 || hotspot || tv >= 10) return null;
+  const rv = value(cardRank(board[4]));
+  return rv >= 10
+    ? rangeRule("p-river-ah", "River A/H: check range", "check")
+    : rangeRule("p-river-blank", "River blank: barrel B25 range", "bet-25");
+}
+
+/** Probe polar (flop T-high+, turn blank): valor TP+ e draws OESD+ (OESD e flush draw); o resto dá check. */
+function readProbeHand(hero: readonly Card[], board: readonly Card[]): HandRead {
+  const hv = hero.map((c) => value(cardRank(c))).sort((a, b) => b - a);
+  const bv = board.map((c) => value(cardRank(c)));
+  const top = Math.max(...bv);
+  const count = (v: number) => bv.filter((x) => x === v).length;
+  const pocket = hv[0] === hv[1];
+  const suits = [...hero, ...board].map(cardSuit);
+  const flush = hero.some((c) => suits.filter((x) => x === cardSuit(c)).length >= 5);
+  const straight = straightTop([...hv, ...bv]) > 0;
+  const paired = hv.filter((v) => count(v) >= 1);
+  if (straight || flush || (pocket && count(hv[0]) >= 1) || (!pocket && paired.length === 2) || paired.some((v) => count(v) >= 2))
+    return hand("Dois pares ou melhor", true, "Probe polar: valor aposta.");
+  if (pocket && hv[0] > top) return hand("Overpair", true, "Probe polar: TP+ aposta por valor.");
+  if (paired.includes(top)) return hand("Top pair", true, "Probe polar: TP+ aposta por valor (todos os top pairs).");
+  const flushDraw = hero.some((c) => suits.filter((x) => x === cardSuit(c)).length === 4);
+  const draws = straightOuts([...hv, ...bv]);
+  const oesd = draws.outs.length >= 2 && straightOuts(bv).outs.length < draws.outs.length;
+  if (flushDraw || oesd) return hand(flushDraw && oesd ? "Combo draw" : flushDraw ? "Flush draw" : "OESD", true, "Probe polar: draws OESD+ apostam.");
+  return pocket || paired.length > 0
+    ? hand("Par abaixo do top pair", false, "Probe polar: mãos médias dão check.")
+    : hand("Sem par e sem draw forte", false, "Probe polar: sem TP+ ou OESD+, check.");
 }

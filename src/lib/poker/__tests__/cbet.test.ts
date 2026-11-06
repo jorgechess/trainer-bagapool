@@ -187,3 +187,41 @@ test("BB Leads: flop, turn depois do lead/call, turn e river pelas guidelines", 
   assert.equal(lead("Ad4c", "Kc8h3sJdJs", "river"), "bet-100"); // ar
   assert.equal(lead("Kd4c", "Kc8h3sJdJs", "river"), "check"); // um par (o par do board não conta)
 });
+
+test("BB Probes: turn por altura do flop, hotspots e probe + barrel", async () => {
+  const { bbProbeRule, isProbeBarrelFlop } = await import("../cbet");
+  type N = "turn-alto" | "turn-baixo" | "river-baixo" | "turn-3s" | "river-3s";
+  const rule = (b: string, node: N) => {
+    const r = bbProbeRule(c(b), node);
+    return r ? `${r.mode}:${r.size}` : null;
+  };
+  const probe = (hero: string, board: string) => cbetAnswer({ table: "bb-probe", node: "turn-alto" }, c(hero), c(board))?.action;
+  assert.equal(isProbeBarrelFlop(c("JcTh7s")), true);
+  assert.equal(isProbeBarrelFlop(c("Tc8h6s")), true);
+  assert.equal(isProbeBarrelFlop(c("Kc8h3s")), false);
+  // flop T-high+
+  assert.equal(rule("Kc8h3s2d", "turn-alto"), "split:bet-115"); // blank
+  assert.equal(rule("Qc8h3sKd", "turn-alto"), "range:check"); // overcard
+  assert.equal(rule("Qc8h3sTd", "turn-alto"), "split:bet-115"); // T num flop Q-high não é overcard
+  assert.equal(rule("Kc8h3h2h", "turn-alto"), "range:bet-67"); // 3F
+  assert.equal(rule("Qc9h3s7d", "turn-alto"), "split:bet-115");
+  assert.equal(rule("Qc9h8sTd", "turn-alto"), "range:bet-67"); // 4S (8-9-T-Q)
+  assert.equal(rule("Jc9h3sTd", "turn-alto"), "split:bet-115"); // J-T-9 é só 3 pra sequência
+  assert.equal(rule("9c6h3s2d", "turn-alto"), null);
+  // polar
+  assert.equal(probe("Kd5d", "Kc8h3s2d"), "bet-115"); // top pair
+  assert.equal(probe("8d7c", "Kc8h3s2d"), "check"); // segundo par
+  assert.equal(probe("AhJh", "Kc8h3h2d"), "bet-115"); // flush draw
+  assert.equal(probe("AdJc", "Kc8h3s2d"), "check");
+  // flop 9-high-
+  assert.equal(rule("9c6h3s2d", "turn-baixo"), "range:bet-25");
+  assert.equal(rule("9c6h3sQd", "turn-baixo"), "range:check");
+  assert.equal(rule("9c6h3s2d7c", "river-baixo"), "range:bet-25");
+  assert.equal(rule("9c6h3s2dAc", "river-baixo"), "range:check");
+  assert.equal(rule("9c6h3sQd2c", "river-baixo"), null); // turn A/H não tem barrel
+  assert.equal(rule("7c6h5s2d", "turn-baixo"), null); // flop de lead
+  // hotspot probe + barrel
+  assert.equal(rule("JcTh7s2d", "turn-3s"), "range:bet-67");
+  assert.equal(rule("JcTh7s2dAc", "river-3s"), "range:bet-67");
+  assert.equal(rule("JcTh7s2d", "turn-alto"), null);
+});

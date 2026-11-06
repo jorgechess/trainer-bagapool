@@ -590,3 +590,34 @@ test("carga BB Leads: flop com continuação no turn, turn e river; seção Posf
   assert.deepEqual([...answers.get("turn")!].sort(), ["bet-25", "bet-67", "check"]);
   assert.deepEqual([...answers.get("river")!].sort(), ["bet-10", "bet-100", "check"]);
 });
+
+test("carga BB Probes: turn, probe + barrel no river, seção Posflop Defense", async () => {
+  const { drillSection } = await import("../sections");
+  const { dealQuestion, validateDrill } = await import("../drill");
+  const { seededRng } = await import("../rng");
+  const deep = parseImportBundle(load("defesa-vanilla-deep.json"), DEFAULT_LEGEND);
+  const result = parseImportBundle(load("bb-probes.json"), DEFAULT_LEGEND, deep.strategies);
+  assert.deepEqual(result.errors, []);
+  const map = new Map([...deep.strategies, ...result.strategies].map((s) => [s.id, s]));
+  const drill = result.drills[0];
+  assert.equal(drillSection(drill, map), "posflop-defense");
+  assert.deepEqual(validateDrill(drill, map), []);
+  const legend = result.legend ?? DEFAULT_LEGEND;
+  const rng = seededRng(9);
+  const answers = new Map<string, Set<string>>();
+  for (let i = 0; i < 600; i++) {
+    const q = dealQuestion(drill, map, legend, rng);
+    assert.equal(q.steps[0].board.length, 4, "primeira decisão é no turn");
+    for (const s of q.steps) {
+      const node = (map.get(s.strategyId)!.cbet as { node: string }).node;
+      if (!answers.has(node)) answers.set(node, new Set());
+      answers.get(node)!.add(s.correctActionId);
+    }
+    if (q.steps.length === 2) assert.equal(q.steps[1].board.length, 5);
+  }
+  assert.deepEqual([...answers.get("turn-alto")!].sort(), ["bet-115", "bet-67", "check"]);
+  assert.deepEqual([...answers.get("turn-baixo")!].sort(), ["bet-25", "bet-67", "check"]);
+  assert.deepEqual([...answers.get("river-baixo")!].sort(), ["bet-25", "check"]);
+  assert.deepEqual([...answers.get("turn-3s")!], ["bet-67"]);
+  assert.deepEqual([...answers.get("river-3s")!], ["bet-67"]);
+});
