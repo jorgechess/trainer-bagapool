@@ -4,6 +4,7 @@ Ferramenta de treino no estilo GTO Wizard com as estratégias do time Baga Pool:
 
 - **Colocar no ar:** veja o [SETUP.md](SETUP.md).
 - **Especificação:** [docs/especificacao.md](docs/especificacao.md).
+- **Documentação técnica** (arquitetura, dados, API, operação, testes, ADRs): [docs/README.md](docs/README.md).
 
 ## O que tem
 
@@ -38,6 +39,8 @@ src/app/              telas e ações do servidor
 supabase/migrations/  banco, permissões (RLS) e gatilho de perfis
 supabase/tests/       testes das permissões
 scripts/e2e.mjs       teste de ponta a ponta no navegador
+scripts/carga.mjs     teste de carga (100 jogadores simultâneos)
+docs/                 documentação técnica
 ```
 
 ## Desenvolvimento
@@ -56,4 +59,4 @@ npm run typecheck
 scripts/test-db.sh           # migrações + permissões num Postgres local (PGHOST/PGPORT/PGUSER)
 ```
 
-No GitHub Actions rodam três verificações a cada envio: testes + tipos + build, banco + permissões, e o teste de ponta a ponta (Supabase local + navegador). As capturas de tela do teste de ponta a ponta ficam na branch `ci-capturas`.
+No GitHub Actions rodam três verificações a cada envio: testes + tipos + build, banco + permissões, e o teste de ponta a ponta (Supabase local + navegador) seguido do teste de carga. As capturas de tela do teste de ponta a ponta ficam na branch `ci-capturas`.
