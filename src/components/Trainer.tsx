@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { BW_BB_GUIDE } from "@/lib/poker/bw-bb-pos";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { recordDecisions } from "@/app/(app)/drills/actions";
+import { type DecisionQueue, QUEUE_STORAGE_KEY, type SendResult, type Submission, createDecisionQueue } from "@/lib/decision-queue";
 import { CardRow } from "@/components/PlayingCard";
 import { PokerTable } from "@/components/PokerTable";
 import { PositionChips } from "@/components/PositionChips";
@@ -71,7 +71,24 @@ interface Decision {
   peeked: boolean;
 }
 
-type Submission = { drillId: string; decisions: Omit<Decision, "correctActionId" | "alsoAccepted" | "correct" | "hand" | "peeked">[] };
+/** Decisões por envio: build com NEXT_PUBLIC_DECISION_BATCH=1 grava a cada mão (o e2e usa). */
+const DECISION_BATCH = Number(process.env.NEXT_PUBLIC_DECISION_BATCH) || 5;
+/** De quanto em quanto tempo a fila é enviada mesmo sem completar o lote. */
+const FLUSH_INTERVAL_MS = 10_000;
+
+async function sendDecisions(submissions: Submission[], { keepalive }: { keepalive: boolean }): Promise<SendResult> {
+  const res = await fetch("/api/decisoes", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ submissions }),
+    keepalive,
+  });
+  // Sessão expirada: o middleware manda para o login (HTML), não para o JSON da rota
+  if (!(res.headers.get("content-type") ?? "").includes("application/json"))
+    return { ok: false, error: "Sessão expirada. Entre de novo." };
+  const result = (await res.json()) as SendResult;
+  return result;
+}
 
 /** O que cada mesa está mostrando agora (para o painel de range e o teclado). */
 interface SlotState {
@@ -473,7 +490,8 @@ export function Trainer({ drill, strategies, legend, timeLimitSec, sourceDrillOf
   const [vertical, setVertical] = useState(false);
   const [slotStates, setSlotStates] = useState<(SlotState | null)[]>([]);
   const [panelSlot, setPanelSlot] = useState(0);
-  const pending = useRef<Submission[]>([]);
+  const queueRef = useRef<DecisionQueue | null>(null);
+  const flush = useCallback((keepalive = false) => queueRef.current?.flush({ keepalive }) ?? Promise.resolve(), []);
   const handsRef = useRef(0);
   const [bindings, setBindings] = useState<Bindings>({});
   const slotApis = useRef<(SlotApi | null)[]>([]);
@@ -601,19 +619,38 @@ export function Trainer({ drill, strategies, legend, timeLimitSec, sourceDrillOf
     writeStorage(TABLES_KEY, String(count));
   }
 
-  const flush = useCallback(async () => {
-    const queue = [...pending.current];
-    pending.current = [];
-    for (const submission of queue) {
-      const result = await recordDecisions(submission).catch(() => ({ ok: false as const, error: "Sem conexão." }));
-      if (!result.ok) {
-        pending.current.push(submission);
-        setSaveError(`Não foi possível salvar algumas decisões (${result.error}). Vamos tentar de novo.`);
-      } else if (pending.current.length === 0) {
-        setSaveError(null);
-      }
-    }
+  // Fila de decisões em lote: envia a cada DECISION_BATCH decisões, a cada 10s, ao terminar e ao sair
+  useEffect(() => {
+    const queue = createDecisionQueue({
+      storage: { get: () => readStorage(QUEUE_STORAGE_KEY), set: (v) => writeStorage(QUEUE_STORAGE_KEY, v) },
+      send: sendDecisions,
+      tabId: Math.random().toString(36).slice(2, 10),
+      batchSize: DECISION_BATCH,
+      onStatus: setSaveError,
+    });
+    queueRef.current = queue;
+    void queue.flush(); // sobras de uma sessão anterior (internet caiu, aba fechou)
+    const timer = setInterval(() => {
+      if (queue.pendingDecisions() > 0) void queue.flush();
+    }, FLUSH_INTERVAL_MS);
+    const leave = () => void queue.flush({ keepalive: true });
+    const onVisibility = () => {
+      if (document.visibilityState === "hidden") leave();
+    };
+    window.addEventListener("pagehide", leave);
+    document.addEventListener("visibilitychange", onVisibility);
+    return () => {
+      clearInterval(timer);
+      window.removeEventListener("pagehide", leave);
+      document.removeEventListener("visibilitychange", onVisibility);
+      leave();
+      queueRef.current = null;
+    };
   }, []);
+
+  useEffect(() => {
+    if (finished) void flush();
+  }, [finished, flush]);
 
   const onState = useCallback((index: number, state: SlotState | null) => {
     setSlotStates((current) => {
@@ -642,7 +679,7 @@ export function Trainer({ drill, strategies, legend, timeLimitSec, sourceDrillOf
           byDrill.set(id, [...(byDrill.get(id) ?? []), d]);
         }
         for (const [drillId, list] of byDrill)
-          pending.current.push({
+          queueRef.current?.add({
             drillId,
             decisions: list.map(({ strategyId, heroCards, board, chosenActionId }) => ({
               strategyId,
@@ -651,7 +688,6 @@ export function Trainer({ drill, strategies, legend, timeLimitSec, sourceDrillOf
               chosenActionId,
             })),
           });
-        void flush();
       }
       handsRef.current += 1;
       setHandsPlayed(handsRef.current);
@@ -661,7 +697,7 @@ export function Trainer({ drill, strategies, legend, timeLimitSec, sourceDrillOf
       }
       return true;
     },
-    [drill, flush, sourceDrillOf],
+    [drill, sourceDrillOf],
   );
 
   // Aquecimento: contagem regressiva; quando zera, a sessão termina

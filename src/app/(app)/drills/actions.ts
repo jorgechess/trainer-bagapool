@@ -3,57 +3,17 @@
 import { revalidatePath } from "next/cache";
 import { contentChanged } from "@/lib/content";
 import { z } from "zod";
-import { getDrill, listStrategies, requireContentManager, requireProfile } from "@/lib/data";
+import { listStrategies, requireContentManager } from "@/lib/data";
 import type { ActionResult } from "@/lib/format";
-import { type Drill, gradeSubmission, validateDrill } from "@/lib/poker/drill";
+import { type Drill, validateDrill } from "@/lib/poker/drill";
 import { slugify } from "@/lib/poker/importer";
 import { createClient } from "@/lib/supabase/server";
+import { recordSubmissions } from "@/lib/record-attempts";
+import type { Submission } from "@/lib/decision-queue";
 
-const submissionSchema = z.object({
-  drillId: z.string().min(1),
-  decisions: z
-    .array(
-      z.object({
-        strategyId: z.string().min(1),
-        heroCards: z.array(z.string()).length(2),
-        board: z.array(z.string()).max(5),
-        chosenActionId: z.string().min(1),
-      }),
-    )
-    .min(1)
-    .max(10),
-});
-
-/** Grava as decisões de uma mão, corrigindo tudo de novo no servidor. */
-export async function recordDecisions(input: z.infer<typeof submissionSchema>): Promise<ActionResult> {
-  const parsed = submissionSchema.safeParse(input);
-  if (!parsed.success) return { ok: false, error: "Dados inválidos." };
-  const profile = await requireProfile();
-  const drill = await getDrill(parsed.data.drillId);
-  if (!drill) return { ok: false, error: "Drill não encontrado." };
-  const strategies = new Map((await listStrategies()).map((s) => [s.id, s]));
-
-  const rows = [];
-  try {
-    for (const decision of parsed.data.decisions) {
-      const strategy = strategies.get(decision.strategyId);
-      if (!strategy) return { ok: false, error: "Estratégia não encontrada." };
-      const attempt = gradeSubmission(drill, strategy, decision.heroCards, decision.board, decision.chosenActionId);
-      rows.push({
-        user_id: profile.id,
-        drill_id: drill.id,
-        strategy_id: strategy.id,
-        correct: attempt.correct,
-        data: attempt,
-      });
-    }
-  } catch (error) {
-    return { ok: false, error: (error as Error).message };
-  }
-  const supabase = await createClient();
-  const { error } = await supabase.from("attempts").insert(rows);
-  if (error) return { ok: false, error: "Não foi possível salvar: " + error.message };
-  return { ok: true };
+/** Grava as decisões de uma mão (o treino usa /api/decisoes, em lote). */
+export async function recordDecisions(input: Submission): Promise<ActionResult> {
+  return recordSubmissions([input]);
 }
 
 const drillSchema = z.object({
