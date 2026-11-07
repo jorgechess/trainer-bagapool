@@ -100,3 +100,14 @@ test("importa drill com variações e usa estratégias já cadastradas", () => {
   const malformed = parseImportBundle({ drills: [{ name: "Y", variants: ["nao-e-lista"] }] }, DEFAULT_LEGEND);
   assert.ok(malformed.errors.some((e) => e.includes("formato inválido")));
 });
+
+test("legendAdd: cor repetida na legenda do banco é ajustada em vez de recusar a carga", async () => {
+  const { parseImportBundle, uniqueColor } = await import("../importer");
+  const { DEFAULT_LEGEND } = await import("../legend");
+  const taken = DEFAULT_LEGEND[0].color;
+  const result = parseImportBundle({ legendAdd: [{ id: "novo-size", label: "Bet 90%", color: taken, kind: "bet", sizing: "90%" }] }, DEFAULT_LEGEND);
+  assert.deepEqual(result.errors, []);
+  const added = result.legend!.find((a) => a.id === "novo-size")!;
+  assert.notEqual(added.color.toLowerCase(), taken.toLowerCase());
+  assert.equal(uniqueColor("#123456", new Set(["#123456", "#123457"])), "#123455");
+});

@@ -355,7 +355,7 @@ test("Cbet Turn IP (aula 29): size pelo runout, delayed cbet e vs probe", async 
   assert.equal(a("Jd3c", "Ks8d4c8s", "after-b67"), "bet-40");
   assert.equal(a("KdQc", "Ks9c4d2c", "after-b67"), "bet-125"); // top pair
   assert.equal(a("9d8d", "Ks9c4d2c", "after-b67"), "check"); // segundo par
-  assert.equal(a("QhJh", "As7s4h9s", "after-b67"), "bet-50");
+  assert.equal(a("QhJh", "As7s4h9s", "after-b67"), "bet-40"); // 3F: o b50 cai no b40
   // double check: delayed cbet b67
   assert.equal(a("Qd3c", "Ks9c4d2c", "xx"), "bet-67");
   assert.equal(a("9d8d", "Ks9c4d2c", "xx"), "check");

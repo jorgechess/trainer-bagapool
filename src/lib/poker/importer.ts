@@ -107,6 +107,21 @@ export function slugify(text: string): string {
     .slice(0, 60);
 }
 
+/** Cor livre mais próxima: mexe 1 ponto no azul (depois verde) até não repetir. */
+export function uniqueColor(color: string, used: ReadonlySet<string>): string {
+  if (!/^#[0-9a-fA-F]{6}$/.test(color) || !used.has(color.toLowerCase())) return color;
+  const n = parseInt(color.slice(1), 16);
+  for (let step = 1; step < 512; step++) {
+    for (const delta of [step, -step]) {
+      const b = (n & 0xff) + delta;
+      const g = ((n >> 8) & 0xff) + (b > 255 ? 1 : b < 0 ? -1 : 0);
+      const candidate = `#${(((n >> 16) & 0xff) << 16 | (Math.min(255, Math.max(0, g)) << 8) | ((b + 256) % 256)).toString(16).padStart(6, "0")}`;
+      if (!used.has(candidate)) return candidate;
+    }
+  }
+  return color;
+}
+
 function isObject(value: unknown): value is Record<string, unknown> {
   return typeof value === "object" && value !== null && !Array.isArray(value);
 }
@@ -167,7 +182,16 @@ export function parseImportBundle(
     if (!Array.isArray(bundle.legendAdd)) errors.push("legendAdd deve ser uma lista.");
     else {
       const base = legend ?? currentLegend;
-      const missing = bundle.legendAdd.filter((a) => isObject(a) && !base.some((b) => b.id === a.id));
+      // A legenda do banco pode ter sido editada pela tela: cor nova que bate com uma já usada é
+      // ajustada de leve, para a carga não ser recusada inteira por causa de uma cor
+      const used = new Set(base.map((b) => b.color.toLowerCase()));
+      const missing = bundle.legendAdd
+        .filter((a) => isObject(a) && !base.some((b) => b.id === a.id))
+        .map((a) => {
+          const color = typeof a.color === "string" ? uniqueColor(a.color, used) : a.color;
+          if (typeof color === "string") used.add(color.toLowerCase());
+          return { ...a, color };
+        });
       if (missing.length) {
         const merged = [...base, ...missing];
         const legendErrors = validateLegend(merged);

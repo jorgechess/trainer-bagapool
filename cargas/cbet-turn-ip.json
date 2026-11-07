@@ -15,25 +15,11 @@
       "sizing": "40%"
     },
     {
-      "id": "bet-50",
-      "label": "Bet 50%",
-      "color": "#e879f9",
-      "kind": "bet",
-      "sizing": "50%"
-    },
-    {
       "id": "bet-67",
       "label": "Bet 67%",
       "color": "#9f1239",
       "kind": "bet",
       "sizing": "67%"
-    },
-    {
-      "id": "bet-75",
-      "label": "Bet 75%",
-      "color": "#c026d3",
-      "kind": "bet",
-      "sizing": "75%"
     },
     {
       "id": "bet-125",
@@ -60,6 +46,13 @@
       "color": "#d97706",
       "kind": "raise",
       "sizing": "3x"
+    },
+    {
+      "id": "barrel-75",
+      "label": "Bet 75%",
+      "color": "#8f3fd1",
+      "kind": "bet",
+      "sizing": "75%"
     }
   ],
   "strategies": [
@@ -86,9 +79,8 @@
         "check",
         "bet-25",
         "bet-40",
-        "bet-50",
         "bet-67",
-        "bet-75",
+        "barrel-75",
         "bet-125"
       ],
       "defaultActionId": "check",
@@ -129,9 +121,8 @@
         "check",
         "bet-25",
         "bet-40",
-        "bet-50",
         "bet-67",
-        "bet-75",
+        "barrel-75",
         "bet-125"
       ],
       "defaultActionId": "check",
@@ -172,9 +163,8 @@
         "check",
         "bet-25",
         "bet-40",
-        "bet-50",
         "bet-67",
-        "bet-75",
+        "barrel-75",
         "bet-125"
       ],
       "defaultActionId": "check",
@@ -569,7 +559,7 @@
     {
       "id": "cbet-turn-ip",
       "name": "Cbet Turn IP",
-      "description": "Aula 29: você abriu do HJ, CO ou BTN com 30bb e o BB pagou. Depois do cbet b67 pago, barrel em todos os airs com o size do runout (A ou H b67, dobra H b67, brick b125, dobra M/L b40, 3F b50, 3S b75, 4F/4S b25). Depois do check back no flop: delayed cbet b67 no double check, raise polar fino vs probe b25 e 0% de raise vs probe b67.",
+      "description": "Aula 29: você abriu do HJ, CO ou BTN com 30bb e o BB pagou. Depois do cbet b67 pago, barrel em todos os airs com o size do runout (A ou H b67, dobra H b67, brick b125, dobra M/L b40, 3F b40, 3S b75, 4F/4S b25). Depois do check back no flop: delayed cbet b67 no double check, raise polar fino vs probe b25 e 0% de raise vs probe b67.",
       "variants": [
         [
           "cbet-turn-ip-hj-after-b67"
