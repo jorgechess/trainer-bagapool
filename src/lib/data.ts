@@ -1,9 +1,10 @@
 import "server-only";
 import { redirect } from "next/navigation";
 import { cache } from "react";
+import { getContent } from "@/lib/content";
 import { createClient } from "@/lib/supabase/server";
 import type { Attempt, Drill } from "@/lib/poker/drill";
-import { DEFAULT_LEGEND, type Legend } from "@/lib/poker/legend";
+import type { Legend } from "@/lib/poker/legend";
 import { canManageContent, canManageMembers, canManagePlayers, type Role } from "@/lib/poker/permissions";
 import { DEFAULT_PLAN_CONFIG, type MonthlyPlan, type PlanConfig, type StatStandard } from "@/lib/poker/plan";
 import type { Strategy } from "@/lib/poker/strategy";
@@ -106,8 +107,7 @@ export async function getSetting<T>(key: string, fallback: T): Promise<T> {
 }
 
 export async function getLegend(): Promise<Legend> {
-  const legend = await getSetting<Legend>("legend", DEFAULT_LEGEND);
-  return legend.length ? legend : DEFAULT_LEGEND;
+  return (await getContent()).legend;
 }
 
 export async function getPlanConfig(): Promise<PlanConfig> {
@@ -119,46 +119,22 @@ interface JsonRow<T> {
   data: T;
 }
 
+// Estratégias, drills e legenda vêm do cache em memória (src/lib/content.ts): cópias rasas das listas,
+// para quem ordenar ou filtrar não mexer no que os outros usuários recebem.
 export async function listStrategies(): Promise<Strategy[]> {
-  const supabase = await createClient();
-  // O banco devolve no máximo 1000 linhas por consulta: lê em páginas
-  const all: Strategy[] = [];
-  const pageSize = 1000;
-  for (let from = 0; ; from += pageSize) {
-    const { data, error } = await supabase
-      .from("strategies")
-      .select("id, data")
-      .order("name")
-      .order("id")
-      .range(from, from + pageSize - 1);
-    if (error) throw new Error(error.message);
-    all.push(...(data as JsonRow<Strategy>[]).map((row) => ({ ...row.data, id: row.id })));
-    if (data.length < pageSize) break;
-  }
-  return all;
+  return [...(await getContent()).strategies];
 }
 
 export async function getStrategy(id: string): Promise<Strategy | null> {
-  const supabase = await createClient();
-  const { data } = await supabase.from("strategies").select("id, data").eq("id", id).maybeSingle();
-  if (!data) return null;
-  const row = data as JsonRow<Strategy>;
-  return { ...row.data, id: row.id };
+  return (await getContent()).strategyById.get(id) ?? null;
 }
 
 export async function listDrills(): Promise<Drill[]> {
-  const supabase = await createClient();
-  const { data, error } = await supabase.from("drills").select("id, data").eq("active", true).order("name");
-  if (error) throw new Error(error.message);
-  return (data as JsonRow<Drill>[]).map((row) => ({ ...row.data, id: row.id }));
+  return [...(await getContent()).drills];
 }
 
 export async function getDrill(id: string): Promise<Drill | null> {
-  const supabase = await createClient();
-  const { data } = await supabase.from("drills").select("id, data").eq("id", id).eq("active", true).maybeSingle();
-  if (!data) return null;
-  const row = data as JsonRow<Drill>;
-  return { ...row.data, id: row.id };
+  return (await getContent()).drillById.get(id) ?? null;
 }
 
 export async function listPools(): Promise<Pool[]> {

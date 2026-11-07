@@ -1,6 +1,7 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
+import { contentChanged } from "@/lib/content";
 import { getLegend, listDrills, listStrategies, requireContentManager } from "@/lib/data";
 import type { ActionResult } from "@/lib/format";
 import { drillStrategyIds } from "@/lib/poker/drill";
@@ -59,6 +60,7 @@ export async function saveStrategy(input: Strategy, isNew: boolean): Promise<Act
     ...(isNew ? { created_by: profile.id } : {}),
   });
   if (error) return { ok: false, error: error.message };
+  await contentChanged();
   revalidatePath("/estrategias");
   return { ok: true, id };
 }
@@ -80,6 +82,7 @@ export async function deleteStrategy(id: string): Promise<ActionResult> {
   const supabase = await createClient();
   const { error } = await supabase.from("strategies").delete().eq("id", id);
   if (error) return { ok: false, error: error.message };
+  await contentChanged();
   revalidatePath("/estrategias");
   return { ok: true };
 }

@@ -51,6 +51,8 @@ jobs:
       - name: Teste de ponta a ponta
         env:
           BASE_URL: http://localhost:3000
+          # O teste escreve direto no banco: confere a versão do conteúdo a cada página
+          CONTENT_CHECK_SECONDS: "0"
         run: |
           npm run start > server.log 2>&1 &
           for i in $(seq 1 60); do curl -sf -o /dev/null http://localhost:3000/login && break; sleep 1; done

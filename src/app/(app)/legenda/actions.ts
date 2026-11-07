@@ -1,6 +1,7 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
+import { contentChanged } from "@/lib/content";
 import { listStrategies, requireContentManager } from "@/lib/data";
 import type { ActionResult } from "@/lib/format";
 import { type Legend, validateLegend } from "@/lib/poker/legend";
@@ -40,6 +41,7 @@ export async function saveLegend(legend: Legend): Promise<ActionResult> {
     .from("settings")
     .upsert({ key: "legend", value: clean, updated_at: new Date().toISOString(), updated_by: profile.id });
   if (error) return { ok: false, error: error.message };
+  await contentChanged();
   revalidatePath("/", "layout");
   return { ok: true };
 }

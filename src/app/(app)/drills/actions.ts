@@ -1,6 +1,7 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
+import { contentChanged } from "@/lib/content";
 import { z } from "zod";
 import { getDrill, listStrategies, requireContentManager, requireProfile } from "@/lib/data";
 import type { ActionResult } from "@/lib/format";
@@ -97,6 +98,7 @@ export async function saveDrill(input: z.input<typeof drillSchema>): Promise<Act
     ...(parsed.data.id ? {} : { created_by: profile.id }),
   });
   if (error) return { ok: false, error: error.message };
+  await contentChanged();
   revalidatePath("/drills");
   return { ok: true, id };
 }
@@ -107,6 +109,7 @@ export async function archiveDrill(id: string): Promise<ActionResult> {
   const supabase = await createClient();
   const { error } = await supabase.from("drills").update({ active: false }).eq("id", id);
   if (error) return { ok: false, error: error.message };
+  await contentChanged();
   revalidatePath("/drills");
   return { ok: true };
 }

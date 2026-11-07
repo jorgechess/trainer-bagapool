@@ -127,6 +127,13 @@ async function main() {
         });
         assert.ok(res.ok, `exemplo inserido em ${table}: ${res.status}`);
       }
+      // Escrita direta no banco: marca a nova versão do conteúdo, como o app faz
+      const bump = await fetch(`${API_URL}/rest/v1/settings`, {
+        method: "POST",
+        headers: { ...adminHeaders, Prefer: "resolution=merge-duplicates" },
+        body: JSON.stringify({ key: "content_version", value: `e2e-${Date.now()}` }),
+      });
+      assert.ok(bump.ok, `versão do conteúdo: ${bump.status}`);
     }
     log("cargas importadas direto no banco; exemplo com 2 estratégias inserido");
 

@@ -5,6 +5,7 @@ import { DEFAULT_LEGEND, type Legend } from "@/lib/poker/legend";
 import { parseImportBundle } from "@/lib/poker/importer";
 import type { Strategy } from "@/lib/poker/strategy";
 import { createAdminClient } from "@/lib/supabase/admin";
+import { invalidateContent } from "@/lib/content";
 
 /** Versão das cargas do repositório: muda sempre que algum range, drill ou legenda muda. */
 const VERSION = createHash("sha1").update(JSON.stringify(CARGAS.map((c) => c.bundle))).digest("hex");
@@ -74,6 +75,7 @@ async function run() {
     if (legendChanged) await db.from("settings").upsert({ key: "legend", value: legend, updated_at: now });
     await db.from("settings").upsert({ key: VERSION_KEY, value: VERSION, updated_at: now });
     synced = VERSION;
+    invalidateContent();
   } catch (error) {
     console.error("Falha ao importar as cargas:", error);
   }
