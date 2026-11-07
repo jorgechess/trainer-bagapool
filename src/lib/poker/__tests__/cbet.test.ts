@@ -347,6 +347,7 @@ test("Cbet Turn IP (aula 29): size pelo runout, delayed cbet e vs probe", async 
   assert.equal(g("AhTh7h2h"), "4F");
   assert.equal(g("JsTd9c8h"), "4S");
   assert.equal(RUNOUT_SIZE.Brick, "bet-125");
+  assert.equal(RUNOUT_SIZE["3S"], "bet-67"); // b75 do solver arredondado para b67
   const a = (hero: string, board: string, node: "after-b67" | "xx" | "probe-25" | "probe-67") =>
     cbetTurnAnswer(c(hero), c(board), node).action;
   // depois do b67: air barrela com o size do runout, par médio dá check

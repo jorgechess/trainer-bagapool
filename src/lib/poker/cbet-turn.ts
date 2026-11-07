@@ -1,7 +1,7 @@
 /**
  * Cbet Turn IP (Posflop Attack, aula 29): o herói abriu, o BB pagou e o pote segue para o turn.
  *   - after-b67: cbet b67 no flop e call do BB. Barrelar todos os airs pelo menos no turn, com o size
- *     teórico do runout (A ou H b67 · dobra H b67 · brick b125 · dobra M/L b40 · 3F b40 (b50 do solver arredondado) · 3S b75 · 4F/4S b25).
+ *     teórico do runout (A ou H b67 · dobra H b67 · brick b125 · dobra M/L b40 · 3F b40 (b50 do solver arredondado) · 3S b67 (b75 do solver arredondado) · 4F/4S b25).
  *   - xx: check back no flop e o BB deu check no turn (double check): delayed cbet b67 com todos os airs.
  *   - probe-25: check back no flop e probe b25 do BB: raise com 2nd pair+ (polar fino) e draws sem showdown.
  *   - probe-67: check back no flop e probe b67 do BB: 0% de raise; call com 2nd pair+, 3rd/4th pair com
@@ -12,7 +12,7 @@ import { type TurnType, isStraight, outs, turnType, withAce } from "./bb-vs-barr
 
 export type CbetTurnNode = "after-b67" | "xx" | "probe-25" | "probe-67";
 
-export type TurnSize = "bet-25" | "bet-40" | "bet-67" | "barrel-75" | "bet-125";
+export type TurnSize = "bet-25" | "bet-40" | "bet-67" | "bet-125";
 
 /** Categoria do runout na guideline da aula 29. */
 export type RunoutGroup = "A ou H" | "Dobra H" | "Brick" | "Dobra M/L" | "3F" | "3S" | "4F" | "4S";
@@ -40,7 +40,7 @@ export const RUNOUT_SIZE: Record<RunoutGroup, TurnSize> = {
   Brick: "bet-125",
   "Dobra M/L": "bet-40",
   "3F": "bet-40",
-  "3S": "barrel-75",
+  "3S": "bet-67",
   "4F": "bet-25",
   "4S": "bet-25",
 };
