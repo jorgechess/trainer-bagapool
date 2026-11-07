@@ -9,12 +9,12 @@ export type BarrelPos = "EP" | "MP" | "LP";
 export type BarrelSize = 25 | 40 | 50 | 67 | 75 | 125;
 export type BarrelAction = "vc-fold" | "vc-call" | "vc-raise";
 
-const isStraight = (set: Set<number>) => {
+export const isStraight = (set: Set<number>) => {
   for (let low = 1; low <= 10; low++) if ([0, 1, 2, 3, 4].every((d) => set.has(low + d))) return true;
   return false;
 };
-const withAce = (vals: number[]) => new Set(vals.flatMap((x) => (x === 14 ? [14, 1] : [x])));
-function outs(vals: number[]): number {
+export const withAce = (vals: number[]) => new Set(vals.flatMap((x) => (x === 14 ? [14, 1] : [x])));
+export function outs(vals: number[]): number {
   const has = withAce(vals);
   if (isStraight(has)) return -1;
   let n = 0;

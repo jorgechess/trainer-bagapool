@@ -333,3 +333,43 @@ test("3bet Pot as Aggressor OOP: cbet de range e game plan MES", async () => {
   assert.equal(a("Ad5c", "Js9d8c6s3h", "river-xx"), "shove"); // bluff river
   assert.equal(a("8d5c", "Js9d8c6s3h", "river-xx"), "check"); // par médio
 });
+
+test("Cbet Turn IP (aula 29): size pelo runout, delayed cbet e vs probe", async () => {
+  const { cbetTurnAnswer, runoutGroup, RUNOUT_SIZE } = await import("../cbet-turn");
+  const g = (board: string) => runoutGroup(c(board));
+  // exemplos da guideline
+  assert.equal(g("Ks9c5dAs"), "A ou H");
+  assert.equal(g("Qs7h2hQd"), "Dobra H");
+  assert.equal(g("Ks9c4d2c"), "Brick");
+  assert.equal(g("Ks8d4c8s"), "Dobra M/L");
+  assert.equal(g("As7s4h9s"), "3F");
+  assert.equal(g("9s8h2c6d"), "3S");
+  assert.equal(g("AhTh7h2h"), "4F");
+  assert.equal(g("JsTd9c8h"), "4S");
+  assert.equal(RUNOUT_SIZE.Brick, "bet-125");
+  const a = (hero: string, board: string, node: "after-b67" | "xx" | "probe-25" | "probe-67") =>
+    cbetTurnAnswer(c(hero), c(board), node).action;
+  // depois do b67: air barrela com o size do runout, par médio dá check
+  assert.equal(a("Qd3c", "Ks9c4d2c", "after-b67"), "bet-125"); // air no brick
+  assert.equal(a("Qd3c", "Ks9c5dAs", "after-b67"), "bet-67");
+  assert.equal(a("Jd3c", "Ks8d4c8s", "after-b67"), "bet-40");
+  assert.equal(a("KdQc", "Ks9c4d2c", "after-b67"), "bet-125"); // top pair
+  assert.equal(a("9d8d", "Ks9c4d2c", "after-b67"), "check"); // segundo par
+  assert.equal(a("QhJh", "As7s4h9s", "after-b67"), "bet-50");
+  // double check: delayed cbet b67
+  assert.equal(a("Qd3c", "Ks9c4d2c", "xx"), "bet-67");
+  assert.equal(a("9d8d", "Ks9c4d2c", "xx"), "check");
+  // probe b25: raise 2nd pair+ e draws sem showdown
+  assert.equal(a("9d8d", "Ks9c4d2c", "probe-25"), "vc-raise");
+  assert.equal(a("QhJh", "Kh9h4d2c", "probe-25"), "vc-raise"); // flush draw
+  assert.equal(a("6h3h", "Ks9c6d2c", "probe-25"), "vc-call"); // terceiro par
+  assert.equal(a("4h3h", "Ks9c6d2c", "probe-25"), "vc-raise"); // broca sem showdown
+  assert.equal(a("Qd3c", "Ks9c6d2c", "probe-25"), "vc-call"); // air
+  // probe b67: 0% de raise
+  assert.equal(a("KdKc", "Ks9c4d2c", "probe-67"), "vc-call"); // set paga
+  assert.equal(a("9d8d", "Ks9c4d2c", "probe-67"), "vc-call");
+  assert.equal(a("6h3c", "Ks9c6d2c", "probe-67"), "vc-fold"); // 3rd pair sem redraw
+  assert.equal(a("6c5c", "Ks9c6d2c", "probe-67"), "vc-call"); // 3rd pair + flush draw
+  assert.equal(a("QhJh", "Kh9h4d2c", "probe-67"), "vc-call"); // FD
+  assert.equal(a("Qd3c", "Ks9c6d2c", "probe-67"), "vc-fold");
+});

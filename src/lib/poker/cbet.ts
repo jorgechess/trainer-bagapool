@@ -8,6 +8,7 @@ import { flopTexture } from "./texture";
 import { findVsCbetBoard, vsCbetAnswer } from "./vs-cbet";
 import { type BarrelPos, type BarrelSize, barrelAnswer, barrelSize, turnType } from "./bb-vs-barrel";
 import { THREEBET_CARDS, type ThreeBetNode, threeBetAnswer } from "./threebet-pot";
+import { type CbetTurnNode, cbetTurnAnswer, runoutGroup } from "./cbet-turn";
 import { BW_BB_CARDS, BW_BB_GUIDE, type BwBbNode, bwBbAnswer } from "./bw-bb-pos";
 
 export type CbetBand = "25-50" | "15";
@@ -33,6 +34,11 @@ export type CbetSpec =
       /** 3bet Pot as Aggressor OOP (aula 27): BB 3-betou o HJ, SPR < 2. */
       table: "3bet-pot";
       node: ThreeBetNode;
+    }
+  | {
+      /** Cbet Turn IP (Posflop Attack, aula 29): turn depois do cbet b67 pago, do double check ou do probe. */
+      table: "cbet-turn";
+      node: CbetTurnNode;
     }
   | {
       /** BB vs 2nd Barrel (Posflop Defense, aula 24): BB pagou o cbet do flop e enfrenta o barrel no turn. */
@@ -99,6 +105,16 @@ export function flopRuleFor(spec: CbetSpec, board: readonly Card[]): FlopRule | 
       "river-xx": "River depois do check behind no turn",
     };
     return { group: "3bp", label: labels[spec.node], mode: "split", size: "check" };
+  }
+  if (spec.table === "cbet-turn") {
+    if (board.length < 4 || new Set(board.slice(0, 3).map((c) => cardRank(c))).size === 1) return null;
+    const labels: Record<CbetTurnNode, string> = {
+      "after-b67": `Turn ${runoutGroup(board)} depois do cbet b67 pago`,
+      xx: "Double check: delayed cbet",
+      "probe-25": "Facing probe b25",
+      "probe-67": "Facing probe b67",
+    };
+    return { group: "ct", label: labels[spec.node], mode: "split", size: "check" };
   }
   if (spec.table === "bb-vs-barrel") {
     if (board.length < 4 || new Set(board.slice(0, 3).map((c) => cardRank(c))).size === 1) return null;
@@ -311,6 +327,10 @@ export function cbetAnswer(spec: CbetSpec, hero: readonly Card[], board: readonl
     const read = threeBetAnswer(hero, board, spec.node);
     return { action: read.action, rule, hand: { category: read.category, bet: false, reason: read.reason } };
   }
+  if (spec.table === "cbet-turn") {
+    const read = cbetTurnAnswer(hero, board, spec.node);
+    return { action: read.action, rule, hand: { category: read.category, bet: false, reason: read.reason } };
+  }
   if (spec.table === "bb-vs-barrel") {
     const read = barrelAnswer(hero, board, spec.pos);
     return { action: read.action, rule, hand: { category: read.category, bet: false, reason: read.reason } };
@@ -340,6 +360,7 @@ export function ruleSummary(rule: FlopRule): string {
   const size = SIZE_LABEL[rule.size];
   if (rule.group === "vc") return "Call · Raise 3x · Fold";
   if (rule.group === "3bp") return "Game plan 3bet pot OOP (aula 27)";
+  if (rule.group === "ct") return "Guideline Cbet Turn IP (aula 29)";
   if (rule.group === "barrel") return "Bottom de call e de draws (aula 24)";
   if (rule.group === "bwbb") return "Linhas Baga (heat map BW)";
   if (rule.size === "check") return "Check range";

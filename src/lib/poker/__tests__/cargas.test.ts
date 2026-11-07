@@ -734,3 +734,24 @@ test("carga 3bet Pot as Aggressor: mãos do 3-bet do BB vs HJ, flop → turn →
   assert.ok(lengths.has(3), "algumas mãos vão até o river");
   assert.ok(lengths.has(2), "outras param no turn (a linha do river não bate)");
 });
+
+test("carga Cbet Turn IP: turn do opener vs BB, seção Posflop Attack", async () => {
+  const { drillSection } = await import("../sections");
+  const { dealQuestion, validateDrill } = await import("../drill");
+  const { seededRng } = await import("../rng");
+  const rfi = parseImportBundle(load("rfi-30bb-vanilla.json"), DEFAULT_LEGEND);
+  const result = parseImportBundle(load("cbet-turn-ip.json"), DEFAULT_LEGEND, rfi.strategies);
+  assert.deepEqual(result.errors, []);
+  const map = new Map([...rfi.strategies, ...result.strategies].map((s) => [s.id, s]));
+  const drill = result.drills[0];
+  assert.equal(drillSection(drill, map), "posflop-attack");
+  assert.deepEqual(validateDrill(drill, map), []);
+  const rng = seededRng(29);
+  const seen = new Set<string>();
+  for (let i = 0; i < 400; i++) {
+    const q = dealQuestion(drill, map, result.legend ?? DEFAULT_LEGEND, rng);
+    assert.equal(q.steps[0].board.length, 4, "decisão no turn");
+    seen.add(q.steps[0].correctActionId);
+  }
+  for (const id of ["check", "bet-67", "bet-125", "vc-call", "vc-raise", "vc-fold"]) assert.ok(seen.has(id), id);
+});

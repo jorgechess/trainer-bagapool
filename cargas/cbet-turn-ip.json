@@ -1,0 +1,621 @@
+{
+  "legendAdd": [
+    {
+      "id": "bet-25",
+      "label": "Bet 25%",
+      "color": "#fbbf24",
+      "kind": "bet",
+      "sizing": "25%"
+    },
+    {
+      "id": "bet-40",
+      "label": "Bet 40%",
+      "color": "#ea580c",
+      "kind": "bet",
+      "sizing": "40%"
+    },
+    {
+      "id": "bet-50",
+      "label": "Bet 50%",
+      "color": "#e879f9",
+      "kind": "bet",
+      "sizing": "50%"
+    },
+    {
+      "id": "bet-67",
+      "label": "Bet 67%",
+      "color": "#9f1239",
+      "kind": "bet",
+      "sizing": "67%"
+    },
+    {
+      "id": "bet-75",
+      "label": "Bet 75%",
+      "color": "#c026d3",
+      "kind": "bet",
+      "sizing": "75%"
+    },
+    {
+      "id": "bet-125",
+      "label": "Bet 125%",
+      "color": "#1e40af",
+      "kind": "bet",
+      "sizing": "125%"
+    },
+    {
+      "id": "vc-fold",
+      "label": "Fold",
+      "color": "#52525b",
+      "kind": "fold"
+    },
+    {
+      "id": "vc-call",
+      "label": "Call",
+      "color": "#166534",
+      "kind": "call"
+    },
+    {
+      "id": "vc-raise",
+      "label": "Raise",
+      "color": "#d97706",
+      "kind": "raise",
+      "sizing": "3x"
+    }
+  ],
+  "strategies": [
+    {
+      "id": "cbet-turn-ip-hj-after-b67",
+      "name": "Cbet Turn IP HJ vs BB · depois do cbet b67",
+      "description": "SRP 30bb: você abriu do HJ, fez cbet b67 no flop, o BB pagou e deu check no turn. Barrel com o size do runout.",
+      "street": "turn",
+      "situation": "Turn após b67",
+      "heroPosition": "HJ",
+      "villainPosition": "BB",
+      "stack": {
+        "min": 30,
+        "max": 30
+      },
+      "ratio": null,
+      "bubble": null,
+      "tags": [
+        "posflop-attack",
+        "cbet-turn",
+        "mes"
+      ],
+      "actionIds": [
+        "check",
+        "bet-25",
+        "bet-40",
+        "bet-50",
+        "bet-67",
+        "bet-75",
+        "bet-125"
+      ],
+      "defaultActionId": "check",
+      "tablePot": 10.5,
+      "invested": 5,
+      "villainCoversHero": true,
+      "cbet": {
+        "table": "cbet-turn",
+        "node": "after-b67"
+      },
+      "dealFrom": {
+        "strategy": "rfi-30bb-vanilla-hj",
+        "actionIds": [
+          "rfi"
+        ]
+      }
+    },
+    {
+      "id": "cbet-turn-ip-co-after-b67",
+      "name": "Cbet Turn IP CO vs BB · depois do cbet b67",
+      "description": "SRP 30bb: você abriu do CO, fez cbet b67 no flop, o BB pagou e deu check no turn. Barrel com o size do runout.",
+      "street": "turn",
+      "situation": "Turn após b67",
+      "heroPosition": "CO",
+      "villainPosition": "BB",
+      "stack": {
+        "min": 30,
+        "max": 30
+      },
+      "ratio": null,
+      "bubble": null,
+      "tags": [
+        "posflop-attack",
+        "cbet-turn",
+        "mes"
+      ],
+      "actionIds": [
+        "check",
+        "bet-25",
+        "bet-40",
+        "bet-50",
+        "bet-67",
+        "bet-75",
+        "bet-125"
+      ],
+      "defaultActionId": "check",
+      "tablePot": 10.5,
+      "invested": 5,
+      "villainCoversHero": true,
+      "cbet": {
+        "table": "cbet-turn",
+        "node": "after-b67"
+      },
+      "dealFrom": {
+        "strategy": "rfi-30bb-vanilla-co",
+        "actionIds": [
+          "rfi"
+        ]
+      }
+    },
+    {
+      "id": "cbet-turn-ip-btn-after-b67",
+      "name": "Cbet Turn IP BTN vs BB · depois do cbet b67",
+      "description": "SRP 30bb: você abriu do BTN, fez cbet b67 no flop, o BB pagou e deu check no turn. Barrel com o size do runout.",
+      "street": "turn",
+      "situation": "Turn após b67",
+      "heroPosition": "BTN",
+      "villainPosition": "BB",
+      "stack": {
+        "min": 30,
+        "max": 30
+      },
+      "ratio": null,
+      "bubble": null,
+      "tags": [
+        "posflop-attack",
+        "cbet-turn",
+        "mes"
+      ],
+      "actionIds": [
+        "check",
+        "bet-25",
+        "bet-40",
+        "bet-50",
+        "bet-67",
+        "bet-75",
+        "bet-125"
+      ],
+      "defaultActionId": "check",
+      "tablePot": 10.5,
+      "invested": 5,
+      "villainCoversHero": true,
+      "cbet": {
+        "table": "cbet-turn",
+        "node": "after-b67"
+      },
+      "dealFrom": {
+        "strategy": "rfi-30bb-vanilla-btn",
+        "actionIds": [
+          "rfi"
+        ]
+      }
+    },
+    {
+      "id": "cbet-turn-ip-hj-xx",
+      "name": "Cbet Turn IP HJ vs BB · double check",
+      "description": "SRP 30bb: você abriu do HJ, deu check back no flop e o BB deu check no turn.",
+      "street": "turn",
+      "situation": "Double check",
+      "heroPosition": "HJ",
+      "villainPosition": "BB",
+      "stack": {
+        "min": 30,
+        "max": 30
+      },
+      "ratio": null,
+      "bubble": null,
+      "tags": [
+        "posflop-attack",
+        "cbet-turn",
+        "mes"
+      ],
+      "actionIds": [
+        "check",
+        "bet-67"
+      ],
+      "defaultActionId": "check",
+      "tablePot": 4.5,
+      "invested": 2,
+      "villainCoversHero": true,
+      "cbet": {
+        "table": "cbet-turn",
+        "node": "xx"
+      },
+      "dealFrom": {
+        "strategy": "rfi-30bb-vanilla-hj",
+        "actionIds": [
+          "rfi"
+        ]
+      }
+    },
+    {
+      "id": "cbet-turn-ip-co-xx",
+      "name": "Cbet Turn IP CO vs BB · double check",
+      "description": "SRP 30bb: você abriu do CO, deu check back no flop e o BB deu check no turn.",
+      "street": "turn",
+      "situation": "Double check",
+      "heroPosition": "CO",
+      "villainPosition": "BB",
+      "stack": {
+        "min": 30,
+        "max": 30
+      },
+      "ratio": null,
+      "bubble": null,
+      "tags": [
+        "posflop-attack",
+        "cbet-turn",
+        "mes"
+      ],
+      "actionIds": [
+        "check",
+        "bet-67"
+      ],
+      "defaultActionId": "check",
+      "tablePot": 4.5,
+      "invested": 2,
+      "villainCoversHero": true,
+      "cbet": {
+        "table": "cbet-turn",
+        "node": "xx"
+      },
+      "dealFrom": {
+        "strategy": "rfi-30bb-vanilla-co",
+        "actionIds": [
+          "rfi"
+        ]
+      }
+    },
+    {
+      "id": "cbet-turn-ip-btn-xx",
+      "name": "Cbet Turn IP BTN vs BB · double check",
+      "description": "SRP 30bb: você abriu do BTN, deu check back no flop e o BB deu check no turn.",
+      "street": "turn",
+      "situation": "Double check",
+      "heroPosition": "BTN",
+      "villainPosition": "BB",
+      "stack": {
+        "min": 30,
+        "max": 30
+      },
+      "ratio": null,
+      "bubble": null,
+      "tags": [
+        "posflop-attack",
+        "cbet-turn",
+        "mes"
+      ],
+      "actionIds": [
+        "check",
+        "bet-67"
+      ],
+      "defaultActionId": "check",
+      "tablePot": 4.5,
+      "invested": 2,
+      "villainCoversHero": true,
+      "cbet": {
+        "table": "cbet-turn",
+        "node": "xx"
+      },
+      "dealFrom": {
+        "strategy": "rfi-30bb-vanilla-btn",
+        "actionIds": [
+          "rfi"
+        ]
+      }
+    },
+    {
+      "id": "cbet-turn-ip-hj-probe-25",
+      "name": "Cbet Turn IP HJ vs BB · vs probe b25",
+      "description": "SRP 30bb: você abriu do HJ, deu check back no flop e o BB fez probe de 25% no turn.",
+      "street": "turn",
+      "situation": "Facing probe",
+      "heroPosition": "HJ",
+      "villainPosition": "BB",
+      "stack": {
+        "min": 30,
+        "max": 30
+      },
+      "ratio": null,
+      "bubble": null,
+      "tags": [
+        "posflop-attack",
+        "cbet-turn",
+        "mes"
+      ],
+      "actionIds": [
+        "vc-fold",
+        "vc-call",
+        "vc-raise"
+      ],
+      "defaultActionId": "vc-fold",
+      "tablePot": 4.5,
+      "invested": 2,
+      "tablePosted": {
+        "villain": 1.1
+      },
+      "villainLabel": "Probe 25%",
+      "villainCoversHero": true,
+      "cbet": {
+        "table": "cbet-turn",
+        "node": "probe-25"
+      },
+      "dealFrom": {
+        "strategy": "rfi-30bb-vanilla-hj",
+        "actionIds": [
+          "rfi"
+        ]
+      }
+    },
+    {
+      "id": "cbet-turn-ip-co-probe-25",
+      "name": "Cbet Turn IP CO vs BB · vs probe b25",
+      "description": "SRP 30bb: você abriu do CO, deu check back no flop e o BB fez probe de 25% no turn.",
+      "street": "turn",
+      "situation": "Facing probe",
+      "heroPosition": "CO",
+      "villainPosition": "BB",
+      "stack": {
+        "min": 30,
+        "max": 30
+      },
+      "ratio": null,
+      "bubble": null,
+      "tags": [
+        "posflop-attack",
+        "cbet-turn",
+        "mes"
+      ],
+      "actionIds": [
+        "vc-fold",
+        "vc-call",
+        "vc-raise"
+      ],
+      "defaultActionId": "vc-fold",
+      "tablePot": 4.5,
+      "invested": 2,
+      "tablePosted": {
+        "villain": 1.1
+      },
+      "villainLabel": "Probe 25%",
+      "villainCoversHero": true,
+      "cbet": {
+        "table": "cbet-turn",
+        "node": "probe-25"
+      },
+      "dealFrom": {
+        "strategy": "rfi-30bb-vanilla-co",
+        "actionIds": [
+          "rfi"
+        ]
+      }
+    },
+    {
+      "id": "cbet-turn-ip-btn-probe-25",
+      "name": "Cbet Turn IP BTN vs BB · vs probe b25",
+      "description": "SRP 30bb: você abriu do BTN, deu check back no flop e o BB fez probe de 25% no turn.",
+      "street": "turn",
+      "situation": "Facing probe",
+      "heroPosition": "BTN",
+      "villainPosition": "BB",
+      "stack": {
+        "min": 30,
+        "max": 30
+      },
+      "ratio": null,
+      "bubble": null,
+      "tags": [
+        "posflop-attack",
+        "cbet-turn",
+        "mes"
+      ],
+      "actionIds": [
+        "vc-fold",
+        "vc-call",
+        "vc-raise"
+      ],
+      "defaultActionId": "vc-fold",
+      "tablePot": 4.5,
+      "invested": 2,
+      "tablePosted": {
+        "villain": 1.1
+      },
+      "villainLabel": "Probe 25%",
+      "villainCoversHero": true,
+      "cbet": {
+        "table": "cbet-turn",
+        "node": "probe-25"
+      },
+      "dealFrom": {
+        "strategy": "rfi-30bb-vanilla-btn",
+        "actionIds": [
+          "rfi"
+        ]
+      }
+    },
+    {
+      "id": "cbet-turn-ip-hj-probe-67",
+      "name": "Cbet Turn IP HJ vs BB · vs probe b67",
+      "description": "SRP 30bb: você abriu do HJ, deu check back no flop e o BB fez probe de 67% no turn.",
+      "street": "turn",
+      "situation": "Facing probe",
+      "heroPosition": "HJ",
+      "villainPosition": "BB",
+      "stack": {
+        "min": 30,
+        "max": 30
+      },
+      "ratio": null,
+      "bubble": null,
+      "tags": [
+        "posflop-attack",
+        "cbet-turn",
+        "mes"
+      ],
+      "actionIds": [
+        "vc-fold",
+        "vc-call",
+        "vc-raise"
+      ],
+      "defaultActionId": "vc-fold",
+      "tablePot": 4.5,
+      "invested": 2,
+      "tablePosted": {
+        "villain": 3
+      },
+      "villainLabel": "Probe 67%",
+      "villainCoversHero": true,
+      "cbet": {
+        "table": "cbet-turn",
+        "node": "probe-67"
+      },
+      "dealFrom": {
+        "strategy": "rfi-30bb-vanilla-hj",
+        "actionIds": [
+          "rfi"
+        ]
+      }
+    },
+    {
+      "id": "cbet-turn-ip-co-probe-67",
+      "name": "Cbet Turn IP CO vs BB · vs probe b67",
+      "description": "SRP 30bb: você abriu do CO, deu check back no flop e o BB fez probe de 67% no turn.",
+      "street": "turn",
+      "situation": "Facing probe",
+      "heroPosition": "CO",
+      "villainPosition": "BB",
+      "stack": {
+        "min": 30,
+        "max": 30
+      },
+      "ratio": null,
+      "bubble": null,
+      "tags": [
+        "posflop-attack",
+        "cbet-turn",
+        "mes"
+      ],
+      "actionIds": [
+        "vc-fold",
+        "vc-call",
+        "vc-raise"
+      ],
+      "defaultActionId": "vc-fold",
+      "tablePot": 4.5,
+      "invested": 2,
+      "tablePosted": {
+        "villain": 3
+      },
+      "villainLabel": "Probe 67%",
+      "villainCoversHero": true,
+      "cbet": {
+        "table": "cbet-turn",
+        "node": "probe-67"
+      },
+      "dealFrom": {
+        "strategy": "rfi-30bb-vanilla-co",
+        "actionIds": [
+          "rfi"
+        ]
+      }
+    },
+    {
+      "id": "cbet-turn-ip-btn-probe-67",
+      "name": "Cbet Turn IP BTN vs BB · vs probe b67",
+      "description": "SRP 30bb: você abriu do BTN, deu check back no flop e o BB fez probe de 67% no turn.",
+      "street": "turn",
+      "situation": "Facing probe",
+      "heroPosition": "BTN",
+      "villainPosition": "BB",
+      "stack": {
+        "min": 30,
+        "max": 30
+      },
+      "ratio": null,
+      "bubble": null,
+      "tags": [
+        "posflop-attack",
+        "cbet-turn",
+        "mes"
+      ],
+      "actionIds": [
+        "vc-fold",
+        "vc-call",
+        "vc-raise"
+      ],
+      "defaultActionId": "vc-fold",
+      "tablePot": 4.5,
+      "invested": 2,
+      "tablePosted": {
+        "villain": 3
+      },
+      "villainLabel": "Probe 67%",
+      "villainCoversHero": true,
+      "cbet": {
+        "table": "cbet-turn",
+        "node": "probe-67"
+      },
+      "dealFrom": {
+        "strategy": "rfi-30bb-vanilla-btn",
+        "actionIds": [
+          "rfi"
+        ]
+      }
+    }
+  ],
+  "drills": [
+    {
+      "id": "cbet-turn-ip",
+      "name": "Cbet Turn IP",
+      "description": "Aula 29: você abriu do HJ, CO ou BTN com 30bb e o BB pagou. Depois do cbet b67 pago, barrel em todos os airs com o size do runout (A ou H b67, dobra H b67, brick b125, dobra M/L b40, 3F b50, 3S b75, 4F/4S b25). Depois do check back no flop: delayed cbet b67 no double check, raise polar fino vs probe b25 e 0% de raise vs probe b67.",
+      "variants": [
+        [
+          "cbet-turn-ip-hj-after-b67"
+        ],
+        [
+          "cbet-turn-ip-co-after-b67"
+        ],
+        [
+          "cbet-turn-ip-btn-after-b67"
+        ],
+        [
+          "cbet-turn-ip-hj-xx"
+        ],
+        [
+          "cbet-turn-ip-co-xx"
+        ],
+        [
+          "cbet-turn-ip-btn-xx"
+        ],
+        [
+          "cbet-turn-ip-hj-probe-25"
+        ],
+        [
+          "cbet-turn-ip-co-probe-25"
+        ],
+        [
+          "cbet-turn-ip-btn-probe-25"
+        ],
+        [
+          "cbet-turn-ip-hj-probe-67"
+        ],
+        [
+          "cbet-turn-ip-co-probe-67"
+        ],
+        [
+          "cbet-turn-ip-btn-probe-67"
+        ]
+      ],
+      "sampling": "uniforme",
+      "tags": [
+        "posflop-attack",
+        "cbet-turn",
+        "mes"
+      ],
+      "handsPerSession": 50,
+      "passAccuracy": 0.9
+    }
+  ]
+}

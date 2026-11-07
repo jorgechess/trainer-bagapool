@@ -804,6 +804,17 @@ async function main() {
     await shot(page, "treino-3bet-pot");
     log("3bet Pot as Aggressor: flop com cbet de range");
 
+    // Cbet Turn IP (Posflop Attack): turn do opener vs BB pela guideline da aula 29
+    await page.goto(`${BASE_URL}/drills`);
+    await page.getByTestId("secao-posflop-attack").getByText("Cbet Turn IP").waitFor();
+    await page.goto(`${BASE_URL}/drills/cbet-turn-ip/treinar`);
+    await page.getByTestId("board").waitFor();
+    assert.equal(await page.getByTestId("board").locator("> *").count(), 4, "decisão no turn");
+    await page.locator("[data-testid=actions] button").first().click();
+    await page.getByTestId("cbet-leitura").getByText("Guideline Cbet Turn IP (aula 29)").waitFor();
+    await shot(page, "treino-cbet-turn-ip");
+    log("Cbet Turn IP: turn com o size do runout e leitura da mão");
+
     // Warmup: botão no início, contagem 3-2-1-Go e treino de 15 minutos; decisões contam no drill de origem
     await page.goto(`${BASE_URL}/`);
     await page.getByTestId("warmup-button").click();
