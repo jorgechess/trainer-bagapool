@@ -793,6 +793,17 @@ async function main() {
     await shot(page, "treino-bb-vs-2nd-barrel");
     log("BB vs 2nd Barrel: turn com size pelo tipo de turn e leitura da mão");
 
+    // 3bet Pot as Aggressor (Posflop Attack): BB 3-betou o HJ, cbet de range no flop
+    await page.goto(`${BASE_URL}/drills`);
+    await page.getByTestId("secao-posflop-attack").getByText("3bet Pot as Aggressor").waitFor();
+    await page.goto(`${BASE_URL}/drills/3bet-pot-aggressor-oop/treinar`);
+    await page.getByTestId("board").waitFor();
+    assert.equal(await page.getByTestId("board").locator("> *").count(), 3, "começa no flop");
+    await page.locator("[data-testid=actions] button").first().click();
+    await page.getByTestId("cbet-leitura").getByText("Game plan 3bet pot OOP (aula 27)").waitFor();
+    await shot(page, "treino-3bet-pot");
+    log("3bet Pot as Aggressor: flop com cbet de range");
+
     // Warmup: botão no início, contagem 3-2-1-Go e treino de 15 minutos; decisões contam no drill de origem
     await page.goto(`${BASE_URL}/`);
     await page.getByTestId("warmup-button").click();

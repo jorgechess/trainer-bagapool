@@ -712,3 +712,25 @@ test("carga BB vs 2nd Barrel: size do vilão bate com o tipo de turn", async () 
   }
   assert.deepEqual([...seen].sort(), ["vc-call", "vc-fold", "vc-raise"]);
 });
+
+test("carga 3bet Pot as Aggressor: mãos do 3-bet do BB vs HJ, flop → turn → river", async () => {
+  const { drillSection } = await import("../sections");
+  const { dealQuestion, validateDrill } = await import("../drill");
+  const { seededRng } = await import("../rng");
+  const deep = parseImportBundle(load("defesa-vanilla-deep.json"), DEFAULT_LEGEND);
+  const result = parseImportBundle(load("3bet-pot-aggressor-oop.json"), DEFAULT_LEGEND, deep.strategies);
+  assert.deepEqual(result.errors, []);
+  const map = new Map([...deep.strategies, ...result.strategies].map((s) => [s.id, s]));
+  const drill = result.drills[0];
+  assert.equal(drillSection(drill, map), "posflop-attack");
+  assert.deepEqual(validateDrill(drill, map), []);
+  const rng = seededRng(21);
+  const lengths = new Set<number>();
+  for (let i = 0; i < 300; i++) {
+    const q = dealQuestion(drill, map, result.legend ?? DEFAULT_LEGEND, rng);
+    assert.ok(["3bet-call", "3bet-fold"].includes(map.get("bb-def-30bb-vs-hj")!.range[q.hand]!));
+    lengths.add(q.steps.length);
+  }
+  assert.ok(lengths.has(3), "algumas mãos vão até o river");
+  assert.ok(lengths.has(2), "outras param no turn (a linha do river não bate)");
+});

@@ -1,0 +1,217 @@
+{
+  "legendAdd": [
+    {
+      "id": "bet-25",
+      "label": "Bet 25%",
+      "color": "#fbbf24",
+      "kind": "bet",
+      "sizing": "25%"
+    },
+    {
+      "id": "bet-50",
+      "label": "Bet 50%",
+      "color": "#e879f9",
+      "kind": "bet",
+      "sizing": "50%"
+    }
+  ],
+  "strategies": [
+    {
+      "id": "3bp-oop-bb-vs-hj-flop",
+      "name": "3bet Pot OOP · flop (BB vs HJ)",
+      "description": "30bb. Você 3-betou o HJ do BB (8bb) e ele pagou. Você age primeiro no flop.",
+      "street": "flop",
+      "situation": "3bet pot OOP",
+      "heroPosition": "BB",
+      "villainPosition": "HJ",
+      "stack": {
+        "min": 30,
+        "max": 30
+      },
+      "ratio": null,
+      "bubble": null,
+      "tags": [
+        "posflop-attack",
+        "3bet-pot",
+        "mes"
+      ],
+      "actionIds": [
+        "check",
+        "bet-25",
+        "bet-50"
+      ],
+      "defaultActionId": "check",
+      "tablePot": 16.5,
+      "invested": 8,
+      "villainCoversHero": true,
+      "cbet": {
+        "table": "3bet-pot",
+        "node": "flop"
+      },
+      "dealFrom": {
+        "strategy": "bb-def-30bb-vs-hj",
+        "actionIds": [
+          "3bet-call",
+          "3bet-fold"
+        ]
+      }
+    },
+    {
+      "id": "3bp-oop-bb-vs-hj-turn",
+      "name": "3bet Pot OOP · turn (BB vs HJ)",
+      "description": "30bb. Você fez cbet e o HJ pagou. Você age primeiro no turn.",
+      "street": "turn",
+      "situation": "3bet pot OOP",
+      "heroPosition": "BB",
+      "villainPosition": "HJ",
+      "stack": {
+        "min": 30,
+        "max": 30
+      },
+      "ratio": null,
+      "bubble": null,
+      "tags": [
+        "posflop-attack",
+        "3bet-pot",
+        "mes"
+      ],
+      "actionIds": [
+        "check",
+        "bet-33",
+        "shove"
+      ],
+      "defaultActionId": "check",
+      "tablePot": 24.75,
+      "invested": 12.125,
+      "villainCoversHero": true,
+      "cbet": {
+        "table": "3bet-pot",
+        "node": "turn"
+      },
+      "dealFrom": {
+        "strategy": "bb-def-30bb-vs-hj",
+        "actionIds": [
+          "3bet-call",
+          "3bet-fold"
+        ]
+      },
+      "entryActionIds": [
+        "bet-25",
+        "bet-50"
+      ]
+    },
+    {
+      "id": "3bp-oop-bb-vs-hj-river-bet",
+      "name": "3bet Pot OOP · river depois do barrel (BB vs HJ)",
+      "description": "30bb. Você fez cbet e barrel no turn, o HJ pagou os dois.",
+      "street": "river",
+      "situation": "3bet pot OOP",
+      "heroPosition": "BB",
+      "villainPosition": "HJ",
+      "stack": {
+        "min": 30,
+        "max": 30
+      },
+      "ratio": null,
+      "bubble": null,
+      "tags": [
+        "posflop-attack",
+        "3bet-pot",
+        "mes"
+      ],
+      "actionIds": [
+        "check",
+        "bet-33",
+        "shove"
+      ],
+      "defaultActionId": "check",
+      "tablePot": 41.1,
+      "invested": 20.3,
+      "villainCoversHero": true,
+      "cbet": {
+        "table": "3bet-pot",
+        "node": "river-bet"
+      },
+      "dealFrom": {
+        "strategy": "bb-def-30bb-vs-hj",
+        "actionIds": [
+          "3bet-call",
+          "3bet-fold"
+        ]
+      },
+      "entryActionIds": [
+        "bet-33"
+      ]
+    },
+    {
+      "id": "3bp-oop-bb-vs-hj-river-xx",
+      "name": "3bet Pot OOP · river depois do check behind (BB vs HJ)",
+      "description": "30bb. Você fez cbet, deu check no turn e o HJ deu check behind.",
+      "street": "river",
+      "situation": "3bet pot OOP",
+      "heroPosition": "BB",
+      "villainPosition": "HJ",
+      "stack": {
+        "min": 30,
+        "max": 30
+      },
+      "ratio": null,
+      "bubble": null,
+      "tags": [
+        "posflop-attack",
+        "3bet-pot",
+        "mes"
+      ],
+      "actionIds": [
+        "check",
+        "bet-33",
+        "shove"
+      ],
+      "defaultActionId": "check",
+      "tablePot": 24.75,
+      "invested": 12.125,
+      "villainCoversHero": true,
+      "cbet": {
+        "table": "3bet-pot",
+        "node": "river-xx"
+      },
+      "dealFrom": {
+        "strategy": "bb-def-30bb-vs-hj",
+        "actionIds": [
+          "3bet-call",
+          "3bet-fold"
+        ]
+      },
+      "entryActionIds": [
+        "check"
+      ]
+    }
+  ],
+  "drills": [
+    {
+      "id": "3bet-pot-aggressor-oop",
+      "name": "3bet Pot as Aggressor",
+      "description": "Aula 27: você 3-betou o HJ do BB com 30bb (SPR < 2). Cbet de range no flop (b25, ou b50 com 2 middle cards/flush draw) e o game plan MES no turn e no river: airs de BBB, draws e valor vulnerável no check/shove, slowplay do valor protegido e bluff river depois do check behind.",
+      "variants": [
+        [
+          "3bp-oop-bb-vs-hj-flop",
+          "3bp-oop-bb-vs-hj-turn",
+          "3bp-oop-bb-vs-hj-river-bet"
+        ],
+        [
+          "3bp-oop-bb-vs-hj-flop",
+          "3bp-oop-bb-vs-hj-turn",
+          "3bp-oop-bb-vs-hj-river-xx"
+        ]
+      ],
+      "sampling": "uniforme",
+      "tags": [
+        "posflop-attack",
+        "3bet-pot",
+        "mes"
+      ],
+      "handsPerSession": 50,
+      "passAccuracy": 0.9
+    }
+  ]
+}

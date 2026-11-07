@@ -7,6 +7,7 @@ import { type Card, type Rank, cardRank, cardSuit, rankValue } from "./cards";
 import { flopTexture } from "./texture";
 import { findVsCbetBoard, vsCbetAnswer } from "./vs-cbet";
 import { type BarrelPos, type BarrelSize, barrelAnswer, barrelSize, turnType } from "./bb-vs-barrel";
+import { THREEBET_CARDS, type ThreeBetNode, threeBetAnswer } from "./threebet-pot";
 import { BW_BB_CARDS, BW_BB_GUIDE, type BwBbNode, bwBbAnswer } from "./bw-bb-pos";
 
 export type CbetBand = "25-50" | "15";
@@ -27,6 +28,11 @@ export type CbetSpec =
       /** BB Leads (Posflop Defense): donk bet do BB no flop, no turn depois do lead/call, no turn e no river. */
       table: "bb-lead";
       node: BbLeadNode;
+    }
+  | {
+      /** 3bet Pot as Aggressor OOP (aula 27): BB 3-betou o HJ, SPR < 2. */
+      table: "3bet-pot";
+      node: ThreeBetNode;
     }
   | {
       /** BB vs 2nd Barrel (Posflop Defense, aula 24): BB pagou o cbet do flop e enfrenta o barrel no turn. */
@@ -83,6 +89,17 @@ const SIZE_LABEL: Record<Size, string> = {
 
 /** Regra do flop para a tabela da estratégia; null = flop fora do drill. */
 export function flopRuleFor(spec: CbetSpec, board: readonly Card[]): FlopRule | null {
+  if (spec.table === "3bet-pot") {
+    if (board.length < THREEBET_CARDS[spec.node]) return null;
+    if (new Set(board.slice(0, 3).map((c) => cardRank(c))).size === 1) return null;
+    const labels: Record<ThreeBetNode, string> = {
+      flop: "Flop: cbet de range",
+      turn: "Turn depois do call no cbet",
+      "river-bet": "River depois do barrel pago",
+      "river-xx": "River depois do check behind no turn",
+    };
+    return { group: "3bp", label: labels[spec.node], mode: "split", size: "check" };
+  }
   if (spec.table === "bb-vs-barrel") {
     if (board.length < 4 || new Set(board.slice(0, 3).map((c) => cardRank(c))).size === 1) return null;
     if (barrelSize(board) !== spec.size) return null;
@@ -290,6 +307,10 @@ export function cbetAnswer(spec: CbetSpec, hero: readonly Card[], board: readonl
   const rule = flopRuleFor(spec, board);
   if (!rule) return null;
   if (rule.mode === "range") return { action: rule.size, rule, hand: null };
+  if (spec.table === "3bet-pot") {
+    const read = threeBetAnswer(hero, board, spec.node);
+    return { action: read.action, rule, hand: { category: read.category, bet: false, reason: read.reason } };
+  }
   if (spec.table === "bb-vs-barrel") {
     const read = barrelAnswer(hero, board, spec.pos);
     return { action: read.action, rule, hand: { category: read.category, bet: false, reason: read.reason } };
@@ -318,6 +339,7 @@ export function cbetAnswer(spec: CbetSpec, hero: readonly Card[], board: readonl
 export function ruleSummary(rule: FlopRule): string {
   const size = SIZE_LABEL[rule.size];
   if (rule.group === "vc") return "Call · Raise 3x · Fold";
+  if (rule.group === "3bp") return "Game plan 3bet pot OOP (aula 27)";
   if (rule.group === "barrel") return "Bottom de call e de draws (aula 24)";
   if (rule.group === "bwbb") return "Linhas Baga (heat map BW)";
   if (rule.size === "check") return "Check range";

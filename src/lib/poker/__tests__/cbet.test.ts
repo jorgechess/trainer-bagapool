@@ -319,3 +319,17 @@ test("BB vs 2nd Barrel: size por turn, bottom de call por posição e draws por 
   assert.equal(b("JhTh", "Ks9h4h2c", "EP"), "vc-raise"); // FD + broca (Q) vs b125: X/jam
   assert.equal(b("Th8h", "Ks9h4h2c", "EP"), "vc-call"); // FD médio (T) vs b125
 });
+
+test("3bet Pot as Aggressor OOP: cbet de range e game plan MES", async () => {
+  const { threeBetAnswer } = await import("../threebet-pot");
+  const a = (hero: string, board: string, node: "flop" | "turn" | "river-bet" | "river-xx") => threeBetAnswer(c(hero), c(board), node).action;
+  assert.equal(a("Ad5c", "Kc7d2s", "flop"), "bet-25");
+  assert.equal(a("Ad5c", "8c9c2s", "flop"), "bet-50"); // 2 middle cards e flush draw
+  assert.equal(a("Qd9c", "Kc7d2s4h", "turn"), "bet-33"); // air: BBB
+  assert.equal(a("Ad5c", "Kc7d2s4h", "turn"), "check"); // A5 virou broca de roda: check/shove
+  assert.equal(a("QdQc", "Qs7d2h3c", "turn"), "check"); // valor protegido: slowplay
+  assert.equal(a("Tc7c", "8c9c2s5h", "turn"), "check"); // draw: check/shove
+  assert.equal(a("Ad5c", "Kc7d2s4h9s", "river-bet"), "shove");
+  assert.equal(a("Ad5c", "Js9d8c6s3h", "river-xx"), "shove"); // bluff river
+  assert.equal(a("8d5c", "Js9d8c6s3h", "river-xx"), "check"); // par médio
+});

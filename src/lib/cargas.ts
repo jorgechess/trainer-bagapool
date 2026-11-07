@@ -17,6 +17,7 @@ import defesaBbVanillaMultiway from "../../cargas/defesa-bb-vanilla-multiway.jso
 import rfiSbChipEv from "../../cargas/rfi-sb-chip-ev.json";
 import bwSbMlr from "../../cargas/bw-sb-mlr.json";
 import bwBb from "../../cargas/bw-bb.json";
+import threeBetPotOop from "../../cargas/3bet-pot-aggressor-oop.json";
 import bbLeads from "../../cargas/bb-leads.json";
 import bbProbes from "../../cargas/bb-probes.json";
 import bbVs2ndBarrel from "../../cargas/bb-vs-2nd-barrel.json";
@@ -218,5 +219,12 @@ export const CARGAS: Carga[] = [
     description: "Posflop Defense (aula 24): BB 30bb vs barrel no turn de EP, MP e LP, com o size pelo tipo de turn.",
     requires: ["defesa-vanilla-deep"],
     bundle: bbVs2ndBarrel,
+  },
+  {
+    id: "3bet-pot-aggressor-oop",
+    name: "3bet Pot as Aggressor",
+    description: "Posflop Attack (aula 27): BB 3-betou o HJ com 30bb; cbet de range no flop e game plan MES no turn e no river.",
+    requires: ["defesa-vanilla-deep"],
+    bundle: threeBetPotOop,
   },
 ];
