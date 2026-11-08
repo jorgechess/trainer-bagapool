@@ -1009,14 +1009,15 @@ async function main() {
     const heroBox = await landscape.getByTestId("hero-cards").boundingBox();
     const actionsBox = await landscape.getByTestId("actions").boundingBox();
     const boardBox = await landscape.getByTestId("board").boundingBox();
+    const tableBox = await landscape.getByTestId("mesa").boundingBox();
     assert.ok(actionsBox.x > heroBox.x + heroBox.width, "botões ao lado da mesa no celular deitado");
     assert.ok(boardBox.width > 120, `board legível no celular deitado (${Math.round(boardBox.width)}px)`);
     await landscape.screenshot({ path: `${OUT}/90-celular-deitado.png` });
     // Tela cheia no celular deitado: sem menu e filtros, a mesa cresce
     await landscape.getByTestId("tela-cheia").click();
     await landscape.getByTestId("tela-cheia-ativa").waitFor();
-    const fullBoard = await landscape.getByTestId("board").boundingBox();
-    assert.ok(fullBoard.width > boardBox.width, "a mesa cresce na tela cheia");
+    const fullTable = await landscape.getByTestId("mesa").boundingBox();
+    assert.ok(fullTable.width > tableBox.width, `a mesa cresce na tela cheia (${Math.round(tableBox.width)} → ${Math.round(fullTable.width)}px)`);
     await landscape.screenshot({ path: `${OUT}/90-celular-deitado-tela-cheia.png` });
     await landscape.close();
     log("celular deitado: mesa deitada com os botões ao lado e tela cheia");

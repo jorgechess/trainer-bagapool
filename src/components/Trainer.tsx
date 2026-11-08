@@ -414,6 +414,7 @@ function TableSlot({
           sideBySide ? (fullscreen ? 105 : 130) : multi ? (fullscreen ? 170 : 250) + rows * 130 : fullscreen ? 235 : 330
         }
         minWidth={multi ? 420 : 0}
+        compact={sideBySide}
       />
       </div>
 

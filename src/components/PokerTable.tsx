@@ -13,6 +13,8 @@ interface PokerTableProps {
   vertical?: boolean;
   /** Linhas de mesas na tela (2 = grade 2×2): divide a altura disponível. */
   rows?: number;
+  /** Celular deitado: mesa mais baixa, então letras e cartas proporcionalmente maiores. */
+  compact?: boolean;
   /** Espaço vertical ocupado pelo resto da página, em px. */
   reservedHeight?: number;
   /** Largura mínima para continuar legível (telas baixas rolam em vez de encolher demais). */
@@ -173,6 +175,7 @@ export function PokerTable({
   rows = 1,
   reservedHeight = 330,
   minWidth = 0,
+  compact = false,
 }: PokerTableProps) {
   const shape = vertical ? TALL : WIDE;
   const seed = seedFrom(heroCards.join(""));
@@ -185,6 +188,7 @@ export function PokerTable({
   return (
     <div
       className="@container mx-auto w-full select-none"
+      data-testid="mesa"
       // Cresce com a largura, mas nunca passa da altura disponível na tela
       style={{
         maxWidth: `min(100%, max(${minWidth}px, calc((100dvh - ${reservedHeight}px) / ${rows} * ${shape.aspect})))`,
@@ -192,7 +196,7 @@ export function PokerTable({
     >
       <div
         className="relative w-full"
-        style={{ aspectRatio: `${shape.aspect}`, fontSize: vertical ? "clamp(9px, 3.1cqw, 15px)" : "clamp(9px, 1.55cqw, 17px)" }}
+        style={{ aspectRatio: `${shape.aspect}`, fontSize: vertical ? "clamp(9px, 3.1cqw, 15px)" : compact ? "clamp(9px, 2.1cqw, 15px)" : "clamp(9px, 1.55cqw, 17px)" }}
       >
         {/* Mesa */}
         <div
