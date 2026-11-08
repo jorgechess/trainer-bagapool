@@ -149,6 +149,8 @@ interface TableSlotProps {
   vertical: boolean;
   /** Celular deitado (tela baixa): mesa e botões lado a lado. */
   short: boolean;
+  /** Modo tela cheia: sem menu e filtros, a mesa ganha a altura deles. */
+  fullscreen: boolean;
   peek: boolean;
   autoAdvance: boolean;
   /** Este slot recebe os atalhos: "choose" (ações) ou "next" (continuar). */
@@ -171,6 +173,7 @@ function TableSlot({
   legend,
   vertical,
   short,
+  fullscreen,
   peek,
   autoAdvance,
   keyboard,
@@ -407,7 +410,9 @@ function TableSlot({
         texture={texture}
         vertical={vertical}
         rows={rows}
-        reservedHeight={sideBySide ? 130 : multi ? 250 + rows * 130 : 330}
+        reservedHeight={
+          sideBySide ? (fullscreen ? 105 : 130) : multi ? (fullscreen ? 170 : 250) + rows * 130 : fullscreen ? 235 : 330
+        }
         minWidth={multi ? 420 : 0}
       />
       </div>
@@ -501,6 +506,7 @@ export function Trainer({ drill, strategies, legend, timeLimitSec, sourceDrillOf
   lengthRef.current = sessionLength;
   const [vertical, setVertical] = useState(false);
   const [short, setShort] = useState(false);
+  const [fullscreen, setFullscreen] = useState(false);
   const [slotStates, setSlotStates] = useState<(SlotState | null)[]>([]);
   const [panelSlot, setPanelSlot] = useState(0);
   const queueRef = useRef<DecisionQueue | null>(null);
@@ -850,6 +856,44 @@ export function Trainer({ drill, strategies, legend, timeLimitSec, sourceDrillOf
     };
   }, [bindings, finished]);
 
+  // Tela cheia: esconde menu e filtros (camada por cima da página) e, onde o navegador deixa, também a
+  // barra do navegador (Fullscreen API; o iPhone não tem, fica só a camada)
+  const enterFullscreen = () => {
+    setFullscreen(true);
+    const root = document.documentElement;
+    if (root.requestFullscreen && !document.fullscreenElement) root.requestFullscreen().catch(() => {});
+  };
+  const exitFullscreen = () => {
+    setFullscreen(false);
+    if (document.fullscreenElement) document.exitFullscreen().catch(() => {});
+  };
+
+  useEffect(() => {
+    if (!fullscreen) return;
+    // Esc no navegador sai do fullscreen nativo: sai da camada junto
+    const onChange = () => {
+      if (!document.fullscreenElement) setFullscreen(false);
+    };
+    const onKey = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setFullscreen(false);
+    };
+    document.addEventListener("fullscreenchange", onChange);
+    window.addEventListener("keydown", onKey);
+    const overflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.removeEventListener("fullscreenchange", onChange);
+      window.removeEventListener("keydown", onKey);
+      document.body.style.overflow = overflow;
+    };
+  }, [fullscreen]);
+
+  useEffect(() => {
+    if (!finished) return;
+    setFullscreen(false);
+    if (document.fullscreenElement) document.exitFullscreen().catch(() => {});
+  }, [finished]);
+
   if (dealError) {
     return (
       <div className="card space-y-2">
@@ -1032,7 +1076,14 @@ export function Trainer({ drill, strategies, legend, timeLimitSec, sourceDrillOf
   );
 
   return (
-    <div className="w-full space-y-4">
+    <div
+      className={
+        fullscreen && !finished
+          ? "fixed inset-0 z-50 w-full space-y-2 overflow-y-auto bg-baga-black px-3 py-2 sm:px-5"
+          : "w-full space-y-4"
+      }
+      data-testid={fullscreen ? "tela-cheia-ativa" : undefined}
+    >
       <div className="flex flex-wrap items-center justify-between gap-2">
         <div className="flex items-center gap-4">
           <div
@@ -1066,13 +1117,22 @@ export function Trainer({ drill, strategies, legend, timeLimitSec, sourceDrillOf
           </div>
         </div>
         <div className="flex flex-wrap items-center gap-3">
+          <button
+            type="button"
+            className="btn-secondary px-3 py-1.5"
+            onClick={fullscreen ? exitFullscreen : enterFullscreen}
+            data-testid="tela-cheia"
+            title={fullscreen ? "Sair da tela cheia (Esc)" : "Esconde o menu e os filtros para drillar"}
+          >
+            {fullscreen ? "Sair da tela cheia" : "Tela cheia"}
+          </button>
           <button type="button" className="btn-secondary px-3 py-1.5" onClick={endSession}>
             Encerrar sessão
           </button>
         </div>
       </div>
 
-      <div className="card flex flex-wrap items-center gap-x-6 gap-y-2 py-3">
+      <div className={`card flex flex-wrap items-center gap-x-6 gap-y-2 py-3 ${fullscreen ? "hidden" : ""}`}>
         {!timeLimitSec && (
         <div className="flex flex-wrap items-center gap-1.5" role="group" aria-label="Mãos da sessão">
           <span className="mr-1 text-xs text-zinc-400">Mãos</span>
@@ -1163,6 +1223,7 @@ export function Trainer({ drill, strategies, legend, timeLimitSec, sourceDrillOf
               legend={legend}
               vertical={vertical}
               short={short}
+              fullscreen={fullscreen}
               peek={peek}
               autoAdvance={autoAdvance}
               keyboard={index === chooseTarget ? "choose" : index === nextTarget ? "next" : null}

@@ -1012,8 +1012,25 @@ async function main() {
     assert.ok(actionsBox.x > heroBox.x + heroBox.width, "botões ao lado da mesa no celular deitado");
     assert.ok(boardBox.width > 120, `board legível no celular deitado (${Math.round(boardBox.width)}px)`);
     await landscape.screenshot({ path: `${OUT}/90-celular-deitado.png` });
+    // Tela cheia no celular deitado: sem menu e filtros, a mesa cresce
+    await landscape.getByTestId("tela-cheia").click();
+    await landscape.getByTestId("tela-cheia-ativa").waitFor();
+    const fullBoard = await landscape.getByTestId("board").boundingBox();
+    assert.ok(fullBoard.width > boardBox.width, "a mesa cresce na tela cheia");
+    await landscape.screenshot({ path: `${OUT}/90-celular-deitado-tela-cheia.png` });
     await landscape.close();
-    log("celular deitado: mesa deitada com os botões ao lado");
+    log("celular deitado: mesa deitada com os botões ao lado e tela cheia");
+
+    // Tela cheia no PC: esconde menu e filtros, Esc volta
+    await page.goto(`${BASE_URL}/drills/cbet-turn-ip/treinar`);
+    await page.getByTestId("board").waitFor();
+    await page.getByTestId("tela-cheia").click();
+    await page.getByTestId("tela-cheia-ativa").waitFor();
+    await page.locator("[data-testid=actions] button").first().click();
+    await page.screenshot({ path: `${OUT}/95-tela-cheia-pc.png` });
+    await page.keyboard.press("Escape");
+    await page.getByTestId("tela-cheia-ativa").waitFor({ state: "detached" });
+    log("tela cheia no PC: entra pelo botão e sai com Esc");
 
     // Telas grandes e verticais: a mesa e o range preenchem a tela sem sair da área visível
     for (const [name, width, height] of [
