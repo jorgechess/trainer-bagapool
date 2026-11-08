@@ -1017,7 +1017,11 @@ async function main() {
     await landscape.getByTestId("tela-cheia").click();
     await landscape.getByTestId("tela-cheia-ativa").waitFor();
     const fullTable = await landscape.getByTestId("mesa").boundingBox();
-    assert.ok(fullTable.width > tableBox.width, `a mesa cresce na tela cheia (${Math.round(tableBox.width)} → ${Math.round(fullTable.width)}px)`);
+    const fullActions = await landscape.getByTestId("actions").boundingBox();
+    const heroFull = await landscape.getByTestId("hero-cards").boundingBox();
+    assert.ok(fullTable.y + fullTable.height <= 412 + 1, `mesa inteira na tela cheia (base em ${Math.round(fullTable.y + fullTable.height)}px)`);
+    assert.ok(heroFull.y + heroFull.height <= 412, "cartas do herói visíveis na tela cheia");
+    assert.ok(fullActions.y + fullActions.height <= 412, "botões visíveis na tela cheia");
     await landscape.screenshot({ path: `${OUT}/90-celular-deitado-tela-cheia.png` });
     await landscape.close();
     log("celular deitado: mesa deitada com os botões ao lado e tela cheia");

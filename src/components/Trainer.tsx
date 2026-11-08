@@ -411,7 +411,8 @@ function TableSlot({
         vertical={vertical}
         rows={rows}
         reservedHeight={
-          sideBySide ? (fullscreen ? 105 : 130) : multi ? (fullscreen ? 170 : 250) + rows * 130 : fullscreen ? 235 : 330
+          // Celular deitado: cabeçalho da sessão (tela cheia) ou menu, linha do spot e bordas do card
+          sideBySide ? (fullscreen ? 185 : 140) : multi ? (fullscreen ? 170 : 250) + rows * 130 : fullscreen ? 235 : 330
         }
         minWidth={multi ? 420 : 0}
         compact={sideBySide}
