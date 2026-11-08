@@ -147,6 +147,8 @@ interface TableSlotProps {
   strategyMap: Map<string, Strategy>;
   legend: Legend;
   vertical: boolean;
+  /** Celular deitado (tela baixa): mesa e botões lado a lado. */
+  short: boolean;
   peek: boolean;
   autoAdvance: boolean;
   /** Este slot recebe os atalhos: "choose" (ações) ou "next" (continuar). */
@@ -168,6 +170,7 @@ function TableSlot({
   strategyMap,
   legend,
   vertical,
+  short,
   peek,
   autoAdvance,
   keyboard,
@@ -286,6 +289,7 @@ function TableSlot({
     .map((id) => findAction(legend, id)?.label ?? id)
     .join(" ou ");
   const multi = tableCount > 1;
+  const sideBySide = short && !multi;
   const rows = tableCount === 4 ? 2 : 1;
 
   return (
@@ -393,6 +397,9 @@ function TableSlot({
         )}
       </div>
 
+      {/* Celular deitado: mesa à esquerda ocupando a altura, botões numa coluna à direita */}
+      <div className={sideBySide ? "flex items-center gap-3" : "contents"}>
+      <div className={sideBySide ? "min-w-0 flex-1" : "contents"}>
       <PokerTable
         strategy={strategy}
         heroCards={question.heroCards}
@@ -400,11 +407,15 @@ function TableSlot({
         texture={texture}
         vertical={vertical}
         rows={rows}
-        reservedHeight={multi ? 250 + rows * 130 : 330}
+        reservedHeight={sideBySide ? 130 : multi ? 250 + rows * 130 : 330}
         minWidth={multi ? 420 : 0}
       />
+      </div>
 
-      <div className={`grid gap-2 ${multi ? "grid-cols-2 lg:grid-cols-3" : "grid-cols-2 sm:grid-cols-3"}`} data-testid="actions">
+      <div
+        className={`grid gap-2 ${sideBySide ? "w-[36%] max-w-xs shrink-0 grid-cols-1" : multi ? "grid-cols-2 lg:grid-cols-3" : "grid-cols-2 sm:grid-cols-3"}`}
+        data-testid="actions"
+      >
         {step.options.map((actionId) => {
           const action = findAction(legend, actionId);
           const isChosen = chosen === actionId;
@@ -414,7 +425,7 @@ function TableSlot({
               key={actionId}
               onClick={() => choose(actionId)}
               disabled={chosen !== null}
-              className={`rounded-lg px-3 text-sm font-semibold transition disabled:cursor-default ${multi ? "py-2" : "py-3"} ${
+              className={`rounded-lg px-3 text-sm font-semibold transition disabled:cursor-default ${multi || sideBySide ? "py-2" : "py-3"} ${
                 chosen !== null && !isChosen && !isRight ? "opacity-40" : ""
               } ${isRight ? "ring-2 ring-green-400" : ""} ${isChosen && !isRight ? "ring-2 ring-red-500" : ""}`}
               style={{
@@ -431,6 +442,7 @@ function TableSlot({
             </button>
           );
         })}
+      </div>
       </div>
 
       {chosen && (
@@ -488,6 +500,7 @@ export function Trainer({ drill, strategies, legend, timeLimitSec, sourceDrillOf
   const lengthRef = useRef<number | null>(sessionLength);
   lengthRef.current = sessionLength;
   const [vertical, setVertical] = useState(false);
+  const [short, setShort] = useState(false);
   const [slotStates, setSlotStates] = useState<(SlotState | null)[]>([]);
   const [panelSlot, setPanelSlot] = useState(0);
   const queueRef = useRef<DecisionQueue | null>(null);
@@ -520,11 +533,20 @@ export function Trainer({ drill, strategies, legend, timeLimitSec, sourceDrillOf
 
   useEffect(() => {
     // Mesa em pé no celular; tablets e telas maiores usam a mesa deitada
+    // Celular deitado (tela baixa): mesa deitada com os botões ao lado, para caber sem rolar
     const query = window.matchMedia("(max-width: 639px)");
-    const update = () => setVertical(query.matches);
+    const landscape = window.matchMedia("(orientation: landscape) and (max-height: 540px)");
+    const update = () => {
+      setShort(landscape.matches);
+      setVertical(query.matches && !landscape.matches);
+    };
     update();
     query.addEventListener("change", update);
-    return () => query.removeEventListener("change", update);
+    landscape.addEventListener("change", update);
+    return () => {
+      query.removeEventListener("change", update);
+      landscape.removeEventListener("change", update);
+    };
   }, []);
 
   useEffect(() => {
@@ -1127,7 +1149,7 @@ export function Trainer({ drill, strategies, legend, timeLimitSec, sourceDrillOf
 
       <div
         className={`grid items-start gap-4 ${
-          multi ? "2xl:grid-cols-[minmax(0,3fr)_minmax(0,1fr)]" : "lg:grid-cols-[minmax(0,3fr)_minmax(0,2fr)]"
+          multi ? "2xl:grid-cols-[minmax(0,3fr)_minmax(0,1fr)]" : short ? "" : "lg:grid-cols-[minmax(0,3fr)_minmax(0,2fr)]"
         }`}
       >
         <div className={`grid items-start gap-3 ${multi ? "md:grid-cols-2" : ""}`}>
@@ -1140,6 +1162,7 @@ export function Trainer({ drill, strategies, legend, timeLimitSec, sourceDrillOf
               strategyMap={strategyMap}
               legend={legend}
               vertical={vertical}
+              short={short}
               peek={peek}
               autoAdvance={autoAdvance}
               keyboard={index === chooseTarget ? "choose" : index === nextTarget ? "next" : null}

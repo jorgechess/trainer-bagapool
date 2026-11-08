@@ -999,6 +999,22 @@ async function main() {
     await mobile.screenshot({ path: `${OUT}/91-celular-menu.png` });
     log("treino e menu funcionam no celular");
 
+    // Celular deitado: mesa deitada grande e botões numa coluna ao lado
+    const landscape = await browser.newPage({ viewport: { width: 915, height: 412 }, isMobile: true, hasTouch: true });
+    await landscape.context().addCookies(await page.context().cookies());
+    await landscape.goto(`${BASE_URL}/drills/cbet-turn-ip/treinar`);
+    await landscape.getByTestId("hero-cards").waitFor();
+    await landscape.getByTestId("board").scrollIntoViewIfNeeded();
+    await landscape.getByTestId("actions").evaluate((el) => el.closest(".card, section, div")?.scrollIntoView({ block: "end" }));
+    const heroBox = await landscape.getByTestId("hero-cards").boundingBox();
+    const actionsBox = await landscape.getByTestId("actions").boundingBox();
+    const boardBox = await landscape.getByTestId("board").boundingBox();
+    assert.ok(actionsBox.x > heroBox.x + heroBox.width, "botões ao lado da mesa no celular deitado");
+    assert.ok(boardBox.width > 120, `board legível no celular deitado (${Math.round(boardBox.width)}px)`);
+    await landscape.screenshot({ path: `${OUT}/90-celular-deitado.png` });
+    await landscape.close();
+    log("celular deitado: mesa deitada com os botões ao lado");
+
     // Telas grandes e verticais: a mesa e o range preenchem a tela sem sair da área visível
     for (const [name, width, height] of [
       ["92-wide-2560", 2560, 1300],
