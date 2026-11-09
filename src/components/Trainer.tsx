@@ -1231,10 +1231,10 @@ export function Trainer({ drill, strategies, legend, timeLimitSec, sourceDrillOf
       <div
         className={`grid items-start gap-4 ${
           multi
-            ? "2xl:grid-cols-[minmax(0,3fr)_minmax(0,1fr)] min-[2400px]:grid-cols-[minmax(0,1fr)_520px]"
+            ? "2xl:grid-cols-[minmax(0,3fr)_minmax(0,1fr)] min-[2400px]:grid-cols-[minmax(0,1fr)_520px]!"
             : short
               ? ""
-              : "lg:grid-cols-[minmax(0,3fr)_minmax(0,2fr)] min-[2200px]:grid-cols-[minmax(0,1fr)_560px]"
+              : "lg:grid-cols-[minmax(0,3fr)_minmax(0,2fr)] min-[2200px]:grid-cols-[minmax(0,1fr)_560px]!"
         }`}
       >
         <div className={`grid items-start gap-3 ${multi ? "md:grid-cols-2" : ""}`}>

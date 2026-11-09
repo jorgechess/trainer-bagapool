@@ -1046,6 +1046,8 @@ async function main() {
     assert.ok(wideTable.width > 1300, `mesa grande no ultrawide (${Math.round(wideTable.width)}px)`);
     const wideActions = await wide.getByTestId("actions").boundingBox();
     assert.ok(wideActions.y + wideActions.height <= 1440, `botões visíveis no ultrawide sem rolar (base em ${Math.round(wideActions.y + wideActions.height)}px)`);
+    const widePanel = await wide.getByText("Avançar sozinho quando acertar").locator("xpath=ancestor::div[contains(@class,'card')][1]").boundingBox();
+    assert.ok(widePanel.width < 640, `painel lateral estreito no ultrawide (${Math.round(widePanel.width)}px)`);
     await wide.screenshot({ path: `${OUT}/96-ultrawide.png` });
     // Duas mesas lado a lado no ultrawide
     await wide.getByRole("button", { name: "2 mesas", exact: true }).click();
