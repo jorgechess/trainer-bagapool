@@ -1044,7 +1044,15 @@ async function main() {
     await wide.getByTestId("board").waitFor();
     const wideTable = await wide.getByTestId("mesa").boundingBox();
     assert.ok(wideTable.width > 1300, `mesa grande no ultrawide (${Math.round(wideTable.width)}px)`);
+    const wideActions = await wide.getByTestId("actions").boundingBox();
+    assert.ok(wideActions.y + wideActions.height <= 1440, `botões visíveis no ultrawide sem rolar (base em ${Math.round(wideActions.y + wideActions.height)}px)`);
     await wide.screenshot({ path: `${OUT}/96-ultrawide.png` });
+    // Duas mesas lado a lado no ultrawide
+    await wide.getByRole("group", { name: "Mesas" }).getByRole("button", { name: "2", exact: true }).click();
+    await wide.locator("[data-testid=mesa]").nth(1).waitFor();
+    const twoTables = await wide.locator("[data-testid=actions]").nth(1).boundingBox();
+    assert.ok(twoTables.y + twoTables.height <= 1440, "duas mesas com botões visíveis no ultrawide");
+    await wide.screenshot({ path: `${OUT}/97-ultrawide-2-mesas.png` });
     await wide.close();
     log(`ultrawide: mesa com ${Math.round(wideTable.width)}px`);
 

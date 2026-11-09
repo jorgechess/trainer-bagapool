@@ -151,6 +151,7 @@ interface TableSlotProps {
   short: boolean;
   /** Modo tela cheia: sem menu e filtros, a mesa ganha a altura deles. */
   fullscreen: boolean;
+  tall: boolean;
   peek: boolean;
   autoAdvance: boolean;
   /** Este slot recebe os atalhos: "choose" (ações) ou "next" (continuar). */
@@ -173,6 +174,7 @@ function TableSlot({
   legend,
   vertical,
   short,
+  tall,
   fullscreen,
   peek,
   autoAdvance,
@@ -412,7 +414,18 @@ function TableSlot({
         rows={rows}
         reservedHeight={
           // Celular deitado: cabeçalho da sessão (tela cheia) ou menu, linha do spot e bordas do card
-          sideBySide ? (fullscreen ? 185 : 140) : multi ? (fullscreen ? 170 : 250) + rows * 130 : fullscreen ? 235 : 330
+          // Tela alta: menu, filtros e botões ficam todos visíveis; tela baixa: os filtros rolam para fora
+          sideBySide
+            ? fullscreen
+              ? 185
+              : 140
+            : multi
+              ? (fullscreen ? 190 : tall ? 330 : 250) + rows * 130
+              : fullscreen
+                ? 300
+                : tall
+                  ? 470
+                  : 330
         }
         minWidth={multi ? 420 : 0}
         compact={sideBySide}
@@ -509,6 +522,8 @@ export function Trainer({ drill, strategies, legend, timeLimitSec, sourceDrillOf
   const [vertical, setVertical] = useState(false);
   const [short, setShort] = useState(false);
   const [fullscreen, setFullscreen] = useState(false);
+  /** Tela alta (monitor grande): a mesa cresce, então a página toda precisa caber sem rolar. */
+  const [tall, setTall] = useState(false);
   const [slotStates, setSlotStates] = useState<(SlotState | null)[]>([]);
   const [panelSlot, setPanelSlot] = useState(0);
   const queueRef = useRef<DecisionQueue | null>(null);
@@ -544,16 +559,20 @@ export function Trainer({ drill, strategies, legend, timeLimitSec, sourceDrillOf
     // Celular deitado (tela baixa): mesa deitada com os botões ao lado, para caber sem rolar
     const query = window.matchMedia("(max-width: 639px)");
     const landscape = window.matchMedia("(orientation: landscape) and (max-height: 540px)");
+    const tallQuery = window.matchMedia("(min-height: 1000px)");
     const update = () => {
+      setTall(tallQuery.matches);
       setShort(landscape.matches);
       setVertical(query.matches && !landscape.matches);
     };
     update();
     query.addEventListener("change", update);
     landscape.addEventListener("change", update);
+    tallQuery.addEventListener("change", update);
     return () => {
       query.removeEventListener("change", update);
       landscape.removeEventListener("change", update);
+      tallQuery.removeEventListener("change", update);
     };
   }, []);
 
@@ -1211,7 +1230,11 @@ export function Trainer({ drill, strategies, legend, timeLimitSec, sourceDrillOf
 
       <div
         className={`grid items-start gap-4 ${
-          multi ? "2xl:grid-cols-[minmax(0,3fr)_minmax(0,1fr)]" : short ? "" : "lg:grid-cols-[minmax(0,3fr)_minmax(0,2fr)]"
+          multi
+            ? "2xl:grid-cols-[minmax(0,3fr)_minmax(0,1fr)] min-[2400px]:grid-cols-[minmax(0,1fr)_520px]"
+            : short
+              ? ""
+              : "lg:grid-cols-[minmax(0,3fr)_minmax(0,2fr)] min-[2200px]:grid-cols-[minmax(0,1fr)_560px]"
         }`}
       >
         <div className={`grid items-start gap-3 ${multi ? "md:grid-cols-2" : ""}`}>
@@ -1225,6 +1248,7 @@ export function Trainer({ drill, strategies, legend, timeLimitSec, sourceDrillOf
               legend={legend}
               vertical={vertical}
               short={short}
+              tall={tall}
               fullscreen={fullscreen}
               peek={peek}
               autoAdvance={autoAdvance}
