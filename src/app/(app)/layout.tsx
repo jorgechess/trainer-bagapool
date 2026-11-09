@@ -1,3 +1,4 @@
+import { MainContainer } from "@/components/MainContainer";
 import { Nav } from "@/components/Nav";
 import { syncCargas } from "@/lib/cargas-sync";
 import { getPool, requireProfile } from "@/lib/data";
@@ -21,7 +22,7 @@ export default async function AppLayout({ children }: { children: React.ReactNod
         canManageContent={canManageContent(profile.role)}
         canManageMembers={canManagePlayers(profile)}
       />
-      <main className="mx-auto w-full max-w-[1800px] p-4 pb-16 sm:p-6 2xl:px-10">{children}</main>
+      <MainContainer>{children}</MainContainer>
     </div>
   );
 }

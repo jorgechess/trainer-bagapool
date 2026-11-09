@@ -1037,6 +1037,17 @@ async function main() {
     await page.getByTestId("tela-cheia-ativa").waitFor({ state: "detached" });
     log("tela cheia no PC: entra pelo botão e sai com Esc");
 
+    // Monitor ultrawide: o treino usa a largura toda e a mesa cresce até o limite da altura
+    const wide = await browser.newPage({ viewport: { width: 3440, height: 1440 } });
+    await wide.context().addCookies(await page.context().cookies());
+    await wide.goto(`${BASE_URL}/drills/cbet-turn-ip/treinar`);
+    await wide.getByTestId("board").waitFor();
+    const wideTable = await wide.getByTestId("mesa").boundingBox();
+    assert.ok(wideTable.width > 1300, `mesa grande no ultrawide (${Math.round(wideTable.width)}px)`);
+    await wide.screenshot({ path: `${OUT}/96-ultrawide.png` });
+    await wide.close();
+    log(`ultrawide: mesa com ${Math.round(wideTable.width)}px`);
+
     // Telas grandes e verticais: a mesa e o range preenchem a tela sem sair da área visível
     for (const [name, width, height] of [
       ["92-wide-2560", 2560, 1300],

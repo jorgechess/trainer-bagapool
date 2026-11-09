@@ -196,7 +196,7 @@ export function PokerTable({
     >
       <div
         className="relative w-full"
-        style={{ aspectRatio: `${shape.aspect}`, fontSize: vertical ? "clamp(9px, 3.1cqw, 15px)" : compact ? "clamp(9px, 2.1cqw, 15px)" : "clamp(9px, 1.55cqw, 17px)" }}
+        style={{ aspectRatio: `${shape.aspect}`, fontSize: vertical ? "clamp(9px, 3.1cqw, 15px)" : compact ? "clamp(9px, 2.1cqw, 15px)" : "clamp(9px, 1.55cqw, 30px)" }}
       >
         {/* Mesa */}
         <div
