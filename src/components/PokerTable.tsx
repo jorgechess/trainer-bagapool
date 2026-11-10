@@ -373,7 +373,20 @@ export function PokerTable({
  * Logos dos sites (arquivos em /public/sites, enviados pelo time). Sem arquivo, o nome do site
  * aparece escrito na fonte do Trainer.
  */
-const SITE_LOGOS: Record<string, string> = {};
+const SITE_LOGOS: Record<string, string> = {
+  ggpoker: "/sites/ggpoker.png",
+  gg: "/sites/ggpoker.png",
+  partypoker: "/sites/partypoker.png",
+  coinpoker: "/sites/coinpoker.png",
+  pokerstars: "/sites/pokerstars.png",
+  stars: "/sites/pokerstars.png",
+  wpn: "/sites/wpn.png",
+  acr: "/sites/wpn.png",
+  americascardroom: "/sites/wpn.png",
+  wptglobal: "/sites/wpt-global.png",
+  "888poker": "/sites/888poker.png",
+  "888": "/sites/888poker.png",
+};
 
 function siteKey(site: string): string {
   return site.toLowerCase().replace(/[^a-z0-9]/g, "");
@@ -412,7 +425,7 @@ function FinalTableFelt({ inset, site }: { inset: string; site?: string | null }
           <div className="pointer-events-none absolute top-[34%] left-1/2 -translate-x-1/2 -translate-y-1/2 whitespace-nowrap" data-testid="marca-site" aria-hidden>
             {logo ? (
               // eslint-disable-next-line @next/next/no-img-element
-              <img src={logo} alt="" className="h-[3.2em] w-auto opacity-25" />
+              <img src={logo} alt="" className="h-auto max-h-[4.2em] w-auto max-w-[13em] object-contain opacity-20" data-logo-site={siteKey(site)} />
             ) : (
               <span className="font-display text-[3.4em] tracking-[0.14em] text-white/18 uppercase">{site}</span>
             )}
