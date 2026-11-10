@@ -378,6 +378,8 @@ const SITE_LOGOS: Record<string, string> = {
   gg: "/sites/ggpoker.png",
   partypoker: "/sites/partypoker.png",
   coinpoker: "/sites/coinpoker.png",
+  championpoker: "/sites/championpoker.png",
+  champion: "/sites/championpoker.png",
   pokerstars: "/sites/pokerstars.png",
   stars: "/sites/pokerstars.png",
   wpn: "/sites/wpn.png",
