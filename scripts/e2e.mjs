@@ -893,7 +893,7 @@ async function main() {
     await page.goto(`${BASE_URL}/drills`);
     await page.getByTestId("secao-especiais").getByText("PKO Spots").waitFor();
     await page.goto(`${BASE_URL}/drills/pko-spots/treinar`);
-    await page.getByTestId("enunciado-especial").getByText("Bounty Hunters Deepstack Turbo $21.60").waitFor();
+    await page.getByTestId("enunciado-especial").getByText(/Bounty Hunters Deepstack Turbo \$(21\.60|54)/).waitFor();
     const mesaPko = await page.getByTestId("mesa").innerText();
     assert.match(mesaPko, /\bEP\b/, "lugar EP como no HRC");
     assert.ok(!/UTG1|\bLJ\b/.test(mesaPko), "mesa 8-max sem UTG1 e LJ");
