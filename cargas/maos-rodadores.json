@@ -1934,7 +1934,7 @@
           "format": "PKO · Turbo · mesa final",
           "buyIn": "$54",
           "playersLeft": 9,
-          "entrants": null,
+          "entrants": 1444,
           "itm": null,
           "blinds": "50.000/100.000",
           "ante": 0.15,
@@ -2301,7 +2301,39 @@
         "payouts": [
           {
             "place": "1º",
-            "prize": "$4,006"
+            "prize": "$4,006.90"
+          },
+          {
+            "place": "2º",
+            "prize": "$4,005.77"
+          },
+          {
+            "place": "3º",
+            "prize": "$3,182.97"
+          },
+          {
+            "place": "4º",
+            "prize": "$2,529.18"
+          },
+          {
+            "place": "5º",
+            "prize": "$2,009.68"
+          },
+          {
+            "place": "6º",
+            "prize": "$1,596.89"
+          },
+          {
+            "place": "7º",
+            "prize": "$1,268.88"
+          },
+          {
+            "place": "8º",
+            "prize": "$1,008.25"
+          },
+          {
+            "place": "9º",
+            "prize": "$801.15"
           }
         ],
         "source": "Rodado no HRC pelos rodadores do time",
@@ -2348,7 +2380,7 @@
           "format": "PKO · Turbo · mesa final",
           "buyIn": "$54",
           "playersLeft": 9,
-          "entrants": null,
+          "entrants": 1444,
           "itm": null,
           "blinds": "50.000/100.000",
           "ante": 0.15,
@@ -2715,7 +2747,39 @@
         "payouts": [
           {
             "place": "1º",
-            "prize": "$4,006"
+            "prize": "$4,006.90"
+          },
+          {
+            "place": "2º",
+            "prize": "$4,005.77"
+          },
+          {
+            "place": "3º",
+            "prize": "$3,182.97"
+          },
+          {
+            "place": "4º",
+            "prize": "$2,529.18"
+          },
+          {
+            "place": "5º",
+            "prize": "$2,009.68"
+          },
+          {
+            "place": "6º",
+            "prize": "$1,596.89"
+          },
+          {
+            "place": "7º",
+            "prize": "$1,268.88"
+          },
+          {
+            "place": "8º",
+            "prize": "$1,008.25"
+          },
+          {
+            "place": "9º",
+            "prize": "$801.15"
           }
         ],
         "source": "Rodado no HRC pelos rodadores do time",
