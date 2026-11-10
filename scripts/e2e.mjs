@@ -856,10 +856,12 @@ async function main() {
       await page.keyboard.press("Escape");
       await page.getByTestId("painel-rp").waitFor({ state: "hidden" });
     }
-    // Pay jumps (mãos com payouts): do lugar garantido até o 1º, com o próximo em destaque
-    if (await page.getByTestId("pay-jumps").count()) {
-      assert.match(await page.getByTestId("pay-jumps").innerText(), /garantido/);
-      await page.getByTestId("proximo-pay-jump").waitFor();
+    // Pay jumps (mãos com payouts): quadro vertical ao lado da mesa, do 1º ao último pago, com o garantido e o próximo em destaque
+    if (await page.getByTestId("quadro-pay-jumps").count()) {
+      const quadro = page.getByTestId("quadro-pay-jumps");
+      assert.match(await quadro.innerText(), /1º[\s\S]*\$544[\s\S]*garantido/);
+      await quadro.getByTestId("quadro-proximo-pay-jump").waitFor();
+      assert.equal(await page.getByTestId("pay-jumps").isVisible(), false, "na tela larga a linha do enunciado dá lugar ao quadro");
     }
     // Visualizar spot: Risk Premium completo e os ranges da mão; o deste spot só depois de responder
     await page.getByTestId("botao-visualizar-spot").click();

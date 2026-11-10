@@ -25,6 +25,7 @@ export function SpecialBrief({
   villain,
   answered,
   compact = false,
+  payJumpsAside = false,
   onView,
 }: {
   spot: SpecialSpot;
@@ -33,6 +34,8 @@ export function SpecialBrief({
   answered: boolean;
   /** Acima da mesa: torneio, pay jumps e botões RP / Visualizar spot. */
   compact?: boolean;
+  /** Pay jumps num quadro vertical ao lado da mesa: a linha do enunciado só aparece em telas estreitas. */
+  payJumpsAside?: boolean;
   onView?: () => void;
 }) {
   const t = spot.tournament;
@@ -62,7 +65,11 @@ export function SpecialBrief({
             <span className="text-baga-gold">{[t.site, t.format, t.buyIn].filter(Boolean).join(" · ")}</span>
             {facts.length > 0 && ` · ${facts.join(" · ")}`}
           </p>
-          {ladder && <PayJumps ladder={ladder} compact />}
+          {ladder && (
+            <div className={payJumpsAside ? "md:hidden" : undefined}>
+              <PayJumps ladder={ladder} compact />
+            </div>
+          )}
           {answered && spot.note && (
             <p className="mt-1 rounded-md bg-zinc-800/80 px-2 py-1 text-xs text-zinc-200" data-testid="nota-mao-real">
               {spot.note}
@@ -291,5 +298,54 @@ function PayJumps({ ladder, compact = false }: { ladder: PayLadder; compact?: bo
         })}
       </ol>
     </div>
+  );
+}
+
+/**
+ * Quadro vertical de pay jumps ao lado da mesa: 1º no topo, cada lugar com o prêmio e quanto se ganha
+ * subindo até ele. O lugar garantido e o próximo pay jump ficam em destaque; os já pagos, apagados.
+ */
+export function PayJumpsPanel({ spot, className = "" }: { spot: SpecialSpot; className?: string }) {
+  const ladder = payLadder(spot.payouts, spot.tournament.playersLeft);
+  if (!ladder) return null;
+  const money = (v: number) => formatMoney(v, ladder.currency);
+  const left = spot.tournament.playersLeft;
+  return (
+    <aside
+      className={`w-44 shrink-0 rounded-lg border border-zinc-800 bg-zinc-950/80 p-2 text-xs ${className}`}
+      data-testid="quadro-pay-jumps"
+      aria-label="Pay jumps"
+    >
+      <p className="px-1 font-semibold uppercase tracking-wide text-zinc-400">Pay jumps</p>
+      {left ? <p className="mb-1.5 px-1 text-[11px] text-zinc-500">{left} restantes</p> : null}
+      <ol className="space-y-0.5">
+        {ladder.steps.map((s, i) => {
+          const isNext = ladder.next?.place === s.place;
+          const below = ladder.steps[i + 1];
+          const jump = below && below.prize !== null && s.prize !== null ? s.prize - below.prize : null;
+          return (
+            <li
+              key={s.place}
+              className={`grid grid-cols-[2rem_1fr_auto] items-center gap-1 rounded px-1.5 py-1 tabular-nums ${
+                isNext
+                  ? "bg-baga-gold/15 ring-1 ring-baga-gold/70"
+                  : s.status === "garantido"
+                    ? "bg-zinc-800"
+                    : s.status === "pago"
+                      ? "opacity-40"
+                      : ""
+              }`}
+              data-testid={isNext ? "quadro-proximo-pay-jump" : undefined}
+            >
+              <span className="font-semibold text-zinc-100">{s.place}º</span>
+              <span className="text-zinc-200">{s.prize !== null ? s.label : "?"}</span>
+              <span className={`text-right text-[11px] ${isNext ? "font-semibold text-baga-gold" : "text-zinc-500"}`}>
+                {s.status === "garantido" ? "garantido" : jump !== null ? `+${money(jump)}` : ""}
+              </span>
+            </li>
+          );
+        })}
+      </ol>
+    </aside>
   );
 }

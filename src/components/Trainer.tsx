@@ -6,7 +6,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { type DecisionQueue, QUEUE_STORAGE_KEY, type SendResult, type Submission, createDecisionQueue } from "@/lib/decision-queue";
 import { CardRow } from "@/components/PlayingCard";
 import { HandHistory } from "@/components/HandHistory";
-import { SpecialBrief } from "@/components/SpecialBrief";
+import { PayJumpsPanel, SpecialBrief } from "@/components/SpecialBrief";
 import { SpotViewer } from "@/components/SpotViewer";
 import { handHistory } from "@/lib/poker/history";
 import { PokerTable } from "@/components/PokerTable";
@@ -306,6 +306,8 @@ function TableSlot({
   );
   const historyLines = handHistory(strategy.history, step.street, step.board, chosenByStreet, legend);
   // Enunciado dos drills especiais: torneio e Risk Premium acima da mesa
+  // Mesa final com payouts: escada de prêmios num quadro vertical ao lado da mesa (uma mesa só, tela não deitada)
+  const payAside = Boolean(strategy.special?.payouts?.length) && !sideBySide && !multi;
   const historyHeight = (historyLines.length && !sideBySide ? 44 : 0) + (strategy.special ? 80 : 0);
   const rows = tableCount === 4 ? 2 : 1;
 
@@ -422,6 +424,7 @@ function TableSlot({
             villain={strategy.villainPosition}
             answered={chosen !== null}
             compact
+            payJumpsAside={payAside}
             onView={() => setViewing(true)}
           />
           <SpotViewer
@@ -438,7 +441,8 @@ function TableSlot({
 
       {/* Celular deitado: mesa à esquerda ocupando a altura, botões numa coluna à direita */}
       <div className={sideBySide ? "flex items-center gap-3" : "contents"}>
-      <div className={sideBySide ? "min-w-0 flex-1" : "contents"}>
+      <div className={sideBySide ? "min-w-0 flex-1" : payAside ? "flex items-center gap-3" : "contents"}>
+      <div className={payAside ? "min-w-0 flex-1" : "contents"}>
       <PokerTable
         strategy={strategy}
         heroCards={question.heroCards}
@@ -465,6 +469,8 @@ function TableSlot({
         minWidth={multi ? 420 : 0}
         compact={sideBySide}
       />
+      </div>
+      {payAside && <PayJumpsPanel spot={strategy.special!} className="hidden md:block" />}
       </div>
 
       <div className={sideBySide ? "w-[36%] max-w-xs shrink-0 space-y-2" : "contents"}>
