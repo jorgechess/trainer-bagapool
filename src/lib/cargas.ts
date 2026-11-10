@@ -238,8 +238,8 @@ export const CARGAS: Carga[] = [
   },
   {
     id: "maos-rodadores",
-    name: "Mãos dos rodadores",
-    description: "Drills especiais: mãos reais rodadas no HRC (torneio, mesa, bounties, Risk Premium e ranges).",
+    name: "Mesa Final",
+    description: "Drills especiais: spots de mesa final rodados no HRC (torneio, mesa, bounties, Risk Premium e ranges).",
     requires: [],
     bundle: maosRodadores,
   },

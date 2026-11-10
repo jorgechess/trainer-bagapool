@@ -768,7 +768,7 @@ test("cargas pós-flop: toda estratégia pós-flop tem histórico da mão até a
   }
 });
 
-test("carga Mãos dos rodadores: mesa 6-max real, ranges do HRC e seção Drills especiais", async () => {
+test("carga Mesa Final (rodadores): mesa 6-max real, ranges do HRC e seção Drills especiais", async () => {
   const { drillSection } = await import("../sections");
   const { validateDrill } = await import("../drill");
   const { tableState } = await import("../table");

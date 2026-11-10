@@ -21,7 +21,7 @@
       "name": "Bounty Hunters $54 · HJ open (324 left)",
       "description": "Mão rodada no HRC: UTG foldou e você está no HJ com 32bb. Open de 2bb ou fold?",
       "street": "preflop",
-      "situation": "Mãos rodadas",
+      "situation": "Mesa final",
       "heroPosition": "HJ",
       "villainPosition": null,
       "stack": {
@@ -239,7 +239,7 @@
       "name": "Bounty Hunters $54 · CO vs open do HJ (324 left)",
       "description": "Mão rodada no HRC: o HJ (32bb, cobre você) abriu 2bb e você está no CO com 20,7bb.",
       "street": "preflop",
-      "situation": "Mãos rodadas",
+      "situation": "Mesa final",
       "heroPosition": "CO",
       "villainPosition": "HJ",
       "stack": {
@@ -458,8 +458,8 @@
   "drills": [
     {
       "id": "maos-rodadores",
-      "name": "Mãos dos rodadores",
-      "description": "Spots reais que os rodadores do time rodaram no HRC: cada mão traz o torneio, a mesa com stacks e bounties, o Risk Premium e os ranges do HRC. Mãos sorteadas do range inteiro de cada spot, com foco nas de fronteira.",
+      "name": "Mesa Final",
+      "description": "Spots de mesa final rodados no HRC pelos rodadores do time: cada mão traz o torneio, a mesa com stacks e bounties, o Risk Premium e os ranges do HRC. Mãos sorteadas do range inteiro de cada spot, com foco nas de fronteira.",
       "variants": [
         [
           "hrc-bh54-hj-rfi"

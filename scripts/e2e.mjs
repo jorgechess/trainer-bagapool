@@ -836,7 +836,7 @@ async function main() {
 
     // Drills especiais: mãos dos rodadores (HRC) com enunciado, mesa 6-max real e Risk Premium
     await page.goto(`${BASE_URL}/drills`);
-    await page.getByTestId("secao-especiais").getByText("Mãos dos rodadores").waitFor();
+    await page.getByTestId("secao-especiais").getByText("Mesa Final").waitFor();
     await page.goto(`${BASE_URL}/drills/maos-rodadores/treinar`);
     const brief = page.getByTestId("enunciado-especial");
     await brief.getByText("Bounty Hunters Sunday Hyper Special $54").waitFor();
@@ -849,7 +849,7 @@ async function main() {
     await page.locator("[data-testid=actions] button").first().click();
     await page.getByTestId("nota-mao-real").waitFor();
     await shot(page, "treino-maos-rodadores-resposta");
-    log("Mãos dos rodadores: enunciado do torneio, mesa 6-max com bounties e Risk Premium");
+    log("Mesa Final (rodadores): enunciado do torneio, mesa 6-max com bounties e Risk Premium");
 
     // Ranking mensal: admin com 520 decisões (70%) entra; tentativas de drill especial não contam
     const [adminProfile] = await (await fetch(`${API_URL}/rest/v1/profiles?select=id&email=eq.admin@e2e.com`, { headers: adminHeaders })).json();
