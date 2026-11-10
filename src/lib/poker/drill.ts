@@ -228,6 +228,8 @@ export function dealQuestion(
       const action = findAction(legend, correct);
       if (!action || !continuesHand(action.kind)) break;
     }
+    // A mão sorteada não chega na primeira decisão (ex.: no Cbet Turn IP só entram mãos que deram check no flop): sorteia de novo
+    if (steps.length === 0) continue;
     return { heroCards, hand, fullBoard, steps };
   }
   throw new Error("Nenhuma textura cadastrada combinou com os boards sorteados. Revise as texturas da estratégia.");

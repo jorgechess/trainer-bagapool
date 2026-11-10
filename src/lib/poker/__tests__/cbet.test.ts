@@ -348,15 +348,15 @@ test("Cbet Turn IP (aula 29): size pelo runout, delayed cbet e vs probe", async 
   assert.equal(g("JsTd9c8h"), "4S");
   assert.equal(RUNOUT_SIZE.Brick, "bet-125");
   assert.equal(RUNOUT_SIZE["3S"], "bet-67"); // b75 do solver arredondado para b67
-  const a = (hero: string, board: string, node: "after-b67" | "xx" | "probe-25" | "probe-67") =>
+  const a = (hero: string, board: string, node: "after-b40" | "after-b25" | "xx" | "probe-25" | "probe-67") =>
     cbetTurnAnswer(c(hero), c(board), node).action;
-  // depois do b67: air barrela com o size do runout, par médio dá check
-  assert.equal(a("Qd3c", "Ks9c4d2c", "after-b67"), "bet-125"); // air no brick
-  assert.equal(a("Qd3c", "Ks9c5dAs", "after-b67"), "bet-67");
-  assert.equal(a("Jd3c", "Ks8d4c8s", "after-b67"), "bet-40");
-  assert.equal(a("KdQc", "Ks9c4d2c", "after-b67"), "bet-125"); // top pair
-  assert.equal(a("9d8d", "Ks9c4d2c", "after-b67"), "check"); // segundo par
-  assert.equal(a("QhJh", "As7s4h9s", "after-b67"), "bet-40"); // 3F: o b50 cai no b40
+  // depois do cbet do flop: air barrela com o size do runout, par médio dá check
+  assert.equal(a("Qd3c", "Ks9c4d2c", "after-b40"), "bet-125"); // air no brick
+  assert.equal(a("Qd3c", "Ks9c5dAs", "after-b40"), "bet-67");
+  assert.equal(a("Jd3c", "Ks8d4c8s", "after-b40"), "bet-40");
+  assert.equal(a("KdQc", "Ks9c4d2c", "after-b40"), "bet-125"); // top pair
+  assert.equal(a("9d8d", "Ks9c4d2c", "after-b40"), "check"); // segundo par
+  assert.equal(a("QhJh", "As7s4h9s", "after-b40"), "bet-40"); // 3F: o b50 cai no b40
   // double check: delayed cbet b67
   assert.equal(a("Qd3c", "Ks9c4d2c", "xx"), "bet-67");
   assert.equal(a("9d8d", "Ks9c4d2c", "xx"), "check");
@@ -366,6 +366,10 @@ test("Cbet Turn IP (aula 29): size pelo runout, delayed cbet e vs probe", async 
   assert.equal(a("6h3h", "Ks9c6d2c", "probe-25"), "vc-call"); // terceiro par
   assert.equal(a("4h3h", "Ks9c6d2c", "probe-25"), "vc-raise"); // broca sem showdown
   assert.equal(a("Qd3c", "Ks9c6d2c", "probe-25"), "vc-call"); // air
+  // turn que dobra o board: top pair vira mão média e paga; raise só com trinca+
+  assert.equal(a("Ah7s", "Jc9hAsJh", "probe-25"), "vc-call");
+  assert.equal(a("JdTc", "Jc9hAs9d", "probe-25"), "vc-call");
+  assert.equal(a("9dTc", "Jc9hAs9d", "probe-25"), "vc-raise"); // trinca
   // probe b67: 0% de raise
   assert.equal(a("KdKc", "Ks9c4d2c", "probe-67"), "vc-call"); // set paga
   assert.equal(a("9d8d", "Ks9c4d2c", "probe-67"), "vc-call");
@@ -373,4 +377,19 @@ test("Cbet Turn IP (aula 29): size pelo runout, delayed cbet e vs probe", async 
   assert.equal(a("6c5c", "Ks9c6d2c", "probe-67"), "vc-call"); // 3rd pair + flush draw
   assert.equal(a("QhJh", "Kh9h4d2c", "probe-67"), "vc-call"); // FD
   assert.equal(a("Qd3c", "Ks9c6d2c", "probe-67"), "vc-fold");
+});
+
+test("Cbet Turn IP: a linha do flop segue a nossa estratégia (B40/B25 de range; check só no split)", async () => {
+  const { cbetAnswer, flopRuleFor } = await import("../cbet");
+  const spec = (node: "after-b40" | "after-b25" | "xx" | "probe-25") => ({ table: "cbet-turn" as const, node });
+  // J92 two-tone é range bet B40: entra no depois do B40, não no B25 nem no double check
+  assert.ok(flopRuleFor(spec("after-b40"), c("Jh9h2d2h")));
+  assert.equal(flopRuleFor(spec("after-b25"), c("Jh9h2d2h")), null);
+  assert.equal(flopRuleFor(spec("xx"), c("Jh9h2d2h")), null);
+  // JA9 é range bet: nada de probe
+  assert.equal(flopRuleFor(spec("probe-25"), c("Jc9hAsJh")), null);
+  // 773 (dobra M) é split: entra no double check, mas só com as mãos que dão check no flop
+  assert.ok(flopRuleFor(spec("xx"), c("7s7d3c2h")));
+  const checks = cbetAnswer({ table: "mes-ip-vs-bb", band: "25-50" }, c("AhKh"), c("7s7d3c"))!.action === "check";
+  assert.equal(cbetAnswer(spec("xx"), c("AhKh"), c("7s7d3c2h")) !== null, checks);
 });

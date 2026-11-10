@@ -50,11 +50,11 @@
   ],
   "strategies": [
     {
-      "id": "cbet-turn-ip-hj-after-b67",
-      "name": "Cbet Turn IP HJ vs BB · depois do cbet b67",
-      "description": "SRP 30bb: você abriu do HJ, fez cbet b67 no flop, o BB pagou e deu check no turn. Barrel com o size do runout.",
+      "id": "cbet-turn-ip-hj-after-b40",
+      "name": "Cbet Turn IP HJ vs BB · depois do cbet B40",
+      "description": "SRP 30bb: você abriu do HJ, fez cbet B40 no flop (range bet da nossa estratégia), o BB pagou e deu check no turn. Barrel com o size do runout.",
       "street": "turn",
-      "situation": "Turn após b67",
+      "situation": "Turn após B40",
       "heroPosition": "HJ",
       "villainPosition": "BB",
       "stack": {
@@ -76,12 +76,12 @@
         "bet-125"
       ],
       "defaultActionId": "check",
-      "tablePot": 10.5,
-      "invested": 5,
+      "tablePot": 8.1,
+      "invested": 3.8,
       "villainCoversHero": true,
       "cbet": {
         "table": "cbet-turn",
-        "node": "after-b67"
+        "node": "after-b40"
       },
       "dealFrom": {
         "strategy": "rfi-30bb-vanilla-hj",
@@ -91,16 +91,62 @@
       },
       "history": [
         "HJ raise 2bb · BB call",
-        "BB X · HJ B67 · BB C",
+        "BB X · HJ B40 · BB C",
         "BB X"
       ]
     },
     {
-      "id": "cbet-turn-ip-co-after-b67",
-      "name": "Cbet Turn IP CO vs BB · depois do cbet b67",
-      "description": "SRP 30bb: você abriu do CO, fez cbet b67 no flop, o BB pagou e deu check no turn. Barrel com o size do runout.",
+      "id": "cbet-turn-ip-hj-after-b25",
+      "name": "Cbet Turn IP HJ vs BB · depois do cbet B25",
+      "description": "SRP 30bb: você abriu do HJ, fez cbet B25 no flop (range bet da nossa estratégia), o BB pagou e deu check no turn. Barrel com o size do runout.",
       "street": "turn",
-      "situation": "Turn após b67",
+      "situation": "Turn após B25",
+      "heroPosition": "HJ",
+      "villainPosition": "BB",
+      "stack": {
+        "min": 30,
+        "max": 30
+      },
+      "ratio": null,
+      "bubble": null,
+      "tags": [
+        "posflop-attack",
+        "cbet-turn",
+        "mes"
+      ],
+      "actionIds": [
+        "check",
+        "bet-25",
+        "bet-40",
+        "bet-67",
+        "bet-125"
+      ],
+      "defaultActionId": "check",
+      "tablePot": 6.75,
+      "invested": 3.125,
+      "villainCoversHero": true,
+      "cbet": {
+        "table": "cbet-turn",
+        "node": "after-b25"
+      },
+      "dealFrom": {
+        "strategy": "rfi-30bb-vanilla-hj",
+        "actionIds": [
+          "rfi"
+        ]
+      },
+      "history": [
+        "HJ raise 2bb · BB call",
+        "BB X · HJ B25 · BB C",
+        "BB X"
+      ]
+    },
+    {
+      "id": "cbet-turn-ip-co-after-b40",
+      "name": "Cbet Turn IP CO vs BB · depois do cbet B40",
+      "description": "SRP 30bb: você abriu do CO, fez cbet B40 no flop (range bet da nossa estratégia), o BB pagou e deu check no turn. Barrel com o size do runout.",
+      "street": "turn",
+      "situation": "Turn após B40",
       "heroPosition": "CO",
       "villainPosition": "BB",
       "stack": {
@@ -122,12 +168,12 @@
         "bet-125"
       ],
       "defaultActionId": "check",
-      "tablePot": 10.5,
-      "invested": 5,
+      "tablePot": 8.1,
+      "invested": 3.8,
       "villainCoversHero": true,
       "cbet": {
         "table": "cbet-turn",
-        "node": "after-b67"
+        "node": "after-b40"
       },
       "dealFrom": {
         "strategy": "rfi-30bb-vanilla-co",
@@ -137,16 +183,62 @@
       },
       "history": [
         "CO raise 2bb · BB call",
-        "BB X · CO B67 · BB C",
+        "BB X · CO B40 · BB C",
         "BB X"
       ]
     },
     {
-      "id": "cbet-turn-ip-btn-after-b67",
-      "name": "Cbet Turn IP BTN vs BB · depois do cbet b67",
-      "description": "SRP 30bb: você abriu do BTN, fez cbet b67 no flop, o BB pagou e deu check no turn. Barrel com o size do runout.",
+      "id": "cbet-turn-ip-co-after-b25",
+      "name": "Cbet Turn IP CO vs BB · depois do cbet B25",
+      "description": "SRP 30bb: você abriu do CO, fez cbet B25 no flop (range bet da nossa estratégia), o BB pagou e deu check no turn. Barrel com o size do runout.",
       "street": "turn",
-      "situation": "Turn após b67",
+      "situation": "Turn após B25",
+      "heroPosition": "CO",
+      "villainPosition": "BB",
+      "stack": {
+        "min": 30,
+        "max": 30
+      },
+      "ratio": null,
+      "bubble": null,
+      "tags": [
+        "posflop-attack",
+        "cbet-turn",
+        "mes"
+      ],
+      "actionIds": [
+        "check",
+        "bet-25",
+        "bet-40",
+        "bet-67",
+        "bet-125"
+      ],
+      "defaultActionId": "check",
+      "tablePot": 6.75,
+      "invested": 3.125,
+      "villainCoversHero": true,
+      "cbet": {
+        "table": "cbet-turn",
+        "node": "after-b25"
+      },
+      "dealFrom": {
+        "strategy": "rfi-30bb-vanilla-co",
+        "actionIds": [
+          "rfi"
+        ]
+      },
+      "history": [
+        "CO raise 2bb · BB call",
+        "BB X · CO B25 · BB C",
+        "BB X"
+      ]
+    },
+    {
+      "id": "cbet-turn-ip-btn-after-b40",
+      "name": "Cbet Turn IP BTN vs BB · depois do cbet B40",
+      "description": "SRP 30bb: você abriu do BTN, fez cbet B40 no flop (range bet da nossa estratégia), o BB pagou e deu check no turn. Barrel com o size do runout.",
+      "street": "turn",
+      "situation": "Turn após B40",
       "heroPosition": "BTN",
       "villainPosition": "BB",
       "stack": {
@@ -168,12 +260,12 @@
         "bet-125"
       ],
       "defaultActionId": "check",
-      "tablePot": 10.5,
-      "invested": 5,
+      "tablePot": 8.1,
+      "invested": 3.8,
       "villainCoversHero": true,
       "cbet": {
         "table": "cbet-turn",
-        "node": "after-b67"
+        "node": "after-b40"
       },
       "dealFrom": {
         "strategy": "rfi-30bb-vanilla-btn",
@@ -183,7 +275,53 @@
       },
       "history": [
         "BTN raise 2bb · BB call",
-        "BB X · BTN B67 · BB C",
+        "BB X · BTN B40 · BB C",
+        "BB X"
+      ]
+    },
+    {
+      "id": "cbet-turn-ip-btn-after-b25",
+      "name": "Cbet Turn IP BTN vs BB · depois do cbet B25",
+      "description": "SRP 30bb: você abriu do BTN, fez cbet B25 no flop (range bet da nossa estratégia), o BB pagou e deu check no turn. Barrel com o size do runout.",
+      "street": "turn",
+      "situation": "Turn após B25",
+      "heroPosition": "BTN",
+      "villainPosition": "BB",
+      "stack": {
+        "min": 30,
+        "max": 30
+      },
+      "ratio": null,
+      "bubble": null,
+      "tags": [
+        "posflop-attack",
+        "cbet-turn",
+        "mes"
+      ],
+      "actionIds": [
+        "check",
+        "bet-25",
+        "bet-40",
+        "bet-67",
+        "bet-125"
+      ],
+      "defaultActionId": "check",
+      "tablePot": 6.75,
+      "invested": 3.125,
+      "villainCoversHero": true,
+      "cbet": {
+        "table": "cbet-turn",
+        "node": "after-b25"
+      },
+      "dealFrom": {
+        "strategy": "rfi-30bb-vanilla-btn",
+        "actionIds": [
+          "rfi"
+        ]
+      },
+      "history": [
+        "BTN raise 2bb · BB call",
+        "BB X · BTN B25 · BB C",
         "BB X"
       ]
     },
@@ -612,13 +750,22 @@
       "description": "Aula 29: você abriu do HJ, CO ou BTN com 30bb e o BB pagou. Depois do cbet b67 pago, barrel em todos os airs com o size do runout (A ou H b67, dobra H b67, brick b125, dobra M/L b40, 3F b40, 3S b67, 4F/4S b25). Depois do check back no flop: delayed cbet b67 no double check, raise polar fino vs probe b25 e 0% de raise vs probe b67.",
       "variants": [
         [
-          "cbet-turn-ip-hj-after-b67"
+          "cbet-turn-ip-hj-after-b40"
         ],
         [
-          "cbet-turn-ip-co-after-b67"
+          "cbet-turn-ip-hj-after-b25"
         ],
         [
-          "cbet-turn-ip-btn-after-b67"
+          "cbet-turn-ip-co-after-b40"
+        ],
+        [
+          "cbet-turn-ip-co-after-b25"
+        ],
+        [
+          "cbet-turn-ip-btn-after-b40"
+        ],
+        [
+          "cbet-turn-ip-btn-after-b25"
         ],
         [
           "cbet-turn-ip-hj-xx"

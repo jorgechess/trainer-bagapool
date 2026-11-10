@@ -1,16 +1,19 @@
 /**
  * Cbet Turn IP (Posflop Attack, aula 29): o herói abriu, o BB pagou e o pote segue para o turn.
- *   - after-b67: cbet b67 no flop e call do BB. Barrelar todos os airs pelo menos no turn, com o size
+ *   - after-b40 / after-b25: cbet no flop com o size da nossa estratégia (range bet B40 ou B25) e call do BB.
+ *     Barrelar todos os airs pelo menos no turn, com o size
  *     teórico do runout (A ou H b67 · dobra H b67 · brick b125 · dobra M/L b40 · 3F b40 (b50 do solver arredondado) · 3S b67 (b75 do solver arredondado) · 4F/4S b25).
+ *   Double check e probes só nascem de flops em que a nossa estratégia dá check com a mão (split).
  *   - xx: check back no flop e o BB deu check no turn (double check): delayed cbet b67 com todos os airs.
  *   - probe-25: check back no flop e probe b25 do BB: raise com 2nd pair+ (polar fino) e draws sem showdown.
+ *     Turn que dobra o board muda as categorias: top pair vira mão média e paga; raise só com trinca ou melhor.
  *   - probe-67: check back no flop e probe b67 do BB: 0% de raise; call com 2nd pair+, 3rd/4th pair com
  *     redraw e os melhores draws (broca + overs, OESD, FD).
  */
 import { type Card, cardRank, cardSuit, rankValue } from "./cards";
 import { type TurnType, isStraight, outs, turnType, withAce } from "./bb-vs-barrel";
 
-export type CbetTurnNode = "after-b67" | "xx" | "probe-25" | "probe-67";
+export type CbetTurnNode = "after-b40" | "after-b25" | "xx" | "probe-25" | "probe-67";
 
 export type TurnSize = "bet-25" | "bet-40" | "bet-67" | "bet-125";
 
@@ -95,7 +98,8 @@ export interface CbetTurnRead {
 }
 
 const NODE_LABEL: Record<CbetTurnNode, string> = {
-  "after-b67": "Turn depois do cbet b67 pago",
+  "after-b40": "Turn depois do cbet B40 pago",
+  "after-b25": "Turn depois do cbet B25 pago",
   xx: "Double check (flop e turn)",
   "probe-25": "Facing probe b25 no turn",
   "probe-67": "Facing probe b67 no turn",
@@ -118,7 +122,7 @@ export function cbetTurnAnswer(hero: readonly Card[], fullBoard: readonly Card[]
   const draw = h.flushDraw || h.oesd || h.gutshot;
   const read = (action: string, reason: string): CbetTurnRead => ({ action, category: cat, reason, label });
 
-  if (node === "after-b67" || node === "xx") {
+  if (node === "after-b40" || node === "after-b25" || node === "xx") {
     const group = runoutGroup(board);
     const size = node === "xx" ? "bet-67" : RUNOUT_SIZE[group];
     const sizeLabel = size.replace("bet-", "b");
@@ -130,6 +134,12 @@ export function cbetTurnAnswer(hero: readonly Card[], fullBoard: readonly Card[]
     return read(size, `Barrelar todos os airs pelo menos no turn (${why}).`);
   }
   if (node === "probe-25") {
+    if (turnPairsBoard(board)) {
+      if (h.strong) return read("vc-raise", "Turn dobrou o board: raise só com trinca ou melhor.");
+      if (h.pairRank >= 1) return read("vc-call", "Turn dobrou o board: as mãos mudam de categoria e top pair vira mão média; call.");
+      if (draw) return read("vc-raise", "Raise com draws sem valor de showdown.");
+      return read("vc-call", "Probe b25: o resto do range paga (fold quase nunca).");
+    }
     if (h.pairRank >= 1 && h.pairRank <= 2) return read("vc-raise", "Raise polar fino: 2nd pair+.");
     if (h.pairRank === 0 && draw) return read("vc-raise", "Raise com draws sem valor de showdown.");
     return read("vc-call", "Probe b25: o resto do range paga (fold quase nunca).");
@@ -140,4 +150,11 @@ export function cbetTurnAnswer(hero: readonly Card[], fullBoard: readonly Card[]
     return draw ? read("vc-call", "3rd/4th pair só paga com redraw.") : read("vc-fold", "3rd/4th pair sem redraw: fold.");
   if (h.flushDraw || h.oesd || (h.gutshot && h.overcards)) return read("vc-call", "Melhores draws pagam: broca + overs, OESD e FD.");
   return read("vc-fold", "Vs b67 o air e os draws fracos largam.");
+}
+
+/** O turn tem o mesmo valor de uma carta do flop (dobra). */
+export function turnPairsBoard(board: readonly Card[]): boolean {
+  if (board.length < 4) return false;
+  const turn = cardRank(board[3]);
+  return board.slice(0, 3).some((c) => cardRank(c) === turn);
 }

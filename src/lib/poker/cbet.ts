@@ -93,6 +93,9 @@ const SIZE_LABEL: Record<Size, string> = {
   check: "Check",
 };
 
+/** Cbet flop IP vs BB com 25–50bb: a linha do flop que leva aos spots do Cbet Turn IP (30bb). */
+const CBET_FLOP_30BB: CbetSpec = { table: "mes-ip-vs-bb", band: "25-50" };
+
 /** Regra do flop para a tabela da estratégia; null = flop fora do drill. */
 export function flopRuleFor(spec: CbetSpec, board: readonly Card[]): FlopRule | null {
   if (spec.table === "3bet-pot") {
@@ -108,8 +111,16 @@ export function flopRuleFor(spec: CbetSpec, board: readonly Card[]): FlopRule | 
   }
   if (spec.table === "cbet-turn") {
     if (board.length < 4 || new Set(board.slice(0, 3).map((c) => cardRank(c))).size === 1) return null;
+    // Linha do flop precisa existir na nossa estratégia (Cbet flop IP, 25–50bb):
+    // depois do cbet só nos flops de range bet com aquele size; double check e probes só onde há check (split)
+    const flopRule = flopRuleFor(CBET_FLOP_30BB, board.slice(0, 3));
+    if (!flopRule) return null;
+    if (spec.node === "after-b40" && !(flopRule.mode === "range" && flopRule.size === "bet-40")) return null;
+    if (spec.node === "after-b25" && !(flopRule.mode === "range" && flopRule.size === "bet-25")) return null;
+    if ((spec.node === "xx" || spec.node === "probe-25" || spec.node === "probe-67") && flopRule.mode !== "split") return null;
     const labels: Record<CbetTurnNode, string> = {
-      "after-b67": `Turn ${runoutGroup(board)} depois do cbet b67 pago`,
+      "after-b40": `Turn ${runoutGroup(board)} depois do cbet B40 pago`,
+      "after-b25": `Turn ${runoutGroup(board)} depois do cbet B25 pago`,
       xx: "Double check: delayed cbet",
       "probe-25": "Facing probe b25",
       "probe-67": "Facing probe b67",
@@ -328,6 +339,11 @@ export function cbetAnswer(spec: CbetSpec, hero: readonly Card[], board: readonl
     return { action: read.action, rule, hand: { category: read.category, bet: false, reason: read.reason } };
   }
   if (spec.table === "cbet-turn") {
+    // Double check e probes: a mão precisa ser das que dão check no flop pela nossa estratégia
+    if (spec.node === "xx" || spec.node === "probe-25" || spec.node === "probe-67") {
+      const flop = cbetAnswer(CBET_FLOP_30BB, hero, board.slice(0, 3));
+      if (!flop || flop.action !== "check") return null;
+    }
     const read = cbetTurnAnswer(hero, board, spec.node);
     return { action: read.action, rule, hand: { category: read.category, bet: false, reason: read.reason } };
   }
