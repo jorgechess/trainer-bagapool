@@ -36,7 +36,7 @@ export type CbetSpec =
       node: ThreeBetNode;
     }
   | {
-      /** Cbet Turn IP (Posflop Attack, aula 29): turn depois do cbet b67 pago, do double check ou do probe. */
+      /** Cbet Turn IP (Posflop Attack, aula 29): turn depois do cbet B40/B25 do flop, do double check ou do probe. */
       table: "cbet-turn";
       node: CbetTurnNode;
     }

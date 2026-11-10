@@ -19,7 +19,7 @@ o mesmo `id`.
       "id": "cbet-turn-ip",
       "name": "Cbet Turn IP",
       "description": "Texto que aparece na lista de drills",
-      "variants": [["cbet-turn-ip-hj-after-b67"], ["cbet-turn-ip-hj-xx"]],  // cada mão sorteia uma linha
+      "variants": [["cbet-turn-ip-hj-after-b40"], ["cbet-turn-ip-hj-xx"]],  // cada mão sorteia uma linha
       "sampling": "uniforme",            // ou "fronteira" (mãos perto da borda do range)
       "tags": ["posflop-attack", "cbet-turn", "mes"],
       "handsPerSession": 50,
