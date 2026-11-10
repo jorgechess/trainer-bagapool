@@ -767,3 +767,33 @@ test("cargas pós-flop: toda estratégia pós-flop tem histórico da mão até a
     }
   }
 });
+
+test("carga Mãos dos rodadores: mesa 6-max real, ranges do HRC e seção Drills especiais", async () => {
+  const { drillSection } = await import("../sections");
+  const { validateDrill } = await import("../drill");
+  const { tableState } = await import("../table");
+  const result = parseImportBundle(load("maos-rodadores.json"), DEFAULT_LEGEND);
+  assert.deepEqual(result.errors, []);
+  const map = new Map(result.strategies.map((s) => [s.id, s]));
+  const drill = result.drills[0];
+  assert.deepEqual(validateDrill(drill, map), []);
+  assert.equal(drillSection(drill, map), "especiais");
+  const co = map.get("hrc-bh54-co-vs-hj")!;
+  // HRC: 55 paga (97%); AA paga; KK all-in; ATs e 66 mistos; 44 fora
+  assert.equal(co.range["55"], "call");
+  assert.equal(co.range.AA, "call");
+  assert.equal(co.range.KK, "shove");
+  assert.equal(co.range["44"] ?? "fold", "fold");
+  assert.deepEqual([co.range.ATs, co.alsoCorrect?.ATs], ["shove", "call"]);
+  const hj = map.get("hrc-bh54-hj-rfi")!;
+  assert.equal(hj.range["22"] ?? "fold", "fold");
+  assert.equal(hj.range.A5o ?? "fold", "fold");
+  assert.equal(hj.alsoCorrect?.A5o, "rfi-hrc-2bb");
+  // Mesa: 6 lugares, stacks reais menos ante e blinds; open de 2bb do HJ; pote com os antes
+  const state = tableState(co, 1);
+  assert.deepEqual(state.seats.map((s) => s.position), ["UTG", "HJ", "CO", "BTN", "SB", "BB"]);
+  assert.equal(state.remaining!.CO, 20.6);
+  assert.equal(state.remaining!.HJ, 29.9);
+  assert.equal(state.remaining!.SB, 13.1);
+  assert.equal(state.pot, 4.4);
+});

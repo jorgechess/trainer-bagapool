@@ -19,6 +19,7 @@ import bwSbMlr from "../../cargas/bw-sb-mlr.json";
 import bwBb from "../../cargas/bw-bb.json";
 import threeBetPotOop from "../../cargas/3bet-pot-aggressor-oop.json";
 import cbetTurnIp from "../../cargas/cbet-turn-ip.json";
+import maosRodadores from "../../cargas/maos-rodadores.json";
 import bbLeads from "../../cargas/bb-leads.json";
 import bbProbes from "../../cargas/bb-probes.json";
 import bbVs2ndBarrel from "../../cargas/bb-vs-2nd-barrel.json";
@@ -234,5 +235,12 @@ export const CARGAS: Carga[] = [
     description: "Posflop Attack (aula 29): HJ/CO/BTN vs BB 30bb no turn: barrel com o size do runout depois do b67, delayed cbet e vs probe b25/b67.",
     requires: ["rfi-30bb-vanilla"],
     bundle: cbetTurnIp,
+  },
+  {
+    id: "maos-rodadores",
+    name: "Mãos dos rodadores",
+    description: "Drills especiais: mãos reais rodadas no HRC (torneio, mesa, bounties, Risk Premium e ranges).",
+    requires: [],
+    bundle: maosRodadores,
   },
 ];

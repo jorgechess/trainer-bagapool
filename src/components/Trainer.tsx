@@ -6,6 +6,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { type DecisionQueue, QUEUE_STORAGE_KEY, type SendResult, type Submission, createDecisionQueue } from "@/lib/decision-queue";
 import { CardRow } from "@/components/PlayingCard";
 import { HandHistory } from "@/components/HandHistory";
+import { SpecialBrief } from "@/components/SpecialBrief";
 import { handHistory } from "@/lib/poker/history";
 import { PokerTable } from "@/components/PokerTable";
 import { PositionChips } from "@/components/PositionChips";
@@ -302,7 +303,8 @@ function TableSlot({
     handDecisions.slice(0, stepIndex).map((d) => [d.board.length === 3 ? "flop" : d.board.length === 4 ? "turn" : "river", d.chosenActionId]),
   );
   const historyLines = handHistory(strategy.history, step.street, step.board, chosenByStreet, legend);
-  const historyHeight = historyLines.length && !sideBySide ? 44 : 0;
+  // Enunciado dos drills especiais: torneio e Risk Premium acima da mesa
+  const historyHeight = (historyLines.length && !sideBySide ? 44 : 0) + (strategy.special ? (tall ? 210 : 120) : 0);
   const rows = tableCount === 4 ? 2 : 1;
 
   return (
@@ -410,6 +412,14 @@ function TableSlot({
         )}
       </div>
 
+      {strategy.special && (
+        <SpecialBrief
+          spot={strategy.special}
+          hero={strategy.heroPosition}
+          villain={strategy.villainPosition}
+          answered={chosen !== null}
+        />
+      )}
       {!sideBySide && <HandHistory lines={historyLines} />}
 
       {/* Celular deitado: mesa à esquerda ocupando a altura, botões numa coluna à direita */}

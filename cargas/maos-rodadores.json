@@ -1,0 +1,480 @@
+{
+  "legendAdd": [
+    {
+      "id": "rfi-hrc-2bb",
+      "label": "Raise 2bb",
+      "color": "#f4511e",
+      "kind": "raise",
+      "sizing": "2bb"
+    },
+    {
+      "id": "3bet-hrc-6bb",
+      "label": "Raise 6bb",
+      "color": "#d81b60",
+      "kind": "raise",
+      "sizing": "6bb"
+    }
+  ],
+  "strategies": [
+    {
+      "id": "hrc-bh54-hj-rfi",
+      "name": "Bounty Hunters $54 · HJ open (324 left)",
+      "description": "Mão rodada no HRC: UTG foldou e você está no HJ com 32bb. Open de 2bb ou fold?",
+      "street": "preflop",
+      "situation": "Mãos rodadas",
+      "heroPosition": "HJ",
+      "villainPosition": null,
+      "stack": {
+        "min": 32,
+        "max": 32
+      },
+      "ratio": null,
+      "bubble": null,
+      "tags": [
+        "especial",
+        "rodadores"
+      ],
+      "actionIds": [
+        "fold",
+        "rfi-hrc-2bb"
+      ],
+      "defaultActionId": "fold",
+      "tablePot": 2.4,
+      "special": {
+        "caseId": "bounty-hunters-54-co-55",
+        "tournament": {
+          "name": "Bounty Hunters Sunday Hyper Special $54",
+          "logo": "/torneios/bounty-hunters.png",
+          "site": "GGPoker",
+          "format": "PKO · Hyper · 6-max",
+          "buyIn": "$54",
+          "playersLeft": 324,
+          "entrants": 1107,
+          "itm": 132,
+          "blinds": "500/1.000",
+          "ante": 0.15,
+          "averageStack": 34.1
+        },
+        "players": 6,
+        "stacks": {
+          "UTG": 42.7,
+          "HJ": 32.0,
+          "CO": 20.7,
+          "BTN": 69.5,
+          "SB": 13.7,
+          "BB": 19.2
+        },
+        "bounties": {
+          "UTG": "$18.75",
+          "HJ": "$25",
+          "CO": "$48.44",
+          "BTN": "$31.25",
+          "SB": "$12.50",
+          "BB": "$25"
+        },
+        "riskPremium": {
+          "positions": [
+            "UTG",
+            "HJ",
+            "CO",
+            "BTN",
+            "SB",
+            "BB"
+          ],
+          "cells": [
+            [
+              null,
+              {
+                "factor": 0.9,
+                "premium": -2.6
+              },
+              {
+                "factor": 0.65,
+                "premium": -10.7
+              },
+              {
+                "factor": 1.13,
+                "premium": 3.0
+              },
+              {
+                "factor": 0.83,
+                "premium": -4.5
+              },
+              {
+                "factor": 0.78,
+                "premium": -6.2
+              }
+            ],
+            [
+              {
+                "factor": 1.1,
+                "premium": 2.5
+              },
+              null,
+              {
+                "factor": 0.66,
+                "premium": -10.3
+              },
+              {
+                "factor": 1.1,
+                "premium": 2.5
+              },
+              {
+                "factor": 0.84,
+                "premium": -4.3
+              },
+              {
+                "factor": 0.79,
+                "premium": -5.9
+              }
+            ],
+            [
+              {
+                "factor": 1.07,
+                "premium": 1.8
+              },
+              {
+                "factor": 1.07,
+                "premium": 1.8
+              },
+              null,
+              {
+                "factor": 1.07,
+                "premium": 1.8
+              },
+              {
+                "factor": 0.85,
+                "premium": -4.0
+              },
+              {
+                "factor": 0.8,
+                "premium": -5.5
+              }
+            ],
+            [
+              {
+                "factor": 0.97,
+                "premium": -0.8
+              },
+              {
+                "factor": 0.87,
+                "premium": -3.4
+              },
+              {
+                "factor": 0.63,
+                "premium": -11.5
+              },
+              null,
+              {
+                "factor": 0.82,
+                "premium": -5.0
+              },
+              {
+                "factor": 0.76,
+                "premium": -6.9
+              }
+            ],
+            [
+              {
+                "factor": 1.05,
+                "premium": 1.3
+              },
+              {
+                "factor": 1.05,
+                "premium": 1.3
+              },
+              {
+                "factor": 1.05,
+                "premium": 1.3
+              },
+              {
+                "factor": 1.05,
+                "premium": 1.3
+              },
+              null,
+              {
+                "factor": 1.05,
+                "premium": 1.3
+              }
+            ],
+            [
+              {
+                "factor": 1.07,
+                "premium": 1.7
+              },
+              {
+                "factor": 1.07,
+                "premium": 1.7
+              },
+              {
+                "factor": 1.07,
+                "premium": 1.7
+              },
+              {
+                "factor": 1.07,
+                "premium": 1.7
+              },
+              {
+                "factor": 0.85,
+                "premium": -4.0
+              },
+              null
+            ]
+          ]
+        },
+        "payouts": null,
+        "source": "Rodado no HRC pelos rodadores do time",
+        "note": "Na mão real o HJ abriu 2bb e o CO deu all-in com 5♠5♦ (o HRC prefere call, veja o spot do CO)."
+      },
+      "range": {
+        "rfi-hrc-2bb": "33+, A2s+, K5s+, Q7s+, J7s+, T7s+, 97s+, 87s, A7o+, KTo+, QTo+, JTo"
+      },
+      "alsoCorrect": {
+        "fold": "K5s",
+        "rfi-hrc-2bb": "Q6s, A5o"
+      }
+    },
+    {
+      "id": "hrc-bh54-co-vs-hj",
+      "name": "Bounty Hunters $54 · CO vs open do HJ (324 left)",
+      "description": "Mão rodada no HRC: o HJ (32bb, cobre você) abriu 2bb e você está no CO com 20,7bb.",
+      "street": "preflop",
+      "situation": "Mãos rodadas",
+      "heroPosition": "CO",
+      "villainPosition": "HJ",
+      "stack": {
+        "min": 20.7,
+        "max": 20.7
+      },
+      "ratio": null,
+      "bubble": null,
+      "tags": [
+        "especial",
+        "rodadores"
+      ],
+      "actionIds": [
+        "fold",
+        "call",
+        "3bet-hrc-6bb",
+        "shove"
+      ],
+      "defaultActionId": "fold",
+      "tablePot": 4.4,
+      "special": {
+        "caseId": "bounty-hunters-54-co-55",
+        "tournament": {
+          "name": "Bounty Hunters Sunday Hyper Special $54",
+          "logo": "/torneios/bounty-hunters.png",
+          "site": "GGPoker",
+          "format": "PKO · Hyper · 6-max",
+          "buyIn": "$54",
+          "playersLeft": 324,
+          "entrants": 1107,
+          "itm": 132,
+          "blinds": "500/1.000",
+          "ante": 0.15,
+          "averageStack": 34.1
+        },
+        "players": 6,
+        "stacks": {
+          "UTG": 42.7,
+          "HJ": 32.0,
+          "CO": 20.7,
+          "BTN": 69.5,
+          "SB": 13.7,
+          "BB": 19.2
+        },
+        "bounties": {
+          "UTG": "$18.75",
+          "HJ": "$25",
+          "CO": "$48.44",
+          "BTN": "$31.25",
+          "SB": "$12.50",
+          "BB": "$25"
+        },
+        "riskPremium": {
+          "positions": [
+            "UTG",
+            "HJ",
+            "CO",
+            "BTN",
+            "SB",
+            "BB"
+          ],
+          "cells": [
+            [
+              null,
+              {
+                "factor": 0.9,
+                "premium": -2.6
+              },
+              {
+                "factor": 0.65,
+                "premium": -10.7
+              },
+              {
+                "factor": 1.13,
+                "premium": 3.0
+              },
+              {
+                "factor": 0.83,
+                "premium": -4.5
+              },
+              {
+                "factor": 0.78,
+                "premium": -6.2
+              }
+            ],
+            [
+              {
+                "factor": 1.1,
+                "premium": 2.5
+              },
+              null,
+              {
+                "factor": 0.66,
+                "premium": -10.3
+              },
+              {
+                "factor": 1.1,
+                "premium": 2.5
+              },
+              {
+                "factor": 0.84,
+                "premium": -4.3
+              },
+              {
+                "factor": 0.79,
+                "premium": -5.9
+              }
+            ],
+            [
+              {
+                "factor": 1.07,
+                "premium": 1.8
+              },
+              {
+                "factor": 1.07,
+                "premium": 1.8
+              },
+              null,
+              {
+                "factor": 1.07,
+                "premium": 1.8
+              },
+              {
+                "factor": 0.85,
+                "premium": -4.0
+              },
+              {
+                "factor": 0.8,
+                "premium": -5.5
+              }
+            ],
+            [
+              {
+                "factor": 0.97,
+                "premium": -0.8
+              },
+              {
+                "factor": 0.87,
+                "premium": -3.4
+              },
+              {
+                "factor": 0.63,
+                "premium": -11.5
+              },
+              null,
+              {
+                "factor": 0.82,
+                "premium": -5.0
+              },
+              {
+                "factor": 0.76,
+                "premium": -6.9
+              }
+            ],
+            [
+              {
+                "factor": 1.05,
+                "premium": 1.3
+              },
+              {
+                "factor": 1.05,
+                "premium": 1.3
+              },
+              {
+                "factor": 1.05,
+                "premium": 1.3
+              },
+              {
+                "factor": 1.05,
+                "premium": 1.3
+              },
+              null,
+              {
+                "factor": 1.05,
+                "premium": 1.3
+              }
+            ],
+            [
+              {
+                "factor": 1.07,
+                "premium": 1.7
+              },
+              {
+                "factor": 1.07,
+                "premium": 1.7
+              },
+              {
+                "factor": 1.07,
+                "premium": 1.7
+              },
+              {
+                "factor": 1.07,
+                "premium": 1.7
+              },
+              {
+                "factor": 0.85,
+                "premium": -4.0
+              },
+              null
+            ]
+          ]
+        },
+        "payouts": null,
+        "source": "Rodado no HRC pelos rodadores do time",
+        "note": "Na mão real o CO deu all-in com 5♠5♦. O HRC paga com 55 (97%): o HJ cobre e tem muito incentivo para pagar (Risk Premium −10,3% contra o CO)."
+      },
+      "range": {
+        "shove": "KK-66, AKs, AQs, ATs, KQs, AKo, AQo, AJo",
+        "call": "AA, AJs, A9s, A8s, A7s, KJs, KTs, QJs, QTs, JTs, ATo, KQo, 55"
+      },
+      "alsoCorrect": {
+        "call": "ATs, 66"
+      }
+    }
+  ],
+  "drills": [
+    {
+      "id": "maos-rodadores",
+      "name": "Mãos dos rodadores",
+      "description": "Spots reais que os rodadores do time rodaram no HRC: cada mão traz o torneio, a mesa com stacks e bounties, o Risk Premium e os ranges do HRC. Mãos sorteadas do range inteiro de cada spot, com foco nas de fronteira.",
+      "variants": [
+        [
+          "hrc-bh54-hj-rfi"
+        ],
+        [
+          "hrc-bh54-co-vs-hj"
+        ]
+      ],
+      "sampling": "fronteira",
+      "tags": [
+        "especial",
+        "rodadores"
+      ],
+      "handsPerSession": 30,
+      "passAccuracy": 0.8
+    }
+  ]
+}

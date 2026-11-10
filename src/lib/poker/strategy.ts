@@ -133,6 +133,8 @@ export interface Strategy {
   villainAllIn?: boolean;
   /** Tamanhos desenhados na mesa (bb). Padrão: open 2bb, 3-bet 3,5× o open. */
   tableSizes?: { open?: number; threeBet?: number } | null;
+  /** Drill especial: enunciado com o torneio e a mesa real (mãos rodadas no HRC). */
+  special?: SpecialSpot | null;
   /** Range do pré-flop. */
   range: Range;
   /**
@@ -142,6 +144,53 @@ export interface Strategy {
   alsoCorrect?: MixedHands | null;
   /** Ranges do pós-flop por textura; vale a primeira textura que combinar com o board. */
   textureRanges: TextureRange[];
+}
+
+/**
+ * Drills especiais (mãos rodadas no HRC pelos rodadores): o enunciado com o torneio, a mesa real
+ * (stacks e bounties de cada lugar) e o Risk Premium. Estratégias da mesma mão têm o mesmo `caseId`.
+ */
+export interface SpecialSpot {
+  caseId: string;
+  tournament: {
+    name: string;
+    /** Caminho em /public (ex.: "/torneios/bounty-hunters.png"). */
+    logo?: string | null;
+    site?: string | null;
+    /** Ex.: "PKO · Hyper · 6-max". */
+    format?: string | null;
+    buyIn?: string | null;
+    playersLeft?: number | null;
+    entrants?: number | null;
+    /** Lugares pagos. */
+    itm?: number | null;
+    /** Ex.: "500/1.000". */
+    blinds?: string | null;
+    /** Ante por jogador, em bb (sai do stack de todos e fica no pote). */
+    ante?: number | null;
+    averageStack?: number | null;
+  };
+  /** Jogadores na mesa (6 = 6-max, só UTG, HJ, CO, BTN, SB e BB). */
+  players: 6 | 9;
+  /** Stack de cada lugar no começo da mão (bb). */
+  stacks: Partial<Record<Position, number>>;
+  /** Bounty de cada lugar (texto da etiqueta, ex.: "$25"). */
+  bounties?: Partial<Record<Position, string>> | null;
+  /** Bubble factors do HRC: linha = quem decide, coluna = adversário. */
+  riskPremium?: { positions: Position[]; cells: (null | { factor: number; premium: number })[][] } | null;
+  payouts?: { place: string; prize: string }[] | null;
+  /** De onde veio (ex.: "Rodado no HRC pelos rodadores"). */
+  source?: string | null;
+  /** O que aconteceu na mão real (aparece depois de responder). */
+  note?: string | null;
+}
+
+/** Lugares de uma mesa 6-max, na ordem da ação. */
+export const SIX_MAX: readonly Position[] = ["UTG", "HJ", "CO", "BTN", "SB", "BB"];
+
+/** Lugares da mesa desta estratégia. */
+export function tablePositions(strategy: Pick<Strategy, "special">): readonly Position[] {
+  return strategy.special?.players === 6 ? SIX_MAX : POSITIONS;
 }
 
 /** Range aplicável ao board, ou null se nenhuma textura cadastrada combinar. */

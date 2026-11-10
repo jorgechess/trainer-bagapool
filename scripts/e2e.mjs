@@ -834,6 +834,23 @@ async function main() {
     await shot(page, "treino-cbet-turn-ip");
     log("Cbet Turn IP: turn com o size do runout e leitura da mão");
 
+    // Drills especiais: mãos dos rodadores (HRC) com enunciado, mesa 6-max real e Risk Premium
+    await page.goto(`${BASE_URL}/drills`);
+    await page.getByTestId("secao-especiais").getByText("Mãos dos rodadores").waitFor();
+    await page.goto(`${BASE_URL}/drills/maos-rodadores/treinar`);
+    const brief = page.getByTestId("enunciado-especial");
+    await brief.getByText("Bounty Hunters Sunday Hyper Special $54").waitFor();
+    await brief.getByText(/324\/1\.107 restantes/).waitFor();
+    await page.getByTestId("risk-premium").waitFor();
+    const mesaText = await page.getByTestId("mesa").innerText();
+    assert.ok(!/\bMP\b|\bLJ\b|UTG1/.test(mesaText), "mesa 6-max: sem MP, LJ e UTG1");
+    assert.ok((await page.getByTestId("mesa").getByTestId("bounty-tag").count()) >= 5, "bounty em cada lugar");
+    await shot(page, "treino-maos-rodadores");
+    await page.locator("[data-testid=actions] button").first().click();
+    await page.getByTestId("nota-mao-real").waitFor();
+    await shot(page, "treino-maos-rodadores-resposta");
+    log("Mãos dos rodadores: enunciado do torneio, mesa 6-max com bounties e Risk Premium");
+
     // Warmup: botão no início, contagem 3-2-1-Go e treino de 15 minutos; decisões contam no drill de origem
     await page.goto(`${BASE_URL}/`);
     await page.getByTestId("warmup-button").click();

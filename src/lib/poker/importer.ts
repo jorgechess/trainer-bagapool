@@ -53,6 +53,7 @@ export interface ImportStrategy {
   callers?: string[] | null;
   villainLabel?: string | null;
   history?: string[] | null;
+  special?: Strategy["special"];
   tablePosted?: { hero?: number; villain?: number } | null;
   cbet?: import("./cbet").CbetSpec | null;
   tablePot?: number | null;
@@ -249,6 +250,7 @@ export function parseImportBundle(
       ...(raw.openerStack ? { openerStack: raw.openerStack } : {}),
       ...(raw.villainCoversHero ? { villainCoversHero: true } : {}),
       ...(raw.villainLabel ? { villainLabel: String(raw.villainLabel) } : {}),
+      ...(raw.special && typeof raw.special === "object" ? { special: raw.special } : {}),
       ...(Array.isArray(raw.history) && raw.history.length ? { history: raw.history.slice(0, 4).map(String) } : {}),
       ...(raw.tablePosted ? { tablePosted: raw.tablePosted } : {}),
       ...(raw.cbet ? { cbet: raw.cbet } : {}),

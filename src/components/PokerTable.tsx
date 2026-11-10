@@ -24,7 +24,6 @@ interface PokerTableProps {
   minWidth?: number;
 }
 
-const SEAT_COUNT = 9;
 /** Valor padrão da etiqueta de bounty nas mesas PKO. */
 const DEFAULT_BOUNTY = "$10.00";
 /** Distância das fichas e do botão do dealer até o centro (1 = no lugar do jogador). */
@@ -41,14 +40,16 @@ interface Shape {
   ry: number;
   /** Margens do feltro (CSS inset). */
   felt: string;
+  /** Lugares na mesa (9 ou 6). */
+  count: number;
 }
 
-const WIDE: Shape = { aspect: 1.6, rx: 44, ry: 40, felt: "10% 8%" };
-const TALL: Shape = { aspect: 0.82, rx: 39, ry: 41, felt: "9% 13%" };
+const WIDE: Shape = { aspect: 1.6, rx: 44, ry: 40, felt: "10% 8%", count: 9 };
+const TALL: Shape = { aspect: 0.82, rx: 39, ry: 41, felt: "9% 13%", count: 9 };
 
 /** Posição do lugar na elipse; o herói fica embaixo, no centro, e a ação gira no sentido horário. */
 function seatPlacement(shape: Shape, offset: number) {
-  const angle = ((90 + (offset * 360) / SEAT_COUNT) * Math.PI) / 180;
+  const angle = ((90 + (offset * 360) / shape.count) * Math.PI) / 180;
   return { x: 50 + shape.rx * Math.cos(angle), y: 50 + shape.ry * Math.sin(angle) };
 }
 
@@ -192,9 +193,9 @@ export function PokerTable({
   minWidth = 0,
   compact = false,
 }: PokerTableProps) {
-  const shape = vertical ? TALL : WIDE;
   const seed = seedFrom(heroCards.join(""));
   const { seats, remaining, pot, raiseLabel } = tableState(strategy, seed);
+  const shape = { ...(vertical ? TALL : WIDE), count: seats.length };
   const stack = formatNumberRange(strategy.stack, "bb");
   const button = seats.find((s) => s.isButton);
   const left = playersLeft(strategy, seed);
@@ -351,7 +352,10 @@ export function PokerTable({
             heroCards={heroCards}
             shape={shape}
             raiseLabel={raiseLabel}
-            bounty={strategy.pko ? strategy.pko.bounty || DEFAULT_BOUNTY : undefined}
+            bounty={
+              strategy.special?.bounties?.[seat.position] ??
+              (strategy.pko ? strategy.pko.bounty || DEFAULT_BOUNTY : undefined)
+            }
           />
         ))}
       </div>

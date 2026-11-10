@@ -1,5 +1,5 @@
 /** Situação de cada lugar da mesa (9 jogadores) para desenhar o spot como num jogo de verdade. */
-import { POSITIONS, type Position, type Strategy } from "./strategy";
+import { POSITIONS, type Position, type Strategy, tablePositions } from "./strategy";
 
 export type SeatStatus = "hero" | "folded" | "waiting" | "raised" | "called" | "active";
 
@@ -61,11 +61,12 @@ export function tableSizes(strategy: Strategy): { open: number; threeBet: number
  * Pós-flop: só herói e vilão seguem na mão.
  */
 export function tableSeats(strategy: Strategy): Seat[] {
-  const heroIndex = POSITIONS.indexOf(strategy.heroPosition);
+  const positions = tablePositions(strategy);
+  const heroIndex = positions.indexOf(strategy.heroPosition);
   const preflop = strategy.street === "preflop";
   const threeBet = facesThreeBet(strategy);
   const sizes = tableSizes(strategy);
-  return POSITIONS.map((position, index) => {
+  return positions.map((position, index) => {
     let status: SeatStatus;
     if (position === strategy.heroPosition) status = "hero";
     else if (position === strategy.villainPosition) status = preflop ? "raised" : "active";
@@ -86,7 +87,7 @@ export function tableSeats(strategy: Strategy): Seat[] {
       status,
       posted,
       isButton: position === "BTN",
-      offset: (index - heroIndex + POSITIONS.length) % POSITIONS.length,
+      offset: (index - heroIndex + positions.length) % positions.length,
     };
   });
 }
@@ -226,6 +227,11 @@ export function tableState(strategy: Strategy, seed: number): TableState {
     for (const seat of seats)
       start[seat.position] = seat.status === "hero" ? hero : villainStart(strategy, hero, villains?.[seat.position], base?.others);
   }
+  // Drill especial: a mesa real (stacks de cada lugar no começo da mão)
+  if (strategy.special) {
+    const fallback = hero ?? strategy.stack.min;
+    start = Object.fromEntries(seats.map((s) => [s.position, strategy.special!.stacks[s.position] ?? fallback]));
+  }
   if (start && strategy.openerStack && strategy.villainPosition) {
     const { min, max } = strategy.openerStack;
     start[strategy.villainPosition] = Math.ceil(min) + (Math.floor(Math.abs(seed) / 13) % (Math.floor(max) - Math.ceil(min) + 1));
@@ -243,11 +249,12 @@ export function tableState(strategy: Strategy, seed: number): TableState {
   const pot = strategy.villainAllIn ? Math.round(total * 10) / 10 : knownPot(strategy);
   // O stack do spot é o do começo da mão: no pós-flop sai o que cada um já colocou no pote
   const inPot = investedBefore(strategy, pot);
+  const ante = strategy.special?.tournament.ante ?? 0;
   const remaining = start
     ? Object.fromEntries(
         seats.map((s) => {
           const already = s.status === "hero" || s.status === "active" ? inPot : 0;
-          return [s.position, Math.max(0, Math.round((start![s.position]! - already - s.posted) * 10) / 10)];
+          return [s.position, Math.max(0, Math.round((start![s.position]! - already - s.posted - ante) * 10) / 10)];
         }),
       )
     : null;
