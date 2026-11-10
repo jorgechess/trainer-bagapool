@@ -88,7 +88,8 @@
       ],
       "actionIds": [
         "check",
-        "bet-1bb"
+        "bet-1bb",
+        "bet-67"
       ],
       "defaultActionId": "check",
       "tablePot": 3.5,

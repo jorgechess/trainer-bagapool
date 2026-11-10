@@ -346,6 +346,7 @@
       ],
       "actionIds": [
         "check",
+        "bet-25",
         "bet-67"
       ],
       "defaultActionId": "check",
@@ -389,6 +390,7 @@
       ],
       "actionIds": [
         "check",
+        "bet-25",
         "bet-67"
       ],
       "defaultActionId": "check",
@@ -432,6 +434,7 @@
       ],
       "actionIds": [
         "check",
+        "bet-25",
         "bet-67"
       ],
       "defaultActionId": "check",

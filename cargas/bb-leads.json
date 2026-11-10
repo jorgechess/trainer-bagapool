@@ -58,7 +58,8 @@
       ],
       "actionIds": [
         "check",
-        "bet-25"
+        "bet-25",
+        "bet-67"
       ],
       "defaultActionId": "check",
       "tablePot": 4.5,
@@ -99,7 +100,8 @@
       ],
       "actionIds": [
         "check",
-        "bet-25"
+        "bet-25",
+        "bet-67"
       ],
       "defaultActionId": "check",
       "tablePot": 4.5,
@@ -274,7 +276,8 @@
       ],
       "actionIds": [
         "check",
-        "bet-25"
+        "bet-25",
+        "bet-67"
       ],
       "defaultActionId": "check",
       "tablePot": 4.5,
@@ -315,7 +318,8 @@
       ],
       "actionIds": [
         "check",
-        "bet-25"
+        "bet-25",
+        "bet-67"
       ],
       "defaultActionId": "check",
       "tablePot": 4.5,
