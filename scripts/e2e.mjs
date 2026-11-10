@@ -273,7 +273,7 @@ async function main() {
     }
     await page.waitForTimeout(1500);
     assert.equal(await countRows("attempts"), before, "decisões com a resposta à mostra não são salvas");
-    await page.getByText(/3 com resposta à mostra/).waitFor();
+    await page.getByText(/3 fora da conta/).waitFor();
     await page.getByRole("button", { name: "Resposta à mostra" }).click();
     assert.equal(await page.locator("[data-hand='AA']").count(), 0, "range volta a ficar escondido");
     log("olho mostra a resposta e essas decisões não contam");
@@ -875,6 +875,8 @@ async function main() {
     await viewer.waitFor({ state: "hidden" });
     await page.locator("[data-testid=actions] button").first().click();
     await page.getByTestId("nota-mao-real").waitFor();
+    // Abriu o "Visualizar spot" antes de responder: a decisão não conta (nem no desempenho, nem no ranking)
+    await page.getByText(/1 fora da conta/).waitFor();
     await page.getByTestId("botao-visualizar-spot").click();
     assert.equal(await viewer.getByText("Responda para ver o range deste spot").count(), 0, "range aparece depois de responder");
     await viewer.getByTestId("legenda-range").first().waitFor();

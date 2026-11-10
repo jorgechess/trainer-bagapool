@@ -215,6 +215,16 @@ function TableSlot({
   const step = question?.steps[stepIndex];
   const strategy = step ? strategyMap.get(step.strategyId) : undefined;
 
+  // Viu a resposta (olho) ou abriu o "Visualizar spot" antes de responder esta decisão: ela não conta,
+  // mesmo que feche antes de clicar. Zera a cada decisão nova.
+  const sawBefore = useRef(false);
+  useEffect(() => {
+    sawBefore.current = false;
+  }, [question, stepIndex]);
+  useEffect(() => {
+    if ((peek || viewing) && chosen === null) sawBefore.current = true;
+  }, [peek, viewing, chosen, question, stepIndex]);
+
   useEffect(() => {
     onState(
       index,
@@ -239,12 +249,12 @@ function TableSlot({
         alsoAccepted: step.alsoAccepted,
         correct: isCorrectStep(step, actionId),
         hand: question.hand,
-        peeked: peek,
+        peeked: peek || viewing || sawBefore.current,
       };
       setHandDecisions((d) => [...d, decision]);
       onDecision(decision);
     },
-    [question, step, chosen, done, peek, onDecision],
+    [question, step, chosen, done, peek, viewing, onDecision],
   );
 
   const next = useCallback(() => {
@@ -982,7 +992,7 @@ export function Trainer({ drill, strategies, legend, timeLimitSec, sourceDrillOf
           </p>
           {peekedCount > 0 && (
             <p className="text-xs text-zinc-500">
-              {peekedCount} respondida(s) com a resposta à mostra, fora da conta e do desempenho.
+              {peekedCount} respondida(s) depois de ver a resposta ou o spot, fora da conta, do desempenho e do ranking.
             </p>
           )}
         </div>
@@ -1025,7 +1035,7 @@ export function Trainer({ drill, strategies, legend, timeLimitSec, sourceDrillOf
                 <li key={i} className="flex flex-wrap items-center justify-between gap-2 py-2">
                   <span className="flex items-center gap-2" data-testid="mistake-cards" title={m.hand}>
                     {m.peeked && (
-                      <span title="Com a resposta à mostra">
+                      <span title="Respondida depois de ver a resposta ou o spot">
                         👁
                       </span>
                     )}
@@ -1138,7 +1148,7 @@ export function Trainer({ drill, strategies, legend, timeLimitSec, sourceDrillOf
           Responda para ver o range
         </div>
       )}
-      {peek && <p className="text-xs text-zinc-500">Com a resposta à mostra, as decisões não contam no desempenho.</p>}
+      {peek && <p className="text-xs text-zinc-500">Com a resposta à mostra, as decisões não contam no desempenho nem no ranking.</p>}
     </div>
   );
 
@@ -1179,7 +1189,7 @@ export function Trainer({ drill, strategies, legend, timeLimitSec, sourceDrillOf
             <p className="muted">
               {countedDecisions.length > 0 ? formatPercent(accuracy) : "—"} de acerto
               {countedDecisions.length > 0 && ` · ${correctCount}/${countedDecisions.length} decisões`}
-              {peekedCount > 0 && ` · ${peekedCount} com resposta à mostra`}
+              {peekedCount > 0 && ` · ${peekedCount} fora da conta (resposta ou spot vistos antes)`}
             </p>
           </div>
         </div>
