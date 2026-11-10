@@ -1,0 +1,705 @@
+{
+  "legendAdd": [
+    {
+      "id": "rfi-hrc-2bb",
+      "label": "Raise 2bb",
+      "color": "#f4511e",
+      "kind": "raise",
+      "sizing": "2bb"
+    }
+  ],
+  "strategies": [
+    {
+      "id": "pko-bhds21-utg-rfi",
+      "name": "Bounty Hunters Deepstack $21.60 · UTG open (474 left, bolha)",
+      "description": "Mão rodada no HRC: 474 restantes, 408 pagos. Você é o UTG com 36,4bb e abre a ação. Open de 2bb ou fold?",
+      "street": "preflop",
+      "situation": "PKO · bolha",
+      "heroPosition": "UTG",
+      "villainPosition": null,
+      "stack": {
+        "min": 36.4,
+        "max": 36.4
+      },
+      "ratio": null,
+      "bubble": null,
+      "tags": [
+        "especial",
+        "pko-spots"
+      ],
+      "actionIds": [
+        "fold",
+        "rfi-hrc-2bb"
+      ],
+      "defaultActionId": "fold",
+      "tablePot": 2.6,
+      "special": {
+        "caseId": "bh-deepstack-21-bolha-mp-kq",
+        "tournament": {
+          "name": "Bounty Hunters Deepstack Turbo $21.60",
+          "logo": "/torneios/bounty-hunters.png",
+          "site": "GGPoker",
+          "format": "PKO · Turbo · 8-max",
+          "buyIn": "$21.60",
+          "playersLeft": 474,
+          "entrants": 3712,
+          "itm": 408,
+          "blinds": "3.500/7.000",
+          "ante": 0.14,
+          "averageStack": 22.4
+        },
+        "players": 8,
+        "labels": {
+          "UTG1": "EP"
+        },
+        "stacks": {
+          "UTG": 36.4,
+          "UTG1": 59.5,
+          "MP": 8.3,
+          "HJ": 1.8,
+          "CO": 25.9,
+          "BTN": 41.0,
+          "SB": 17.3,
+          "BB": 12.8
+        },
+        "bounties": {
+          "UTG": "$28.75",
+          "UTG1": "$20",
+          "MP": "$7.50",
+          "HJ": "$5",
+          "CO": "$18.75",
+          "BTN": "$42.50",
+          "SB": "$18.75",
+          "BB": "$15"
+        },
+        "riskPremium": {
+          "positions": [
+            "UTG",
+            "UTG1",
+            "MP",
+            "HJ",
+            "CO",
+            "BTN",
+            "SB",
+            "BB"
+          ],
+          "cells": [
+            [
+              null,
+              {
+                "factor": 1.27,
+                "premium": 6.0
+              },
+              {
+                "factor": 0.83,
+                "premium": -4.5
+              },
+              {
+                "factor": 0.6,
+                "premium": -12.6
+              },
+              {
+                "factor": 0.92,
+                "premium": -2.1
+              },
+              {
+                "factor": 1.27,
+                "premium": 6.0
+              },
+              {
+                "factor": 0.82,
+                "premium": -4.8
+              },
+              {
+                "factor": 0.8,
+                "premium": -5.5
+              }
+            ],
+            [
+              {
+                "factor": 0.88,
+                "premium": -3.2
+              },
+              null,
+              {
+                "factor": 0.82,
+                "premium": -4.9
+              },
+              {
+                "factor": 0.59,
+                "premium": -13.0
+              },
+              {
+                "factor": 0.88,
+                "premium": -3.3
+              },
+              {
+                "factor": 0.84,
+                "premium": -4.3
+              },
+              {
+                "factor": 0.8,
+                "premium": -5.5
+              },
+              {
+                "factor": 0.78,
+                "premium": -6.1
+              }
+            ],
+            [
+              {
+                "factor": 1.5,
+                "premium": 10.1
+              },
+              {
+                "factor": 1.5,
+                "premium": 10.1
+              },
+              null,
+              {
+                "factor": 0.7,
+                "premium": -8.9
+              },
+              {
+                "factor": 1.5,
+                "premium": 10.1
+              },
+              {
+                "factor": 1.5,
+                "premium": 10.1
+              },
+              {
+                "factor": 1.5,
+                "premium": 10.1
+              },
+              {
+                "factor": 1.5,
+                "premium": 10.1
+              }
+            ],
+            [
+              {
+                "factor": 1.23,
+                "premium": 5.2
+              },
+              {
+                "factor": 1.23,
+                "premium": 5.2
+              },
+              {
+                "factor": 1.23,
+                "premium": 5.2
+              },
+              null,
+              {
+                "factor": 1.23,
+                "premium": 5.2
+              },
+              {
+                "factor": 1.23,
+                "premium": 5.2
+              },
+              {
+                "factor": 1.23,
+                "premium": 5.2
+              },
+              {
+                "factor": 1.23,
+                "premium": 5.2
+              }
+            ],
+            [
+              {
+                "factor": 1.32,
+                "premium": 6.9
+              },
+              {
+                "factor": 1.32,
+                "premium": 6.9
+              },
+              {
+                "factor": 0.85,
+                "premium": -4.1
+              },
+              {
+                "factor": 0.61,
+                "premium": -12.3
+              },
+              null,
+              {
+                "factor": 1.32,
+                "premium": 6.9
+              },
+              {
+                "factor": 0.87,
+                "premium": -3.5
+              },
+              {
+                "factor": 0.82,
+                "premium": -4.8
+              }
+            ],
+            [
+              {
+                "factor": 0.95,
+                "premium": -1.2
+              },
+              {
+                "factor": 1.26,
+                "premium": 5.7
+              },
+              {
+                "factor": 0.83,
+                "premium": -4.6
+              },
+              {
+                "factor": 0.59,
+                "premium": -12.7
+              },
+              {
+                "factor": 0.9,
+                "premium": -2.6
+              },
+              null,
+              {
+                "factor": 0.82,
+                "premium": -5.0
+              },
+              {
+                "factor": 0.8,
+                "premium": -5.7
+              }
+            ],
+            [
+              {
+                "factor": 1.39,
+                "premium": 8.2
+              },
+              {
+                "factor": 1.39,
+                "premium": 8.2
+              },
+              {
+                "factor": 0.9,
+                "premium": -2.6
+              },
+              {
+                "factor": 0.62,
+                "premium": -11.7
+              },
+              {
+                "factor": 1.39,
+                "premium": 8.2
+              },
+              {
+                "factor": 1.39,
+                "premium": 8.2
+              },
+              null,
+              {
+                "factor": 0.93,
+                "premium": -1.8
+              }
+            ],
+            [
+              {
+                "factor": 1.45,
+                "premium": 9.2
+              },
+              {
+                "factor": 1.45,
+                "premium": 9.2
+              },
+              {
+                "factor": 1.0,
+                "premium": -0.1
+              },
+              {
+                "factor": 0.64,
+                "premium": -10.8
+              },
+              {
+                "factor": 1.45,
+                "premium": 9.2
+              },
+              {
+                "factor": 1.45,
+                "premium": 9.2
+              },
+              {
+                "factor": 1.45,
+                "premium": 9.2
+              },
+              null
+            ]
+          ]
+        },
+        "payouts": null,
+        "source": "Rodado no HRC pelos rodadores do time · perto da bolha (66 para o ITM)",
+        "note": "Na mão real o UTG (36,4bb) abriu 2bb; o MP, com 8,3bb, tinha K♦Q♠ (veja o spot do MP)."
+      },
+      "range": {
+        "rfi-hrc-2bb": "44+, A2s+, K7s+, Q9s+, J9s+, T8s+, A8o+, KTo+, QJo"
+      },
+      "alsoCorrect": {
+        "rfi-hrc-2bb": "J8s, QTo, 98s"
+      }
+    },
+    {
+      "id": "pko-bhds21-mp-vs-utg",
+      "name": "Bounty Hunters Deepstack $21.60 · MP vs open do UTG (474 left, bolha)",
+      "description": "Mão rodada no HRC: o UTG (36,4bb, cobre você) abriu 2bb, o EP largou e você está no MP com 8,3bb, a 66 jogadores da bolha.",
+      "street": "preflop",
+      "situation": "PKO · bolha",
+      "heroPosition": "MP",
+      "villainPosition": "UTG",
+      "stack": {
+        "min": 8.3,
+        "max": 8.3
+      },
+      "ratio": null,
+      "bubble": null,
+      "tags": [
+        "especial",
+        "pko-spots"
+      ],
+      "actionIds": [
+        "fold",
+        "call",
+        "shove"
+      ],
+      "defaultActionId": "fold",
+      "tablePot": 4.6,
+      "special": {
+        "caseId": "bh-deepstack-21-bolha-mp-kq",
+        "tournament": {
+          "name": "Bounty Hunters Deepstack Turbo $21.60",
+          "logo": "/torneios/bounty-hunters.png",
+          "site": "GGPoker",
+          "format": "PKO · Turbo · 8-max",
+          "buyIn": "$21.60",
+          "playersLeft": 474,
+          "entrants": 3712,
+          "itm": 408,
+          "blinds": "3.500/7.000",
+          "ante": 0.14,
+          "averageStack": 22.4
+        },
+        "players": 8,
+        "labels": {
+          "UTG1": "EP"
+        },
+        "stacks": {
+          "UTG": 36.4,
+          "UTG1": 59.5,
+          "MP": 8.3,
+          "HJ": 1.8,
+          "CO": 25.9,
+          "BTN": 41.0,
+          "SB": 17.3,
+          "BB": 12.8
+        },
+        "bounties": {
+          "UTG": "$28.75",
+          "UTG1": "$20",
+          "MP": "$7.50",
+          "HJ": "$5",
+          "CO": "$18.75",
+          "BTN": "$42.50",
+          "SB": "$18.75",
+          "BB": "$15"
+        },
+        "riskPremium": {
+          "positions": [
+            "UTG",
+            "UTG1",
+            "MP",
+            "HJ",
+            "CO",
+            "BTN",
+            "SB",
+            "BB"
+          ],
+          "cells": [
+            [
+              null,
+              {
+                "factor": 1.27,
+                "premium": 6.0
+              },
+              {
+                "factor": 0.83,
+                "premium": -4.5
+              },
+              {
+                "factor": 0.6,
+                "premium": -12.6
+              },
+              {
+                "factor": 0.92,
+                "premium": -2.1
+              },
+              {
+                "factor": 1.27,
+                "premium": 6.0
+              },
+              {
+                "factor": 0.82,
+                "premium": -4.8
+              },
+              {
+                "factor": 0.8,
+                "premium": -5.5
+              }
+            ],
+            [
+              {
+                "factor": 0.88,
+                "premium": -3.2
+              },
+              null,
+              {
+                "factor": 0.82,
+                "premium": -4.9
+              },
+              {
+                "factor": 0.59,
+                "premium": -13.0
+              },
+              {
+                "factor": 0.88,
+                "premium": -3.3
+              },
+              {
+                "factor": 0.84,
+                "premium": -4.3
+              },
+              {
+                "factor": 0.8,
+                "premium": -5.5
+              },
+              {
+                "factor": 0.78,
+                "premium": -6.1
+              }
+            ],
+            [
+              {
+                "factor": 1.5,
+                "premium": 10.1
+              },
+              {
+                "factor": 1.5,
+                "premium": 10.1
+              },
+              null,
+              {
+                "factor": 0.7,
+                "premium": -8.9
+              },
+              {
+                "factor": 1.5,
+                "premium": 10.1
+              },
+              {
+                "factor": 1.5,
+                "premium": 10.1
+              },
+              {
+                "factor": 1.5,
+                "premium": 10.1
+              },
+              {
+                "factor": 1.5,
+                "premium": 10.1
+              }
+            ],
+            [
+              {
+                "factor": 1.23,
+                "premium": 5.2
+              },
+              {
+                "factor": 1.23,
+                "premium": 5.2
+              },
+              {
+                "factor": 1.23,
+                "premium": 5.2
+              },
+              null,
+              {
+                "factor": 1.23,
+                "premium": 5.2
+              },
+              {
+                "factor": 1.23,
+                "premium": 5.2
+              },
+              {
+                "factor": 1.23,
+                "premium": 5.2
+              },
+              {
+                "factor": 1.23,
+                "premium": 5.2
+              }
+            ],
+            [
+              {
+                "factor": 1.32,
+                "premium": 6.9
+              },
+              {
+                "factor": 1.32,
+                "premium": 6.9
+              },
+              {
+                "factor": 0.85,
+                "premium": -4.1
+              },
+              {
+                "factor": 0.61,
+                "premium": -12.3
+              },
+              null,
+              {
+                "factor": 1.32,
+                "premium": 6.9
+              },
+              {
+                "factor": 0.87,
+                "premium": -3.5
+              },
+              {
+                "factor": 0.82,
+                "premium": -4.8
+              }
+            ],
+            [
+              {
+                "factor": 0.95,
+                "premium": -1.2
+              },
+              {
+                "factor": 1.26,
+                "premium": 5.7
+              },
+              {
+                "factor": 0.83,
+                "premium": -4.6
+              },
+              {
+                "factor": 0.59,
+                "premium": -12.7
+              },
+              {
+                "factor": 0.9,
+                "premium": -2.6
+              },
+              null,
+              {
+                "factor": 0.82,
+                "premium": -5.0
+              },
+              {
+                "factor": 0.8,
+                "premium": -5.7
+              }
+            ],
+            [
+              {
+                "factor": 1.39,
+                "premium": 8.2
+              },
+              {
+                "factor": 1.39,
+                "premium": 8.2
+              },
+              {
+                "factor": 0.9,
+                "premium": -2.6
+              },
+              {
+                "factor": 0.62,
+                "premium": -11.7
+              },
+              {
+                "factor": 1.39,
+                "premium": 8.2
+              },
+              {
+                "factor": 1.39,
+                "premium": 8.2
+              },
+              null,
+              {
+                "factor": 0.93,
+                "premium": -1.8
+              }
+            ],
+            [
+              {
+                "factor": 1.45,
+                "premium": 9.2
+              },
+              {
+                "factor": 1.45,
+                "premium": 9.2
+              },
+              {
+                "factor": 1.0,
+                "premium": -0.1
+              },
+              {
+                "factor": 0.64,
+                "premium": -10.8
+              },
+              {
+                "factor": 1.45,
+                "premium": 9.2
+              },
+              {
+                "factor": 1.45,
+                "premium": 9.2
+              },
+              {
+                "factor": 1.45,
+                "premium": 9.2
+              },
+              null
+            ]
+          ]
+        },
+        "payouts": null,
+        "source": "Rodado no HRC pelos rodadores do time · perto da bolha (66 para o ITM)",
+        "note": "Na mão real você estava no MP com K♦Q♠. O HRC larga KQo (0%): perto da bolha, seu Risk Premium contra o UTG é +10,1%, e o all-in fica só com 99+, AJs+ e AQo+."
+      },
+      "range": {
+        "shove": "99+, AJs+, AQo+"
+      }
+    }
+  ],
+  "drills": [
+    {
+      "id": "pko-spots",
+      "name": "PKO Spots",
+      "description": "Spots de torneios PKO rodados no HRC pelos rodadores do time: cada mão traz o torneio, a mesa com stacks e bounties, o Risk Premium e os ranges do HRC. Mãos sorteadas do range inteiro de cada spot, com foco nas de fronteira.",
+      "variants": [
+        [
+          "pko-bhds21-utg-rfi"
+        ],
+        [
+          "pko-bhds21-mp-vs-utg"
+        ]
+      ],
+      "sampling": "fronteira",
+      "tags": [
+        "especial",
+        "pko-spots"
+      ],
+      "handsPerSession": 30,
+      "passAccuracy": 0.8
+    }
+  ]
+}

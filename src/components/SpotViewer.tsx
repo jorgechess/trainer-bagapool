@@ -5,7 +5,7 @@ import { RangeGrid } from "@/components/RangeGrid";
 import { SpecialBrief } from "@/components/SpecialBrief";
 import { type Legend, findAction, textColorFor } from "@/lib/poker/legend";
 import { rangeBreakdown } from "@/lib/poker/range";
-import type { Strategy } from "@/lib/poker/strategy";
+import { type Strategy, positionLabel } from "@/lib/poker/strategy";
 
 /**
  * "Visualizar Spot" dos drills especiais: o enunciado completo (torneio, payouts, Risk Premium) e os ranges
@@ -60,9 +60,9 @@ export function SpotViewer({
             return (
               <section key={s.id} className={`space-y-2 rounded-lg border p-3 ${current ? "border-baga-gold/60" : "border-zinc-800"}`}>
                 <h3 className="text-sm font-semibold">
-                  Range do {s.heroPosition} ({s.stack.min.toLocaleString("pt-BR")}bb)
+                  Range do {positionLabel(s.heroPosition, s.special)} ({s.stack.min.toLocaleString("pt-BR")}bb)
                   <span className="font-normal text-zinc-400">
-                    {s.villainPosition ? ` vs open do ${s.villainPosition}` : " · first in"}
+                    {s.villainPosition ? ` vs open do ${positionLabel(s.villainPosition, s.special)}` : " · first in"}
                   </span>
                   {current && <span className="ml-2 text-xs text-baga-gold">(este spot)</span>}
                 </h3>

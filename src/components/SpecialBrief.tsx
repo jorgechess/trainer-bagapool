@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { type PayLadder, formatMoney, payLadder } from "@/lib/poker/payjumps";
-import type { Position, SpecialSpot } from "@/lib/poker/strategy";
+import { type Position, type SpecialSpot, positionLabel } from "@/lib/poker/strategy";
 
 const fmt = (n: number, digits = 2) => n.toLocaleString("pt-BR", { maximumFractionDigits: digits });
 
@@ -182,7 +182,7 @@ function RiskPremiumTable({ spot, hero, villain }: { spot: SpecialSpot; hero: Po
             <th />
             {rp.positions.map((p) => (
               <th key={p} className={`px-1 font-semibold ${p === villain ? "text-baga-gold" : "text-zinc-400"}`}>
-                {p}
+                {positionLabel(p, spot)}
                 <span className="block font-normal text-zinc-500">{spot.stacks[p] !== undefined ? fmt(spot.stacks[p]!, 1) : ""}</span>
               </th>
             ))}
@@ -192,7 +192,7 @@ function RiskPremiumTable({ spot, hero, villain }: { spot: SpecialSpot; hero: Po
           {rp.positions.map((row, i) => (
             <tr key={row}>
               <th className={`pr-1 text-left font-semibold whitespace-nowrap ${row === hero ? "text-baga-cream" : "text-zinc-400"}`}>
-                {row === hero ? `${row} (você)` : row}
+                {row === hero ? `${positionLabel(row, spot)} (você)` : positionLabel(row, spot)}
               </th>
               {rp.cells[i].map((cell, j) => {
                 const col = rp.positions[j];

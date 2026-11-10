@@ -889,6 +889,19 @@ async function main() {
     await shot(page, "treino-maos-rodadores-resposta");
     log("Mesa Final (rodadores): enunciado do torneio, mesa 6-max com bounties e Risk Premium");
 
+    // PKO Spots: segunda categoria de drills especiais; mesa 8-max com o EP do HRC e o logo da GGPoker
+    await page.goto(`${BASE_URL}/drills`);
+    await page.getByTestId("secao-especiais").getByText("PKO Spots").waitFor();
+    await page.goto(`${BASE_URL}/drills/pko-spots/treinar`);
+    await page.getByTestId("enunciado-especial").getByText("Bounty Hunters Deepstack Turbo $21.60").waitFor();
+    const mesaPko = await page.getByTestId("mesa").innerText();
+    assert.match(mesaPko, /\bEP\b/, "lugar EP como no HRC");
+    assert.ok(!/UTG1|\bLJ\b/.test(mesaPko), "mesa 8-max sem UTG1 e LJ");
+    assert.equal(await page.getByTestId("mesa").getByTestId("bounty-tag").count(), 8, "bounty nos 8 lugares");
+    await page.getByTestId("marca-site").locator("img[src='/sites/ggpoker.png']").waitFor();
+    await shot(page, "treino-pko-spots");
+    log("PKO Spots: Bounty Hunters Deepstack perto da bolha, mesa 8-max com EP");
+
     // Ranking mensal: admin com 520 decisões (70%) mais 40 da Mesa Final entra; os drills especiais contam
     const [adminProfile] = await (await fetch(`${API_URL}/rest/v1/profiles?select=id&email=eq.admin@e2e.com`, { headers: adminHeaders })).json();
     const fake = (n, drillId, correctEvery) =>

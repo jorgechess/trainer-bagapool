@@ -170,8 +170,10 @@ export interface SpecialSpot {
     ante?: number | null;
     averageStack?: number | null;
   };
-  /** Jogadores na mesa: 9, ou de 2 a 6 (6 = UTG, HJ, CO, BTN, SB e BB; 3 = BTN, SB e BB). */
+  /** Jogadores na mesa: 9, 8 (sem o LJ), 7 (sem UTG1 e LJ) ou de 2 a 6 (6 = UTG, HJ, CO, BTN, SB e BB; 3 = BTN, SB e BB). */
   players: number;
+  /** Nome de um lugar como o HRC/site mostra (ex.: UTG1 = "EP" na mesa 8-max). */
+  labels?: Partial<Record<Position, string>> | null;
   /** Stack de cada lugar no começo da mão (bb). */
   stacks: Partial<Record<Position, number>>;
   /** Bounty de cada lugar (texto da etiqueta, ex.: "$25"). */
@@ -191,7 +193,9 @@ export const SIX_MAX: readonly Position[] = ["UTG", "HJ", "CO", "BTN", "SB", "BB
 /** Lugares da mesa desta estratégia. */
 export function tablePositions(strategy: Pick<Strategy, "special">): readonly Position[] {
   const players = strategy.special?.players;
-  if (!players || players > 6) return POSITIONS;
+  if (!players || players > 8) return POSITIONS;
+  if (players === 8) return POSITIONS.filter((p) => p !== "LJ");
+  if (players === 7) return POSITIONS.filter((p) => p !== "LJ" && p !== "UTG1");
   return SIX_MAX.slice(SIX_MAX.length - Math.max(2, players));
 }
 
@@ -317,4 +321,9 @@ export function validateStrategy(strategy: Strategy, legend: Legend): string[] {
     }
   }
   return [...new Set(errors)];
+}
+
+/** Nome do lugar na tela: o do HRC/site quando a mão traz (ex.: "EP"), senão o padrão do Trainer. */
+export function positionLabel(position: Position, special?: Pick<SpecialSpot, "labels"> | null): string {
+  return special?.labels?.[position] ?? position;
 }

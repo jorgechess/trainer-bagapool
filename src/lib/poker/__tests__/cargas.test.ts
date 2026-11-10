@@ -820,3 +820,31 @@ test("Mesa Final: FT da Daily Legends com mesas de 3, 5 e 6 jogadores", async ()
   assert.equal(map.get("hrc-dl22-6left-d-utg")!.range["55"], "rfi-hrc-2bb");
   assert.equal(map.get("hrc-dl22-5left-e-co")!.range.A4s, "rfi-hrc-2bb");
 });
+
+test("PKO Spots: Bounty Hunters Deepstack perto da bolha, mesa 8-max com EP", async () => {
+  const { drillSection } = await import("../sections");
+  const { validateDrill } = await import("../drill");
+  const { tableState } = await import("../table");
+  const { positionLabel } = await import("../strategy");
+  const result = parseImportBundle(load("pko-spots.json"), DEFAULT_LEGEND);
+  assert.deepEqual(result.errors, []);
+  const map = new Map(result.strategies.map((s) => [s.id, s]));
+  const drill = result.drills[0];
+  assert.equal(drill.name, "PKO Spots");
+  assert.deepEqual(validateDrill(drill, map), []);
+  assert.equal(drillSection(drill, map), "especiais");
+  const utg = map.get("pko-bhds21-utg-rfi")!;
+  const mp = map.get("pko-bhds21-mp-vs-utg")!;
+  // 8 lugares (sem LJ); UTG1 aparece como EP, como no HRC
+  assert.deepEqual(tableState(mp, 1).seats.map((s) => s.position), ["UTG", "UTG1", "MP", "HJ", "CO", "BTN", "SB", "BB"]);
+  assert.equal(positionLabel("UTG1", mp.special), "EP");
+  // UTG: 44+ abre, 33 (15%) larga; J8s, QTo e 98s mistos
+  assert.equal(utg.range["44"], "rfi-hrc-2bb");
+  assert.equal(utg.range["33"] ?? "fold", "fold");
+  assert.deepEqual([utg.range.QTo ?? "fold", utg.alsoCorrect?.QTo], ["fold", "rfi-hrc-2bb"]);
+  // MP com 8,3bb: all-in só com 99+, AJs+ e AQo+; KQo da mão real larga
+  assert.equal(mp.range["99"], "shove");
+  assert.equal(mp.range["88"] ?? "fold", "fold");
+  assert.equal(mp.range.KQo ?? "fold", "fold");
+  assert.equal(mp.range.AQo, "shove");
+});

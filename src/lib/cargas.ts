@@ -20,6 +20,7 @@ import bwBb from "../../cargas/bw-bb.json";
 import threeBetPotOop from "../../cargas/3bet-pot-aggressor-oop.json";
 import cbetTurnIp from "../../cargas/cbet-turn-ip.json";
 import maosRodadores from "../../cargas/maos-rodadores.json";
+import pkoSpots from "../../cargas/pko-spots.json";
 import bbLeads from "../../cargas/bb-leads.json";
 import bbProbes from "../../cargas/bb-probes.json";
 import bbVs2ndBarrel from "../../cargas/bb-vs-2nd-barrel.json";
@@ -242,5 +243,12 @@ export const CARGAS: Carga[] = [
     description: "Drills especiais: spots de mesa final rodados no HRC (torneio, mesa, bounties, Risk Premium e ranges).",
     requires: [],
     bundle: maosRodadores,
+  },
+  {
+    id: "pko-spots",
+    name: "PKO Spots",
+    description: "Drills especiais: spots de torneios PKO rodados no HRC (torneio, mesa, bounties, Risk Premium e ranges).",
+    requires: ["maos-rodadores"],
+    bundle: pkoSpots,
   },
 ];

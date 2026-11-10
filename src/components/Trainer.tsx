@@ -32,7 +32,7 @@ import {
 } from "@/lib/poker/drill";
 import type { Card } from "@/lib/poker/cards";
 import { type Legend, findAction, textColorFor } from "@/lib/poker/legend";
-import { STREET_LABELS, type Strategy, formatNumberRange, resolveRange } from "@/lib/poker/strategy";
+import { STREET_LABELS, type Strategy, formatNumberRange, positionLabel, resolveRange } from "@/lib/poker/strategy";
 import { cbetAnswer, ruleSummary } from "@/lib/poker/cbet";
 import { boardTexture, describeFlop } from "@/lib/poker/texture";
 import {
@@ -361,8 +361,9 @@ function TableSlot({
               : strategy.cbet?.table === "bw-bb"
                 ? BW_BB_GUIDE[strategy.cbet.node].label // a linha da mão (ex.: delayed cbet) precisa aparecer antes da resposta
                 : strategy.situation,
-            strategy.heroPosition,
-            strategy.villainPosition && `vs ${[strategy.villainPosition, ...(strategy.callers ?? [])].join(" + ")}`,
+            positionLabel(strategy.heroPosition, strategy.special),
+            strategy.villainPosition &&
+              `vs ${[strategy.villainPosition, ...(strategy.callers ?? [])].map((p) => positionLabel(p, strategy.special)).join(" + ")}`,
           ]
             .filter(Boolean)
             .join(" · ")}

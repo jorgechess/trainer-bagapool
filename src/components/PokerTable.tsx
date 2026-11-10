@@ -3,7 +3,7 @@
 import { useLayoutEffect, useRef, useState } from "react";
 import { PlayingCard } from "@/components/PlayingCard";
 import type { Card } from "@/lib/poker/cards";
-import { formatNumberRange, type Strategy } from "@/lib/poker/strategy";
+import { formatNumberRange, positionLabel, type Strategy } from "@/lib/poker/strategy";
 import { ITM_PLACES, type Seat, playersLeft, seedFrom, tableState } from "@/lib/poker/table";
 
 interface PokerTableProps {
@@ -109,7 +109,9 @@ function SeatView({
   shape,
   raiseLabel,
   bounty,
+  label,
 }: {
+  label: string;
   seat: Seat;
   stack: string;
   heroCards: [Card, Card];
@@ -160,7 +162,7 @@ function SeatView({
         }`}
       >
         <p className={`font-semibold ${hero ? "text-baga-cream" : "text-zinc-200"}`}>
-          {seat.position}
+          {label}
           {hero && " (você)"}
         </p>
         <p className="whitespace-nowrap text-zinc-400">{folded ? "Fold" : seat.status === "raised" ? (raiseLabel === "All-in" ? "All-in" : `${raiseLabel} · ${stack}`) : seat.status === "called" ? `Call · ${stack}` : stack}</p>
@@ -358,6 +360,7 @@ export function PokerTable({
             heroCards={heroCards}
             shape={shape}
             raiseLabel={raiseLabel}
+            label={positionLabel(seat.position, strategy.special)}
             bounty={
               strategy.special?.bounties?.[seat.position] ??
               (strategy.pko ? strategy.pko.bounty || DEFAULT_BOUNTY : undefined)
