@@ -839,6 +839,9 @@ async function main() {
     await page.goto(`${BASE_URL}/drills`);
     await page.getByTestId("secao-especiais").getByText("Mesa Final").waitFor();
     await page.goto(`${BASE_URL}/drills/maos-rodadores/treinar`);
+    assert.equal(await page.getByRole("group", { name: "Mesas" }).count(), 0, "Mesa Final: sem seletor de mesas");
+    assert.equal(await page.getByRole("group", { name: "Stack" }).count(), 0, "Mesa Final: sem filtro de stack");
+    await page.getByRole("group", { name: "Mãos da sessão" }).waitFor();
     const brief = page.getByTestId("enunciado-especial");
     await brief.getByText(/Bounty Hunters Sunday Hyper Special \$54|Daily Legends Predator/).waitFor();
     await brief.getByText(/restantes/).waitFor();

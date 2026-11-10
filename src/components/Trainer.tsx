@@ -595,12 +595,14 @@ export function Trainer({ drill, strategies, legend, timeLimitSec, sourceDrillOf
   const coveragesKey = `trainer:coberturas:${drill.id}`;
   const openTypesKey = `trainer:opens:${drill.id}`;
   const situationsKey = `trainer:situacoes:${drill.id}`;
-  const availablePositions = useMemo(() => drillPositions(drill, strategyMap), [drill, strategyMap]);
-  const availableContexts = useMemo(() => drillContexts(drill, strategyMap), [drill, strategyMap]);
-  const availableStacks = useMemo(() => drillStacks(drill, strategyMap), [drill, strategyMap]);
-  const availableCoverages = useMemo(() => drillCoverages(drill, strategyMap), [drill, strategyMap]);
-  const availableOpenTypes = useMemo(() => drillOpenTypes(drill, strategyMap), [drill, strategyMap]);
-  const availableSituations = useMemo(() => drillSituations(drill, strategyMap), [drill, strategyMap]);
+  /** Mesa Final (drills especiais): por enquanto só o número de mãos da sessão; sem filtros e sempre 1 mesa. */
+  const onlyLength = drill.tags.includes("especial");
+  const availablePositions = useMemo(() => (onlyLength ? [] : drillPositions(drill, strategyMap)), [drill, strategyMap, onlyLength]);
+  const availableContexts = useMemo(() => (onlyLength ? [] : drillContexts(drill, strategyMap)), [drill, strategyMap, onlyLength]);
+  const availableStacks = useMemo(() => (onlyLength ? [] : drillStacks(drill, strategyMap)), [drill, strategyMap, onlyLength]);
+  const availableCoverages = useMemo(() => (onlyLength ? [] : drillCoverages(drill, strategyMap)), [drill, strategyMap, onlyLength]);
+  const availableOpenTypes = useMemo(() => (onlyLength ? [] : drillOpenTypes(drill, strategyMap)), [drill, strategyMap, onlyLength]);
+  const availableSituations = useMemo(() => (onlyLength ? [] : drillSituations(drill, strategyMap)), [drill, strategyMap, onlyLength]);
   /** Drill com os filtros do jogador (posição, proporção, stack); não muda o drill de ninguém. */
   const filtered = useMemo(
     () => filterDrill(drill, strategyMap, { positions, contexts, stacks, coverages, openTypes, situations }),
@@ -637,7 +639,7 @@ export function Trainer({ drill, strategies, legend, timeLimitSec, sourceDrillOf
     const length = Number(readStorage(LENGTH_KEY));
     if ((LENGTH_OPTIONS as readonly number[]).includes(length)) setLengthChoice(length);
     const tables = Number(readStorage(TABLES_KEY));
-    if ((TABLE_OPTIONS as readonly number[]).includes(tables)) setTableCount(tables as TableCount);
+    if (!onlyLength && (TABLE_OPTIONS as readonly number[]).includes(tables)) setTableCount(tables as TableCount);
     const load = (key: string, available: string[], set: (v: string[]) => void) => {
       try {
         const saved = JSON.parse(readStorage(key) ?? "[]");
@@ -1229,6 +1231,7 @@ export function Trainer({ drill, strategies, legend, timeLimitSec, sourceDrillOf
           ))}
         </div>
         )}
+        {!onlyLength && (
         <div className="flex items-center gap-1.5" role="group" aria-label="Mesas">
           <span className="mr-1 text-xs text-zinc-400">Mesas</span>
           {TABLE_OPTIONS.map((count) => (
@@ -1246,6 +1249,7 @@ export function Trainer({ drill, strategies, legend, timeLimitSec, sourceDrillOf
             </button>
           ))}
         </div>
+        )}
         {availablePositions.length > 1 && (
           <PositionChips available={availablePositions} selected={positions} onChange={changePositions} />
         )}
@@ -1269,9 +1273,11 @@ export function Trainer({ drill, strategies, legend, timeLimitSec, sourceDrillOf
             Nenhum spot com essa combinação de filtros; treinando o drill inteiro.
           </p>
         )}
-        <p className="w-full text-xs text-zinc-500">
-          Filtros só seus: o drill continua igual para o time.
-        </p>
+        {!onlyLength && (
+          <p className="w-full text-xs text-zinc-500">
+            Filtros só seus: o drill continua igual para o time.
+          </p>
+        )}
       </div>
 
       {sessionLength !== null && (
