@@ -851,6 +851,32 @@ async function main() {
     await shot(page, "treino-maos-rodadores-resposta");
     log("Mãos dos rodadores: enunciado do torneio, mesa 6-max com bounties e Risk Premium");
 
+    // Ranking mensal: admin com 520 decisões (70%) entra; tentativas de drill especial não contam
+    const [adminProfile] = await (await fetch(`${API_URL}/rest/v1/profiles?select=id&email=eq.admin@e2e.com`, { headers: adminHeaders })).json();
+    const fake = (n, drillId, correctEvery) =>
+      Array.from({ length: n }, (_, i) => ({
+        user_id: adminProfile.id,
+        drill_id: drillId,
+        strategy_id: "rfi-30bb-vanilla-btn",
+        correct: i % 10 < correctEvery,
+        data: {},
+      }));
+    for (const rows of [fake(520, "rfi-30bb-vanilla-todas", 7), fake(40, "maos-rodadores", 10)]) {
+      const res = await fetch(`${API_URL}/rest/v1/attempts`, { method: "POST", headers: adminHeaders, body: JSON.stringify(rows) });
+      assert.ok(res.ok, `tentativas do ranking: ${res.status}`);
+    }
+    const counted = await countRows("attempts", `&user_id=eq.${adminProfile.id}&drill_id=neq.maos-rodadores`);
+    await page.getByRole("link", { name: "Ranking" }).first().click();
+    await page.waitForURL(/\/ranking/);
+    const meRow = page.locator("[data-testid=ranking-tabela] tr[data-me]");
+    await meRow.waitFor();
+    const meText = await meRow.innerText();
+    assert.match(meText, /Jorge Admin/);
+    assert.ok(meText.includes(counted.toLocaleString("pt-BR")), `ranking conta ${counted} decisões (sem os drills especiais): ${meText}`);
+    await page.getByTestId("ranking-voce").getByText(/Você está em/).waitFor();
+    await shot(page, "ranking");
+    log(`ranking mensal: admin entrou com ${counted} decisões, sem os drills especiais`);
+
     // Warmup: botão no início, contagem 3-2-1-Go e treino de 15 minutos; decisões contam no drill de origem
     await page.goto(`${BASE_URL}/`);
     await page.getByTestId("warmup-button").click();

@@ -153,6 +153,22 @@ do $$ begin
   assert (select pool_id from public.profiles where email = 'bia@t.com') = '00000000-0000-0000-0000-0000000000b2', 'admin trocou a pool da Bia';
 end $$;
 
+-- Ranking mensal: qualquer jogador vê os totais do time inteiro (sem os drills especiais)
+insert into public.drills (id, name, data) values ('esp', 'Especial', '{"tags":["especial"]}');
+insert into public.attempts (user_id, drill_id, strategy_id, correct, data) values
+  ('10000000-0000-0000-0000-000000000003', 'esp', 's1', true, '{}');
+set role authenticated;
+set request.jwt.claim.sub = '10000000-0000-0000-0000-000000000005';
+do $$ begin
+  assert (select count(*) from public.attempts where user_id = '10000000-0000-0000-0000-000000000003') = 0,
+    'Caio continua sem ver as tentativas da Ana';
+  assert (select decisions from public.monthly_ranking(now() - interval '1 day', now() + interval '1 day')
+          where user_id = '10000000-0000-0000-0000-000000000004') = 1, 'Caio vê o total da Bia (outra pool)';
+  assert (select decisions from public.monthly_ranking(now() - interval '1 day', now() + interval '1 day')
+          where user_id = '10000000-0000-0000-0000-000000000003') = 2, 'drill especial fica fora do ranking';
+end $$;
+reset role;
+
 -- Jogador desativado perde o acesso
 update public.profiles set active = false where email = 'caio@t.com';
 set role authenticated;
