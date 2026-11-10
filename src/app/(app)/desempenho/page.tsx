@@ -51,7 +51,7 @@ export default async function PerformancePage({
     : pools.filter((p) => p.id === viewer.poolId);
   const hasPools = poolOptions.length > 0;
   const view =
-    hasPools && (params.visao === "pools" || (!params.visao && !params.jogador && canPools)) ? "pools" : "jogador";
+    hasPools && (params.visao === "pools" || (!params.visao && !params.jogador && mentored.length > 0)) ? "pools" : "jogador";
   const selectedPool = poolOptions.find((p) => p.id === params.pool) ?? poolOptions[0];
 
   const header = (
