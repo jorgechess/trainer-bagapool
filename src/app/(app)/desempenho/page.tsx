@@ -32,7 +32,7 @@ function formatDate(iso: string): string {
 export default async function PerformancePage({
   searchParams,
 }: {
-  searchParams: Promise<{ jogador?: string; periodo?: string; visao?: string }>;
+  searchParams: Promise<{ jogador?: string; periodo?: string; visao?: string; pool?: string }>;
 }) {
   const viewer = await requireProfile();
   const params = await searchParams;
@@ -45,8 +45,14 @@ export default async function PerformancePage({
   ]);
   const period: Period = params.periodo && params.periodo in PERIODS ? (params.periodo as Period) : "mes";
   const drillById = new Map(drills.map((d) => [d.id, d]));
+  // Admin, coach e mentor veem todas as pools (as que mentoram primeiro); o jogador vê a própria pool
+  const poolOptions = canPools
+    ? [...pools].sort((a, b) => Number(mentored.includes(b.id)) - Number(mentored.includes(a.id)))
+    : pools.filter((p) => p.id === viewer.poolId);
+  const hasPools = poolOptions.length > 0;
   const view =
-    canPools && (params.visao === "pools" || (!params.visao && !params.jogador && mentored.length > 0)) ? "pools" : "jogador";
+    hasPools && (params.visao === "pools" || (!params.visao && !params.jogador && canPools)) ? "pools" : "jogador";
+  const selectedPool = poolOptions.find((p) => p.id === params.pool) ?? poolOptions[0];
 
   const header = (
     <div className="flex flex-wrap items-end justify-between gap-3">
@@ -54,15 +60,15 @@ export default async function PerformancePage({
         <h1 className="page-title">Desempenho</h1>
         <p className="muted">
           {view === "pools"
-            ? "Visão das pools que você mentora: acerto da pool, drills e cada jogador."
+            ? "Desempenho da pool: acerto, drills e cada jogador."
             : "Resultado de cada drill: acerto, posições e as mãos que mais erra."}
         </p>
       </div>
-      {canPools && (
+      {hasPools && (
         <nav className="flex gap-1 rounded-lg border border-zinc-800 bg-black/40 p-1 text-sm" data-testid="visao-desempenho">
           {(
             [
-              ["pools", "Minhas pools"],
+              ["pools", canPools ? "Pools" : "Minha pool"],
               ["jogador", "Individual"],
             ] as const
           ).map(([value, label]) => (
@@ -92,35 +98,47 @@ export default async function PerformancePage({
     </div>
   );
 
-  if (view === "pools") {
-    const members = profiles.filter((p) => p.active && p.poolId !== null && mentored.includes(p.poolId));
+  if (view === "pools" && selectedPool) {
+    const members = profiles.filter((p) => p.active && p.poolId === selectedPool.id);
     const attemptsByUser = await getAttemptsByUser(
       members.map((p) => p.id),
       sinceFor(period),
     );
-    const summaries = mentored
-      .filter((id) => pools.some((p) => p.id === id))
-      .map((id) => poolSummary(id, members, attemptsByUser));
+    const summary = poolSummary(selectedPool.id, members, attemptsByUser);
     return (
       <div className="space-y-6">
         {header}
         <form className="card flex flex-wrap items-end gap-3" method="get">
           <input type="hidden" name="visao" value="pools" />
+          <input type="hidden" name="pool" value={selectedPool.id} />
           {periodSelect}
           <noscript>
             <button className="btn-secondary">Ver</button>
           </noscript>
         </form>
-        <MentoredPoolsEditor pools={pools} selected={mentored} />
-        {summaries.map((s) => (
-          <PoolSection
-            key={s.poolId}
-            summary={s}
-            pool={pools.find((p) => p.id === s.poolId)!}
-            drillName={(id) => drillById.get(id)?.name ?? "Drill arquivado"}
-            period={period}
-          />
-        ))}
+        {poolOptions.length > 1 && (
+          <nav className="flex flex-wrap gap-2" aria-label="Pool" data-testid="seletor-pool">
+            {poolOptions.map((p) => (
+              <Link
+                key={p.id}
+                href={`/desempenho?visao=pools&pool=${p.id}&periodo=${period}`}
+                aria-current={p.id === selectedPool.id ? "page" : undefined}
+                className={`rounded-lg border p-1 transition ${
+                  p.id === selectedPool.id ? "border-baga-red bg-baga-red/10" : "border-transparent opacity-70 hover:opacity-100"
+                }`}
+              >
+                <PoolChip pool={p} />
+              </Link>
+            ))}
+          </nav>
+        )}
+        {canPools && <MentoredPoolsEditor pools={pools} selected={mentored} />}
+        <PoolSection
+          summary={summary}
+          pool={selectedPool}
+          drillName={(id) => drillById.get(id)?.name ?? "Drill arquivado"}
+          period={period}
+        />
       </div>
     );
   }

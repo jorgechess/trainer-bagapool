@@ -36,7 +36,7 @@ export function MentoredPoolsEditor({ pools, selected }: { pools: PoolOption[]; 
         </div>
       ) : (
         <>
-          <p className="muted text-sm">Marque as pools que você acompanha. A visão de desempenho mostra cada uma delas.</p>
+          <p className="muted text-sm">Marque as pools que você acompanha. Elas aparecem primeiro no desempenho; as outras pools continuam visíveis.</p>
           <div className="flex flex-wrap gap-2">
             {pools.map((p) => {
               const on = chosen.includes(p.id);

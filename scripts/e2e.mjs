@@ -1077,7 +1077,10 @@ async function main() {
     await page.getByTestId("pool-jogador").getByRole("link", { name: /Ana/ }).first().click();
     await page.waitForURL(/visao=jogador&jogador=/);
     await page.getByText("Nenhum treino neste período.").or(page.getByTestId("drill-report").first()).first().waitFor();
-    log("mentora escolhe as pools que mentora e abre um jogador pelo desempenho da pool");
+    // Mentor vê todas as pools, não só as que mentora
+    await page.goto(`${BASE_URL}/desempenho?visao=pools`);
+    assert.ok((await page.getByTestId("seletor-pool").getByRole("link").count()) >= 2, "mentora escolhe entre todas as pools");
+    log("mentora escolhe as pools que mentora, vê todas as pools e abre um jogador pelo desempenho da pool");
     await page.goto(`${BASE_URL}/plano`);
     await page.getByTestId("acrescentar-drill-plano").waitFor();
     log("mentora pode mexer nos drills do próprio plano (warmup)");
@@ -1107,6 +1110,13 @@ async function main() {
     await page.waitForURL(`${BASE_URL}/`);
     await page.goto(`${BASE_URL}/desempenho`);
     assert.equal(await page.getByText("Jorge Admin").count(), 0, "jogadora não vê o admin no seletor");
+    // Jogadora vê o desempenho da própria pool (e só dela)
+    await page.getByTestId("visao-desempenho").getByRole("link", { name: "Minha pool" }).click();
+    await page.getByTestId("pool-desempenho").waitFor();
+    assert.match(await page.getByTestId("pool-desempenho").innerText(), /Pool A/);
+    assert.equal(await page.getByTestId("seletor-pool").count(), 0, "jogadora não escolhe outras pools");
+    await page.goto(`${BASE_URL}/desempenho?visao=pools&pool=00000000-0000-0000-0000-000000000000`);
+    assert.match(await page.getByTestId("pool-desempenho").innerText(), /Pool A/, "pool de outro id cai na própria");
     await page.goto(`${BASE_URL}/plano`);
     await page.getByRole("heading", { name: /Plano/i }).first().waitFor();
     assert.equal(await page.getByTestId("acrescentar-drill-plano").count(), 0, "jogadora não mexe nos drills do plano");
