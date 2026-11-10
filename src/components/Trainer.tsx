@@ -7,6 +7,7 @@ import { type DecisionQueue, QUEUE_STORAGE_KEY, type SendResult, type Submission
 import { CardRow } from "@/components/PlayingCard";
 import { HandHistory } from "@/components/HandHistory";
 import { SpecialBrief } from "@/components/SpecialBrief";
+import { SpotViewer } from "@/components/SpotViewer";
 import { handHistory } from "@/lib/poker/history";
 import { PokerTable } from "@/components/PokerTable";
 import { PositionChips } from "@/components/PositionChips";
@@ -192,6 +193,7 @@ function TableSlot({
   const [question, setQuestion] = useState<HandQuestion | null>(null);
   const [stepIndex, setStepIndex] = useState(0);
   const [chosen, setChosen] = useState<string | null>(null);
+  const [viewing, setViewing] = useState(false);
   const [handDecisions, setHandDecisions] = useState<Decision[]>([]);
   const [done, setDone] = useState(false);
 
@@ -304,7 +306,7 @@ function TableSlot({
   );
   const historyLines = handHistory(strategy.history, step.street, step.board, chosenByStreet, legend);
   // Enunciado dos drills especiais: torneio e Risk Premium acima da mesa
-  const historyHeight = (historyLines.length && !sideBySide ? 44 : 0) + (strategy.special ? (tall ? 210 : 120) : 0);
+  const historyHeight = (historyLines.length && !sideBySide ? 44 : 0) + (strategy.special ? 80 : 0);
   const rows = tableCount === 4 ? 2 : 1;
 
   return (
@@ -413,12 +415,24 @@ function TableSlot({
       </div>
 
       {strategy.special && (
-        <SpecialBrief
-          spot={strategy.special}
-          hero={strategy.heroPosition}
-          villain={strategy.villainPosition}
-          answered={chosen !== null}
-        />
+        <>
+          <SpecialBrief
+            spot={strategy.special}
+            hero={strategy.heroPosition}
+            villain={strategy.villainPosition}
+            answered={chosen !== null}
+            compact
+            onView={() => setViewing(true)}
+          />
+          <SpotViewer
+            strategy={strategy}
+            related={[...strategyMap.values()].filter((s) => s.special?.caseId === strategy.special!.caseId)}
+            legend={legend}
+            answered={chosen !== null}
+            open={viewing}
+            onClose={() => setViewing(false)}
+          />
+        </>
       )}
       {!sideBySide && <HandHistory lines={historyLines} />}
 
@@ -875,6 +889,8 @@ export function Trainer({ drill, strategies, legend, timeLimitSec, sourceDrillOf
     }
     function onKey(event: KeyboardEvent) {
       if (isTypingTarget(event.target as HTMLInputElement | null)) return;
+      // "Visualizar spot" aberto: atalhos não respondem a mão por trás
+      if (document.querySelector("dialog[open]")) return;
       if (event.repeat || event.ctrlKey || event.metaKey || event.altKey) return;
       if (run(keyInput(event), event)) event.preventDefault();
     }
@@ -920,7 +936,7 @@ export function Trainer({ drill, strategies, legend, timeLimitSec, sourceDrillOf
       if (!document.fullscreenElement) setFullscreen(false);
     };
     const onKey = (event: KeyboardEvent) => {
-      if (event.key === "Escape") setFullscreen(false);
+      if (event.key === "Escape" && !document.querySelector("dialog[open]")) setFullscreen(false);
     };
     document.addEventListener("fullscreenchange", onChange);
     window.addEventListener("keydown", onKey);

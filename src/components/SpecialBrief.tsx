@@ -20,11 +20,16 @@ export function SpecialBrief({
   hero,
   villain,
   answered,
+  compact = false,
+  onView,
 }: {
   spot: SpecialSpot;
   hero: Position;
   villain?: Position | null;
   answered: boolean;
+  /** Acima da mesa: só o torneio e o seu Risk Premium; o resto fica no "Visualizar spot". */
+  compact?: boolean;
+  onView?: () => void;
 }) {
   const t = spot.tournament;
   const facts = [
@@ -34,10 +39,59 @@ export function SpecialBrief({
     t.averageStack ? `Média ${fmt(t.averageStack, 1)}bb` : null,
   ].filter(Boolean);
   const rp = spot.riskPremium;
+  const heroRow = rp ? rp.positions.indexOf(hero) : -1;
+  const mine =
+    rp && heroRow >= 0
+      ? rp.positions
+          .map((p, j) => ({ p, cell: rp.cells[heroRow][j] }))
+          .filter((c): c is { p: Position; cell: { factor: number; premium: number } } => c.cell !== null)
+      : [];
+  if (compact) {
+    return (
+      <section
+        className="flex flex-wrap items-center gap-x-4 gap-y-2 rounded-lg border border-baga-gold/30 bg-gradient-to-br from-zinc-900 to-black/60 px-3 py-2"
+        data-testid="enunciado-especial"
+        aria-label="Enunciado do spot"
+      >
+        {t.logo && (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img src={t.logo} alt="" className="h-10 w-10 shrink-0 rounded-md object-cover" />
+        )}
+        <div className="min-w-0 flex-1">
+          <p className="truncate font-semibold leading-tight text-zinc-50">{t.name}</p>
+          <p className="text-xs text-zinc-300">
+            <span className="text-baga-gold">{[t.site, t.format, t.buyIn].filter(Boolean).join(" · ")}</span>
+            {facts.length > 0 && ` · ${facts.join(" · ")}`}
+          </p>
+          {mine.length > 0 && (
+            <p className="mt-0.5 text-xs text-zinc-300" data-testid="rp-heroi">
+              Seu Risk Premium:{" "}
+              {mine.map(({ p, cell }, i) => (
+                <span key={p} className={p === villain ? "font-semibold text-baga-gold" : ""}>
+                  {i > 0 && " · "}vs {p} {cell.premium > 0 ? "+" : ""}
+                  {cell.premium.toLocaleString("pt-BR", { minimumFractionDigits: 1, maximumFractionDigits: 1 })}%
+                </span>
+              ))}
+            </p>
+          )}
+          {answered && spot.note && (
+            <p className="mt-1 rounded-md bg-zinc-800/80 px-2 py-1 text-xs text-zinc-200" data-testid="nota-mao-real">
+              {spot.note}
+            </p>
+          )}
+        </div>
+        {onView && (
+          <button type="button" className="btn-secondary shrink-0 px-3 py-1.5 text-sm" onClick={onView} data-testid="botao-visualizar-spot">
+            Visualizar spot
+          </button>
+        )}
+      </section>
+    );
+  }
   return (
     <section
       className="grid gap-3 rounded-lg border border-baga-gold/30 bg-gradient-to-br from-zinc-900 to-black/60 p-3 lg:grid-cols-[minmax(0,1fr)_auto]"
-      data-testid="enunciado-especial"
+      data-testid="enunciado-especial-completo"
       aria-label="Enunciado do spot"
     >
       <div className="flex min-w-0 gap-3">
@@ -51,7 +105,7 @@ export function SpecialBrief({
           {facts.length > 0 && <p className="text-xs text-zinc-300">{facts.join(" · ")}</p>}
           {spot.source && <p className="text-[11px] text-zinc-500">{spot.source}</p>}
           {answered && spot.note && (
-            <p className="rounded-md bg-zinc-800/80 px-2 py-1 text-xs text-zinc-200" data-testid="nota-mao-real">
+            <p className="rounded-md bg-zinc-800/80 px-2 py-1 text-xs text-zinc-200" data-testid="nota-mao-real-completa">
               {spot.note}
             </p>
           )}

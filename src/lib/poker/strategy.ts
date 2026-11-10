@@ -170,8 +170,8 @@ export interface SpecialSpot {
     ante?: number | null;
     averageStack?: number | null;
   };
-  /** Jogadores na mesa (6 = 6-max, só UTG, HJ, CO, BTN, SB e BB). */
-  players: 6 | 9;
+  /** Jogadores na mesa: 9, ou de 2 a 6 (6 = UTG, HJ, CO, BTN, SB e BB; 3 = BTN, SB e BB). */
+  players: number;
   /** Stack de cada lugar no começo da mão (bb). */
   stacks: Partial<Record<Position, number>>;
   /** Bounty de cada lugar (texto da etiqueta, ex.: "$25"). */
@@ -190,7 +190,9 @@ export const SIX_MAX: readonly Position[] = ["UTG", "HJ", "CO", "BTN", "SB", "BB
 
 /** Lugares da mesa desta estratégia. */
 export function tablePositions(strategy: Pick<Strategy, "special">): readonly Position[] {
-  return strategy.special?.players === 6 ? SIX_MAX : POSITIONS;
+  const players = strategy.special?.players;
+  if (!players || players > 6) return POSITIONS;
+  return SIX_MAX.slice(SIX_MAX.length - Math.max(2, players));
 }
 
 /** Range aplicável ao board, ou null se nenhuma textura cadastrada combinar. */

@@ -839,15 +839,27 @@ async function main() {
     await page.getByTestId("secao-especiais").getByText("Mesa Final").waitFor();
     await page.goto(`${BASE_URL}/drills/maos-rodadores/treinar`);
     const brief = page.getByTestId("enunciado-especial");
-    await brief.getByText("Bounty Hunters Sunday Hyper Special $54").waitFor();
-    await brief.getByText(/324\/1\.107 restantes/).waitFor();
-    await page.getByTestId("risk-premium").waitFor();
+    await brief.getByText(/Bounty Hunters Sunday Hyper Special \$54|Daily Legends Predator/).waitFor();
+    await brief.getByText(/restantes/).waitFor();
     const mesaText = await page.getByTestId("mesa").innerText();
-    assert.ok(!/\bMP\b|\bLJ\b|UTG1/.test(mesaText), "mesa 6-max: sem MP, LJ e UTG1");
-    assert.ok((await page.getByTestId("mesa").getByTestId("bounty-tag").count()) >= 5, "bounty em cada lugar");
+    assert.ok(!/\bMP\b|\bLJ\b|UTG1/.test(mesaText), "mesa de FT: sem MP, LJ e UTG1");
+    assert.ok((await page.getByTestId("mesa").getByTestId("bounty-tag").count()) >= 3, "bounty em cada lugar");
     await shot(page, "treino-maos-rodadores");
+    // Visualizar spot: Risk Premium completo e os ranges da mão; o deste spot só depois de responder
+    await page.getByTestId("botao-visualizar-spot").click();
+    const viewer = page.getByTestId("visualizar-spot");
+    await viewer.getByText("Responda para ver o range deste spot").waitFor();
+    await page.keyboard.press("1");
+    assert.equal(await page.getByTestId("nota-mao-real").count(), 0, "atalho não responde com o spot aberto");
+    await shot(page, "treino-visualizar-spot");
+    await viewer.getByRole("button", { name: "Fechar" }).click();
+    await viewer.waitFor({ state: "hidden" });
     await page.locator("[data-testid=actions] button").first().click();
     await page.getByTestId("nota-mao-real").waitFor();
+    await page.getByTestId("botao-visualizar-spot").click();
+    assert.equal(await viewer.getByText("Responda para ver o range deste spot").count(), 0, "range aparece depois de responder");
+    await shot(page, "treino-visualizar-spot-resposta");
+    await viewer.getByRole("button", { name: "Fechar" }).click();
     await shot(page, "treino-maos-rodadores-resposta");
     log("Mesa Final (rodadores): enunciado do torneio, mesa 6-max com bounties e Risk Premium");
 

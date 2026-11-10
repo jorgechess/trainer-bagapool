@@ -797,3 +797,26 @@ test("carga Mesa Final (rodadores): mesa 6-max real, ranges do HRC e seção Dri
   assert.equal(state.remaining!.SB, 13.1);
   assert.equal(state.pot, 4.4);
 });
+
+test("Mesa Final: FT da Daily Legends com mesas de 3, 5 e 6 jogadores", async () => {
+  const { tableState } = await import("../table");
+  const result = parseImportBundle(load("maos-rodadores.json"), DEFAULT_LEGEND);
+  assert.deepEqual(result.errors, []);
+  const map = new Map(result.strategies.map((s) => [s.id, s]));
+  const seats = (id: string) => tableState(map.get(id)!, 1).seats.map((s) => s.position);
+  assert.deepEqual(seats("hrc-dl22-3left-a-bb-vs-jam"), ["BTN", "SB", "BB"]);
+  assert.deepEqual(seats("hrc-dl22-5left-e-co"), ["HJ", "CO", "BTN", "SB", "BB"]);
+  assert.deepEqual(seats("hrc-dl22-6left-d-utg"), ["UTG", "HJ", "CO", "BTN", "SB", "BB"]);
+  // A6o larga contra o all-in do BTN; A7o é misto (paga 34%); KJo paga 75%
+  const vsJam = map.get("hrc-dl22-3left-a-bb-vs-jam")!;
+  assert.equal(vsJam.range.A6o ?? "fold", "fold");
+  assert.deepEqual([vsJam.range.A7o ?? "fold", vsJam.alsoCorrect?.A7o], ["fold", "call"]);
+  assert.equal(vsJam.range.KJo, "call");
+  const state = tableState(vsJam, 1);
+  assert.equal(state.seats.find((s) => s.position === "BTN")!.posted, 14.7, "all-in efetivo do BTN na mesa");
+  // K3s larga no BTN de 15bb; QJo abre 2bb com 16,8bb; 55 abre no UTG; A4s abre no CO
+  assert.equal(map.get("hrc-dl22-3left-b-btn")!.range.K3s ?? "fold", "fold");
+  assert.equal(map.get("hrc-dl22-3left-c-btn")!.range.QJo, "rfi-hrc-2bb");
+  assert.equal(map.get("hrc-dl22-6left-d-utg")!.range["55"], "rfi-hrc-2bb");
+  assert.equal(map.get("hrc-dl22-5left-e-co")!.range.A4s, "rfi-hrc-2bb");
+});
