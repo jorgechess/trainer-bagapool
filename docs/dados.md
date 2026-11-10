@@ -76,7 +76,7 @@ Todas as tabelas têm RLS ligado. Funções auxiliares (`security definer`, leem
 | `is_admin()` | `admin` |
 | `can_view_user(target)` | Próprio usuário, quem vê todos, ou mesma pool |
 | `set_my_mentored_pools(uuid[])` | RPC: grava as pools que o usuário acompanha (só quem vê todos) |
-| `monthly_ranking(de, até)` | RPC: decisões e acertos por jogador ativo no período, para qualquer usuário ativo (só totais; sem drills com tag `especial`) |
+| `monthly_ranking(de, até)` | RPC: decisões e acertos por jogador ativo no período, para qualquer usuário ativo (só totais; sem drills com tag `fora-do-ranking`) |
 
 Políticas:
 
@@ -100,6 +100,8 @@ conteúdo compartilhado para o cache e marcação de `content_version`.
 | `0003_login_por_nick.sql` | `nick` (único, sem diferenciar maiúsculas) e `must_change_password` |
 | `0004_pools_mentoradas.sql` | `mentored_pools` e RPC `set_my_mentored_pools` |
 | `0005_ranking.sql` | Índice `attempts (created_at)` e RPC `monthly_ranking` (ranking mensal) |
+| `0006_pools_nameless_underdogz.sql` | Pools Nameless e Underdogz |
+| `0007_ranking_mesa_final.sql` | `monthly_ranking` passa a contar os drills especiais; fica fora só a tag `fora-do-ranking` |
 
 Regras para migrações novas: numeração sequencial, idempotentes (`if not exists`, blocos `do $$`),
 nunca editar uma migração já aplicada, e cobrir permissões novas em `supabase/tests/rls_test.sql`.

@@ -2,9 +2,11 @@
  * Ranking mensal do time: premia quem treina mais E acerta. Pontuação = acerto (%) × log10(decisões),
  * com mínimo de 500 decisões no mês para entrar. Ex.: 1.000 decisões a 70% = 210 pts; 500 a 80% = 215,9.
  * Cada decisão conta: numa mão com duas decisões, acertar uma e errar a outra ("meio certo") vale meio.
- * Drills especiais (mãos dos rodadores, aulas, Mystery Bounty) ficam fora.
+ * Todos os drills contam, inclusive os especiais (Mesa Final); fica fora só o drill com a tag "fora-do-ranking".
  */
 export const RANKING_MIN_DECISIONS = 500;
+/** Tag de drill que não conta no ranking. */
+export const RANKING_EXCLUDED_TAG = "fora-do-ranking";
 /** Primeiro mês do ranking (lançamento); meses anteriores não aparecem. */
 export const RANKING_START = "2026-11";
 /** Quantos meses ficam à mostra (os mais recentes). */

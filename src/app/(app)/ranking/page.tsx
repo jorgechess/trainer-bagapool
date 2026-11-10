@@ -14,7 +14,7 @@ function monthLabel(month: string): string {
   return `${name[0].toUpperCase()}${name.slice(1)} ${y}`;
 }
 
-/** Ranking mensal do time: acerto × log10(decisões), mínimo de 500 decisões, sem drills especiais. */
+/** Ranking mensal do time: acerto × log10(decisões), mínimo de 500 decisões; todos os drills contam, inclusive a Mesa Final. */
 export default async function RankingPage({ searchParams }: { searchParams: Promise<{ mes?: string }> }) {
   const viewer = await requireProfile();
   const now = currentMonth();
@@ -36,7 +36,7 @@ export default async function RankingPage({ searchParams }: { searchParams: Prom
           <h1 className="page-title">Ranking de {monthLabel(month)}</h1>
           <p className="muted mt-1 max-w-2xl text-sm">
             Pontos = acerto × log₁₀ das decisões do mês. Treinar mais soma, mas só com bom aproveitamento. Entra quem fizer
-            pelo menos {fmt(RANKING_MIN_DECISIONS)} decisões; os drills especiais não contam.
+            pelo menos {fmt(RANKING_MIN_DECISIONS)} decisões. Todos os drills contam, inclusive a Mesa Final.
           </p>
         </div>
         <nav className="flex flex-wrap gap-1.5" aria-label="Mês">

@@ -4,7 +4,7 @@ import { cache } from "react";
 import { getContent } from "@/lib/content";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { createClient } from "@/lib/supabase/server";
-import { type RankingRow, monthRange } from "@/lib/poker/ranking";
+import { RANKING_EXCLUDED_TAG, type RankingRow, monthRange } from "@/lib/poker/ranking";
 import type { Attempt, Drill } from "@/lib/poker/drill";
 import type { Legend } from "@/lib/poker/legend";
 import { canManageContent, canManageMembers, canManagePlayers, type Role } from "@/lib/poker/permissions";
@@ -252,8 +252,8 @@ export async function getPlan(userId: string, month: string): Promise<SavedPlan 
 }
 
 /**
- * Totais do mês por jogador para o ranking (todo o time, sem drills especiais). Usa a função
- * monthly_ranking (migração 0005); se ela ainda não existir no banco, soma pela chave de serviço.
+ * Totais do mês por jogador para o ranking (todo o time; só ficam fora os drills com a tag "fora-do-ranking").
+ * Usa a função monthly_ranking (migrações 0005 e 0007); se ela ainda não existir no banco, soma pela chave de serviço.
  */
 export async function getRankingRows(month: string): Promise<RankingRow[]> {
   const { from, to } = monthRange(month);
@@ -269,7 +269,7 @@ export async function getRankingRows(month: string): Promise<RankingRow[]> {
   if (!["PGRST202", "42883"].includes(error.code ?? "")) throw new Error(error.message);
   // Sem a migração 0005: soma aqui (mais lento; só os totais saem desta função)
   const { drills } = await getContent();
-  const special = new Set(drills.filter((d) => d.tags.includes("especial")).map((d) => d.id));
+  const excluded = new Set(drills.filter((d) => d.tags.includes(RANKING_EXCLUDED_TAG)).map((d) => d.id));
   const admin = createAdminClient();
   const totals = new Map<string, RankingRow>();
   const pageSize = 1000;
@@ -283,7 +283,7 @@ export async function getRankingRows(month: string): Promise<RankingRow[]> {
       .range(start, start + pageSize - 1);
     if (page.error) throw new Error(page.error.message);
     for (const row of page.data as { user_id: string; drill_id: string; correct: boolean }[]) {
-      if (special.has(row.drill_id)) continue;
+      if (excluded.has(row.drill_id)) continue;
       const t = totals.get(row.user_id) ?? { userId: row.user_id, decisions: 0, correct: 0 };
       t.decisions++;
       if (row.correct) t.correct++;

@@ -884,7 +884,7 @@ async function main() {
     await shot(page, "treino-maos-rodadores-resposta");
     log("Mesa Final (rodadores): enunciado do torneio, mesa 6-max com bounties e Risk Premium");
 
-    // Ranking mensal: admin com 520 decisões (70%) entra; tentativas de drill especial não contam
+    // Ranking mensal: admin com 520 decisões (70%) mais 40 da Mesa Final entra; os drills especiais contam
     const [adminProfile] = await (await fetch(`${API_URL}/rest/v1/profiles?select=id&email=eq.admin@e2e.com`, { headers: adminHeaders })).json();
     const fake = (n, drillId, correctEvery) =>
       Array.from({ length: n }, (_, i) => ({
@@ -898,17 +898,17 @@ async function main() {
       const res = await fetch(`${API_URL}/rest/v1/attempts`, { method: "POST", headers: adminHeaders, body: JSON.stringify(rows) });
       assert.ok(res.ok, `tentativas do ranking: ${res.status}`);
     }
-    const counted = await countRows("attempts", `&user_id=eq.${adminProfile.id}&drill_id=neq.maos-rodadores`);
+    const counted = await countRows("attempts", `&user_id=eq.${adminProfile.id}`);
     await page.getByRole("link", { name: "Ranking" }).first().click();
     await page.waitForURL(/\/ranking/);
     const meRow = page.locator("[data-testid=ranking-tabela] tr[data-me]");
     await meRow.waitFor();
     const meText = await meRow.innerText();
     assert.match(meText, /Jorge Admin/);
-    assert.ok(meText.includes(counted.toLocaleString("pt-BR")), `ranking conta ${counted} decisões (sem os drills especiais): ${meText}`);
+    assert.ok(meText.includes(counted.toLocaleString("pt-BR")), `ranking conta ${counted} decisões (com a Mesa Final): ${meText}`);
     await page.getByTestId("ranking-voce").getByText(/Você está em/).waitFor();
     await shot(page, "ranking");
-    log(`ranking mensal: admin entrou com ${counted} decisões, sem os drills especiais`);
+    log(`ranking mensal: admin entrou com ${counted} decisões, contando a Mesa Final`);
     // As tentativas de mentira não têm os dados de uma mão: saem antes dos próximos passos
     const cleanup = await fetch(`${API_URL}/rest/v1/attempts?strategy_id=eq.e2e-ranking`, { method: "DELETE", headers: adminHeaders });
     assert.ok(cleanup.ok, `limpeza das tentativas do ranking: ${cleanup.status}`);

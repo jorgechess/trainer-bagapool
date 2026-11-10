@@ -153,10 +153,13 @@ do $$ begin
   assert (select pool_id from public.profiles where email = 'bia@t.com') = '00000000-0000-0000-0000-0000000000b2', 'admin trocou a pool da Bia';
 end $$;
 
--- Ranking mensal: qualquer jogador vê os totais do time inteiro (sem os drills especiais)
-insert into public.drills (id, name, data) values ('esp', 'Especial', '{"tags":["especial"]}');
+-- Ranking mensal: qualquer jogador vê os totais do time inteiro; drill especial conta, "fora-do-ranking" não
+insert into public.drills (id, name, data) values
+  ('esp', 'Especial', '{"tags":["especial"]}'),
+  ('fora', 'Fora do ranking', '{"tags":["fora-do-ranking"]}');
 insert into public.attempts (user_id, drill_id, strategy_id, correct, data) values
-  ('10000000-0000-0000-0000-000000000003', 'esp', 's1', true, '{}');
+  ('10000000-0000-0000-0000-000000000003', 'esp', 's1', true, '{}'),
+  ('10000000-0000-0000-0000-000000000003', 'fora', 's1', true, '{}');
 set role authenticated;
 set request.jwt.claim.sub = '10000000-0000-0000-0000-000000000005';
 do $$ begin
@@ -165,7 +168,7 @@ do $$ begin
   assert (select decisions from public.monthly_ranking(now() - interval '1 day', now() + interval '1 day')
           where user_id = '10000000-0000-0000-0000-000000000004') = 1, 'Caio vê o total da Bia (outra pool)';
   assert (select decisions from public.monthly_ranking(now() - interval '1 day', now() + interval '1 day')
-          where user_id = '10000000-0000-0000-0000-000000000003') = 2, 'drill especial fica fora do ranking';
+          where user_id = '10000000-0000-0000-0000-000000000003') = 3, 'drill especial conta e o fora-do-ranking não';
 end $$;
 reset role;
 
