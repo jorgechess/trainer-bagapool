@@ -93,10 +93,12 @@ export function SpecialBrief({
                       >
                         {cell && (
                           <>
-                            <span className="block font-semibold">{fmt(cell.factor)}</span>
+                            <span className="block font-semibold">
+                              {cell.factor.toLocaleString("pt-BR", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                            </span>
                             <span className="block opacity-80">
                               {cell.premium > 0 ? "+" : ""}
-                              {fmt(cell.premium, 1)}%
+                              {cell.premium.toLocaleString("pt-BR", { minimumFractionDigits: 1, maximumFractionDigits: 1 })}%
                             </span>
                           </>
                         )}
