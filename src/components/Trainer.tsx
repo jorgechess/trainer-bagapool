@@ -444,9 +444,9 @@ function TableSlot({
       </div>
 
       <div className={sideBySide ? "w-[36%] max-w-xs shrink-0 space-y-2" : "contents"}>
-      {sideBySide && <HandHistory lines={historyLines} />}
+      {sideBySide && <HandHistory lines={historyLines} compact />}
       <div
-        className={`grid gap-2 ${sideBySide ? "grid-cols-1" : multi ? "grid-cols-2 lg:grid-cols-3" : "grid-cols-2 sm:grid-cols-3"}`}
+        className={`grid gap-2 ${sideBySide ? (step.options.length > 3 ? "grid-cols-2" : "grid-cols-1") : multi ? "grid-cols-2 lg:grid-cols-3" : "grid-cols-2 sm:grid-cols-3"}`}
         data-testid="actions"
       >
         {step.options.map((actionId) => {
