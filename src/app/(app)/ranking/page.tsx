@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { PoolChip } from "@/components/PoolBadge";
 import { getRankingRows, listPools, listProfiles, requireProfile } from "@/lib/data";
-import { RANKING_MIN_DECISIONS, buildRanking, currentMonth, previousMonth } from "@/lib/poker/ranking";
+import { RANKING_MIN_DECISIONS, buildRanking, currentMonth, rankingMonths } from "@/lib/poker/ranking";
 
 export const metadata = { title: "Ranking · Baga Trainer" };
 
@@ -18,8 +18,7 @@ function monthLabel(month: string): string {
 export default async function RankingPage({ searchParams }: { searchParams: Promise<{ mes?: string }> }) {
   const viewer = await requireProfile();
   const now = currentMonth();
-  const months = [now];
-  for (let i = 0; i < 5; i++) months.push(previousMonth(months[months.length - 1]));
+  const months = rankingMonths(now);
   const requested = (await searchParams).mes;
   const month = requested && months.includes(requested) ? requested : now;
 
@@ -41,7 +40,7 @@ export default async function RankingPage({ searchParams }: { searchParams: Prom
           </p>
         </div>
         <nav className="flex flex-wrap gap-1.5" aria-label="Mês">
-          {months.map((m) => (
+          {months.length > 1 && months.map((m) => (
             <Link
               key={m}
               href={m === now ? "/ranking" : `/ranking?mes=${m}`}

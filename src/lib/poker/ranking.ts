@@ -5,6 +5,10 @@
  * Drills especiais (mãos dos rodadores, aulas, Mystery Bounty) ficam fora.
  */
 export const RANKING_MIN_DECISIONS = 500;
+/** Primeiro mês do ranking (lançamento); meses anteriores não aparecem. */
+export const RANKING_START = "2026-11";
+/** Quantos meses ficam à mostra (os mais recentes). */
+export const RANKING_VISIBLE_MONTHS = 4;
 
 export interface RankingRow {
   userId: string;
@@ -54,4 +58,15 @@ export function currentMonth(now = new Date()): string {
 export function previousMonth(month: string): string {
   const [y, m] = month.split("-").map(Number);
   return m === 1 ? `${y - 1}-12` : `${y}-${String(m - 1).padStart(2, "0")}`;
+}
+
+/** Meses à mostra, do mais antigo (esquerda) ao atual (direita): no máximo os 4 últimos, desde o lançamento. */
+export function rankingMonths(current: string, start = RANKING_START, visible = RANKING_VISIBLE_MONTHS): string[] {
+  const months = [current];
+  while (months.length < visible) {
+    const prev = previousMonth(months[0]);
+    if (prev < start) break;
+    months.unshift(prev);
+  }
+  return months;
 }

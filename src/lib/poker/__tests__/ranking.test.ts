@@ -28,3 +28,10 @@ test("ranking: mês no fuso de São Paulo", () => {
   assert.equal(currentMonth(new Date("2026-12-01T02:30:00Z")), "2026-11", "23h30 de 30/11 em SP ainda é novembro");
   assert.equal(previousMonth("2027-01"), "2026-12");
 });
+
+test("ranking: meses à mostra desde o lançamento, do mais antigo ao atual, no máximo 4", async () => {
+  const { rankingMonths } = await import("../ranking");
+  assert.deepEqual(rankingMonths("2026-11"), ["2026-11"]);
+  assert.deepEqual(rankingMonths("2026-12"), ["2026-11", "2026-12"]);
+  assert.deepEqual(rankingMonths("2027-03"), ["2026-12", "2027-01", "2027-02", "2027-03"]);
+});
