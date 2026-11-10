@@ -857,7 +857,7 @@ async function main() {
       Array.from({ length: n }, (_, i) => ({
         user_id: adminProfile.id,
         drill_id: drillId,
-        strategy_id: "rfi-30bb-vanilla-btn",
+        strategy_id: "e2e-ranking",
         correct: i % 10 < correctEvery,
         data: {},
       }));
@@ -876,6 +876,9 @@ async function main() {
     await page.getByTestId("ranking-voce").getByText(/Você está em/).waitFor();
     await shot(page, "ranking");
     log(`ranking mensal: admin entrou com ${counted} decisões, sem os drills especiais`);
+    // As tentativas de mentira não têm os dados de uma mão: saem antes dos próximos passos
+    const cleanup = await fetch(`${API_URL}/rest/v1/attempts?strategy_id=eq.e2e-ranking`, { method: "DELETE", headers: adminHeaders });
+    assert.ok(cleanup.ok, `limpeza das tentativas do ranking: ${cleanup.status}`);
 
     // Warmup: botão no início, contagem 3-2-1-Go e treino de 15 minutos; decisões contam no drill de origem
     await page.goto(`${BASE_URL}/`);
