@@ -13,6 +13,7 @@ export const IMAGE_LOGOS: Record<string, string> = {
   "5high": "/pools/5high.png",
   "no-deal": "/pools/no-deal.png",
   almirantes: "/pools/almirantes.png",
+  underdogz: "/pools/underdogz.png",
 };
 
 export const LOGO_OPTIONS: { value: string; label: string }[] = [
@@ -23,6 +24,7 @@ export const LOGO_OPTIONS: { value: string; label: string }[] = [
   { value: "5high", label: "5 High (losango)" },
   { value: "no-deal", label: "No Deal" },
   { value: "almirantes", label: "Almirantes (caveira)" },
+  { value: "underdogz", label: "Underdogz (pitbull)" },
 ];
 
 export function initials(name: string): string {
