@@ -848,3 +848,31 @@ test("PKO Spots: Bounty Hunters Deepstack perto da bolha, mesa 8-max com EP", as
   assert.equal(mp.range.KQo ?? "fold", "fold");
   assert.equal(mp.range.AQo, "shove");
 });
+
+test("PKO Spots e Mesa Final: mãos do SB (Q3o), HJ com K8s e HJ com AQo na FT", async () => {
+  const { tableState } = await import("../table");
+  const { positionLabel } = await import("../strategy");
+  const { validateDrill } = await import("../drill");
+  const pko = parseImportBundle(load("pko-spots.json"), DEFAULT_LEGEND);
+  const ft = parseImportBundle(load("maos-rodadores.json"), DEFAULT_LEGEND);
+  assert.deepEqual([pko.errors, ft.errors], [[], []]);
+  const map = new Map([...pko.strategies, ...ft.strategies].map((s) => [s.id, s]));
+  assert.deepEqual(validateDrill(pko.drills[0], map), []);
+  assert.deepEqual(validateDrill(ft.drills[0], map), []);
+  // SB 9,9bb: Q3o limp, 22 all-in, T3s fold
+  const sb = map.get("pko-bhds21-893-sb")!;
+  assert.equal(sb.range.Q3o, "limp");
+  assert.equal(sb.range["22"], "shove");
+  assert.equal(sb.range.T3s ?? "fold", "fold");
+  // HJ 5,7bb vs UTG: K8s larga, K9s paga, 66 all-in
+  const hj = map.get("pko-bhds54-hj-vs-utg")!;
+  assert.equal(hj.range.K8s ?? "fold", "fold");
+  assert.equal(hj.range.K9s, "call");
+  assert.equal(hj.range["66"], "shove");
+  // FT: HJ 3,5bb vs UTG: AQo all-in, AA paga; mesa de 9 com os nomes do HRC
+  const ftHj = map.get("hrc-bhds54-ft-hj-vs-utg")!;
+  assert.equal(ftHj.range.AQo, "shove");
+  assert.equal(ftHj.range.AA, "call");
+  assert.equal(tableState(ftHj, 1).seats.length, 9);
+  assert.deepEqual(["UTG1", "MP", "LJ"].map((p) => positionLabel(p as "MP", ftHj.special)), ["EP", "MP1", "MP2"]);
+});
