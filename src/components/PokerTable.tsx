@@ -255,8 +255,12 @@ export function PokerTable({
       >
         {/* Mesa */}
         <div
-          className="absolute rounded-[50%] border-[0.45em] border-amber-950 bg-gradient-to-b from-emerald-800 to-emerald-950 shadow-[inset_0_0_40px_rgba(0,0,0,0.6)]"
+          className={`absolute rounded-[50%] border-[0.45em] border-amber-950 bg-gradient-to-b shadow-[inset_0_0_40px_rgba(0,0,0,0.6)] ${
+            strategy.special ? "from-violet-800 to-violet-950" : "from-emerald-800 to-emerald-950"
+          }`}
           style={{ inset: shape.felt }}
+          data-testid="feltro"
+          data-feltro={strategy.special ? "roxo" : "verde"}
         />
 
         {/* Jogadores restantes (spots de proporção e bolha) */}
@@ -291,7 +295,7 @@ export function PokerTable({
               ))}
             </div>
           )}
-          {texture && <span className="text-emerald-100/70">{texture}</span>}
+          {texture && <span className={strategy.special ? "text-violet-100/70" : "text-emerald-100/70"}>{texture}</span>}
           {shownPot !== null && (
             <span className="rounded-full bg-black/40 px-[0.8em] py-[0.15em] text-zinc-100" data-testid="pote">
               Pote: {shownPot.toLocaleString("pt-BR")}bb

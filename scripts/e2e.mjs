@@ -831,6 +831,7 @@ async function main() {
     assert.equal(await page.getByTestId("board").locator("> *").count(), 4, "decisão no turn");
     await page.locator("[data-testid=actions] button").first().click();
     await page.getByTestId("cbet-leitura").getByText("Guideline Cbet Turn IP (aula 29)").waitFor();
+    assert.equal(await page.getByTestId("feltro").first().getAttribute("data-feltro"), "verde", "feltro verde nos drills comuns");
     await shot(page, "treino-cbet-turn-ip");
     log("Cbet Turn IP: turn com o size do runout e leitura da mão");
 
@@ -844,7 +845,22 @@ async function main() {
     const mesaText = await page.getByTestId("mesa").innerText();
     assert.ok(!/\bMP\b|\bLJ\b|UTG1/.test(mesaText), "mesa de FT: sem MP, LJ e UTG1");
     assert.ok((await page.getByTestId("mesa").getByTestId("bounty-tag").count()) >= 3, "bounty em cada lugar");
+    assert.equal(await page.getByTestId("feltro").first().getAttribute("data-feltro"), "roxo", "feltro roxo na Mesa Final");
+    assert.equal(await page.getByTestId("rp-heroi").count(), 0, "Risk Premium saiu do enunciado e foi para o botão RP");
     await shot(page, "treino-maos-rodadores");
+    // Botão RP: a matriz abre num painel por cima da mesa e fecha com Esc
+    if (await page.getByTestId("botao-rp").count()) {
+      await page.getByTestId("botao-rp").click();
+      await page.getByTestId("painel-rp").getByTestId("risk-premium").waitFor();
+      await shot(page, "treino-maos-rodadores-rp");
+      await page.keyboard.press("Escape");
+      await page.getByTestId("painel-rp").waitFor({ state: "hidden" });
+    }
+    // Pay jumps (mãos com payouts): do lugar garantido até o 1º, com o próximo em destaque
+    if (await page.getByTestId("pay-jumps").count()) {
+      assert.match(await page.getByTestId("pay-jumps").innerText(), /garantido/);
+      await page.getByTestId("proximo-pay-jump").waitFor();
+    }
     // Visualizar spot: Risk Premium completo e os ranges da mão; o deste spot só depois de responder
     await page.getByTestId("botao-visualizar-spot").click();
     const viewer = page.getByTestId("visualizar-spot");
@@ -858,6 +874,8 @@ async function main() {
     await page.getByTestId("nota-mao-real").waitFor();
     await page.getByTestId("botao-visualizar-spot").click();
     assert.equal(await viewer.getByText("Responda para ver o range deste spot").count(), 0, "range aparece depois de responder");
+    await viewer.getByTestId("legenda-range").first().waitFor();
+    assert.match(await viewer.innerText(), /Range do (HJ|CO|BTN|SB|BB|UTG)/, "cada range diz de quem é");
     await shot(page, "treino-visualizar-spot-resposta");
     await viewer.getByRole("button", { name: "Fechar" }).click();
     await shot(page, "treino-maos-rodadores-resposta");

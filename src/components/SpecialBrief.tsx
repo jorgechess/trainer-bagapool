@@ -1,3 +1,7 @@
+"use client";
+
+import { useEffect, useRef, useState } from "react";
+import { type PayLadder, formatMoney, payLadder } from "@/lib/poker/payjumps";
 import type { Position, SpecialSpot } from "@/lib/poker/strategy";
 
 const fmt = (n: number, digits = 2) => n.toLocaleString("pt-BR", { maximumFractionDigits: digits });
@@ -12,8 +16,8 @@ function cellTone(factor: number): string {
 
 /**
  * Enunciado dos drills especiais (mãos rodadas no HRC): o torneio, o momento (restantes, ITM, blinds),
- * a tabela de Risk Premium com a linha do herói e a coluna do vilão em destaque e, depois de responder,
- * o que aconteceu na mão real. Stacks e bounties de cada lugar ficam na própria mesa.
+ * os pay jumps e, depois de responder, o que aconteceu na mão real. O Risk Premium fica atrás do botão RP
+ * (acima da mesa) ou completo no "Visualizar spot". Stacks e bounties de cada lugar ficam na própria mesa.
  */
 export function SpecialBrief({
   spot,
@@ -27,7 +31,7 @@ export function SpecialBrief({
   hero: Position;
   villain?: Position | null;
   answered: boolean;
-  /** Acima da mesa: só o torneio e o seu Risk Premium; o resto fica no "Visualizar spot". */
+  /** Acima da mesa: torneio, pay jumps e botões RP / Visualizar spot. */
   compact?: boolean;
   onView?: () => void;
 }) {
@@ -39,17 +43,12 @@ export function SpecialBrief({
     t.averageStack ? `Média ${fmt(t.averageStack, 1)}bb` : null,
   ].filter(Boolean);
   const rp = spot.riskPremium;
-  const heroRow = rp ? rp.positions.indexOf(hero) : -1;
-  const mine =
-    rp && heroRow >= 0
-      ? rp.positions
-          .map((p, j) => ({ p, cell: rp.cells[heroRow][j] }))
-          .filter((c): c is { p: Position; cell: { factor: number; premium: number } } => c.cell !== null)
-      : [];
+  const ladder = payLadder(spot.payouts, t.playersLeft);
+
   if (compact) {
     return (
       <section
-        className="flex flex-wrap items-center gap-x-4 gap-y-2 rounded-lg border border-baga-gold/30 bg-gradient-to-br from-zinc-900 to-black/60 px-3 py-2"
+        className="relative flex flex-wrap items-center gap-x-4 gap-y-2 rounded-lg border border-baga-gold/30 bg-gradient-to-br from-zinc-900 to-black/60 px-3 py-2"
         data-testid="enunciado-especial"
         aria-label="Enunciado do spot"
       >
@@ -63,28 +62,21 @@ export function SpecialBrief({
             <span className="text-baga-gold">{[t.site, t.format, t.buyIn].filter(Boolean).join(" · ")}</span>
             {facts.length > 0 && ` · ${facts.join(" · ")}`}
           </p>
-          {mine.length > 0 && (
-            <p className="mt-0.5 text-xs text-zinc-300" data-testid="rp-heroi">
-              Seu Risk Premium:{" "}
-              {mine.map(({ p, cell }, i) => (
-                <span key={p} className={p === villain ? "font-semibold text-baga-gold" : ""}>
-                  {i > 0 && " · "}vs {p} {cell.premium > 0 ? "+" : ""}
-                  {cell.premium.toLocaleString("pt-BR", { minimumFractionDigits: 1, maximumFractionDigits: 1 })}%
-                </span>
-              ))}
-            </p>
-          )}
+          {ladder && <PayJumps ladder={ladder} compact />}
           {answered && spot.note && (
             <p className="mt-1 rounded-md bg-zinc-800/80 px-2 py-1 text-xs text-zinc-200" data-testid="nota-mao-real">
               {spot.note}
             </p>
           )}
         </div>
-        {onView && (
-          <button type="button" className="btn-secondary shrink-0 px-3 py-1.5 text-sm" onClick={onView} data-testid="botao-visualizar-spot">
-            Visualizar spot
-          </button>
-        )}
+        <div className="flex shrink-0 gap-2">
+          {rp && <RiskPremiumButton spot={spot} hero={hero} villain={villain} />}
+          {onView && (
+            <button type="button" className="btn-secondary px-3 py-1.5 text-sm" onClick={onView} data-testid="botao-visualizar-spot">
+              Visualizar spot
+            </button>
+          )}
+        </div>
       </section>
     );
   }
@@ -114,64 +106,190 @@ export function SpecialBrief({
 
       {rp && (
         <div className="overflow-x-auto">
-          <p className="mb-1 text-[11px] font-semibold uppercase tracking-wide text-zinc-400">
-            Risk Premium (linha = quem decide)
-          </p>
-          <table className="border-separate border-spacing-0.5 text-center text-[11px] tabular-nums" data-testid="risk-premium">
-            <thead>
-              <tr>
-                <th />
-                {rp.positions.map((p) => (
-                  <th key={p} className={`px-1 font-semibold ${p === villain ? "text-baga-gold" : "text-zinc-400"}`}>
-                    {p}
-                    <span className="block font-normal text-zinc-500">{spot.stacks[p] !== undefined ? fmt(spot.stacks[p]!, 1) : ""}</span>
-                  </th>
-                ))}
-              </tr>
-            </thead>
-            <tbody>
-              {rp.positions.map((row, i) => (
-                <tr key={row}>
-                  <th className={`pr-1 text-left font-semibold ${row === hero ? "text-baga-cream" : "text-zinc-400"}`}>
-                    {row === hero ? `${row} (você)` : row}
-                  </th>
-                  {rp.cells[i].map((cell, j) => {
-                    const col = rp.positions[j];
-                    const focus = row === hero && col === villain;
-                    return (
-                      <td
-                        key={col}
-                        className={`rounded px-1 py-0.5 ${cell ? cellTone(cell.factor) : "bg-zinc-800/60"} ${
-                          focus ? "ring-2 ring-baga-gold" : row === hero ? "ring-1 ring-zinc-500" : ""
-                        }`}
-                      >
-                        {cell && (
-                          <>
-                            <span className="block font-semibold">
-                              {cell.factor.toLocaleString("pt-BR", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
-                            </span>
-                            <span className="block opacity-80">
-                              {cell.premium > 0 ? "+" : ""}
-                              {cell.premium.toLocaleString("pt-BR", { minimumFractionDigits: 1, maximumFractionDigits: 1 })}%
-                            </span>
-                          </>
-                        )}
-                      </td>
-                    );
-                  })}
-                </tr>
-              ))}
-            </tbody>
-          </table>
+          <RiskPremiumTable spot={spot} hero={hero} villain={villain} />
         </div>
       )}
 
-      {spot.payouts && spot.payouts.length > 0 && (
-        <div className="text-xs text-zinc-300 lg:col-span-2">
-          <span className="font-semibold text-zinc-400">Payouts: </span>
-          {spot.payouts.map((p) => `${p.place} ${p.prize}`).join(" · ")}
+      {ladder && (
+        <div className="lg:col-span-2">
+          <PayJumps ladder={ladder} />
         </div>
       )}
     </section>
+  );
+}
+
+/** Botão RP acima da mesa: abre a matriz de Risk Premium num painel por cima, sem empurrar a mesa. */
+function RiskPremiumButton({ spot, hero, villain }: { spot: SpecialSpot; hero: Position; villain?: Position | null }) {
+  const [open, setOpen] = useState(false);
+  const box = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    if (!open) return;
+    const onPointer = (event: PointerEvent) => {
+      if (box.current && !box.current.contains(event.target as Node)) setOpen(false);
+    };
+    const onKey = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setOpen(false);
+    };
+    document.addEventListener("pointerdown", onPointer);
+    document.addEventListener("keydown", onKey);
+    return () => {
+      document.removeEventListener("pointerdown", onPointer);
+      document.removeEventListener("keydown", onKey);
+    };
+  }, [open]);
+  return (
+    <div ref={box} className="relative">
+      <button
+        type="button"
+        className={`btn-secondary px-3 py-1.5 text-sm font-semibold ${open ? "ring-2 ring-baga-gold" : ""}`}
+        onClick={() => setOpen((o) => !o)}
+        aria-expanded={open}
+        aria-label="Risk Premium"
+        title="Risk Premium"
+        data-testid="botao-rp"
+      >
+        RP
+      </button>
+      {open && (
+        <div
+          className="absolute top-full right-0 z-30 mt-2 max-w-[92vw] overflow-x-auto rounded-lg border border-zinc-700 bg-zinc-950 p-3 shadow-2xl shadow-black/70"
+          data-testid="painel-rp"
+        >
+          <RiskPremiumTable spot={spot} hero={hero} villain={villain} />
+        </div>
+      )}
+    </div>
+  );
+}
+
+function RiskPremiumTable({ spot, hero, villain }: { spot: SpecialSpot; hero: Position; villain?: Position | null }) {
+  const rp = spot.riskPremium;
+  if (!rp) return null;
+  return (
+    <>
+      <p className="mb-1 text-[11px] font-semibold uppercase tracking-wide text-zinc-400">Risk Premium (linha = quem decide)</p>
+      <table className="border-separate border-spacing-0.5 text-center text-[11px] tabular-nums" data-testid="risk-premium">
+        <thead>
+          <tr>
+            <th />
+            {rp.positions.map((p) => (
+              <th key={p} className={`px-1 font-semibold ${p === villain ? "text-baga-gold" : "text-zinc-400"}`}>
+                {p}
+                <span className="block font-normal text-zinc-500">{spot.stacks[p] !== undefined ? fmt(spot.stacks[p]!, 1) : ""}</span>
+              </th>
+            ))}
+          </tr>
+        </thead>
+        <tbody>
+          {rp.positions.map((row, i) => (
+            <tr key={row}>
+              <th className={`pr-1 text-left font-semibold whitespace-nowrap ${row === hero ? "text-baga-cream" : "text-zinc-400"}`}>
+                {row === hero ? `${row} (você)` : row}
+              </th>
+              {rp.cells[i].map((cell, j) => {
+                const col = rp.positions[j];
+                const focus = row === hero && col === villain;
+                return (
+                  <td
+                    key={col}
+                    className={`rounded px-1 py-0.5 ${cell ? cellTone(cell.factor) : "bg-zinc-800/60"} ${
+                      focus ? "ring-2 ring-baga-gold" : row === hero ? "ring-1 ring-zinc-500" : ""
+                    }`}
+                  >
+                    {cell && (
+                      <>
+                        <span className="block font-semibold">
+                          {cell.factor.toLocaleString("pt-BR", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                        </span>
+                        <span className="block opacity-80">
+                          {cell.premium > 0 ? "+" : ""}
+                          {cell.premium.toLocaleString("pt-BR", { minimumFractionDigits: 1, maximumFractionDigits: 1 })}%
+                        </span>
+                      </>
+                    )}
+                  </td>
+                );
+              })}
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </>
+  );
+}
+
+/**
+ * Escada de prêmios. Acima da mesa: do lugar garantido até o 1º, com o pay jump de cada degrau e o próximo
+ * em destaque. No "Visualizar spot": a escada inteira, com os lugares já pagos apagados.
+ */
+function PayJumps({ ladder, compact = false }: { ladder: PayLadder; compact?: boolean }) {
+  const money = (v: number) => formatMoney(v, ladder.currency);
+  // Sobe da esquerda para a direita: do último lugar mostrado até o 1º
+  const climb = [...ladder.steps]
+    .filter((s) => !compact || s.status !== "pago")
+    .sort((a, b) => b.place - a.place);
+  if (compact) {
+    return (
+      <p className="mt-1 flex flex-wrap items-center gap-1 text-xs" data-testid="pay-jumps">
+        <span className="mr-0.5 font-semibold text-zinc-400">Pay jumps</span>
+        {climb.map((s, i) => {
+          const isNext = ladder.next?.place === s.place;
+          const below = climb[i - 1];
+          const jump = below && below.prize !== null && s.prize !== null ? s.prize - below.prize : null;
+          return (
+            <span key={s.place} className="flex items-center gap-1">
+              {i > 0 && <span className="text-zinc-600">›</span>}
+              <span
+                className={`rounded px-1.5 py-0.5 tabular-nums ${
+                  isNext
+                    ? "bg-baga-gold/20 text-baga-gold ring-1 ring-baga-gold/70"
+                    : s.status === "garantido"
+                      ? "bg-zinc-800 text-zinc-200"
+                      : "bg-zinc-900 text-zinc-300"
+                }`}
+                data-testid={isNext ? "proximo-pay-jump" : undefined}
+              >
+                {s.place}º {s.prize !== null ? s.label : "?"}
+                {jump !== null && <span className="ml-1 font-semibold">+{money(jump)}</span>}
+                {s.status === "garantido" && <span className="ml-1 text-zinc-500">garantido</span>}
+              </span>
+            </span>
+          );
+        })}
+      </p>
+    );
+  }
+  return (
+    <div data-testid="pay-jumps-completo">
+      <p className="mb-1 text-[11px] font-semibold uppercase tracking-wide text-zinc-400">Pay jumps</p>
+      <ol className="flex flex-wrap items-stretch gap-1.5">
+        {climb.map((s, i) => {
+          const isNext = ladder.next?.place === s.place;
+          const below = climb[i - 1];
+          const jump = below && below.prize !== null && s.prize !== null ? s.prize - below.prize : null;
+          return (
+            <li
+              key={s.place}
+              className={`min-w-20 rounded-md border px-2 py-1 text-center tabular-nums ${
+                isNext
+                  ? "border-baga-gold bg-baga-gold/15"
+                  : s.status === "garantido"
+                    ? "border-zinc-500 bg-zinc-800"
+                    : s.status === "pago"
+                      ? "border-zinc-800 opacity-45"
+                      : "border-zinc-700"
+              }`}
+            >
+              <span className="block text-sm font-semibold text-zinc-100">{s.place}º</span>
+              <span className="block text-xs text-zinc-300">{s.prize !== null ? s.label : "não informado"}</span>
+              <span className={`block text-[11px] ${isNext ? "font-semibold text-baga-gold" : "text-zinc-500"}`}>
+                {s.status === "garantido" ? "garantido" : jump !== null ? `+${money(jump)}` : " "}
+              </span>
+            </li>
+          );
+        })}
+      </ol>
+    </div>
   );
 }

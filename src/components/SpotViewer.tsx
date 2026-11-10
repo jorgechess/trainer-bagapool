@@ -3,7 +3,8 @@
 import { useEffect, useRef } from "react";
 import { RangeGrid } from "@/components/RangeGrid";
 import { SpecialBrief } from "@/components/SpecialBrief";
-import type { Legend } from "@/lib/poker/legend";
+import { type Legend, findAction, textColorFor } from "@/lib/poker/legend";
+import { rangeBreakdown } from "@/lib/poker/range";
 import type { Strategy } from "@/lib/poker/strategy";
 
 /**
@@ -59,8 +60,10 @@ export function SpotViewer({
             return (
               <section key={s.id} className={`space-y-2 rounded-lg border p-3 ${current ? "border-baga-gold/60" : "border-zinc-800"}`}>
                 <h3 className="text-sm font-semibold">
-                  {s.heroPosition}
-                  {s.villainPosition ? ` vs ${s.villainPosition}` : " first in"} · {s.stack.min.toLocaleString("pt-BR")}bb
+                  Range do {s.heroPosition} ({s.stack.min.toLocaleString("pt-BR")}bb)
+                  <span className="font-normal text-zinc-400">
+                    {s.villainPosition ? ` vs open do ${s.villainPosition}` : " · first in"}
+                  </span>
                   {current && <span className="ml-2 text-xs text-baga-gold">(este spot)</span>}
                 </h3>
                 <p className="text-xs text-zinc-400">{s.description}</p>
@@ -69,7 +72,10 @@ export function SpotViewer({
                     Responda para ver o range deste spot
                   </div>
                 ) : (
-                  <RangeGrid range={s.range} defaultActionId={s.defaultActionId} legend={legend} alsoCorrect={s.alsoCorrect} compact />
+                  <>
+                    <ActionShares strategy={s} legend={legend} />
+                    <RangeGrid range={s.range} defaultActionId={s.defaultActionId} legend={legend} alsoCorrect={s.alsoCorrect} compact />
+                  </>
                 )}
               </section>
             );
@@ -77,5 +83,27 @@ export function SpotViewer({
         </div>
       </div>
     </dialog>
+  );
+}
+
+/** Legenda do range com a fatia de cada ação (% das 1326 combinações), como no cabeçalho do HRC. */
+function ActionShares({ strategy, legend }: { strategy: Strategy; legend: Legend }) {
+  const shares = new Map(rangeBreakdown(strategy.range, strategy.defaultActionId).map((a) => [a.actionId, a.percent]));
+  return (
+    <div className="flex flex-wrap gap-1.5" data-testid="legenda-range">
+      {strategy.actionIds.map((id) => {
+        const action = findAction(legend, id);
+        if (!action) return null;
+        return (
+          <span
+            key={id}
+            className="rounded px-2 py-0.5 text-xs font-medium"
+            style={{ backgroundColor: action.color, color: textColorFor(action.color) }}
+          >
+            {action.label} {(shares.get(id) ?? 0).toLocaleString("pt-BR", { maximumFractionDigits: 1 })}%
+          </span>
+        );
+      })}
+    </div>
   );
 }
