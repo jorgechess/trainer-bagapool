@@ -19,7 +19,7 @@
     {
       "id": "3bp-oop-bb-vs-hj-flop",
       "name": "3bet Pot OOP · flop (BB vs HJ)",
-      "description": "30bb. Você 3-betou o HJ do BB (8bb) e ele pagou. Você age primeiro no flop.",
+      "description": "30bb. Você 3-betou o HJ do BB (7bb, size de 3-bet OOP com 21–30bb) e ele pagou. Você age primeiro no flop.",
       "street": "flop",
       "situation": "3bet pot OOP",
       "heroPosition": "BB",
@@ -41,8 +41,8 @@
         "bet-50"
       ],
       "defaultActionId": "check",
-      "tablePot": 16.5,
-      "invested": 8,
+      "tablePot": 14.5,
+      "invested": 7,
       "villainCoversHero": true,
       "cbet": {
         "table": "3bet-pot",
@@ -56,7 +56,7 @@
         ]
       },
       "history": [
-        "HJ raise 2bb · BB 3-bet 8bb · HJ call"
+        "HJ raise 2bb · BB 3-bet 7bb · HJ call"
       ]
     },
     {
@@ -84,8 +84,8 @@
         "shove"
       ],
       "defaultActionId": "check",
-      "tablePot": 24.75,
-      "invested": 12.125,
+      "tablePot": 21.75,
+      "invested": 10.625,
       "villainCoversHero": true,
       "cbet": {
         "table": "3bet-pot",
@@ -103,7 +103,7 @@
         "bet-50"
       ],
       "history": [
-        "HJ raise 2bb · BB 3-bet 8bb · HJ call",
+        "HJ raise 2bb · BB 3-bet 7bb · HJ call",
         "BB {flop} · HJ C"
       ]
     },
@@ -132,8 +132,8 @@
         "shove"
       ],
       "defaultActionId": "check",
-      "tablePot": 41.1,
-      "invested": 20.3,
+      "tablePot": 36.1,
+      "invested": 17.8,
       "villainCoversHero": true,
       "cbet": {
         "table": "3bet-pot",
@@ -150,7 +150,7 @@
         "bet-33"
       ],
       "history": [
-        "HJ raise 2bb · BB 3-bet 8bb · HJ call",
+        "HJ raise 2bb · BB 3-bet 7bb · HJ call",
         "BB {flop} · HJ C",
         "BB {turn} · HJ C"
       ]
@@ -180,8 +180,8 @@
         "shove"
       ],
       "defaultActionId": "check",
-      "tablePot": 24.75,
-      "invested": 12.125,
+      "tablePot": 21.75,
+      "invested": 10.625,
       "villainCoversHero": true,
       "cbet": {
         "table": "3bet-pot",
@@ -198,7 +198,7 @@
         "check"
       ],
       "history": [
-        "HJ raise 2bb · BB 3-bet 8bb · HJ call",
+        "HJ raise 2bb · BB 3-bet 7bb · HJ call",
         "BB {flop} · HJ C",
         "BB {turn} · HJ X"
       ]

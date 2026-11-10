@@ -807,7 +807,7 @@ async function main() {
     await page.getByTestId("board").waitFor();
     assert.equal(await page.getByTestId("board").locator("> *").count(), 3, "começa no flop");
     // Histórico da mão: só o pré-flop antes da decisão do flop
-    assert.match(await page.getByTestId("historico-mao").innerText(), /HJ raise 2bb · BB 3-bet 8bb · HJ call/);
+    assert.match(await page.getByTestId("historico-mao").innerText(), /HJ raise 2bb · BB 3-bet 7bb · HJ call/);
     await page.getByTestId("actions").getByRole("button", { name: /Bet 25%/ }).click();
     await page.getByTestId("cbet-leitura").getByText("Game plan 3bet pot OOP (aula 27)").waitFor();
     await shot(page, "treino-3bet-pot");
@@ -817,7 +817,7 @@ async function main() {
     await shot(page, "treino-3bet-pot-fichas");
     await page.getByTestId("fichas-indo-pote").first().waitFor({ state: "detached", timeout: 3000 });
     assert.equal(await page.getByTestId("board").locator("> *").count(), 4, "turn depois do cbet");
-    assert.match(await page.getByTestId("pote").innerText(), /24,75bb/);
+    assert.match(await page.getByTestId("pote").innerText(), /21,75bb/);
     const history3bp = await page.getByTestId("historico-mao").innerText();
     assert.match(history3bp, /BB B25 · HJ C/, `histórico do flop com a aposta do herói: ${history3bp}`);
     await shot(page, "treino-3bet-pot-turn");

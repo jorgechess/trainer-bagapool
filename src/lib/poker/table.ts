@@ -19,6 +19,25 @@ const BLINDS: Partial<Record<Position, number>> = { SB: 0.5, BB: 1 };
 export const DEFAULT_OPEN_SIZE = 2;
 export const DEFAULT_THREE_BET_MULTIPLIER = 3.5;
 
+/**
+ * Size do 3-bet fora de posição (dos blinds contra quem abriu antes), pela faixa de stack efetivo:
+ * 11–12bb → 4bb · 13–14 → 5 · 15–20 → 6 · 21–30 → 7 · 31+ → 8. Até 10bb o 3-bet é all-in.
+ */
+export function threeBetSizeOOP(stack: number): number {
+  if (stack <= 10) return stack;
+  if (stack <= 12) return 4;
+  if (stack <= 14) return 5;
+  if (stack <= 20) return 6;
+  if (stack <= 30) return 7;
+  return 8;
+}
+
+/** O vilão 3-beta dos blinds contra um open de fora dos blinds: joga a mão fora de posição. */
+function threeBetIsOOP(strategy: Strategy): boolean {
+  const blinds: Position[] = ["SB", "BB"];
+  return !!strategy.villainPosition && blinds.includes(strategy.villainPosition) && !blinds.includes(strategy.heroPosition);
+}
+
 /** Pré-flop com vilão agindo depois do herói: o herói abriu e o vilão deu 3-bet. */
 export function facesThreeBet(strategy: Strategy): boolean {
   if (strategy.street !== "preflop" || !strategy.villainPosition) return false;
@@ -28,7 +47,11 @@ export function facesThreeBet(strategy: Strategy): boolean {
 /** Tamanho do open e do 3-bet desenhados na mesa. */
 export function tableSizes(strategy: Strategy): { open: number; threeBet: number } {
   const open = strategy.tableSizes?.open ?? DEFAULT_OPEN_SIZE;
-  const threeBet = strategy.tableSizes?.threeBet ?? Math.round(open * DEFAULT_THREE_BET_MULTIPLIER * 10) / 10;
+  const threeBet =
+    strategy.tableSizes?.threeBet ??
+    (threeBetIsOOP(strategy)
+      ? threeBetSizeOOP(strategy.stack.min)
+      : Math.round(open * DEFAULT_THREE_BET_MULTIPLIER * 10) / 10);
   return { open, threeBet };
 }
 

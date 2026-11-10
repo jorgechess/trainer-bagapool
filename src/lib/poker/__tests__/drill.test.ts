@@ -218,6 +218,7 @@ test("sortear só do range de outra estratégia (vs 3-bet com o range de open)",
     name: "vs 3-bet BTN vs BB",
     situation: "vs 3-bet",
     villainPosition: "BB" as const,
+    stack: { min: 30, max: 30 },
     actionIds: ["fold", "call", "shove"],
     defaultActionId: "fold",
     range: {},
@@ -246,7 +247,7 @@ test("sortear só do range de outra estratégia (vs 3-bet com o range de open)",
   const seats = tableSeats(vs3bet);
   assert.equal(seats.find((s) => s.position === "BB")!.status, "raised");
   assert.equal(seats.find((s) => s.position === "SB")!.status, "folded");
-  // fichas: herói abriu 2bb, vilão (BB) deu 3-bet de 7bb, SB deixou 0,5bb no pote
+  // fichas: herói abriu 2bb, vilão (BB) deu 3-bet de 7bb (OOP com 30bb), SB deixou 0,5bb no pote
   assert.equal(seats.find((s) => s.position === "BTN")!.posted, 2);
   assert.equal(seats.find((s) => s.position === "BB")!.posted, 7);
   assert.equal(seats.find((s) => s.position === "SB")!.posted, 0.5);

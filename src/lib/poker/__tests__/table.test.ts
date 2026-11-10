@@ -127,3 +127,15 @@ test("stack de quem abriu sai da faixa da estratégia (linear >16bb, polar 10–
   }
   assert.equal(seen.size, 5);
 });
+
+test("3-bet OOP: size pela faixa de stack (blinds contra open de fora dos blinds)", async () => {
+  const { threeBetSizeOOP, tableSizes } = await import("../table");
+  assert.deepEqual([8, 11, 12, 13, 14, 15, 20, 21, 30, 31, 50].map(threeBetSizeOOP), [8, 4, 4, 5, 5, 6, 6, 7, 7, 8, 8]);
+  const spot = (stack: number, hero: string, villain: string) =>
+    ({ street: "preflop", heroPosition: hero, villainPosition: villain, stack: { min: stack, max: stack } }) as never;
+  assert.equal(tableSizes(spot(50, "CO", "BB")).threeBet, 8, "PKO 50bb: BB 3-beta 8bb");
+  assert.equal(tableSizes(spot(30, "HJ", "SB")).threeBet, 7);
+  assert.equal(tableSizes(spot(14, "BTN", "BB")).threeBet, 5);
+  assert.equal(tableSizes(spot(30, "HJ", "BTN")).threeBet, 7, "3-bet em posição segue 3,5x o open");
+  assert.equal(tableSizes(spot(15, "SB", "BB")).threeBet, 7, "BB vs SB é em posição: não usa a tabela");
+});
