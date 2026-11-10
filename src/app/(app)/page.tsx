@@ -48,7 +48,7 @@ export default async function HomePage() {
           href="/aquecimento"
           className="rounded-2xl bg-baga-red px-16 py-5 font-display text-5xl tracking-wider text-baga-cream shadow-lg shadow-baga-red/30 transition hover:scale-105 hover:brightness-110"
           data-testid="warmup-button"
-          title="15 minutos com um mix do seu plano de treino"
+          title="Warmup cronometrado (você escolhe os minutos) com um mix do seu plano de treino"
         >
           WARMUP
         </Link>

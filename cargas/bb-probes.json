@@ -61,7 +61,11 @@
           "call"
         ]
       },
-      "invested": 2
+      "invested": 2,
+      "history": [
+        "CO raise 2bb · BB call",
+        "BB X · CO X"
+      ]
     },
     {
       "id": "bb-probe-turn-baixo-vs-co",
@@ -101,7 +105,11 @@
           "call"
         ]
       },
-      "invested": 2
+      "invested": 2,
+      "history": [
+        "CO raise 2bb · BB call",
+        "BB X · CO X"
+      ]
     },
     {
       "id": "bb-probe-river-baixo-vs-co",
@@ -143,7 +151,12 @@
       "entryActionIds": [
         "bet-25"
       ],
-      "invested": 3.125
+      "invested": 3.125,
+      "history": [
+        "CO raise 2bb · BB call",
+        "BB X · CO X",
+        "BB {turn} · CO C"
+      ]
     },
     {
       "id": "bb-probe-turn-3s-vs-co",
@@ -183,7 +196,11 @@
           "call"
         ]
       },
-      "invested": 2
+      "invested": 2,
+      "history": [
+        "CO raise 2bb · BB call",
+        "BB X · CO X"
+      ]
     },
     {
       "id": "bb-probe-river-3s-vs-co",
@@ -225,7 +242,12 @@
       "entryActionIds": [
         "bet-67"
       ],
-      "invested": 5
+      "invested": 5,
+      "history": [
+        "CO raise 2bb · BB call",
+        "BB X · CO X",
+        "BB {turn} · CO C"
+      ]
     },
     {
       "id": "bb-probe-turn-alto-vs-btn",
@@ -265,7 +287,11 @@
           "call"
         ]
       },
-      "invested": 2
+      "invested": 2,
+      "history": [
+        "BTN raise 2bb · BB call",
+        "BB X · BTN X"
+      ]
     },
     {
       "id": "bb-probe-turn-baixo-vs-btn",
@@ -305,7 +331,11 @@
           "call"
         ]
       },
-      "invested": 2
+      "invested": 2,
+      "history": [
+        "BTN raise 2bb · BB call",
+        "BB X · BTN X"
+      ]
     },
     {
       "id": "bb-probe-river-baixo-vs-btn",
@@ -347,7 +377,12 @@
       "entryActionIds": [
         "bet-25"
       ],
-      "invested": 3.125
+      "invested": 3.125,
+      "history": [
+        "BTN raise 2bb · BB call",
+        "BB X · BTN X",
+        "BB {turn} · BTN C"
+      ]
     },
     {
       "id": "bb-probe-turn-3s-vs-btn",
@@ -387,7 +422,11 @@
           "call"
         ]
       },
-      "invested": 2
+      "invested": 2,
+      "history": [
+        "BTN raise 2bb · BB call",
+        "BB X · BTN X"
+      ]
     },
     {
       "id": "bb-probe-river-3s-vs-btn",
@@ -429,7 +468,12 @@
       "entryActionIds": [
         "bet-67"
       ],
-      "invested": 5
+      "invested": 5,
+      "history": [
+        "BTN raise 2bb · BB call",
+        "BB X · BTN X",
+        "BB {turn} · BTN C"
+      ]
     }
   ],
   "drills": [

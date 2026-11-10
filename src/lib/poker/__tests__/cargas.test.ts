@@ -755,3 +755,15 @@ test("carga Cbet Turn IP: turn do opener vs BB, seção Posflop Attack", async (
   }
   for (const id of ["check", "bet-67", "bet-125", "vc-call", "vc-raise", "vc-fold"]) assert.ok(seen.has(id), id);
 });
+
+test("cargas pós-flop: toda estratégia pós-flop tem histórico da mão até a street dela", async () => {
+  const { STREETS } = await import("../strategy");
+  const { readdirSync } = await import("node:fs");
+  for (const file of readdirSync("cargas").filter((f) => f.endsWith(".json"))) {
+    for (const s of (load(file) as { strategies: { id: string; street: string; history?: string[] }[] }).strategies) {
+      if (s.street === "preflop") continue;
+      assert.ok(s.history?.length, `${s.id} sem histórico`);
+      assert.ok(s.history.length <= STREETS.indexOf(s.street as never) + 1, `${s.id}: histórico passa da street da decisão`);
+    }
+  }
+});

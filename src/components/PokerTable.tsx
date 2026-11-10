@@ -1,3 +1,6 @@
+"use client";
+
+import { useLayoutEffect, useRef, useState } from "react";
 import { PlayingCard } from "@/components/PlayingCard";
 import type { Card } from "@/lib/poker/cards";
 import { formatNumberRange, type Strategy } from "@/lib/poker/strategy";
@@ -166,6 +169,18 @@ function SeatView({
   );
 }
 
+/** Duração das fichas indo para o pote ao virar a street (ms); a carta nova entra logo depois. */
+const FLIGHT_MS = 550;
+
+interface Flight {
+  chips: { key: string; amount: number; from: { left: string; top: string } }[];
+  /** Cartas do board a partir deste índice são novas (entram com animação). */
+  newFrom: number;
+  /** Pote mostrado enquanto as fichas voam. */
+  fromPot: number | null;
+  go: boolean;
+}
+
 export function PokerTable({
   strategy,
   heroCards,
@@ -184,6 +199,45 @@ export function PokerTable({
   const button = seats.find((s) => s.isButton);
   const left = playersLeft(strategy, seed);
   const bubble = left !== null && strategy.bubble != null;
+
+  // Virou a street na mesma mão (flop → turn → river): as apostas da street anterior vão para o pote,
+  // como no GTO Wizard, e a carta nova entra depois
+  const handKey = heroCards.join("");
+  const previous = useRef<{ hand: string; board: number; pot: number | null } | null>(null);
+  const [flight, setFlight] = useState<Flight | null>(null);
+  const villainOffset = seats.find((s) => s.position === strategy.villainPosition)?.offset;
+  const factor = vertical ? CHIP_FACTOR_TALL : CHIP_FACTOR;
+  useLayoutEffect(() => {
+    const before = previous.current;
+    previous.current = { hand: handKey, board: board.length, pot };
+    if (!before || before.hand !== handKey || board.length <= before.board) {
+      setFlight(null);
+      return;
+    }
+    if (window.matchMedia?.("(prefers-reduced-motion: reduce)").matches) return;
+    const delta = pot !== null && before.pot !== null ? pot - before.pot : 0;
+    const each = Math.round((delta / 2) * 100) / 100;
+    const chips =
+      each > 0
+        ? [
+            { key: "hero", amount: each, from: chipSpot(shape, 0, factor) },
+            ...(villainOffset !== undefined
+              ? [{ key: "villain", amount: each, from: chipSpot(shape, villainOffset, factor) }]
+              : []),
+          ]
+        : [];
+    setFlight({ chips, newFrom: before.board, fromPot: before.pot, go: false });
+    let frame = requestAnimationFrame(() => {
+      frame = requestAnimationFrame(() => setFlight((f) => (f ? { ...f, go: true } : f)));
+    });
+    const end = setTimeout(() => setFlight(null), FLIGHT_MS + 450);
+    return () => {
+      cancelAnimationFrame(frame);
+      clearTimeout(end);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [handKey, board.length, pot]);
+  const shownPot = flight && flight.chips.length ? flight.fromPot : pot;
 
   return (
     <div
@@ -225,15 +279,21 @@ export function PokerTable({
         <div className="absolute top-1/2 left-1/2 flex -translate-x-1/2 -translate-y-1/2 flex-col items-center gap-[0.4em]">
           {board.length > 0 && (
             <div className="flex gap-[0.2em] text-[1.45em]" data-testid="board" aria-label="Board">
-              {board.map((card) => (
-                <PlayingCard key={card} card={card} size="fluid" />
+              {board.map((card, i) => (
+                <div
+                  key={card}
+                  className={flight && i >= flight.newFrom ? "deal-in" : undefined}
+                  style={flight && i >= flight.newFrom ? { animationDelay: `${flight.chips.length ? FLIGHT_MS - 100 : 0}ms` } : undefined}
+                >
+                  <PlayingCard card={card} size="fluid" />
+                </div>
               ))}
             </div>
           )}
           {texture && <span className="text-emerald-100/70">{texture}</span>}
-          {pot !== null && (
-            <span className="rounded-full bg-black/40 px-[0.8em] py-[0.15em] text-zinc-100">
-              Pote: {pot.toLocaleString("pt-BR")}bb
+          {shownPot !== null && (
+            <span className="rounded-full bg-black/40 px-[0.8em] py-[0.15em] text-zinc-100" data-testid="pote">
+              Pote: {shownPot.toLocaleString("pt-BR")}bb
             </span>
           )}
 
@@ -252,6 +312,21 @@ export function PokerTable({
               <Chips amount={s.posted} />
             </div>
           ))}
+
+        {/* Fichas da street anterior indo para o pote */}
+        {flight?.chips.map((chip) => (
+          <div
+            key={chip.key}
+            className="pointer-events-none absolute z-10 flex -translate-x-1/2 -translate-y-1/2 items-center gap-[0.3em]"
+            data-testid="fichas-indo-pote"
+            style={{
+              ...(flight.go ? { left: "50%", top: "50%", opacity: 0 } : { ...chip.from, opacity: 1 }),
+              transition: `left ${FLIGHT_MS}ms ease-in, top ${FLIGHT_MS}ms ease-in, opacity 150ms ease-in ${FLIGHT_MS - 120}ms`,
+            }}
+          >
+            <Chips amount={chip.amount} />
+          </div>
+        ))}
 
         {/* Botão do dealer */}
         {button && (

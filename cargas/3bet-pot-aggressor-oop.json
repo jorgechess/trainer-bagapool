@@ -54,7 +54,10 @@
           "3bet-call",
           "3bet-fold"
         ]
-      }
+      },
+      "history": [
+        "HJ raise 2bb · BB 3-bet 8bb · HJ call"
+      ]
     },
     {
       "id": "3bp-oop-bb-vs-hj-turn",
@@ -98,6 +101,10 @@
       "entryActionIds": [
         "bet-25",
         "bet-50"
+      ],
+      "history": [
+        "HJ raise 2bb · BB 3-bet 8bb · HJ call",
+        "BB {flop} · HJ C"
       ]
     },
     {
@@ -141,6 +148,11 @@
       },
       "entryActionIds": [
         "bet-33"
+      ],
+      "history": [
+        "HJ raise 2bb · BB 3-bet 8bb · HJ call",
+        "BB {flop} · HJ C",
+        "BB {turn} · HJ C"
       ]
     },
     {
@@ -184,6 +196,11 @@
       },
       "entryActionIds": [
         "check"
+      ],
+      "history": [
+        "HJ raise 2bb · BB 3-bet 8bb · HJ call",
+        "BB {flop} · HJ C",
+        "BB {turn} · HJ X"
       ]
     }
   ],

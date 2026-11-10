@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { MinutePicker } from "@/components/MinutePicker";
 import { Trainer } from "@/components/Trainer";
 import type { Drill } from "@/lib/poker/drill";
 import type { Legend } from "@/lib/poker/legend";
@@ -18,6 +19,10 @@ interface WarmupProps {
 }
 
 const STEPS = ["3", "2", "1", "Go!"] as const;
+/** Duração escolhida pelo jogador (minutos), lembrada neste navegador. */
+const MINUTES_KEY = "trainer:warmup-minutos";
+const MIN_MINUTES = 1;
+const MAX_MINUTES = 60;
 const R = 88;
 const CIRC = 2 * Math.PI * R;
 
@@ -25,6 +30,25 @@ const CIRC = 2 * Math.PI * R;
 export function Warmup({ drill, strategies, legend, sourceDrillOf, seconds, source, drillNames, sourceDrillNames }: WarmupProps) {
   const [step, setStep] = useState<number | null>(null);
   const [fill, setFill] = useState(false);
+  const [minutes, setMinutes] = useState(Math.round(seconds / 60));
+
+  useEffect(() => {
+    try {
+      const saved = Number(localStorage.getItem(MINUTES_KEY));
+      if (Number.isInteger(saved) && saved >= MIN_MINUTES && saved <= MAX_MINUTES) setMinutes(saved);
+    } catch {
+      // Sem localStorage: fica o padrão
+    }
+  }, []);
+
+  const changeMinutes = (value: number) => {
+    setMinutes(value);
+    try {
+      localStorage.setItem(MINUTES_KEY, String(value));
+    } catch {
+      // Sem localStorage: vale só nesta visita
+    }
+  };
 
   useEffect(() => {
     if (step === null || step >= STEPS.length) return;
@@ -38,7 +62,7 @@ export function Warmup({ drill, strategies, legend, sourceDrillOf, seconds, sour
   }, [step]);
 
   if (step !== null && step >= STEPS.length)
-    return <Trainer drill={drill} strategies={strategies} legend={legend} timeLimitSec={seconds} sourceDrillOf={sourceDrillOf} sourceDrillNames={sourceDrillNames} />;
+    return <Trainer drill={drill} strategies={strategies} legend={legend} timeLimitSec={minutes * 60} sourceDrillOf={sourceDrillOf} sourceDrillNames={sourceDrillNames} />;
 
   if (step !== null) {
     const go = STEPS[step] === "Go!";
@@ -77,11 +101,13 @@ export function Warmup({ drill, strategies, legend, sourceDrillOf, seconds, sour
 
   return (
     <div className="mx-auto flex min-h-[60vh] max-w-xl flex-col items-center justify-center gap-6 text-center">
-      <div>
+      <div className="flex flex-col items-center gap-3">
         <h1 className="page-title">Aquecimento</h1>
-        <p className="muted mt-1">
-          {Math.round(seconds / 60)} minutos misturando os {source}:
-        </p>
+        <div className="flex items-center gap-3">
+          <MinutePicker value={minutes} onChange={changeMinutes} min={MIN_MINUTES} max={MAX_MINUTES} label="Minutos de warmup" />
+          <span className="font-display text-2xl tracking-wide text-zinc-200">{minutes === 1 ? "minuto" : "minutos"}</span>
+        </div>
+        <p className="muted">Misturando os {source}:</p>
       </div>
       <ul className="flex flex-wrap justify-center gap-2" data-testid="warmup-drills">
         {drillNames.map((name) => (

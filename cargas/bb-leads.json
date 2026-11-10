@@ -73,7 +73,10 @@
           "call"
         ]
       },
-      "invested": 2
+      "invested": 2,
+      "history": [
+        "CO raise 2bb · BB call"
+      ]
     },
     {
       "id": "bb-lead-flop-nao-vs-co",
@@ -111,7 +114,10 @@
           "call"
         ]
       },
-      "invested": 2
+      "invested": 2,
+      "history": [
+        "CO raise 2bb · BB call"
+      ]
     },
     {
       "id": "bb-lead-turn-lead-vs-co",
@@ -154,7 +160,11 @@
       "entryActionIds": [
         "bet-25"
       ],
-      "invested": 3.125
+      "invested": 3.125,
+      "history": [
+        "CO raise 2bb · BB call",
+        "BB {flop} · CO C"
+      ]
     },
     {
       "id": "bb-lead-turn-vs-co",
@@ -193,7 +203,11 @@
           "call"
         ]
       },
-      "invested": 3.5
+      "invested": 3.5,
+      "history": [
+        "CO raise 2bb · BB call",
+        "BB X · CO B33 · BB C"
+      ]
     },
     {
       "id": "bb-lead-river-vs-co",
@@ -232,7 +246,12 @@
           "call"
         ]
       },
-      "invested": 7.25
+      "invested": 7.25,
+      "history": [
+        "CO raise 2bb · BB call",
+        "BB X · CO B33 · BB C",
+        "BB X · CO B50 · BB C"
+      ]
     },
     {
       "id": "bb-lead-flop-sim-vs-btn",
@@ -270,7 +289,10 @@
           "call"
         ]
       },
-      "invested": 2
+      "invested": 2,
+      "history": [
+        "BTN raise 2bb · BB call"
+      ]
     },
     {
       "id": "bb-lead-flop-nao-vs-btn",
@@ -308,7 +330,10 @@
           "call"
         ]
       },
-      "invested": 2
+      "invested": 2,
+      "history": [
+        "BTN raise 2bb · BB call"
+      ]
     },
     {
       "id": "bb-lead-turn-lead-vs-btn",
@@ -351,7 +376,11 @@
       "entryActionIds": [
         "bet-25"
       ],
-      "invested": 3.125
+      "invested": 3.125,
+      "history": [
+        "BTN raise 2bb · BB call",
+        "BB {flop} · BTN C"
+      ]
     },
     {
       "id": "bb-lead-turn-vs-btn",
@@ -390,7 +419,11 @@
           "call"
         ]
       },
-      "invested": 3.5
+      "invested": 3.5,
+      "history": [
+        "BTN raise 2bb · BB call",
+        "BB X · BTN B33 · BB C"
+      ]
     },
     {
       "id": "bb-lead-river-vs-btn",
@@ -429,7 +462,12 @@
           "call"
         ]
       },
-      "invested": 7.25
+      "invested": 7.25,
+      "history": [
+        "BTN raise 2bb · BB call",
+        "BB X · BTN B33 · BB C",
+        "BB X · BTN B50 · BB C"
+      ]
     }
   ],
   "drills": [

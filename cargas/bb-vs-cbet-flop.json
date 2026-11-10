@@ -61,7 +61,11 @@
           "call"
         ]
       },
-      "invested": 2
+      "invested": 2,
+      "history": [
+        "HJ raise 2bb · BB call",
+        "BB X · HJ B33"
+      ]
     }
   ],
   "drills": [

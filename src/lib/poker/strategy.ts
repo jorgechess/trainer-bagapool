@@ -122,6 +122,11 @@ export interface Strategy {
   tablePot?: number | null;
   /** Pós-flop: quanto cada jogador na mão já colocou no pote antes desta street (bb). Sai do stack mostrado. */
   invested?: number | null;
+  /**
+   * Pós-flop: histórico da mão antes desta decisão, uma linha por street a partir do pré-flop
+   * (ex.: ["HJ raise 2bb · BB call", "BB X · HJ B67 · BB C", "BB X"]). `{flop}`/`{turn}` = ação do herói.
+   */
+  history?: string[] | null;
   /** Rótulo da ação do vilão na mesa (ex.: "ISO"); padrão: Raise, 3-bet ou All-in. */
   villainLabel?: string | null;
   /** O vilão que aumentou foi all-in (ex.: vs resteal): a mesa mostra o shove dele. */

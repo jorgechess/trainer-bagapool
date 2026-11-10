@@ -72,7 +72,11 @@
         "villain": 1.9
       },
       "villainLabel": "Cbet 25%",
-      "invested": 3.5
+      "invested": 3.5,
+      "history": [
+        "SB raise 3,5bb · BB call",
+        "SB B25"
+      ]
     },
     {
       "id": "bw-bb-pos-srp-x",
@@ -111,7 +115,11 @@
           "call"
         ]
       },
-      "invested": 3.5
+      "invested": 3.5,
+      "history": [
+        "SB raise 3,5bb · BB call",
+        "SB X"
+      ]
     },
     {
       "id": "bw-bb-pos-srp-2x",
@@ -150,7 +158,12 @@
           "call"
         ]
       },
-      "invested": 3.5
+      "invested": 3.5,
+      "history": [
+        "SB raise 3,5bb · BB call",
+        "SB X · BB X",
+        "SB X"
+      ]
     },
     {
       "id": "bw-bb-pos-srp-delay",
@@ -194,7 +207,12 @@
         "villain": 3.5
       },
       "villainLabel": "Delayed cbet 47%",
-      "invested": 3.5
+      "invested": 3.5,
+      "history": [
+        "SB raise 3,5bb · BB call",
+        "SB X · BB X",
+        "SB B47"
+      ]
     },
     {
       "id": "bw-bb-pos-lp-vs-stab",
@@ -238,7 +256,11 @@
         "villain": 1
       },
       "villainLabel": "Stab 1bb",
-      "invested": 1
+      "invested": 1,
+      "history": [
+        "SB limp · BB X",
+        "SB stab 1bb"
+      ]
     },
     {
       "id": "bw-bb-pos-lp-x",
@@ -277,7 +299,11 @@
           "check"
         ]
       },
-      "invested": 1
+      "invested": 1,
+      "history": [
+        "SB limp · BB X",
+        "SB X"
+      ]
     },
     {
       "id": "bw-bb-pos-iso-flop",
@@ -317,7 +343,11 @@
           "iso"
         ]
       },
-      "invested": 3.5
+      "invested": 3.5,
+      "history": [
+        "SB limp · BB ISO 3,5bb · SB call",
+        "SB X"
+      ]
     },
     {
       "id": "bw-bb-pos-iso-turn",
@@ -360,7 +390,12 @@
       "entryActionIds": [
         "bet-25"
       ],
-      "invested": 5.375
+      "invested": 5.375,
+      "history": [
+        "SB limp · BB ISO 3,5bb · SB call",
+        "SB X · BB {flop} · SB C",
+        "SB X"
+      ]
     },
     {
       "id": "bw-bb-pos-iso-river",
@@ -403,7 +438,13 @@
       "entryActionIds": [
         "bet-67"
       ],
-      "invested": 12.875
+      "invested": 12.875,
+      "history": [
+        "SB limp · BB ISO 3,5bb · SB call",
+        "SB X · BB {flop} · SB C",
+        "SB X · BB {turn} · SB C",
+        "SB X"
+      ]
     }
   ],
   "drills": [

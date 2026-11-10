@@ -806,10 +806,22 @@ async function main() {
     await page.goto(`${BASE_URL}/drills/3bet-pot-aggressor-oop/treinar`);
     await page.getByTestId("board").waitFor();
     assert.equal(await page.getByTestId("board").locator("> *").count(), 3, "começa no flop");
-    await page.locator("[data-testid=actions] button").first().click();
+    // Histórico da mão: só o pré-flop antes da decisão do flop
+    assert.match(await page.getByTestId("historico-mao").innerText(), /HJ raise 2bb · BB 3-bet 8bb · HJ call/);
+    await page.getByTestId("actions").getByRole("button", { name: /Bet 25%/ }).click();
     await page.getByTestId("cbet-leitura").getByText("Game plan 3bet pot OOP (aula 27)").waitFor();
     await shot(page, "treino-3bet-pot");
-    log("3bet Pot as Aggressor: flop com cbet de range");
+    // Cbet B25 (certo ou não, a mão segue): as fichas vão para o pote e o turn entra
+    await page.getByRole("button", { name: /Continuar/ }).click();
+    await page.getByTestId("fichas-indo-pote").first().waitFor({ timeout: 2000 });
+    await shot(page, "treino-3bet-pot-fichas");
+    await page.getByTestId("fichas-indo-pote").first().waitFor({ state: "detached", timeout: 3000 });
+    assert.equal(await page.getByTestId("board").locator("> *").count(), 4, "turn depois do cbet");
+    assert.match(await page.getByTestId("pote").innerText(), /24,75bb/);
+    const history3bp = await page.getByTestId("historico-mao").innerText();
+    assert.match(history3bp, /BB B25 · HJ C/, `histórico do flop com a aposta do herói: ${history3bp}`);
+    await shot(page, "treino-3bet-pot-turn");
+    log("3bet Pot as Aggressor: flop com cbet, fichas para o pote e histórico no turn");
 
     // Cbet Turn IP (Posflop Attack): turn do opener vs BB pela guideline da aula 29
     await page.goto(`${BASE_URL}/drills`);
@@ -860,6 +872,26 @@ async function main() {
     await shot(page, "plano-editado");
     await page.goto(`${BASE_URL}/aquecimento`);
     assert.deepEqual(await page.getByTestId("warmup-drills").locator("li").allInnerTexts(), ["RFI 30bb vanilla"], "warmup segue o plano editado");
+    // Minutos do warmup: rolo vertical, clicar no número do meio deixa digitar; fica salvo no navegador
+    const minutes = page.getByTestId("warmup-minutos");
+    assert.equal(await minutes.getByRole("spinbutton").getAttribute("aria-valuenow"), "15");
+    await minutes.getByRole("button", { name: "15", exact: true }).click();
+    await page.getByTestId("warmup-minutos-input").fill("25");
+    await page.getByTestId("warmup-minutos-input").press("Enter");
+    await page.waitForFunction(() => document.querySelector("[data-testid=warmup-minutos] [role=spinbutton]")?.getAttribute("aria-valuenow") === "25");
+    await minutes.getByRole("spinbutton").focus();
+    await page.keyboard.press("ArrowDown");
+    await page.waitForFunction(() => document.querySelector("[data-testid=warmup-minutos] [role=spinbutton]")?.getAttribute("aria-valuenow") === "26");
+    await page.waitForTimeout(700);
+    await shot(page, "warmup-minutos");
+    await page.reload();
+    await page.waitForFunction(() => document.querySelector("[data-testid=warmup-minutos] [role=spinbutton]")?.getAttribute("aria-valuenow") === "26");
+    await page.getByRole("button", { name: "Começar" }).click();
+    await page.getByTestId("warmup-timer").waitFor({ timeout: 10000 });
+    assert.match(await page.getByTestId("warmup-timer").innerText(), /^2[56]:\d\d$/, "warmup com os minutos escolhidos");
+    await page.getByRole("button", { name: "Encerrar sessão" }).click();
+    await page.evaluate(() => localStorage.removeItem("trainer:warmup-minutos"));
+    log("minutos do warmup: rolo, digitação e setas");
     log("admin acrescenta e tira drills do plano do mês");
     log(`Max Late Reg Vanilla importado; mesa mostra ${leftText}`);
 

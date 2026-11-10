@@ -61,7 +61,10 @@
           "rfi"
         ]
       },
-      "invested": 3
+      "invested": 3,
+      "history": [
+        "SB raise 3bb · BB call"
+      ]
     },
     {
       "id": "bw-sb-pos-lx",
@@ -100,7 +103,10 @@
           "limp"
         ]
       },
-      "invested": 1
+      "invested": 1,
+      "history": [
+        "SB limp · BB X"
+      ]
     }
   ],
   "drills": [

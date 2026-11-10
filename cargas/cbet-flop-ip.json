@@ -54,7 +54,11 @@
         ]
       },
       "villainCoversHero": true,
-      "invested": 2
+      "invested": 2,
+      "history": [
+        "CO raise 2bb · BB call",
+        "BB X"
+      ]
     },
     {
       "id": "cbet-flop-ip-co-15",
@@ -97,7 +101,11 @@
         ]
       },
       "villainCoversHero": true,
-      "invested": 2
+      "invested": 2,
+      "history": [
+        "CO raise 2bb · BB call",
+        "BB X"
+      ]
     },
     {
       "id": "cbet-flop-ip-btn-25-50",
@@ -137,7 +145,11 @@
         ]
       },
       "villainCoversHero": true,
-      "invested": 2
+      "invested": 2,
+      "history": [
+        "BTN raise 2bb · BB call",
+        "BB X"
+      ]
     },
     {
       "id": "cbet-flop-ip-btn-15",
@@ -180,7 +192,11 @@
         ]
       },
       "villainCoversHero": true,
-      "invested": 2
+      "invested": 2,
+      "history": [
+        "BTN raise 2bb · BB call",
+        "BB X"
+      ]
     }
   ],
   "drills": [

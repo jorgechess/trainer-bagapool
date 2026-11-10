@@ -6,7 +6,7 @@ import { drillDependencyIds } from "@/lib/poker/drill";
 import { planProgress } from "@/lib/poker/plan";
 import { WARMUP_SECONDS, buildWarmupDrill } from "@/lib/warmup";
 
-/** Aquecimento de 15 minutos com um mix do plano do mês (ou dos drills com pior acerto). */
+/** Aquecimento cronometrado (15 minutos por padrão, o jogador escolhe) com um mix do plano do mês (ou dos drills com pior acerto). */
 export default async function WarmupPage() {
   const profile = await requireProfile();
   const month = currentMonth();

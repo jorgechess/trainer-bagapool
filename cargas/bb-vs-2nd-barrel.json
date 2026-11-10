@@ -63,7 +63,12 @@
         "actionIds": [
           "call"
         ]
-      }
+      },
+      "history": [
+        "UTG raise 2bb · BB call",
+        "BB X · UTG B33 · BB C",
+        "BB X · UTG B25"
+      ]
     },
     {
       "id": "bb-vs-barrel-ep-b40",
@@ -107,7 +112,12 @@
         "actionIds": [
           "call"
         ]
-      }
+      },
+      "history": [
+        "UTG raise 2bb · BB call",
+        "BB X · UTG B33 · BB C",
+        "BB X · UTG B40"
+      ]
     },
     {
       "id": "bb-vs-barrel-ep-b50",
@@ -151,7 +161,12 @@
         "actionIds": [
           "call"
         ]
-      }
+      },
+      "history": [
+        "UTG raise 2bb · BB call",
+        "BB X · UTG B33 · BB C",
+        "BB X · UTG B50"
+      ]
     },
     {
       "id": "bb-vs-barrel-ep-b67",
@@ -195,7 +210,12 @@
         "actionIds": [
           "call"
         ]
-      }
+      },
+      "history": [
+        "UTG raise 2bb · BB call",
+        "BB X · UTG B33 · BB C",
+        "BB X · UTG B67"
+      ]
     },
     {
       "id": "bb-vs-barrel-ep-b75",
@@ -239,7 +259,12 @@
         "actionIds": [
           "call"
         ]
-      }
+      },
+      "history": [
+        "UTG raise 2bb · BB call",
+        "BB X · UTG B33 · BB C",
+        "BB X · UTG B75"
+      ]
     },
     {
       "id": "bb-vs-barrel-ep-b125",
@@ -283,7 +308,12 @@
         "actionIds": [
           "call"
         ]
-      }
+      },
+      "history": [
+        "UTG raise 2bb · BB call",
+        "BB X · UTG B33 · BB C",
+        "BB X · UTG B125"
+      ]
     },
     {
       "id": "bb-vs-barrel-mp-b25",
@@ -327,7 +357,12 @@
         "actionIds": [
           "call"
         ]
-      }
+      },
+      "history": [
+        "HJ raise 2bb · BB call",
+        "BB X · HJ B33 · BB C",
+        "BB X · HJ B25"
+      ]
     },
     {
       "id": "bb-vs-barrel-mp-b40",
@@ -371,7 +406,12 @@
         "actionIds": [
           "call"
         ]
-      }
+      },
+      "history": [
+        "HJ raise 2bb · BB call",
+        "BB X · HJ B33 · BB C",
+        "BB X · HJ B40"
+      ]
     },
     {
       "id": "bb-vs-barrel-mp-b50",
@@ -415,7 +455,12 @@
         "actionIds": [
           "call"
         ]
-      }
+      },
+      "history": [
+        "HJ raise 2bb · BB call",
+        "BB X · HJ B33 · BB C",
+        "BB X · HJ B50"
+      ]
     },
     {
       "id": "bb-vs-barrel-mp-b67",
@@ -459,7 +504,12 @@
         "actionIds": [
           "call"
         ]
-      }
+      },
+      "history": [
+        "HJ raise 2bb · BB call",
+        "BB X · HJ B33 · BB C",
+        "BB X · HJ B67"
+      ]
     },
     {
       "id": "bb-vs-barrel-mp-b75",
@@ -503,7 +553,12 @@
         "actionIds": [
           "call"
         ]
-      }
+      },
+      "history": [
+        "HJ raise 2bb · BB call",
+        "BB X · HJ B33 · BB C",
+        "BB X · HJ B75"
+      ]
     },
     {
       "id": "bb-vs-barrel-mp-b125",
@@ -547,7 +602,12 @@
         "actionIds": [
           "call"
         ]
-      }
+      },
+      "history": [
+        "HJ raise 2bb · BB call",
+        "BB X · HJ B33 · BB C",
+        "BB X · HJ B125"
+      ]
     },
     {
       "id": "bb-vs-barrel-lp-b25",
@@ -591,7 +651,12 @@
         "actionIds": [
           "call"
         ]
-      }
+      },
+      "history": [
+        "BTN raise 2bb · BB call",
+        "BB X · BTN B33 · BB C",
+        "BB X · BTN B25"
+      ]
     },
     {
       "id": "bb-vs-barrel-lp-b40",
@@ -635,7 +700,12 @@
         "actionIds": [
           "call"
         ]
-      }
+      },
+      "history": [
+        "BTN raise 2bb · BB call",
+        "BB X · BTN B33 · BB C",
+        "BB X · BTN B40"
+      ]
     },
     {
       "id": "bb-vs-barrel-lp-b50",
@@ -679,7 +749,12 @@
         "actionIds": [
           "call"
         ]
-      }
+      },
+      "history": [
+        "BTN raise 2bb · BB call",
+        "BB X · BTN B33 · BB C",
+        "BB X · BTN B50"
+      ]
     },
     {
       "id": "bb-vs-barrel-lp-b67",
@@ -723,7 +798,12 @@
         "actionIds": [
           "call"
         ]
-      }
+      },
+      "history": [
+        "BTN raise 2bb · BB call",
+        "BB X · BTN B33 · BB C",
+        "BB X · BTN B67"
+      ]
     },
     {
       "id": "bb-vs-barrel-lp-b75",
@@ -767,7 +847,12 @@
         "actionIds": [
           "call"
         ]
-      }
+      },
+      "history": [
+        "BTN raise 2bb · BB call",
+        "BB X · BTN B33 · BB C",
+        "BB X · BTN B75"
+      ]
     },
     {
       "id": "bb-vs-barrel-lp-b125",
@@ -811,7 +896,12 @@
         "actionIds": [
           "call"
         ]
-      }
+      },
+      "history": [
+        "BTN raise 2bb · BB call",
+        "BB X · BTN B33 · BB C",
+        "BB X · BTN B125"
+      ]
     }
   ],
   "drills": [

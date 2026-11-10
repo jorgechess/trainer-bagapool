@@ -5,6 +5,8 @@ import { BW_BB_GUIDE } from "@/lib/poker/bw-bb-pos";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { type DecisionQueue, QUEUE_STORAGE_KEY, type SendResult, type Submission, createDecisionQueue } from "@/lib/decision-queue";
 import { CardRow } from "@/components/PlayingCard";
+import { HandHistory } from "@/components/HandHistory";
+import { handHistory } from "@/lib/poker/history";
 import { PokerTable } from "@/components/PokerTable";
 import { PositionChips } from "@/components/PositionChips";
 import { RangeGrid } from "@/components/RangeGrid";
@@ -295,6 +297,12 @@ function TableSlot({
     .join(" ou ");
   const multi = tableCount > 1;
   const sideBySide = short && !multi;
+  // Histórico da mão (pós-flop): ações do herói nas decisões anteriores entram no lugar de {flop}/{turn}
+  const chosenByStreet = Object.fromEntries(
+    handDecisions.slice(0, stepIndex).map((d) => [d.board.length === 3 ? "flop" : d.board.length === 4 ? "turn" : "river", d.chosenActionId]),
+  );
+  const historyLines = handHistory(strategy.history, step.street, step.board, chosenByStreet, legend);
+  const historyHeight = historyLines.length && !sideBySide ? 44 : 0;
   const rows = tableCount === 4 ? 2 : 1;
 
   return (
@@ -402,6 +410,8 @@ function TableSlot({
         )}
       </div>
 
+      {!sideBySide && <HandHistory lines={historyLines} />}
+
       {/* Celular deitado: mesa à esquerda ocupando a altura, botões numa coluna à direita */}
       <div className={sideBySide ? "flex items-center gap-3" : "contents"}>
       <div className={sideBySide ? "min-w-0 flex-1" : "contents"}>
@@ -419,21 +429,24 @@ function TableSlot({
             ? fullscreen
               ? 185
               : 140
-            : multi
-              ? (fullscreen ? 190 : tall ? 330 : 250) + rows * 130
-              : fullscreen
-                ? 300
-                : tall
-                  ? 470
-                  : 330
+            : historyHeight +
+              (multi
+                ? (fullscreen ? 190 : tall ? 330 : 250) + rows * 130
+                : fullscreen
+                  ? 300
+                  : tall
+                    ? 470
+                    : 330)
         }
         minWidth={multi ? 420 : 0}
         compact={sideBySide}
       />
       </div>
 
+      <div className={sideBySide ? "w-[36%] max-w-xs shrink-0 space-y-2" : "contents"}>
+      {sideBySide && <HandHistory lines={historyLines} />}
       <div
-        className={`grid gap-2 ${sideBySide ? "w-[36%] max-w-xs shrink-0 grid-cols-1" : multi ? "grid-cols-2 lg:grid-cols-3" : "grid-cols-2 sm:grid-cols-3"}`}
+        className={`grid gap-2 ${sideBySide ? "grid-cols-1" : multi ? "grid-cols-2 lg:grid-cols-3" : "grid-cols-2 sm:grid-cols-3"}`}
         data-testid="actions"
       >
         {step.options.map((actionId) => {
@@ -462,6 +475,7 @@ function TableSlot({
             </button>
           );
         })}
+      </div>
       </div>
       </div>
 

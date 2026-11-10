@@ -58,3 +58,23 @@ body {
 @utility muted {
   @apply text-sm text-zinc-400;
 }
+
+/* Carta nova do board ao virar a street (depois das fichas irem para o pote) */
+@keyframes deal-in {
+  from {
+    opacity: 0;
+    transform: translateY(-0.8em) scale(0.85);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.deal-in {
+  animation: deal-in 300ms ease-out both;
+}
+@media (prefers-reduced-motion: reduce) {
+  .deal-in {
+    animation: none;
+  }
+}

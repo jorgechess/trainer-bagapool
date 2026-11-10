@@ -38,3 +38,19 @@ export function CardRow({ cards, size }: { cards: readonly Card[]; size?: "xs" |
     </div>
   );
 }
+
+/** Carta em linha, do tamanho do texto (histórico da mão). */
+export function InlineCard({ card }: { card: Card }) {
+  const suit = cardSuit(card);
+  const rank = cardRank(card);
+  return (
+    <span
+      className="inline-flex items-center rounded-[0.25em] px-[0.3em] py-[0.05em] font-bold leading-tight text-white"
+      style={{ backgroundColor: SUIT_COLORS[suit] }}
+      aria-label={card}
+    >
+      {rank === "T" ? "10" : rank}
+      {SUIT_SYMBOLS[suit]}
+    </span>
+  );
+}

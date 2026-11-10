@@ -88,7 +88,12 @@
         "actionIds": [
           "rfi"
         ]
-      }
+      },
+      "history": [
+        "HJ raise 2bb · BB call",
+        "BB X · HJ B67 · BB C",
+        "BB X"
+      ]
     },
     {
       "id": "cbet-turn-ip-co-after-b67",
@@ -129,7 +134,12 @@
         "actionIds": [
           "rfi"
         ]
-      }
+      },
+      "history": [
+        "CO raise 2bb · BB call",
+        "BB X · CO B67 · BB C",
+        "BB X"
+      ]
     },
     {
       "id": "cbet-turn-ip-btn-after-b67",
@@ -170,7 +180,12 @@
         "actionIds": [
           "rfi"
         ]
-      }
+      },
+      "history": [
+        "BTN raise 2bb · BB call",
+        "BB X · BTN B67 · BB C",
+        "BB X"
+      ]
     },
     {
       "id": "cbet-turn-ip-hj-xx",
@@ -208,7 +223,12 @@
         "actionIds": [
           "rfi"
         ]
-      }
+      },
+      "history": [
+        "HJ raise 2bb · BB call",
+        "BB X · HJ X",
+        "BB X"
+      ]
     },
     {
       "id": "cbet-turn-ip-co-xx",
@@ -246,7 +266,12 @@
         "actionIds": [
           "rfi"
         ]
-      }
+      },
+      "history": [
+        "CO raise 2bb · BB call",
+        "BB X · CO X",
+        "BB X"
+      ]
     },
     {
       "id": "cbet-turn-ip-btn-xx",
@@ -284,7 +309,12 @@
         "actionIds": [
           "rfi"
         ]
-      }
+      },
+      "history": [
+        "BTN raise 2bb · BB call",
+        "BB X · BTN X",
+        "BB X"
+      ]
     },
     {
       "id": "cbet-turn-ip-hj-probe-25",
@@ -327,7 +357,12 @@
         "actionIds": [
           "rfi"
         ]
-      }
+      },
+      "history": [
+        "HJ raise 2bb · BB call",
+        "BB X · HJ X",
+        "BB B25"
+      ]
     },
     {
       "id": "cbet-turn-ip-co-probe-25",
@@ -370,7 +405,12 @@
         "actionIds": [
           "rfi"
         ]
-      }
+      },
+      "history": [
+        "CO raise 2bb · BB call",
+        "BB X · CO X",
+        "BB B25"
+      ]
     },
     {
       "id": "cbet-turn-ip-btn-probe-25",
@@ -413,7 +453,12 @@
         "actionIds": [
           "rfi"
         ]
-      }
+      },
+      "history": [
+        "BTN raise 2bb · BB call",
+        "BB X · BTN X",
+        "BB B25"
+      ]
     },
     {
       "id": "cbet-turn-ip-hj-probe-67",
@@ -456,7 +501,12 @@
         "actionIds": [
           "rfi"
         ]
-      }
+      },
+      "history": [
+        "HJ raise 2bb · BB call",
+        "BB X · HJ X",
+        "BB B67"
+      ]
     },
     {
       "id": "cbet-turn-ip-co-probe-67",
@@ -499,7 +549,12 @@
         "actionIds": [
           "rfi"
         ]
-      }
+      },
+      "history": [
+        "CO raise 2bb · BB call",
+        "BB X · CO X",
+        "BB B67"
+      ]
     },
     {
       "id": "cbet-turn-ip-btn-probe-67",
@@ -542,7 +597,12 @@
         "actionIds": [
           "rfi"
         ]
-      }
+      },
+      "history": [
+        "BTN raise 2bb · BB call",
+        "BB X · BTN X",
+        "BB B67"
+      ]
     }
   ],
   "drills": [
