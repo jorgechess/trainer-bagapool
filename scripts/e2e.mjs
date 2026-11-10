@@ -846,6 +846,7 @@ async function main() {
     assert.ok(!/\bMP\b|\bLJ\b|UTG1/.test(mesaText), "mesa de FT: sem MP, LJ e UTG1");
     assert.ok((await page.getByTestId("mesa").getByTestId("bounty-tag").count()) >= 3, "bounty em cada lugar");
     assert.equal(await page.getByTestId("feltro").first().getAttribute("data-feltro"), "roxo", "feltro roxo na Mesa Final");
+    assert.match(await page.getByTestId("marca-site").first().innerText(), /GGPoker|partypoker/i, "site do spot no meio da mesa");
     assert.equal(await page.getByTestId("rp-heroi").count(), 0, "Risk Premium saiu do enunciado e foi para o botão RP");
     await shot(page, "treino-maos-rodadores");
     // Botão RP: a matriz abre num painel por cima da mesa e fecha com Esc

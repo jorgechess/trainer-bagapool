@@ -254,14 +254,16 @@ export function PokerTable({
         style={{ aspectRatio: `${shape.aspect}`, fontSize: vertical ? "clamp(9px, 3.1cqw, 15px)" : compact ? "clamp(9px, 2.1cqw, 15px)" : "clamp(9px, 1.55cqw, 30px)" }}
       >
         {/* Mesa */}
-        <div
-          className={`absolute rounded-[50%] border-[0.45em] border-amber-950 bg-gradient-to-b shadow-[inset_0_0_40px_rgba(0,0,0,0.6)] ${
-            strategy.special ? "from-violet-800 to-violet-950" : "from-emerald-800 to-emerald-950"
-          }`}
-          style={{ inset: shape.felt }}
-          data-testid="feltro"
-          data-feltro={strategy.special ? "roxo" : "verde"}
-        />
+        {strategy.special ? (
+          <FinalTableFelt inset={shape.felt} site={strategy.special.tournament.site} />
+        ) : (
+          <div
+            className="absolute rounded-[50%] border-[0.45em] border-amber-950 bg-gradient-to-b from-emerald-800 to-emerald-950 shadow-[inset_0_0_40px_rgba(0,0,0,0.6)]"
+            style={{ inset: shape.felt }}
+            data-testid="feltro"
+            data-feltro="verde"
+          />
+        )}
 
         {/* Jogadores restantes (spots de proporção e bolha) */}
         {left !== null && (
@@ -362,6 +364,60 @@ export function PokerTable({
             }
           />
         ))}
+      </div>
+    </div>
+  );
+}
+
+/**
+ * Logos dos sites (arquivos em /public/sites, enviados pelo time). Sem arquivo, o nome do site
+ * aparece escrito na fonte do Trainer.
+ */
+const SITE_LOGOS: Record<string, string> = {};
+
+function siteKey(site: string): string {
+  return site.toLowerCase().replace(/[^a-z0-9]/g, "");
+}
+
+/**
+ * Mesa dos drills especiais (mesa final): borda escura com brilho, feltro roxo com luz neon em volta,
+ * a linha das apostas e o site do spot no meio, meio transparente.
+ */
+function FinalTableFelt({ inset, site }: { inset: string; site?: string | null }) {
+  const logo = site ? SITE_LOGOS[siteKey(site)] : undefined;
+  return (
+    <div
+      className="absolute rounded-[50%]"
+      style={{
+        inset,
+        background: "linear-gradient(180deg, #3b3542 0%, #1b1820 45%, #0b0a0e 100%)",
+        boxShadow: "0 1.2em 2.4em rgba(0,0,0,0.75), inset 0 0.08em 0 rgba(255,255,255,0.18), inset 0 -0.3em 0.8em rgba(0,0,0,0.6)",
+      }}
+    >
+      <div
+        className="absolute inset-[0.85em] overflow-hidden rounded-[50%]"
+        style={{
+          background: "radial-gradient(ellipse at 50% 42%, #a03ccc 0%, #7424a0 38%, #4a1468 72%, #2c0b3e 100%)",
+          border: "0.16em solid #ecc4ff",
+          boxShadow:
+            "0 0 0.5em #c77dff, 0 0 1.5em rgba(192,110,255,0.65), inset 0 0 1em rgba(199,125,255,0.6), inset 0 0 4em rgba(0,0,0,0.45)",
+        }}
+        data-testid="feltro"
+        data-feltro="roxo"
+      >
+        {/* Linha das apostas */}
+        <div className="absolute inset-[11%_8%] rounded-[50%] border border-white/12" />
+        {/* Site do spot */}
+        {site && (
+          <div className="pointer-events-none absolute top-[34%] left-1/2 -translate-x-1/2 -translate-y-1/2 whitespace-nowrap" data-testid="marca-site" aria-hidden>
+            {logo ? (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img src={logo} alt="" className="h-[3.2em] w-auto opacity-25" />
+            ) : (
+              <span className="font-display text-[3.4em] tracking-[0.14em] text-white/18 uppercase">{site}</span>
+            )}
+          </div>
+        )}
       </div>
     </div>
   );
