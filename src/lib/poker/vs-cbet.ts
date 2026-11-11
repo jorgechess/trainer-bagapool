@@ -359,6 +359,7 @@ export const VS_CBET_BOARDS: VsCbetBoard[] = [
       strong,
       ["Top pair", pairOf(14), R],
       ["Par com broca (JT, KT, QJ)", (f) => f.pairedWith !== null && (f.gutshot || f.oesd), C],
+      ["2nd e 3rd pair (Kx, Jx)", (f) => f.pairedWith === 13 || f.pairedWith === 11, C],
     ],
   },
   {
@@ -586,5 +587,6 @@ export function vsCbetAnswer(hero: readonly Card[], flop: readonly Card[]): VsCb
   if (!board) return null;
   const f = vsCbetFeatures(hero, flop);
   for (const [category, test, action] of board.rules) if (test(f)) return { action, category, board };
-  return { action: "vc-fold", category: f.pocket ? "Pocket sem jogo" : "Air", board };
+  const category = f.pocket ? "Pocket sem jogo" : f.pairedWith !== null ? "Par fraco (fora do guide)" : "Air";
+  return { action: "vc-fold", category, board };
 }

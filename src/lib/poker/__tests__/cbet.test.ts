@@ -230,6 +230,11 @@ test("BB vs Cbet flop: guide vs EP mão a mão nos boards da planilha", async ()
   const { vsCbetAnswer, findVsCbetBoard, randomVsCbetFlop, VS_CBET_BOARDS } = await import("../vs-cbet");
   const { seededRng } = await import("../rng");
   const vc = (hero: string, board: string) => vsCbetAnswer(c(hero), c(board))?.action;
+  // ST AHH: 2nd e 3rd pair pagam (J7 em AKJ não é air); sem par segue fold
+  assert.equal(vc("Jh7h", "AhKdJc"), "vc-call");
+  assert.equal(vc("Kc5d", "AhKdJc"), "vc-call");
+  assert.equal(vc("9h8h", "AhKdJc"), "vc-fold");
+  assert.equal(vsCbetAnswer(c("Jh7h"), c("AhKdJc"))?.category, "2nd e 3rd pair (Kx, Jx)");
   assert.equal(VS_CBET_BOARDS.length, 29);
   // naipes trocados mantendo a estrutura acham o mesmo board
   assert.equal(findVsCbetBoard(c("AhTd8h"))?.label, "AHM");
