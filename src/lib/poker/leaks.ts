@@ -216,3 +216,26 @@ export function reportByDrill(attempts: readonly Attempt[], missedLimit = 8): Dr
     })
     .sort((a, b) => a.accuracy - b.accuracy || b.total - a.total);
 }
+
+/**
+ * Spots para revisar no fim da sessão pós-flop: os tipos de board com mais erros (empate: pior acerto),
+ * com os boards errados como exemplo.
+ */
+export function worstBoards<T extends { board: readonly string[]; correct: boolean }>(items: readonly T[], limit = 2) {
+  const groups = new Map<string, { type: string; total: number; errors: number; examples: T[] }>();
+  for (const item of items) {
+    if (item.board.length < 3) continue;
+    const type = boardType(item.board as readonly Card[]);
+    const g = groups.get(type) ?? { type, total: 0, errors: 0, examples: [] };
+    g.total += 1;
+    if (!item.correct) {
+      g.errors += 1;
+      g.examples.push(item);
+    }
+    groups.set(type, g);
+  }
+  return [...groups.values()]
+    .filter((g) => g.errors > 0)
+    .sort((a, b) => b.errors - a.errors || a.errors / a.total - b.errors / b.total || a.type.localeCompare(b.type))
+    .slice(0, limit);
+}

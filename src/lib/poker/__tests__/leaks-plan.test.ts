@@ -285,3 +285,21 @@ test("painel de desempenho: pós-flop por board, MLR por proporção, RFI por st
   assert.deepEqual(keys("v"), ["posicao:HJ", "posicao:MP"]);
   assert.equal(boardType(["Js", "7s", "3s"] as never), "HML · mono");
 });
+
+test("spots para revisar: os dois tipos de board com mais erros, com os boards errados de exemplo", async () => {
+  const { worstBoards } = await import("../leaks");
+  const d = (board: string, correct: boolean) => ({ board: [board.slice(0, 2), board.slice(2, 4), board.slice(4, 6)] as never, correct });
+  const items = [
+    d("7h7c4d", false), d("7s7d3c", false), d("7h7c4d", true),
+    d("KsQhTd", false), d("AsKdJh", false), d("AsKdJh", false),
+    d("9c8h7d", false),
+    d("2c2d5h", true),
+  ];
+  const top = worstBoards(items, 2);
+  assert.equal(top.length, 2);
+  assert.deepEqual(top.map((g) => [g.errors, g.examples.length]), [[top[0].errors, top[0].errors], [top[1].errors, top[1].errors]]);
+  assert.ok(top[0].errors >= top[1].errors);
+  assert.ok(top.every((g) => g.errors > 0));
+  assert.deepEqual(worstBoards([d("7h7c4d", true)]), [], "sem erro não entra");
+  assert.deepEqual(worstBoards([{ board: [] as never, correct: false }]), [], "pré-flop não entra");
+});

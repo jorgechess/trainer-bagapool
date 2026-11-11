@@ -5,6 +5,7 @@ import { BW_BB_GUIDE } from "@/lib/poker/bw-bb-pos";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { type DecisionQueue, QUEUE_STORAGE_KEY, type SendResult, type Submission, createDecisionQueue } from "@/lib/decision-queue";
 import { CardRow } from "@/components/PlayingCard";
+import { worstBoards } from "@/lib/poker/leaks";
 import { HandHistory } from "@/components/HandHistory";
 import { PayJumpsPanel, SpecialBrief } from "@/components/SpecialBrief";
 import { SpotViewer } from "@/components/SpotViewer";
@@ -544,7 +545,10 @@ function TableSlot({
   );
 }
 
+const MISTAKES_PREVIEW = 6;
+
 export function Trainer({ drill, strategies, legend, timeLimitSec, sourceDrillOf, sourceDrillNames }: TrainerProps) {
+  const [allMistakes, setAllMistakes] = useState(false);
   const strategyMap = useMemo(() => new Map(strategies.map((s) => [s.id, s])), [strategies]);
   const [decisions, setDecisions] = useState<Decision[]>([]);
   const [handsPlayed, setHandsPlayed] = useState(0);
@@ -985,6 +989,9 @@ export function Trainer({ drill, strategies, legend, timeLimitSec, sourceDrillOf
 
   if (finished) {
     const mistakes = decisions.filter((d) => !d.correct);
+    // Pós-flop: os dois tipos de board com mais erros viram "spots para revisar"
+    const reviewSpots = worstBoards<Decision>(countedDecisions, 2);
+    const oneStrategy = new Set(mistakes.map((m) => strategyMap.get(m.strategyId)?.name)).size <= 1;
     return (
       <div className="mx-auto max-w-2xl space-y-6">
         <div className="card space-y-2 text-center">
@@ -1030,13 +1037,46 @@ export function Trainer({ drill, strategies, legend, timeLimitSec, sourceDrillOf
             </ul>
           </div>
         )}
+        {reviewSpots.length > 0 && (
+          <div className="card space-y-3" data-testid="spots-revisar">
+            <h2 className="font-semibold">Spots para revisar</h2>
+            <div className="grid gap-3 sm:grid-cols-2">
+              {reviewSpots.map((g) => (
+                <div key={g.type} className="space-y-2 rounded-lg border border-red-900/60 bg-red-950/20 p-3">
+                  <div className="flex items-baseline justify-between gap-2">
+                    <p className="font-semibold text-zinc-100">{g.type}</p>
+                    <p className="text-xs text-zinc-400">
+                      <span className="font-semibold text-red-400">{g.errors}</span> erro{g.errors > 1 ? "s" : ""} em {g.total}
+                    </p>
+                  </div>
+                  <ul className="space-y-1.5">
+                    {g.examples.slice(0, 3).map((m, i) => (
+                      <li key={i} className="flex flex-wrap items-center gap-2 text-xs">
+                        <CardRow cards={m.board.slice(0, 3) as Card[]} size="xs" />
+                        <span className="text-zinc-500">com</span>
+                        <CardRow cards={m.heroCards as Card[]} size="xs" />
+                        <span className="ml-auto">
+                          <span className="text-red-400">{findAction(legend, m.chosenActionId)?.label}</span>
+                          {" → "}
+                          <span className="text-green-400">{findAction(legend, m.correctActionId)?.label}</span>
+                        </span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
         {mistakes.length > 0 && (
-          <div className="card space-y-2">
-            <h2 className="font-semibold">Erros da sessão</h2>
-            <ul className="divide-y divide-zinc-800 text-sm">
-              {mistakes.map((m, i) => (
-                <li key={i} className="flex flex-wrap items-center justify-between gap-2 py-2">
-                  <span className="flex items-center gap-2" data-testid="mistake-cards" title={m.hand}>
+          <div className="card space-y-1.5">
+            <h2 className="text-sm font-semibold">
+              Erros da sessão <span className="font-normal text-zinc-500">({mistakes.length})</span>
+            </h2>
+            <ul className="divide-y divide-zinc-800/70 text-xs">
+              {(allMistakes ? mistakes : mistakes.slice(0, MISTAKES_PREVIEW)).map((m, i) => (
+                <li key={i} className="flex flex-wrap items-center justify-between gap-x-2 gap-y-1 py-1">
+                  <span className="flex items-center gap-1.5" data-testid="mistake-cards" title={m.hand}>
                     {m.peeked && (
                       <span title="Respondida depois de ver a resposta ou o spot">
                         👁
@@ -1044,12 +1084,12 @@ export function Trainer({ drill, strategies, legend, timeLimitSec, sourceDrillOf
                     )}
                     <CardRow cards={m.heroCards as Card[]} size="xs" />
                     {m.board.length > 0 && (
-                      <span className="flex items-center gap-1 border-l border-zinc-700 pl-2">
+                      <span className="flex items-center gap-1 border-l border-zinc-700 pl-1.5">
                         <CardRow cards={m.board as Card[]} size="xs" />
                       </span>
                     )}
                   </span>
-                  <span className="text-zinc-400">{strategyMap.get(m.strategyId)?.name}</span>
+                  {!oneStrategy && <span className="text-zinc-400">{strategyMap.get(m.strategyId)?.name}</span>}
                   <span>
                     <span className="text-red-400">{findAction(legend, m.chosenActionId)?.label}</span>
                     {" → "}
@@ -1060,6 +1100,11 @@ export function Trainer({ drill, strategies, legend, timeLimitSec, sourceDrillOf
                 </li>
               ))}
             </ul>
+            {mistakes.length > MISTAKES_PREVIEW && (
+              <button type="button" className="text-xs text-zinc-400 underline hover:text-zinc-200" onClick={() => setAllMistakes((v) => !v)}>
+                {allMistakes ? "Mostrar menos" : `Ver todos os ${mistakes.length} erros`}
+              </button>
+            )}
           </div>
         )}
         <div className="flex gap-2">
