@@ -302,7 +302,7 @@ export function PokerTable({
           {texture && <span className={strategy.special ? "text-violet-100/70" : "text-emerald-100/70"}>{texture}</span>}
           {shownPot !== null && (
             <span className="rounded-full bg-black/40 px-[0.8em] py-[0.15em] text-zinc-100" data-testid="pote">
-              Pote: {shownPot.toLocaleString("pt-BR")}bb
+              Pote: {shownPot.toLocaleString("pt-BR", { maximumFractionDigits: 1 })}bb
             </span>
           )}
 
