@@ -575,9 +575,10 @@ export function vsCbetAnswer(hero: readonly Card[], flop: readonly Card[]): VsCb
   if (!board) return null;
   const f = vsCbetFeatures(hero, flop);
   for (const [category, test, action] of board.rules) if (test(f)) return { action, category, board };
-  // Regra geral (todos os boards): sem par, só continua com flush draw ou backdoor de flush
-  if (f.pairedWith === null && !f.pocket && (f.flushDraw || f.bdFlush)) {
-    return { action: "vc-call", category: f.flushDraw ? "Air com flush draw" : "Air com backdoor de flush", board };
+  // Regra geral (todos os boards): sem par, só continua com flush draw. Backdoor sozinho é fold,
+  // a não ser que a regra do board fale dele (as regras do guide vêm antes)
+  if (f.pairedWith === null && !f.pocket && f.flushDraw) {
+    return { action: "vc-call", category: "Air com flush draw", board };
   }
   const category = f.pocket
     ? "Pocket sem jogo"

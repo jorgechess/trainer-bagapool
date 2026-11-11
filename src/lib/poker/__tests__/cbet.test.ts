@@ -234,8 +234,8 @@ test("BB vs Cbet flop: guide vs EP mão a mão nos boards da planilha", async ()
   assert.equal(vc("Jh7h", "AhKdJc"), "vc-call");
   assert.equal(vc("Kc5d", "AhKdJc"), "vc-call");
   assert.equal(vc("9h8c", "AhKdJc"), "vc-fold"); // sem backdoor
-  // regra geral: air só continua com flush draw ou backdoor de flush; pockets baixos foldam
-  assert.equal(vc("9h8h", "AhKdJc"), "vc-call"); // backdoor de copas
+  // regra geral: air só continua com flush draw; backdoor simples e pockets baixos foldam
+  assert.equal(vc("9h8h", "AhKdJc"), "vc-fold"); // backdoor simples: fold (fora do guide)
   assert.equal(vc("6d5c", "AsTh8s"), "vc-fold");
   assert.equal(vc("6s5s", "AsTh8s"), "vc-call"); // flush draw
   assert.equal(vc("6c6d", "AsTh8s"), "vc-fold");
