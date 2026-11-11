@@ -46,10 +46,10 @@
         "vc-raise"
       ],
       "defaultActionId": "vc-fold",
-      "tablePot": 7.5,
-      "invested": 3.5,
+      "tablePot": 9.3,
+      "invested": 3.98,
       "tablePosted": {
-        "villain": 1.88
+        "villain": 2.33
       },
       "villainLabel": "Bet 25%",
       "villainCoversHero": true,
@@ -95,10 +95,10 @@
         "vc-raise"
       ],
       "defaultActionId": "vc-fold",
-      "tablePot": 7.5,
-      "invested": 3.5,
+      "tablePot": 9.3,
+      "invested": 3.98,
       "tablePosted": {
-        "villain": 3.0
+        "villain": 3.72
       },
       "villainLabel": "Bet 40%",
       "villainCoversHero": true,
@@ -144,10 +144,10 @@
         "vc-raise"
       ],
       "defaultActionId": "vc-fold",
-      "tablePot": 7.5,
-      "invested": 3.5,
+      "tablePot": 9.3,
+      "invested": 3.98,
       "tablePosted": {
-        "villain": 3.75
+        "villain": 4.65
       },
       "villainLabel": "Bet 50%",
       "villainCoversHero": true,
@@ -193,10 +193,10 @@
         "vc-raise"
       ],
       "defaultActionId": "vc-fold",
-      "tablePot": 7.5,
-      "invested": 3.5,
+      "tablePot": 9.3,
+      "invested": 3.98,
       "tablePosted": {
-        "villain": 5.03
+        "villain": 6.24
       },
       "villainLabel": "Bet 67%",
       "villainCoversHero": true,
@@ -242,10 +242,10 @@
         "vc-raise"
       ],
       "defaultActionId": "vc-fold",
-      "tablePot": 7.5,
-      "invested": 3.5,
+      "tablePot": 9.3,
+      "invested": 3.98,
       "tablePosted": {
-        "villain": 5.62
+        "villain": 6.97
       },
       "villainLabel": "Bet 75%",
       "villainCoversHero": true,
@@ -291,10 +291,10 @@
         "vc-raise"
       ],
       "defaultActionId": "vc-fold",
-      "tablePot": 7.5,
-      "invested": 3.5,
+      "tablePot": 9.3,
+      "invested": 3.98,
       "tablePosted": {
-        "villain": 9.38
+        "villain": 11.63
       },
       "villainLabel": "Bet 125%",
       "villainCoversHero": true,
@@ -340,10 +340,10 @@
         "vc-raise"
       ],
       "defaultActionId": "vc-fold",
-      "tablePot": 7.5,
-      "invested": 3.5,
+      "tablePot": 9.3,
+      "invested": 3.98,
       "tablePosted": {
-        "villain": 1.88
+        "villain": 2.33
       },
       "villainLabel": "Bet 25%",
       "villainCoversHero": true,
@@ -389,10 +389,10 @@
         "vc-raise"
       ],
       "defaultActionId": "vc-fold",
-      "tablePot": 7.5,
-      "invested": 3.5,
+      "tablePot": 9.3,
+      "invested": 3.98,
       "tablePosted": {
-        "villain": 3.0
+        "villain": 3.72
       },
       "villainLabel": "Bet 40%",
       "villainCoversHero": true,
@@ -438,10 +438,10 @@
         "vc-raise"
       ],
       "defaultActionId": "vc-fold",
-      "tablePot": 7.5,
-      "invested": 3.5,
+      "tablePot": 9.3,
+      "invested": 3.98,
       "tablePosted": {
-        "villain": 3.75
+        "villain": 4.65
       },
       "villainLabel": "Bet 50%",
       "villainCoversHero": true,
@@ -487,10 +487,10 @@
         "vc-raise"
       ],
       "defaultActionId": "vc-fold",
-      "tablePot": 7.5,
-      "invested": 3.5,
+      "tablePot": 9.3,
+      "invested": 3.98,
       "tablePosted": {
-        "villain": 5.03
+        "villain": 6.24
       },
       "villainLabel": "Bet 67%",
       "villainCoversHero": true,
@@ -536,10 +536,10 @@
         "vc-raise"
       ],
       "defaultActionId": "vc-fold",
-      "tablePot": 7.5,
-      "invested": 3.5,
+      "tablePot": 9.3,
+      "invested": 3.98,
       "tablePosted": {
-        "villain": 5.62
+        "villain": 6.97
       },
       "villainLabel": "Bet 75%",
       "villainCoversHero": true,
@@ -585,10 +585,10 @@
         "vc-raise"
       ],
       "defaultActionId": "vc-fold",
-      "tablePot": 7.5,
-      "invested": 3.5,
+      "tablePot": 9.3,
+      "invested": 3.98,
       "tablePosted": {
-        "villain": 9.38
+        "villain": 11.63
       },
       "villainLabel": "Bet 125%",
       "villainCoversHero": true,
@@ -634,10 +634,10 @@
         "vc-raise"
       ],
       "defaultActionId": "vc-fold",
-      "tablePot": 7.5,
-      "invested": 3.5,
+      "tablePot": 9.3,
+      "invested": 3.98,
       "tablePosted": {
-        "villain": 1.88
+        "villain": 2.33
       },
       "villainLabel": "Bet 25%",
       "villainCoversHero": true,
@@ -683,10 +683,10 @@
         "vc-raise"
       ],
       "defaultActionId": "vc-fold",
-      "tablePot": 7.5,
-      "invested": 3.5,
+      "tablePot": 9.3,
+      "invested": 3.98,
       "tablePosted": {
-        "villain": 3.0
+        "villain": 3.72
       },
       "villainLabel": "Bet 40%",
       "villainCoversHero": true,
@@ -732,10 +732,10 @@
         "vc-raise"
       ],
       "defaultActionId": "vc-fold",
-      "tablePot": 7.5,
-      "invested": 3.5,
+      "tablePot": 9.3,
+      "invested": 3.98,
       "tablePosted": {
-        "villain": 3.75
+        "villain": 4.65
       },
       "villainLabel": "Bet 50%",
       "villainCoversHero": true,
@@ -781,10 +781,10 @@
         "vc-raise"
       ],
       "defaultActionId": "vc-fold",
-      "tablePot": 7.5,
-      "invested": 3.5,
+      "tablePot": 9.3,
+      "invested": 3.98,
       "tablePosted": {
-        "villain": 5.03
+        "villain": 6.24
       },
       "villainLabel": "Bet 67%",
       "villainCoversHero": true,
@@ -830,10 +830,10 @@
         "vc-raise"
       ],
       "defaultActionId": "vc-fold",
-      "tablePot": 7.5,
-      "invested": 3.5,
+      "tablePot": 9.3,
+      "invested": 3.98,
       "tablePosted": {
-        "villain": 5.62
+        "villain": 6.97
       },
       "villainLabel": "Bet 75%",
       "villainCoversHero": true,
@@ -879,10 +879,10 @@
         "vc-raise"
       ],
       "defaultActionId": "vc-fold",
-      "tablePot": 7.5,
-      "invested": 3.5,
+      "tablePot": 9.3,
+      "invested": 3.98,
       "tablePosted": {
-        "villain": 9.38
+        "villain": 11.63
       },
       "villainLabel": "Bet 125%",
       "villainCoversHero": true,

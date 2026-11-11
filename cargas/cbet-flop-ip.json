@@ -42,7 +42,7 @@
       ],
       "defaultActionId": "check",
       "randomStacks": true,
-      "tablePot": 4.5,
+      "tablePot": 5.58,
       "cbet": {
         "table": "mes-ip-vs-bb",
         "band": "25-50"
@@ -54,7 +54,7 @@
         ]
       },
       "villainCoversHero": true,
-      "invested": 2,
+      "invested": 2.12,
       "history": [
         "CO raise 2bb · BB call",
         "BB X"
@@ -89,7 +89,7 @@
       ],
       "defaultActionId": "check",
       "randomStacks": true,
-      "tablePot": 4.5,
+      "tablePot": 5.58,
       "cbet": {
         "table": "mes-ip-vs-bb",
         "band": "15"
@@ -101,7 +101,7 @@
         ]
       },
       "villainCoversHero": true,
-      "invested": 2,
+      "invested": 2.12,
       "history": [
         "CO raise 2bb · BB call",
         "BB X"
@@ -133,7 +133,7 @@
       ],
       "defaultActionId": "check",
       "randomStacks": true,
-      "tablePot": 4.5,
+      "tablePot": 5.58,
       "cbet": {
         "table": "mes-ip-vs-bb",
         "band": "25-50"
@@ -145,7 +145,7 @@
         ]
       },
       "villainCoversHero": true,
-      "invested": 2,
+      "invested": 2.12,
       "history": [
         "BTN raise 2bb · BB call",
         "BB X"
@@ -180,7 +180,7 @@
       ],
       "defaultActionId": "check",
       "randomStacks": true,
-      "tablePot": 4.5,
+      "tablePot": 5.58,
       "cbet": {
         "table": "mes-ip-vs-bb",
         "band": "15"
@@ -192,7 +192,7 @@
         ]
       },
       "villainCoversHero": true,
-      "invested": 2,
+      "invested": 2.12,
       "history": [
         "BTN raise 2bb · BB call",
         "BB X"

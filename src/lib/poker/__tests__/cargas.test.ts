@@ -512,7 +512,7 @@ test("carga Cbet flop IP: pote simples, CO/BTN vs BB, mãos do RFI e seção Pos
   const map = new Map([...rfi.strategies, ...mlr.strategies, ...result.strategies].map((s) => [s.id, s]));
   assert.equal(drillSection(result.drills[0], map), "posflop-attack");
   assert.deepEqual(validateDrill(result.drills[0], map), []);
-  for (const s of result.strategies) assert.equal(knownPot(s), 4.5, "pote de single raised (open 2bb + call do BB + SB)");
+  for (const s of result.strategies) assert.equal(knownPot(s), 5.58, "pote de single raised (open 2bb + call do BB + SB + antes de 0,12bb dos 9)");
   const legend = result.legend ?? DEFAULT_LEGEND;
   const rng = seededRng(7);
   const seen = new Set<string>();
@@ -675,15 +675,15 @@ test("carga BW BB pós: linhas SRP, limped e ISO na seção Blind War", async ()
   assert.deepEqual([...seen.get("bw-bb-pos-iso-river")!].sort(), ["bet-67", "check"]);
 });
 
-test("stacks no pós-flop descontam o que já foi pro pote (30bb no BB vira 28bb no flop)", async () => {
+test("stacks no pós-flop descontam o que já foi pro pote (30bb no BB vira 27,9bb no flop)", async () => {
   const { tableState } = await import("../table");
   const deep = parseImportBundle(load("defesa-vanilla-deep.json"), DEFAULT_LEGEND);
   const cbet = parseImportBundle(load("bb-vs-cbet-flop.json"), DEFAULT_LEGEND, deep.strategies);
   const s = cbet.strategies[0];
   const t = tableState(s, 1234);
-  assert.equal(t.remaining!.BB, 28, "30bb − 2bb do open defendido");
+  assert.equal(t.remaining!.BB, 27.9, "30bb − 2bb do open defendido − 0,12bb de ante");
   const villain = t.villainStart!;
-  assert.equal(t.remaining!.HJ, Math.round((villain - 2 - 1.5) * 10) / 10, "vilão: open de 2bb + cbet de 1,5bb na frente");
+  assert.equal(t.remaining!.HJ, Math.round((villain - 2.12 - 1.86) * 10) / 10, "vilão: open de 2bb + ante + cbet de 1,86bb (33% de 5,58) na frente");
   const bwbb = parseImportBundle(load("bw-bb.json"), DEFAULT_LEGEND);
   const pos = parseImportBundle(load("bw-bb-pos.json"), DEFAULT_LEGEND, bwbb.strategies);
   const river = pos.strategies.find((x) => x.id === "bw-bb-pos-iso-river")!;

@@ -76,8 +76,8 @@
         "bet-125"
       ],
       "defaultActionId": "check",
-      "tablePot": 8.1,
-      "invested": 3.8,
+      "tablePot": 10.04,
+      "invested": 4.352,
       "villainCoversHero": true,
       "cbet": {
         "table": "cbet-turn",
@@ -122,8 +122,8 @@
         "bet-125"
       ],
       "defaultActionId": "check",
-      "tablePot": 6.75,
-      "invested": 3.125,
+      "tablePot": 8.37,
+      "invested": 3.515,
       "villainCoversHero": true,
       "cbet": {
         "table": "cbet-turn",
@@ -168,8 +168,8 @@
         "bet-125"
       ],
       "defaultActionId": "check",
-      "tablePot": 8.1,
-      "invested": 3.8,
+      "tablePot": 10.04,
+      "invested": 4.352,
       "villainCoversHero": true,
       "cbet": {
         "table": "cbet-turn",
@@ -214,8 +214,8 @@
         "bet-125"
       ],
       "defaultActionId": "check",
-      "tablePot": 6.75,
-      "invested": 3.125,
+      "tablePot": 8.37,
+      "invested": 3.515,
       "villainCoversHero": true,
       "cbet": {
         "table": "cbet-turn",
@@ -260,8 +260,8 @@
         "bet-125"
       ],
       "defaultActionId": "check",
-      "tablePot": 8.1,
-      "invested": 3.8,
+      "tablePot": 10.04,
+      "invested": 4.352,
       "villainCoversHero": true,
       "cbet": {
         "table": "cbet-turn",
@@ -306,8 +306,8 @@
         "bet-125"
       ],
       "defaultActionId": "check",
-      "tablePot": 6.75,
-      "invested": 3.125,
+      "tablePot": 8.37,
+      "invested": 3.515,
       "villainCoversHero": true,
       "cbet": {
         "table": "cbet-turn",
@@ -350,8 +350,8 @@
         "bet-67"
       ],
       "defaultActionId": "check",
-      "tablePot": 4.5,
-      "invested": 2,
+      "tablePot": 5.58,
+      "invested": 2.12,
       "villainCoversHero": true,
       "cbet": {
         "table": "cbet-turn",
@@ -394,8 +394,8 @@
         "bet-67"
       ],
       "defaultActionId": "check",
-      "tablePot": 4.5,
-      "invested": 2,
+      "tablePot": 5.58,
+      "invested": 2.12,
       "villainCoversHero": true,
       "cbet": {
         "table": "cbet-turn",
@@ -438,8 +438,8 @@
         "bet-67"
       ],
       "defaultActionId": "check",
-      "tablePot": 4.5,
-      "invested": 2,
+      "tablePot": 5.58,
+      "invested": 2.12,
       "villainCoversHero": true,
       "cbet": {
         "table": "cbet-turn",
@@ -482,10 +482,10 @@
         "vc-raise"
       ],
       "defaultActionId": "vc-fold",
-      "tablePot": 4.5,
-      "invested": 2,
+      "tablePot": 5.58,
+      "invested": 2.12,
       "tablePosted": {
-        "villain": 1.1
+        "villain": 1.36
       },
       "villainLabel": "Probe 25%",
       "villainCoversHero": true,
@@ -530,10 +530,10 @@
         "vc-raise"
       ],
       "defaultActionId": "vc-fold",
-      "tablePot": 4.5,
-      "invested": 2,
+      "tablePot": 5.58,
+      "invested": 2.12,
       "tablePosted": {
-        "villain": 1.1
+        "villain": 1.36
       },
       "villainLabel": "Probe 25%",
       "villainCoversHero": true,
@@ -578,10 +578,10 @@
         "vc-raise"
       ],
       "defaultActionId": "vc-fold",
-      "tablePot": 4.5,
-      "invested": 2,
+      "tablePot": 5.58,
+      "invested": 2.12,
       "tablePosted": {
-        "villain": 1.1
+        "villain": 1.36
       },
       "villainLabel": "Probe 25%",
       "villainCoversHero": true,
@@ -626,10 +626,10 @@
         "vc-raise"
       ],
       "defaultActionId": "vc-fold",
-      "tablePot": 4.5,
-      "invested": 2,
+      "tablePot": 5.58,
+      "invested": 2.12,
       "tablePosted": {
-        "villain": 3
+        "villain": 3.72
       },
       "villainLabel": "Probe 67%",
       "villainCoversHero": true,
@@ -674,10 +674,10 @@
         "vc-raise"
       ],
       "defaultActionId": "vc-fold",
-      "tablePot": 4.5,
-      "invested": 2,
+      "tablePot": 5.58,
+      "invested": 2.12,
       "tablePosted": {
-        "villain": 3
+        "villain": 3.72
       },
       "villainLabel": "Probe 67%",
       "villainCoversHero": true,
@@ -722,10 +722,10 @@
         "vc-raise"
       ],
       "defaultActionId": "vc-fold",
-      "tablePot": 4.5,
-      "invested": 2,
+      "tablePot": 5.58,
+      "invested": 2.12,
       "tablePosted": {
-        "villain": 3
+        "villain": 3.72
       },
       "villainLabel": "Probe 67%",
       "villainCoversHero": true,

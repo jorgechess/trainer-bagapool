@@ -41,8 +41,8 @@
         "bet-50"
       ],
       "defaultActionId": "check",
-      "tablePot": 14.5,
-      "invested": 7,
+      "tablePot": 15.58,
+      "invested": 7.12,
       "villainCoversHero": true,
       "cbet": {
         "table": "3bet-pot",
@@ -84,8 +84,8 @@
         "shove"
       ],
       "defaultActionId": "check",
-      "tablePot": 21.75,
-      "invested": 10.625,
+      "tablePot": 23.37,
+      "invested": 11.015,
       "villainCoversHero": true,
       "cbet": {
         "table": "3bet-pot",
@@ -132,8 +132,8 @@
         "shove"
       ],
       "defaultActionId": "check",
-      "tablePot": 36.1,
-      "invested": 17.8,
+      "tablePot": 38.79,
+      "invested": 18.724,
       "villainCoversHero": true,
       "cbet": {
         "table": "3bet-pot",
@@ -180,8 +180,8 @@
         "shove"
       ],
       "defaultActionId": "check",
-      "tablePot": 21.75,
-      "invested": 10.625,
+      "tablePot": 23.37,
+      "invested": 11.015,
       "villainCoversHero": true,
       "cbet": {
         "table": "3bet-pot",

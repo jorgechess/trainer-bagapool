@@ -49,7 +49,7 @@
         "bet-115"
       ],
       "defaultActionId": "check",
-      "tablePot": 4.5,
+      "tablePot": 5.58,
       "villainCoversHero": true,
       "cbet": {
         "table": "bb-probe",
@@ -61,7 +61,7 @@
           "call"
         ]
       },
-      "invested": 2,
+      "invested": 2.12,
       "history": [
         "CO raise 2bb · BB call",
         "BB X · CO X"
@@ -93,7 +93,7 @@
         "bet-115"
       ],
       "defaultActionId": "check",
-      "tablePot": 4.5,
+      "tablePot": 5.58,
       "villainCoversHero": true,
       "cbet": {
         "table": "bb-probe",
@@ -105,7 +105,7 @@
           "call"
         ]
       },
-      "invested": 2,
+      "invested": 2.12,
       "history": [
         "CO raise 2bb · BB call",
         "BB X · CO X"
@@ -136,7 +136,7 @@
         "bet-67"
       ],
       "defaultActionId": "check",
-      "tablePot": 6.75,
+      "tablePot": 8.37,
       "villainCoversHero": true,
       "cbet": {
         "table": "bb-probe",
@@ -151,7 +151,7 @@
       "entryActionIds": [
         "bet-25"
       ],
-      "invested": 3.125,
+      "invested": 3.515,
       "history": [
         "CO raise 2bb · BB call",
         "BB X · CO X",
@@ -184,7 +184,7 @@
         "bet-115"
       ],
       "defaultActionId": "check",
-      "tablePot": 4.5,
+      "tablePot": 5.58,
       "villainCoversHero": true,
       "cbet": {
         "table": "bb-probe",
@@ -196,7 +196,7 @@
           "call"
         ]
       },
-      "invested": 2,
+      "invested": 2.12,
       "history": [
         "CO raise 2bb · BB call",
         "BB X · CO X"
@@ -227,7 +227,7 @@
         "bet-67"
       ],
       "defaultActionId": "check",
-      "tablePot": 10.5,
+      "tablePot": 13.02,
       "villainCoversHero": true,
       "cbet": {
         "table": "bb-probe",
@@ -242,7 +242,7 @@
       "entryActionIds": [
         "bet-67"
       ],
-      "invested": 5,
+      "invested": 5.84,
       "history": [
         "CO raise 2bb · BB call",
         "BB X · CO X",
@@ -275,7 +275,7 @@
         "bet-115"
       ],
       "defaultActionId": "check",
-      "tablePot": 4.5,
+      "tablePot": 5.58,
       "villainCoversHero": true,
       "cbet": {
         "table": "bb-probe",
@@ -287,7 +287,7 @@
           "call"
         ]
       },
-      "invested": 2,
+      "invested": 2.12,
       "history": [
         "BTN raise 2bb · BB call",
         "BB X · BTN X"
@@ -319,7 +319,7 @@
         "bet-115"
       ],
       "defaultActionId": "check",
-      "tablePot": 4.5,
+      "tablePot": 5.58,
       "villainCoversHero": true,
       "cbet": {
         "table": "bb-probe",
@@ -331,7 +331,7 @@
           "call"
         ]
       },
-      "invested": 2,
+      "invested": 2.12,
       "history": [
         "BTN raise 2bb · BB call",
         "BB X · BTN X"
@@ -362,7 +362,7 @@
         "bet-67"
       ],
       "defaultActionId": "check",
-      "tablePot": 6.75,
+      "tablePot": 8.37,
       "villainCoversHero": true,
       "cbet": {
         "table": "bb-probe",
@@ -377,7 +377,7 @@
       "entryActionIds": [
         "bet-25"
       ],
-      "invested": 3.125,
+      "invested": 3.515,
       "history": [
         "BTN raise 2bb · BB call",
         "BB X · BTN X",
@@ -410,7 +410,7 @@
         "bet-115"
       ],
       "defaultActionId": "check",
-      "tablePot": 4.5,
+      "tablePot": 5.58,
       "villainCoversHero": true,
       "cbet": {
         "table": "bb-probe",
@@ -422,7 +422,7 @@
           "call"
         ]
       },
-      "invested": 2,
+      "invested": 2.12,
       "history": [
         "BTN raise 2bb · BB call",
         "BB X · BTN X"
@@ -453,7 +453,7 @@
         "bet-67"
       ],
       "defaultActionId": "check",
-      "tablePot": 10.5,
+      "tablePot": 13.02,
       "villainCoversHero": true,
       "cbet": {
         "table": "bb-probe",
@@ -468,7 +468,7 @@
       "entryActionIds": [
         "bet-67"
       ],
-      "invested": 5,
+      "invested": 5.84,
       "history": [
         "BTN raise 2bb · BB call",
         "BB X · BTN X",

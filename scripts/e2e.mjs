@@ -688,7 +688,7 @@ async function main() {
     await page.goto(`${BASE_URL}/drills/cbet-flop-ip/treinar`);
     await page.getByTestId("board").waitFor();
     assert.equal(await page.getByTestId("board").locator("> *").count(), 3, "flop com 3 cartas");
-    await page.getByText("Pote: 4,5bb").waitFor();
+    await page.getByText("Pote: 5,6bb").waitFor(); // 4,5bb + antes de 0,12bb dos 9 jogadores
     for (const name of ["Check", "Bet 25%", "Bet 40%"]) await page.locator("[data-testid=actions]").getByRole("button", { name }).waitFor();
     await page.locator("[data-testid=actions] button").first().click();
     await page.getByTestId("cbet-leitura").getByText(/^(Range bet |Split X_)B(25|40)$/i).waitFor();

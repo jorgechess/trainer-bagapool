@@ -46,9 +46,9 @@
         "vc-raise"
       ],
       "defaultActionId": "vc-fold",
-      "tablePot": 4.5,
+      "tablePot": 5.58,
       "tablePosted": {
-        "villain": 1.5
+        "villain": 1.86
       },
       "villainLabel": "Cbet 33%",
       "villainCoversHero": true,
@@ -61,7 +61,7 @@
           "call"
         ]
       },
-      "invested": 2,
+      "invested": 2.12,
       "history": [
         "HJ raise 2bb · BB call",
         "BB X · HJ B33"
