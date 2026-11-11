@@ -400,19 +400,7 @@ export const VS_CBET_BOARDS: VsCbetBoard[] = [
       ["Equidades diretas", (f) => f.oesd || f.gutshot, C],
     ],
   },
-  {
-    cards: ["9s", "8d", "7d"],
-    label: "ST MMM",
-    rules: [
-      strong,
-      ["Duas cartas entre J e 5", both(5, 11), R],
-      ["Pares do board sem redraw", (f) => f.pairedWith !== null, C],
-      ["OESD/GS com BD e low card suited (J3s, T2s)", (f) => (f.oesd || f.gutshot) && f.bdFlush && f.suited && f.lo <= 5, R],
-      ["Equidades diretas", draw, C],
-      ["Low pockets com BD", (f) => f.pocket && f.bdFlush, R],
-      ["A-low off com BD", (f) => f.hi === 14 && f.lo <= 5 && !f.suited && f.bdFlush, R],
-    ],
-  },
+  // ST MMM (987) saiu: é spot de lead do BB (BB Leads), não de enfrentar cbet
   {
     cards: ["7d", "6s", "4d"],
     label: "ST MML",
@@ -587,6 +575,10 @@ export function vsCbetAnswer(hero: readonly Card[], flop: readonly Card[]): VsCb
   if (!board) return null;
   const f = vsCbetFeatures(hero, flop);
   for (const [category, test, action] of board.rules) if (test(f)) return { action, category, board };
+  // Regra geral (todos os boards): sem par, só continua com flush draw ou backdoor de flush
+  if (f.pairedWith === null && !f.pocket && (f.flushDraw || f.bdFlush)) {
+    return { action: "vc-call", category: f.flushDraw ? "Air com flush draw" : "Air com backdoor de flush", board };
+  }
   const category = f.pocket
     ? "Pocket sem jogo"
     : f.pairedWith !== null

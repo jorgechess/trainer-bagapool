@@ -233,9 +233,15 @@ test("BB vs Cbet flop: guide vs EP mão a mão nos boards da planilha", async ()
   // ST AHH: 2nd e 3rd pair pagam (J7 em AKJ não é air); sem par segue fold
   assert.equal(vc("Jh7h", "AhKdJc"), "vc-call");
   assert.equal(vc("Kc5d", "AhKdJc"), "vc-call");
-  assert.equal(vc("9h8h", "AhKdJc"), "vc-fold");
+  assert.equal(vc("9h8c", "AhKdJc"), "vc-fold"); // sem backdoor
+  // regra geral: air só continua com flush draw ou backdoor de flush; pockets baixos foldam
+  assert.equal(vc("9h8h", "AhKdJc"), "vc-call"); // backdoor de copas
+  assert.equal(vc("6d5c", "AsTh8s"), "vc-fold");
+  assert.equal(vc("6s5s", "AsTh8s"), "vc-call"); // flush draw
+  assert.equal(vc("6c6d", "AsTh8s"), "vc-fold");
   assert.equal(vsCbetAnswer(c("Jh7h"), c("AhKdJc"))?.category, "2nd e 3rd pair (Kx, Jx)");
-  assert.equal(VS_CBET_BOARDS.length, 29);
+  assert.equal(VS_CBET_BOARDS.length, 28);
+  assert.ok(!VS_CBET_BOARDS.some((b) => b.label === "ST MMM"), "987 é spot de lead");
   // naipes trocados mantendo a estrutura acham o mesmo board
   assert.equal(findVsCbetBoard(c("AhTd8h"))?.label, "AHM");
   assert.equal(findVsCbetBoard(c("AhTh8d")), null, "outra estrutura de naipes não é o mesmo board");
