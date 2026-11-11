@@ -47,7 +47,8 @@ jobs:
         run: |
           npm install --no-audit --no-fund
           npm install --no-save --no-audit --no-fund playwright@1.64
-          npx playwright install --with-deps chromium
+          # Sem rede para o espelho do Ubuntu, tenta só o Chromium (o runner já traz quase todas as libs)
+          npx playwright install --with-deps chromium || npx playwright install chromium
           npm run build 2>&1 | tee build.log
 
       - name: Teste de ponta a ponta
