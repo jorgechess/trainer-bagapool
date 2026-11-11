@@ -255,23 +255,37 @@ export default async function PerformancePage({
                 </table>
               )}
 
-              {r.missedHands.length > 0 && (
-                <div>
-                  <p className="label">Mãos que mais erra</p>
-                  <div className="flex flex-wrap gap-1.5">
-                    {r.missedHands.map((m) => (
-                      <span
-                        key={`${m.strategyName}-${m.hand}`}
-                        className="rounded bg-red-950 px-2 py-1 font-mono text-xs text-red-200"
-                        title={m.strategyName}
-                      >
-                        {m.hand} <span className="opacity-70">{m.errors}/{m.total}</span>
-                        {r.byStrategy.length > 1 && (
-                          <span className="ml-1 font-sans opacity-60">· {m.strategyName}</span>
-                        )}
-                      </span>
-                    ))}
-                  </div>
+              {r.missedByGroup.length > 0 && (
+                <div className="space-y-3" data-testid="maos-que-mais-erra">
+                  <p className="label mb-0">Mãos que mais erra</p>
+                  {r.missedByGroup.map((g) => (
+                    <div key={g.key} data-testid="maos-erradas-grupo">
+                      {r.missedByGroup.length > 1 || r.breakdown.length > 1 ? (
+                        <p className="mb-1 text-xs font-semibold text-zinc-400">{g.key}</p>
+                      ) : null}
+                      <div className="flex flex-wrap gap-1.5">
+                        {g.hands.map((m) => {
+                          // O nome da estratégia sem o próprio grupo (ex.: "Call em shove BB vs HJ 4bb 3:1" → "vs HJ 4bb")
+                          const detail = m.strategyName
+                            .replace(g.key, "")
+                            .replace(/\s*bolha (não )?garantido/i, "")
+                            .replace(/^.*?\b(vs .*)$/, "$1")
+                            .replace(/\s+/g, " ")
+                            .trim();
+                          return (
+                            <span
+                              key={`${m.strategyName}-${m.hand}`}
+                              className="rounded bg-red-950 px-2 py-1 font-mono text-xs text-red-200"
+                              title={m.strategyName}
+                            >
+                              {m.hand} <span className="opacity-70">{m.errors}/{m.total}</span>
+                              {r.byStrategy.length > 1 && detail && <span className="ml-1 font-sans opacity-60">· {detail}</span>}
+                            </span>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  ))}
                 </div>
               )}
             </section>

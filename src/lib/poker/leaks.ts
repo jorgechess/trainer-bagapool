@@ -151,6 +151,8 @@ export interface DrillReport {
   breakdown: GroupStats[];
   /** Mãos mais erradas no drill, somando as estratégias. */
   missedHands: { hand: string; strategyName: string; total: number; errors: number }[];
+  /** Mãos mais erradas separadas pelo mesmo agrupamento do painel (proporção, board, stack...), na ordem do breakdown. */
+  missedByGroup: { key: string; hands: { hand: string; strategyName: string; total: number; errors: number }[] }[];
   lastAt: string;
 }
 
@@ -173,6 +175,29 @@ export function reportByDrill(attempts: readonly Attempt[], missedLimit = 8): Dr
         if (!a.correct) entry.errors += 1;
         missed.set(key, entry);
       }
+      const dimension = breakdownDimension(list);
+      const breakdown = groupAttempts(list, dimension);
+      const byGroup = new Map<string, Map<string, { hand: string; strategyName: string; total: number; errors: number }>>();
+      for (const a of list) {
+        for (const g of keysFor(a, dimension)) {
+          const hands = byGroup.get(g) ?? new Map();
+          const key = `${a.strategyId}|${a.hand}`;
+          const entry = hands.get(key) ?? { hand: a.hand, strategyName: a.strategyName, total: 0, errors: 0 };
+          entry.total += 1;
+          if (!a.correct) entry.errors += 1;
+          hands.set(key, entry);
+          byGroup.set(g, hands);
+        }
+      }
+      const missedByGroup = breakdown
+        .map((g) => ({
+          key: g.key,
+          hands: [...(byGroup.get(g.key)?.values() ?? [])]
+            .filter((m) => m.errors > 0)
+            .sort((a, b) => b.errors - a.errors || a.total - b.total)
+            .slice(0, missedLimit),
+        }))
+        .filter((g) => g.hands.length > 0);
       return {
         drillId,
         total: list.length,
@@ -180,7 +205,8 @@ export function reportByDrill(attempts: readonly Attempt[], missedLimit = 8): Dr
         errors: list.length - correct,
         accuracy: list.length ? correct / list.length : 0,
         byStrategy: groupAttempts(list, "estrategia"),
-        breakdown: groupAttempts(list, breakdownDimension(list)),
+        breakdown,
+        missedByGroup,
         missedHands: [...missed.values()]
           .filter((m) => m.errors > 0)
           .sort((a, b) => b.errors - a.errors || a.total - b.total)

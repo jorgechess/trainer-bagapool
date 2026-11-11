@@ -204,6 +204,8 @@ test("relatório por drill: acerto, estratégias e mãos mais erradas", async ()
   assert.equal(a.errors, 2);
   assert.deepEqual(a.byStrategy.map((s) => s.key), ["RFI CO", "RFI BTN"]);
   assert.deepEqual(a.missedHands, [{ hand: "T8o", strategyName: "RFI CO", total: 2, errors: 2 }]);
+  // separadas pelo agrupamento do painel (aqui pela proporção), só os grupos com erro
+  assert.deepEqual(a.missedByGroup, [{ key: "2:1", hands: [{ hand: "T8o", strategyName: "RFI CO", total: 2, errors: 2 }] }]);
   assert.equal(report[0].lastAt, "2026-10-20T10:00:00.000Z");
   assert.deepEqual(reportByDrill([]), []);
 });
