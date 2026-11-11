@@ -817,7 +817,7 @@ async function main() {
     await shot(page, "treino-3bet-pot-fichas");
     await page.getByTestId("fichas-indo-pote").first().waitFor({ state: "detached", timeout: 3000 });
     assert.equal(await page.getByTestId("board").locator("> *").count(), 4, "turn depois do cbet");
-    assert.match(await page.getByTestId("pote").innerText(), /21,75bb/);
+    assert.match(await page.getByTestId("pote").innerText(), /23,4bb/); // 15,58bb + 2 × B25
     const history3bp = await page.getByTestId("historico-mao").innerText();
     assert.match(history3bp, /BB B25 · HJ C/, `histórico do flop com a aposta do herói: ${history3bp}`);
     await shot(page, "treino-3bet-pot-turn");
