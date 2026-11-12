@@ -908,6 +908,16 @@ async function main() {
     await shot(page, "treino-pko-spots");
     log("PKO Spots: Bounty Hunters Deepstack perto da bolha, mesa 8-max com EP");
 
+    // Spots Vanilla: terceira categoria de drills especiais (freezeout, sem bounty)
+    await page.goto(`${BASE_URL}/drills`);
+    await page.getByTestId("secao-especiais").getByText("Spots Vanilla").waitFor();
+    await page.goto(`${BASE_URL}/drills/spots-vanilla/treinar`);
+    await page.getByTestId("enunciado-especial").getByText(/One Shot MAIN/).waitFor();
+    assert.equal(await page.getByTestId("mesa").getByTestId("bounty-tag").count(), 0, "freezeout: sem bounty na mesa");
+    await page.getByTestId("quadro-pay-jumps").waitFor();
+    await shot(page, "treino-spots-vanilla");
+    log("Spots Vanilla: One Shot ¥660 com pay jumps e sem bounty");
+
     // Ranking mensal: admin com 520 decisões (70%) mais 40 da Mesa Final entra; os drills especiais contam
     const [adminProfile] = await (await fetch(`${API_URL}/rest/v1/profiles?select=id&email=eq.admin@e2e.com`, { headers: adminHeaders })).json();
     const fake = (n, drillId, correctEvery) =>

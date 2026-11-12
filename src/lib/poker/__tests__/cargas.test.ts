@@ -876,3 +876,24 @@ test("PKO Spots e Mesa Final: mãos do SB (Q3o), HJ com K8s e HJ com AQo na FT",
   assert.equal(tableState(ftHj, 1).seats.length, 9);
   assert.deepEqual(["UTG1", "MP", "LJ"].map((p) => positionLabel(p as "MP", ftHj.special)), ["EP", "MP1", "MP2"]);
 });
+
+test("Spots Vanilla: One Shot ¥660 com Q7 no SB, QJs no SB vs CO e JTs no BB vs all-in do BTN", async () => {
+  const { validateDrill } = await import("../drill");
+  const { drillSection } = await import("../sections");
+  const { tableState } = await import("../table");
+  const r = parseImportBundle(load("spots-vanilla.json"), DEFAULT_LEGEND);
+  assert.deepEqual(r.errors, []);
+  const map = new Map(r.strategies.map((s) => [s.id, s]));
+  assert.deepEqual(validateDrill(r.drills[0], map), []);
+  assert.equal(drillSection(r.drills[0], map), "especiais");
+  assert.equal(r.drills[0].name, "Spots Vanilla");
+  const sb = map.get("van-os660-9l-sb")!;
+  assert.equal(sb.range.Q7o ?? "fold", "fold");
+  assert.equal(sb.range.A2o, "shove");
+  assert.deepEqual(tableState(sb, 1).seats.map((s) => s.position), ["CO", "BTN", "SB", "BB"]);
+  assert.equal(map.get("van-os660-9l-bb-vs-shove")!.range["44"], "call");
+  assert.equal(map.get("van-os660-7l-sb-vs-co")!.range.QJs ?? "fold", "fold");
+  assert.equal(tableState(map.get("van-os660-7l-sb-vs-co")!, 1).seats.length, 7);
+  assert.equal(map.get("van-os660-5l-bb-vs-btn-shove")!.range.JTs, "call");
+  assert.equal(tableState(map.get("van-os660-5l-btn-shove")!, 1).seats.length, 5);
+});
