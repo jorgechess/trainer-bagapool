@@ -19,11 +19,17 @@ const memberSchema = z.object({
   password: z.string(),
   role: z.enum(ROLES),
   poolId: z.string().uuid().nullable(),
+  isTest: z.boolean().optional(),
 });
 
 async function nickTaken(nick: string, exceptId?: string): Promise<boolean> {
   const { data } = await createAdminClient().from("profiles").select("id").ilike("nick", nick.replace(/[%_\\]/g, "\\$&"));
   return (data ?? []).some((row) => row.id !== exceptId);
+}
+
+/** Sem a migração 0009 a coluna is_test não existe: explica o que fazer. */
+function testColumnHint(message: string): string {
+  return /is_test/.test(message) ? "Rode a migração 0009_usuarios_de_teste.sql no Supabase para marcar usuários de teste." : message;
 }
 
 async function findMember(id: string): Promise<Profile | null> {
@@ -38,6 +44,8 @@ export async function createMember(input: z.input<typeof memberSchema>): Promise
   // Mentor só cadastra jogadores na própria pool
   const role = me.role === "admin" ? parsed.data.role : "jogador";
   const poolId = me.role === "admin" ? parsed.data.poolId : me.poolId;
+  // Só o admin marca usuário de teste
+  const isTest = me.role === "admin" && parsed.data.isTest === true;
   const problem = passwordProblem(password);
   if (problem) return { ok: false, error: problem };
   let admin;
@@ -57,14 +65,14 @@ export async function createMember(input: z.input<typeof memberSchema>): Promise
   // O perfil é criado pelo gatilho do banco; papel, pool e nick são definidos aqui.
   const { error: profileError } = await admin
     .from("profiles")
-    .update({ name, nick, role, pool_id: poolId, must_change_password: true })
+    .update({ name, nick, role, pool_id: poolId, must_change_password: true, ...(isTest ? { is_test: true } : {}) })
     .eq("id", data.user.id);
   if (profileError) {
     await admin.auth.admin.deleteUser(data.user.id);
-    return { ok: false, error: `Não foi possível criar o perfil: ${profileError.message}` };
+    return { ok: false, error: `Não foi possível criar o perfil: ${testColumnHint(profileError.message)}` };
   }
   revalidatePath("/admin/jogadores");
-  return { ok: true, message: `${name} cadastrado. Login: ${nick} · senha inicial: ${password} (será trocada no primeiro acesso).` };
+  return { ok: true, message: `${name} cadastrado${isTest ? " como usuário de teste" : ""}. Login: ${nick} · senha inicial: ${password} (será trocada no primeiro acesso).` };
 }
 
 const updateSchema = z.object({
@@ -74,6 +82,7 @@ const updateSchema = z.object({
   role: z.enum(ROLES),
   poolId: z.string().uuid().nullable(),
   active: z.boolean(),
+  isTest: z.boolean().optional(),
 });
 
 export async function updateMember(input: z.input<typeof updateSchema>): Promise<ActionResult> {
@@ -89,11 +98,13 @@ export async function updateMember(input: z.input<typeof updateSchema>): Promise
   if (id === me.id && (role !== "admin" || !active))
     return { ok: false, error: "Você não pode tirar o seu próprio acesso de admin." };
   if (nick && (await nickTaken(nick, id))) return { ok: false, error: `O nick ${nick} já está em uso.` };
+  // Só o admin muda a marca de teste; só vai para o banco quando muda (funciona mesmo sem a migração 0009)
+  const isTest = me.role === "admin" && parsed.data.isTest !== undefined ? parsed.data.isTest : target.isTest;
   const { error } = await createAdminClient()
     .from("profiles")
-    .update({ name, nick, role, pool_id: poolId, active })
+    .update({ name, nick, role, pool_id: poolId, active, ...(isTest !== target.isTest ? { is_test: isTest } : {}) })
     .eq("id", id);
-  if (error) return { ok: false, error: error.message };
+  if (error) return { ok: false, error: testColumnHint(error.message) };
   revalidatePath("/admin/jogadores");
   return { ok: true, message: "Alterações salvas." };
 }

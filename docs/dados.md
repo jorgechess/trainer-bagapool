@@ -18,7 +18,7 @@ erDiagram
   STRATEGIES ||..o{ ATTEMPTS : "strategy_id (texto, sem FK)"
 
   POOLS { uuid id PK; text name UK; text color; text logo }
-  PROFILES { uuid id PK; text name; text email; text nick UK; text role; uuid pool_id FK; bool active; bool must_change_password; uuid[] mentored_pools }
+  PROFILES { uuid id PK; text name; text email; text nick UK; text role; uuid pool_id FK; bool active; bool must_change_password; bool is_test; uuid[] mentored_pools }
   SETTINGS { text key PK; jsonb value; timestamptz updated_at; uuid updated_by }
   STRATEGIES { text id PK; text name; text street; text situation; jsonb data }
   DRILLS { text id PK; text name; jsonb data; bool active }
@@ -103,6 +103,7 @@ conteúdo compartilhado para o cache e marcação de `content_version`.
 | `0006_pools_nameless_underdogz.sql` | Pools Nameless e Underdogz |
 | `0007_ranking_mesa_final.sql` | `monthly_ranking` passa a contar os drills especiais; fica fora só a tag `fora-do-ranking` |
 | `0008_pedidos_drill.sql` | Tabelas `drill_requests` e `drill_request_images` (pedidos de drill com prints) e RLS |
+| `0009_usuarios_de_teste.sql` | Coluna `profiles.is_test`: usuário de teste fica fora do ranking e só o admin (e ele mesmo) vê o perfil e o desempenho |
 
 Regras para migrações novas: numeração sequencial, idempotentes (`if not exists`, blocos `do $$`),
 nunca editar uma migração já aplicada, e cobrir permissões novas em `supabase/tests/rls_test.sql`.

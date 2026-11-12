@@ -62,6 +62,17 @@ function RoleSelect({ value, onChange }: { value: Role; onChange: (v: Role) => v
 /** E-mails internos (jogadores criados pelo nick) não aparecem na tela. */
 const realEmail = (email: string) => (email.endsWith("@jogadores.bagapool.com.br") ? "" : email);
 
+/** Usuário de teste: não entra no ranking e só o admin vê (desempenho, ranking e lista do time). */
+function TestUserCheckbox({ checked, onChange }: { checked: boolean; onChange: (v: boolean) => void }) {
+  return (
+    <label className="flex items-center gap-2 text-sm" data-testid="usuario-teste">
+      <input type="checkbox" checked={checked} onChange={(e) => onChange(e.target.checked)} />
+      Usuário de teste
+      <span className="text-xs text-zinc-500">(fora do ranking; só o admin vê)</span>
+    </label>
+  );
+}
+
 function NewMemberForm({ pools, isAdmin, myPoolId }: { pools: Pool[]; isAdmin: boolean; myPoolId: string | null }) {
   const [name, setName] = useState("");
   const [nick, setNick] = useState("");
@@ -70,17 +81,19 @@ function NewMemberForm({ pools, isAdmin, myPoolId }: { pools: Pool[]; isAdmin: b
   useEffect(() => setPassword(randomPassword()), []);
   const [role, setRole] = useState<Role>("jogador");
   const [poolId, setPoolId] = useState(myPoolId ?? "");
+  const [isTest, setIsTest] = useState(false);
   const [result, setResult] = useState<ActionResult | null>(null);
   const [pending, startTransition] = useTransition();
 
   function submit(event: React.FormEvent) {
     event.preventDefault();
     startTransition(async () => {
-      const r = await createMember({ name, nick, password, role, poolId: poolId || null });
+      const r = await createMember({ name, nick, password, role, poolId: poolId || null, isTest: isAdmin && isTest });
       setResult(r);
       if (r.ok) {
         setName("");
         setNick("");
+        setIsTest(false);
         setPassword(randomPassword());
       }
     });
@@ -122,6 +135,7 @@ function NewMemberForm({ pools, isAdmin, myPoolId }: { pools: Pool[]; isAdmin: b
           </>
         )}
       </div>
+      {isAdmin && <TestUserCheckbox checked={isTest} onChange={setIsTest} />}
       <Feedback result={result} />
       <button className="btn-primary" disabled={pending}>
         {pending ? "Cadastrando..." : "Cadastrar"}
@@ -136,14 +150,30 @@ function MemberRow({ profile, pools, isMe, isAdmin }: { profile: Profile; pools:
   const [role, setRole] = useState<Role>(profile.role);
   const [poolId, setPoolId] = useState(profile.poolId ?? "");
   const [active, setActive] = useState(profile.active);
+  const [isTest, setIsTest] = useState(profile.isTest);
   const [result, setResult] = useState<ActionResult | null>(null);
   const [pending, startTransition] = useTransition();
   const dirty =
-    name !== profile.name || nick !== (profile.nick ?? "") || role !== profile.role || poolId !== (profile.poolId ?? "") || active !== profile.active;
+    name !== profile.name ||
+    nick !== (profile.nick ?? "") ||
+    role !== profile.role ||
+    poolId !== (profile.poolId ?? "") ||
+    active !== profile.active ||
+    isTest !== profile.isTest;
 
   function save() {
     startTransition(async () => {
-      setResult(await updateMember({ id: profile.id, name, nick: nick || null, role, poolId: poolId || null, active }));
+      setResult(
+        await updateMember({
+          id: profile.id,
+          name,
+          nick: nick || null,
+          role,
+          poolId: poolId || null,
+          active,
+          ...(isAdmin ? { isTest } : {}),
+        }),
+      );
     });
   }
 
@@ -179,6 +209,11 @@ function MemberRow({ profile, pools, isMe, isAdmin }: { profile: Profile; pools:
             <PoolChip pool={pools.find((p) => p.id === profile.poolId) ?? null} compact />
           </div>
           {profile.mustChangePassword && <p className="mt-1 text-xs text-amber-400">Ainda com senha provisória</p>}
+          {profile.isTest && (
+            <p className="mt-1 text-xs font-semibold text-sky-400" data-testid="selo-teste">
+              Usuário de teste
+            </p>
+          )}
         </div>
         {isAdmin ? (
           <>
@@ -202,6 +237,7 @@ function MemberRow({ profile, pools, isMe, isAdmin }: { profile: Profile; pools:
           Ativo
         </label>
       </div>
+      {isAdmin && !isMe && <TestUserCheckbox checked={isTest} onChange={setIsTest} />}
       <div className="flex flex-wrap items-center gap-2">
         <button className="btn-primary px-3 py-1.5" onClick={save} disabled={!dirty || pending}>
           Salvar

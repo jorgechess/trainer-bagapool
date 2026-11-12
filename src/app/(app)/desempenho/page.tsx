@@ -99,7 +99,8 @@ export default async function PerformancePage({
   );
 
   if (view === "pools" && selectedPool) {
-    const members = profiles.filter((p) => p.active && p.poolId === selectedPool.id);
+    // Usuários de teste não entram no resumo da pool
+    const members = profiles.filter((p) => p.active && !p.isTest && p.poolId === selectedPool.id);
     const attemptsByUser = await getAttemptsByUser(
       members.map((p) => p.id),
       sinceFor(period),

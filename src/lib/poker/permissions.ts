@@ -15,6 +15,8 @@ export interface Member {
   id: string;
   role: Role;
   poolId: string | null;
+  /** Usuário de teste: fora do ranking e visível só para o admin. */
+  isTest?: boolean;
 }
 
 /** Cadastrar jogadores, pools e papéis. */
@@ -29,7 +31,13 @@ export function canManagePlayers(viewer: Member): boolean {
 
 export function canManagePlayer(viewer: Member, target: Member): boolean {
   if (viewer.role === "admin") return true;
-  return viewer.role === "mentor" && viewer.poolId !== null && target.poolId === viewer.poolId && target.role === "jogador";
+  return (
+    viewer.role === "mentor" &&
+    viewer.poolId !== null &&
+    target.poolId === viewer.poolId &&
+    target.role === "jogador" &&
+    !target.isTest
+  );
 }
 
 /** Nick do login: 3 a 30 letras, números, ponto, hífen ou sublinhado. */
@@ -52,9 +60,13 @@ export function canViewAllPerformance(role: Role): boolean {
   return role === "admin" || role === "coach" || role === "mentor";
 }
 
-/** Jogador vê o próprio desempenho e o da sua pool; coaches, mentores e admin veem todos. */
+/**
+ * Jogador vê o próprio desempenho e o da sua pool (nunca o de outra pool); coaches, mentores e admin veem todos.
+ * Usuário de teste: só o admin (e ele mesmo).
+ */
 export function canViewPerformance(viewer: Member, target: Member): boolean {
   if (viewer.id === target.id) return true;
+  if (target.isTest && viewer.role !== "admin") return false;
   if (canViewAllPerformance(viewer.role)) return true;
   return viewer.poolId !== null && viewer.poolId === target.poolId;
 }

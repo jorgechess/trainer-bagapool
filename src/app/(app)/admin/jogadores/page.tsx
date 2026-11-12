@@ -6,7 +6,7 @@ export default async function MembersPage() {
   const [profiles, pools] = await Promise.all([listProfiles(), listPools()]);
   const isAdmin = me.role === "admin";
   // Mentor vê e gerencia só os jogadores da própria pool
-  const visible = isAdmin ? profiles : profiles.filter((p) => p.poolId === me.poolId && p.role === "jogador");
+  const visible = isAdmin ? profiles : profiles.filter((p) => p.poolId === me.poolId && p.role === "jogador" && !p.isTest);
   const myPool = pools.find((p) => p.id === me.poolId);
   return (
     <div className="space-y-6">

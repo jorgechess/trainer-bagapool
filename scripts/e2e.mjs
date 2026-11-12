@@ -1036,6 +1036,28 @@ async function main() {
     const maraPassword = await cadastrar("Mara Mentora", "Mara.Mentora", "Mentor", "Pool A");
     log("admin cadastra pool, jogadora e mentora pelo nick");
 
+    // Usuário de teste (Pool A): fora do ranking e só o admin vê
+    await form.getByTestId("usuario-teste").locator("input").check();
+    await cadastrar("Teo Teste", "teo_teste", null, "Pool A");
+    const [teo] = await rows("profiles", "select=id,is_test,pool_id&nick=eq.teo_teste");
+    assert.deepEqual([teo.is_test, teo.pool_id], [true, ana.pool_id], "usuário de teste marcado no cadastro");
+    assert.equal(await form.getByTestId("usuario-teste").locator("input").isChecked(), false, "marca volta desmarcada");
+    await page.reload();
+    await page.locator(".card").filter({ has: page.locator("input[value='teo_teste']") }).getByTestId("selo-teste").waitFor();
+    const teoAttempt = await fetch(`${API_URL}/rest/v1/attempts`, {
+      method: "POST",
+      headers: adminHeaders,
+      body: JSON.stringify([{ user_id: teo.id, drill_id: "rfi-30bb-vanilla-todas", strategy_id: "e2e-teste", correct: true, data: {} }]),
+    });
+    assert.ok(teoAttempt.ok, `tentativa do usuário de teste: ${teoAttempt.status}`);
+    await page.goto(`${BASE_URL}/ranking`);
+    await page.getByTestId("ranking-voce").waitFor();
+    assert.equal(await page.getByText("Teo Teste").count(), 0, "usuário de teste fora do ranking (nem no a caminho)");
+    await page.goto(`${BASE_URL}/desempenho?visao=jogador&jogador=${teo.id}`);
+    await page.getByText("Teo Teste").first().waitFor();
+    await shot(page, "usuario-teste-admin");
+    log("admin cadastra usuário de teste: fora do ranking e visível para o admin");
+
     // 11. Mentora: troca a senha provisória, vê só a própria pool, cadastra e gera senha provisória
     await page.getByRole("button", { name: "Sair" }).click();
     await page.waitForURL(/\/login/);
@@ -1062,6 +1084,8 @@ async function main() {
     await page.getByRole("heading", { name: /Jogadores · Pool A/ }).waitFor();
     assert.equal(await page.getByPlaceholder("Nome da nova pool").count(), 0, "mentora não gerencia pools");
     assert.equal(await page.locator("input[value='caio_coach']").count(), 0, "mentora não vê quem é de fora da pool");
+    assert.equal(await page.locator("input[value='teo_teste']").count(), 0, "mentora não vê o usuário de teste");
+    assert.equal(await page.getByTestId("usuario-teste").count(), 0, "só o admin marca usuário de teste");
     await page.locator("input[value='ana_jogadora']").waitFor();
     await form.locator("input").nth(0).fill("Beto Low");
     await form.locator("input").nth(1).fill("beto_low");
@@ -1124,6 +1148,12 @@ async function main() {
     await page.waitForURL(`${BASE_URL}/`);
     await page.goto(`${BASE_URL}/desempenho`);
     assert.equal(await page.getByText("Jorge Admin").count(), 0, "jogadora não vê o admin no seletor");
+    assert.equal(await page.getByText("Teo Teste").count(), 0, "jogadora não vê o usuário de teste da própria pool");
+    assert.equal(await page.getByText("Caio Coach").count(), 0, "jogadora não vê quem é de fora da pool");
+    await page.goto(`${BASE_URL}/desempenho?visao=jogador&jogador=${teo.id}`);
+    await page.getByText("Olá, Ana").or(page.getByText("Ana Jogadora")).first().waitFor();
+    assert.equal(await page.getByText("Teo Teste").count(), 0, "link direto para o usuário de teste cai no próprio desempenho");
+    await page.goto(`${BASE_URL}/desempenho`);
     // Jogadora vê o desempenho da própria pool (e só dela)
     await page.getByTestId("visao-desempenho").getByRole("link", { name: "Minha pool" }).click();
     await page.getByTestId("pool-desempenho").waitFor();

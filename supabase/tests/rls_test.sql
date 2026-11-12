@@ -211,6 +211,48 @@ do $$ begin
 end $$;
 reset role;
 
+-- Usuário de teste (Pool A): fora do ranking e invisível para todos menos o admin e ele mesmo
+insert into auth.users (id, email, raw_app_meta_data, raw_user_meta_data) values
+  ('10000000-0000-0000-0000-000000000009', 'teste@t.com', '{"pool_id":"00000000-0000-0000-0000-0000000000a1"}', '{"name":"Teste"}');
+update public.profiles set is_test = true where id = '10000000-0000-0000-0000-000000000009';
+insert into public.attempts (user_id, drill_id, strategy_id, correct, data) values
+  ('10000000-0000-0000-0000-000000000009', 'd1', 's1', true, '{}');
+set role authenticated;
+set request.jwt.claim.sub = '10000000-0000-0000-0000-000000000003';
+do $$ begin
+  assert not exists (select 1 from public.profiles where id = '10000000-0000-0000-0000-000000000009'), 'Ana não vê o usuário de teste';
+  assert not exists (select 1 from public.attempts where user_id = '10000000-0000-0000-0000-000000000009'),
+    'Ana não vê as tentativas do usuário de teste, mesmo na mesma pool';
+  assert not exists (select 1 from public.attempts where user_id = '10000000-0000-0000-0000-000000000005'),
+    'Ana continua sem ver o Caio (outra pool)';
+  assert not exists (select 1 from public.monthly_ranking(now() - interval '1 day', now() + interval '1 day')
+                     where user_id = '10000000-0000-0000-0000-000000000009'), 'usuário de teste fora do ranking';
+end $$;
+reset role;
+set role authenticated;
+set request.jwt.claim.sub = '10000000-0000-0000-0000-000000000007';
+do $$ begin
+  assert not exists (select 1 from public.profiles where id = '10000000-0000-0000-0000-000000000009'), 'mentor não vê o usuário de teste';
+  assert not exists (select 1 from public.attempts where user_id = '10000000-0000-0000-0000-000000000009'), 'nem as tentativas dele';
+end $$;
+reset role;
+set role authenticated;
+set request.jwt.claim.sub = '10000000-0000-0000-0000-000000000009';
+do $$ begin
+  assert exists (select 1 from public.profiles where id = '10000000-0000-0000-0000-000000000009'), 'usuário de teste vê o próprio perfil';
+  assert (select count(*) from public.attempts where user_id = '10000000-0000-0000-0000-000000000009') = 1, 'e o próprio desempenho';
+  assert not exists (select 1 from public.monthly_ranking(now() - interval '1 day', now() + interval '1 day')
+                     where user_id = '10000000-0000-0000-0000-000000000009'), 'mas não entra no ranking';
+end $$;
+reset role;
+set role authenticated;
+set request.jwt.claim.sub = '10000000-0000-0000-0000-000000000001';
+do $$ begin
+  assert exists (select 1 from public.profiles where id = '10000000-0000-0000-0000-000000000009'), 'admin vê o usuário de teste';
+  assert (select count(*) from public.attempts where user_id = '10000000-0000-0000-0000-000000000009') = 1, 'e o desempenho dele';
+end $$;
+reset role;
+
 -- Jogador desativado perde o acesso
 update public.profiles set active = false where email = 'caio@t.com';
 set role authenticated;

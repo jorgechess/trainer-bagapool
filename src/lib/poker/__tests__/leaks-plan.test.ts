@@ -186,6 +186,16 @@ test("permissões por papel", () => {
   assert.ok(!canViewPerformance(ana, caio));
   assert.ok(!canViewPerformance(semPool, outroSemPool));
   assert.ok(canViewPerformance(coach, caio));
+  // Usuário de teste: só o admin (e ele mesmo) vê, nem a própria pool nem coach/mentor
+  const teste = { id: "t", role: "jogador" as const, poolId: "p1", isTest: true };
+  const admin = { id: "a", role: "admin" as const, poolId: null };
+  const mentor = { id: "m", role: "mentor" as const, poolId: "p1" };
+  assert.ok(!canViewPerformance(ana, teste));
+  assert.ok(!canViewPerformance(coach, teste));
+  assert.ok(!canViewPerformance(mentor, teste));
+  assert.ok(canViewPerformance(admin, teste));
+  assert.ok(canViewPerformance(teste, teste));
+  assert.ok(!canViewPerformance(teste, caio), "teste também não vê outra pool");
 });
 
 test("relatório por drill: acerto, estratégias e mãos mais erradas", async () => {

@@ -22,6 +22,8 @@ export interface Profile {
   active: boolean;
   /** Senha inicial ou redefinida: precisa trocar antes de usar o app. */
   mustChangePassword: boolean;
+  /** Usuário de teste: fora do ranking e visível só para o admin (e para ele mesmo). */
+  isTest: boolean;
 }
 
 const DEFAULT_POOL_COLOR = "#a1a1aa";
@@ -42,6 +44,7 @@ interface ProfileRow {
   pool_id: string | null;
   active: boolean;
   must_change_password?: boolean;
+  is_test?: boolean;
 }
 
 function toProfile(row: ProfileRow): Profile {
@@ -54,11 +57,16 @@ function toProfile(row: ProfileRow): Profile {
     poolId: row.pool_id,
     active: row.active,
     mustChangePassword: row.must_change_password ?? false,
+    isTest: row.is_test ?? false,
   };
 }
 
-const PROFILE_COLUMNS = "id, name, email, nick, role, pool_id, active, must_change_password";
-const PROFILE_COLUMNS_OLD = "id, name, email, role, pool_id, active";
+/** Do mais novo ao mais antigo: se uma migração (0009, 0003) ainda não rodou, cai para as colunas que existem. */
+const PROFILE_COLUMN_SETS = [
+  "id, name, email, nick, role, pool_id, active, must_change_password, is_test",
+  "id, name, email, nick, role, pool_id, active, must_change_password",
+  "id, name, email, role, pool_id, active",
+];
 /** Coluna inexistente: a migração 0003 ainda não foi rodada; o app segue com o login por e-mail. */
 const missingColumn = (error: { code?: string } | null) => error?.code === "42703";
 
@@ -70,9 +78,12 @@ export const getCurrentProfile = cache(async (): Promise<Profile | null> => {
   } = await supabase.auth.getUser();
   if (!user) return null;
   type One = { data: ProfileRow | null; error: { code?: string; message: string } | null };
-  let { data, error } = (await supabase.from("profiles").select(PROFILE_COLUMNS).eq("id", user.id).maybeSingle()) as One;
-  if (missingColumn(error))
-    ({ data, error } = (await supabase.from("profiles").select(PROFILE_COLUMNS_OLD).eq("id", user.id).maybeSingle()) as One);
+  let result: One = { data: null, error: null };
+  for (const columns of PROFILE_COLUMN_SETS) {
+    result = (await supabase.from("profiles").select(columns).eq("id", user.id).maybeSingle()) as One;
+    if (!missingColumn(result.error)) break;
+  }
+  const { data } = result;
   if (!data || !data.active) return null;
   return toProfile(data as ProfileRow);
 });
@@ -161,11 +172,13 @@ export async function getPool(id: string | null): Promise<Pool | null> {
 export async function listProfiles(): Promise<Profile[]> {
   const supabase = await createClient();
   type Many = { data: ProfileRow[] | null; error: { code?: string; message: string } | null };
-  let { data, error } = (await supabase.from("profiles").select(PROFILE_COLUMNS).order("name")) as Many;
-  if (missingColumn(error))
-    ({ data, error } = (await supabase.from("profiles").select(PROFILE_COLUMNS_OLD).order("name")) as Many);
-  if (error) throw new Error(error.message);
-  return (data as ProfileRow[]).map(toProfile);
+  let result: Many = { data: null, error: null };
+  for (const columns of PROFILE_COLUMN_SETS) {
+    result = (await supabase.from("profiles").select(columns).order("name")) as Many;
+    if (!missingColumn(result.error)) break;
+  }
+  if (result.error) throw new Error(result.error.message);
+  return (result.data as ProfileRow[]).map(toProfile);
 }
 
 /** Tentativas de um jogador (as permissões do banco garantem quem pode ver). */

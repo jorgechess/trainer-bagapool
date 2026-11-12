@@ -23,7 +23,8 @@ export default async function RankingPage({ searchParams }: { searchParams: Prom
   const month = requested && months.includes(requested) ? requested : now;
 
   const [rows, profiles, pools] = await Promise.all([getRankingRows(month), listProfiles(), listPools()]);
-  const byId = new Map(profiles.map((p) => [p.id, p]));
+  // Usuários de teste ficam fora do ranking (o banco já tira; aqui vale também para o cálculo sem a migração)
+  const byId = new Map(profiles.filter((p) => !p.isTest).map((p) => [p.id, p]));
   const poolById = new Map(pools.map((p) => [p.id, p]));
   const { ranked, pending } = buildRanking(rows.filter((r) => byId.has(r.userId)));
   const mine = ranked.find((r) => r.userId === viewer.id);
@@ -55,7 +56,9 @@ export default async function RankingPage({ searchParams }: { searchParams: Prom
       </div>
 
       <div className="card flex flex-wrap items-center gap-x-6 gap-y-2" data-testid="ranking-voce">
-        {mine ? (
+        {viewer.isTest ? (
+          <p className="text-zinc-300">Você é um usuário de teste: seus treinos não entram no ranking.</p>
+        ) : mine ? (
           <p className="text-lg">
             Você está em <strong className="text-baga-cream">{mine.position}º</strong> com {fmt(mine.score, 1)} pontos
             ({fmt(mine.decisions)} decisões, {fmt(mine.accuracy, 1)}% de acerto).
