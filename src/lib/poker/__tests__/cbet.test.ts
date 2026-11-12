@@ -239,6 +239,9 @@ test("BB vs Cbet flop: guide vs EP mão a mão nos boards da planilha", async ()
   assert.equal(vc("6d5c", "AsTh8s"), "vc-fold");
   assert.equal(vc("6s5s", "AsTh8s"), "vc-call"); // flush draw
   assert.equal(vc("6c6d", "AsTh8s"), "vc-fold");
+  // duas pontas também continua (52 no 764: 3 ou 8); gutshot sozinho não
+  assert.equal(vc("5c2c", "7d6s4d"), "vc-call");
+  assert.equal(vc("9h3c", "AhKdJc"), "vc-fold");
   assert.equal(vsCbetAnswer(c("Jh7h"), c("AhKdJc"))?.category, "2nd e 3rd pair (Kx, Jx)");
   assert.equal(VS_CBET_BOARDS.length, 28);
   assert.ok(!VS_CBET_BOARDS.some((b) => b.label === "ST MMM"), "987 é spot de lead");
