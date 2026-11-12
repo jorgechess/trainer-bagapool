@@ -149,3 +149,18 @@ export function effectiveInputs(options: readonly string[], bindings: Bindings):
   }
   return out;
 }
+
+/**
+ * Mesma ação com ids diferentes na legenda (ex.: "Fold" do pré-flop e do vs cbet) fica num grupo só:
+ * a tecla vale para todos os ids do grupo.
+ */
+export function assignGroup(bindings: Bindings, commands: readonly string[], input: string): Bindings {
+  if (commands.length === 0) return bindings;
+  const next = assignBinding(bindings, commands[0], input);
+  for (const command of commands.slice(1)) next[command] = input;
+  return next;
+}
+
+export function clearGroup(bindings: Bindings, commands: readonly string[]): Bindings {
+  return commands.reduce((acc, command) => clearBinding(acc, command), bindings);
+}

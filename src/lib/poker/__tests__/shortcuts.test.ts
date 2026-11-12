@@ -84,3 +84,16 @@ test("uma tecla nunca vale para dois botões: números padrão pulam teclas que 
   // Número que é atalho de uma ação ausente no spot também fica reservado
   assert.equal(effectiveInputs(["fold", "rfi"], { shove: "key:Digit1" }).fold, "key:Digit2");
 });
+
+test("grupo de ações com o mesmo nome: a tecla vale para todos os ids e sai de outro comando", async () => {
+  const { assignGroup, clearGroup } = await import("../../shortcuts");
+  const start = { "bet-25": "key:KeyQ", outro: "key:KeyF" };
+  const next = assignGroup(start, ["fold", "vc-fold"], "key:KeyF");
+  assert.equal(next.fold, "key:KeyF");
+  assert.equal(next["vc-fold"], "key:KeyF");
+  assert.equal(next.outro, undefined, "a tecla sai do comando antigo");
+  assert.equal(next["bet-25"], "key:KeyQ");
+  const cleared = clearGroup(next, ["fold", "vc-fold"]);
+  assert.equal(cleared.fold, undefined);
+  assert.equal(cleared["vc-fold"], undefined);
+});

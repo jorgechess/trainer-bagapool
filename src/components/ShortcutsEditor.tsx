@@ -7,8 +7,8 @@ import {
   CONTINUE_COMMAND,
   PEEK_COMMAND,
   SHORTCUTS_KEY,
-  assignBinding,
-  clearBinding,
+  assignGroup,
+  clearGroup,
   inputLabel,
   isReservedInput,
   keyInput,
@@ -49,7 +49,7 @@ export function ShortcutsEditor({ legend }: { legend: Legend }) {
         return;
       }
       setBindings((current) => {
-        const next = assignBinding(current, command, input);
+        const next = assignGroup(current, groupOf(command), input);
         save(next);
         return next;
       });
@@ -81,11 +81,21 @@ export function ShortcutsEditor({ legend }: { legend: Legend }) {
     };
   }, [capturing]);
 
-  const rows: { command: string; label: string; color?: string }[] = [
-    ...legend.map((a) => ({ command: a.id, label: a.label, color: a.color })),
-    { command: CONTINUE_COMMAND, label: "Continuar (próxima decisão ou mão)" },
-    { command: PEEK_COMMAND, label: "Mostrar / esconder resposta" },
+  // Ações com o mesmo nome (ex.: dois "Fold" ou dois "Bet 25%" de drills diferentes) viram uma linha só
+  const groups = new Map<string, { command: string; label: string; color?: string; ids: string[] }>();
+  for (const a of legend) {
+    const key = a.label.trim().toLowerCase();
+    const g = groups.get(key);
+    if (g) g.ids.push(a.id);
+    else groups.set(key, { command: a.id, label: a.label, color: a.color, ids: [a.id] });
+  }
+  const rows: { command: string; label: string; color?: string; ids: string[] }[] = [
+    ...groups.values(),
+    { command: CONTINUE_COMMAND, label: "Continuar (próxima decisão ou mão)", ids: [CONTINUE_COMMAND] },
+    { command: PEEK_COMMAND, label: "Mostrar / esconder resposta", ids: [PEEK_COMMAND] },
   ];
+  const groupOf = (command: string) => rows.find((r) => r.command === command)?.ids ?? [command];
+  const bound = (row: { ids: string[] }) => row.ids.map((id) => bindings[id]).find(Boolean);
 
   return (
     <div className="space-y-4">
@@ -108,7 +118,7 @@ export function ShortcutsEditor({ legend }: { legend: Legend }) {
               {capturing === row.command ? (
                 <span className="text-baga-red">Pressione a tecla ou o botão…</span>
               ) : loaded ? (
-                inputLabel(bindings[row.command])
+                inputLabel(bound(row))
               ) : (
                 "…"
               )}
@@ -123,10 +133,10 @@ export function ShortcutsEditor({ legend }: { legend: Legend }) {
             <button
               type="button"
               className="btn-secondary px-3 py-1.5"
-              disabled={!bindings[row.command]}
+              disabled={!bound(row)}
               onClick={() =>
                 setBindings((current) => {
-                  const next = clearBinding(current, row.command);
+                  const next = clearGroup(current, row.ids);
                   save(next);
                   return next;
                 })

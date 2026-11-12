@@ -350,6 +350,10 @@ async function main() {
     await page.getByTestId("atalho-fold").getByRole("button", { name: "Definir" }).click();
     await page.keyboard.press("KeyF");
     await page.getByTestId("atalho-fold").getByText("F", { exact: true }).waitFor();
+    // Ações com o mesmo nome aparecem uma vez só
+    for (const nome of ["Fold", "Bet 25%", "Bet 40%"]) {
+      assert.ok((await page.locator("[data-testid^=atalho-]").getByText(nome, { exact: true }).count()) <= 1, `${nome} sem linha repetida`);
+    }
     await page.getByTestId("atalho-continuar").getByRole("button", { name: "Definir" }).click();
     await page.keyboard.press("KeyE");
     await page.getByTestId("atalho-continuar").getByText("E", { exact: true }).waitFor();
