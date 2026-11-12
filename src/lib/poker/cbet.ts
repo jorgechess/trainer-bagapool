@@ -140,7 +140,7 @@ export function flopRuleFor(spec: CbetSpec, board: readonly Card[]): FlopRule | 
   }
   if (spec.table === "bb-vs-cbet") {
     const guide = findVsCbetBoard(board);
-    return guide ? { group: "vc", label: `Board ${guide.label} (guide vs EP)`, mode: "split", size: "check" } : null;
+    return guide ? { group: "vc", label: `Board ${guide.label}`, mode: "split", size: "check" } : null;
   }
   if (spec.table === "bb-probe") return bbProbeRule(board, spec.node);
   if (spec.table === "bb-lead") return bbLeadRule(board, spec.node);
