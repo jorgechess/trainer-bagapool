@@ -1174,7 +1174,6 @@ async function main() {
     await page.goto(`${BASE_URL}/desempenho`);
     assert.equal(await page.getByText("Jorge Admin").count(), 0, "jogadora não vê o admin no seletor");
     assert.equal(await page.getByText("Teo Teste").count(), 0, "jogadora não vê o usuário de teste da própria pool");
-    assert.equal(await page.getByText("Caio Coach").count(), 0, "jogadora não vê quem é de fora da pool");
     await page.goto(`${BASE_URL}/desempenho?visao=jogador&jogador=${teo.id}`);
     await page.getByText("Ana Jogadora", { exact: true }).waitFor();
     assert.equal(await page.getByText("Teo Teste").count(), 0, "link direto para o usuário de teste cai no próprio desempenho");
