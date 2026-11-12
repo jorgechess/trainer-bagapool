@@ -256,6 +256,7 @@ export const CARGAS: Carga[] = [
     id: "spots-vanilla",
     name: "Spots Vanilla",
     description: "Drills especiais: spots de torneios sem bounty rodados no HRC (mesa final e bolha).",
+    requires: [],
     bundle: spotsVanilla,
   },
 ];
