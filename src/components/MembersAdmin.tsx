@@ -206,7 +206,7 @@ function MemberRow({ profile, pools, isMe, isAdmin }: { profile: Profile; pools:
               autoCapitalize="none"
               spellCheck={false}
             />
-            <span className="shrink-0 whitespace-nowrap">
+            <span className="flex h-[38px] shrink-0 items-center whitespace-nowrap">
               <PoolChip pool={pools.find((p) => p.id === profile.poolId) ?? null} compact />
             </span>
           </div>
