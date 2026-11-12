@@ -1147,7 +1147,7 @@ async function main() {
     await rv.fill("#password", "senha-admin-123");
     await rv.getByRole("button", { name: "Entrar" }).click();
     await rv.waitForURL(`${BASE_URL}/`);
-    await rv.goto(`${BASE_URL}/drills/pedidos`);
+    await rv.goto(`${BASE_URL}/drills/pedidos?status=todos`);
     const pedido = rv.getByTestId("pedido").filter({ hasText: "Squeeze do BTN (e2e)" });
     await pedido.waitFor();
     assert.equal(await pedido.locator("img").count(), 1, "admin vê o print do pedido");
