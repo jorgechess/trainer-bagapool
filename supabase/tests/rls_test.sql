@@ -172,6 +172,45 @@ do $$ begin
 end $$;
 reset role;
 
+-- Pedidos de drill: cada um cria e vê os seus; quem gerencia conteúdo vê todos e responde
+set role authenticated;
+set request.jwt.claim.sub = '10000000-0000-0000-0000-000000000003';
+insert into public.drill_requests (id, title, description) values
+  ('20000000-0000-0000-0000-000000000001', 'Drill de squeeze', 'Quero treinar squeeze do BTN vs open e call.');
+insert into public.drill_request_images (request_id, mime, data) values
+  ('20000000-0000-0000-0000-000000000001', 'image/png', 'iVBORw0KGgo=');
+do $$ begin
+  assert (select count(*) from public.drill_requests) = 1, 'Ana vê o próprio pedido';
+  assert (select count(*) from public.drill_request_images) = 1, 'Ana vê o print do próprio pedido';
+  begin
+    insert into public.drill_requests (user_id, title, description)
+    values ('10000000-0000-0000-0000-000000000004', 'Em nome da Bia', 'Pedido criado em nome de outra pessoa.');
+    raise exception 'Ana criou pedido em nome da Bia';
+  exception when insufficient_privilege or check_violation then null;
+  end;
+  update public.drill_requests set status = 'aprovado' where id = '20000000-0000-0000-0000-000000000001';
+  assert (select status from public.drill_requests where id = '20000000-0000-0000-0000-000000000001') = 'novo',
+    'jogadora não muda o status do pedido';
+end $$;
+reset role;
+set role authenticated;
+set request.jwt.claim.sub = '10000000-0000-0000-0000-000000000004';
+do $$ begin
+  assert (select count(*) from public.drill_requests) = 0, 'Bia não vê o pedido da Ana';
+  assert (select count(*) from public.drill_request_images) = 0, 'Bia não vê os prints da Ana';
+end $$;
+reset role;
+set role authenticated;
+set request.jwt.claim.sub = '10000000-0000-0000-0000-000000000007';
+do $$ begin
+  assert (select count(*) from public.drill_requests) = 1, 'mentor vê todos os pedidos';
+  update public.drill_requests set status = 'em_analise', reply = 'Entra na próxima semana.'
+  where id = '20000000-0000-0000-0000-000000000001';
+  assert (select status from public.drill_requests where id = '20000000-0000-0000-0000-000000000001') = 'em_analise',
+    'mentor responde o pedido';
+end $$;
+reset role;
+
 -- Jogador desativado perde o acesso
 update public.profiles set active = false where email = 'caio@t.com';
 set role authenticated;

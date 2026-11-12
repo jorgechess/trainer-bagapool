@@ -61,12 +61,19 @@ Envia a cada `NEXT_PUBLIC_DECISION_BATCH` decisões (padrão 5), a cada 10s, ao 
 esconder ou sair da página. Sem conexão, a fila fica no `localStorage` (`trainer:fila-decisoes`) e vai
 na próxima tentativa; itens de outra aba são adotados depois de 30s.
 
+## `GET /api/pedidos/imagem/:id`
+
+Devolve um print de um pedido de drill (PNG, JPEG ou WebP). Só responde para quem pode ver o pedido
+(quem pediu ou quem gerencia conteúdo), pelo RLS de `drill_request_images`; os outros recebem 404.
+
 ## Server Actions
 
 | Ação | Arquivo | Permissão | Efeito |
 | --- | --- | --- | --- |
 | `loginAddress(identificador)` | `app/login/actions.ts` | Pública | Converte nick no e-mail interno da conta (não revela se o nick existe) |
 | `changePassword(senha, confirmação)` | `app/trocar-senha/actions.ts` | Logado | Troca a senha provisória |
+| `createDrillRequest({ title, description, images })` | `app/(app)/drills/novo/actions.ts` | Logado | Pedido de drill com até 6 prints |
+| `reviewDrillRequest({ id, status, reply })` | `app/(app)/drills/novo/actions.ts` | Gestão de conteúdo | Análise semanal: status e resposta |
 | `recordDecisions(submissão)` | `app/(app)/drills/actions.ts` | Logado | Grava uma mão (compatibilidade; o treino usa `/api/decisoes`) |
 | `saveDrill`, `archiveDrill` | `app/(app)/drills/actions.ts` | Gestão de conteúdo | Cria/edita/arquiva drill; invalida o cache |
 | `saveStrategy`, `deleteStrategy` | `app/(app)/estrategias/actions.ts` | Gestão de conteúdo | Cria/edita/remove estratégia (bloqueia se usada); invalida o cache |

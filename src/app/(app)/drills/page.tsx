@@ -18,11 +18,16 @@ export default async function DrillsPage() {
           <h1 className="page-title">Drills</h1>
           <p className="muted">Escolha um drill e treine as estratégias do time.</p>
         </div>
-        {manager && (
+        <div className="flex gap-2">
+          {manager && (
+            <Link href="/drills/pedidos" className="btn-secondary">
+              Pedidos
+            </Link>
+          )}
           <Link href="/drills/novo" className="btn-primary">
             Novo drill
           </Link>
-        )}
+        </div>
       </div>
 
       {drills.length === 0 ? (

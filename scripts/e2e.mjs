@@ -150,7 +150,7 @@ async function main() {
     log("editor de estratégias abre pré-flop e pós-flop");
 
     // 6. Cria um drill pelo formulário (pré-flop até o flop)
-    await page.goto(`${BASE_URL}/drills/novo`);
+    await page.goto(`${BASE_URL}/drills/novo/manual`);
     await page.locator("input").first().fill("RFI até o flop");
     await page.getByRole("button", { name: /Modo avançado/ }).click();
     const select = page.locator("select").filter({ hasText: "Escolha uma estratégia" });
@@ -425,7 +425,7 @@ async function main() {
     log("atalhos de teclado e mouse definidos pelo jogador funcionam (inclusive teclado numérico)");
 
     // Drill novo escolhendo spot e posições pelos botões
-    await page.goto(`${BASE_URL}/drills/novo`);
+    await page.goto(`${BASE_URL}/drills/novo/manual`);
     await page.locator("input").first().fill("RFI 30bb CO e BTN");
     await page.locator("select").filter({ hasText: "Escolha o spot" }).selectOption({ label: "RFI · 30bb (pré-flop)" });
     for (const pos of ["UTG", "UTG1", "MP", "LJ", "HJ"]) await page.getByRole("button", { name: pos, exact: true }).click();
@@ -1123,6 +1123,48 @@ async function main() {
     assert.equal(await page.getByTestId("seletor-pool").count(), 0, "jogadora não escolhe outras pools");
     await page.goto(`${BASE_URL}/desempenho?visao=pools&pool=00000000-0000-0000-0000-000000000000`);
     assert.match(await page.getByTestId("pool-desempenho").innerText(), /Pool A/, "pool de outro id cai na própria");
+
+    // Novo drill = pedido: jogadora apresenta o drill e anexa um print; o admin analisa e responde
+    const png = Buffer.from(
+      "iVBORw0KGgoAAAANSUhEUgAAAAQAAAAECAIAAAAmkwkpAAAAFUlEQVR4XmP8v2QJAwwwwVkMDHg4AHM9Ak9JsxTQAAAAAElFTkSuQmCC",
+      "base64",
+    );
+    await page.goto(`${BASE_URL}/drills`);
+    await page.getByRole("link", { name: "Novo drill" }).click();
+    await page.getByTestId("pedido-drill").waitFor();
+    await page.getByLabel("Nome do drill").fill("Squeeze do BTN (e2e)");
+    await page.getByLabel("Apresente o drill").fill("Quero treinar squeeze do BTN contra open do CO e call do HJ com 25bb.");
+    await page.getByTestId("pedido-arquivos").setInputFiles({ name: "range.png", mimeType: "image/png", buffer: png });
+    await page.getByTestId("pedido-prints").locator("img").waitFor();
+    await page.getByRole("button", { name: "Enviar pedido" }).click();
+    await page.getByText(/Pedido enviado/).waitFor();
+    await page.getByTestId("meus-pedidos").getByText("Squeeze do BTN (e2e)").waitFor();
+    assert.equal(await page.getByRole("link", { name: "Criar manualmente" }).count(), 0, "jogadora não cria drill direto");
+    const reviewer = await browser.newContext({ viewport: { width: 1280, height: 900 } });
+    const rv = await reviewer.newPage();
+    await rv.goto(`${BASE_URL}/login`);
+    await rv.fill("#login", "admin@e2e.com");
+    await rv.fill("#password", "senha-admin-123");
+    await rv.getByRole("button", { name: "Entrar" }).click();
+    await rv.waitForURL(`${BASE_URL}/`);
+    await rv.goto(`${BASE_URL}/drills/pedidos`);
+    const pedido = rv.getByTestId("pedido").filter({ hasText: "Squeeze do BTN (e2e)" });
+    await pedido.waitFor();
+    assert.equal(await pedido.locator("img").count(), 1, "admin vê o print do pedido");
+    const imgOk = await pedido.locator("img").evaluate((img) => img.complete && img.naturalWidth > 0);
+    assert.ok(imgOk, "print carrega pela rota protegida");
+    await rv.getByTestId("semana-pedidos").first().waitFor();
+    await rv.screenshot({ path: `${OUT}/77-pedidos-de-drill.png`, fullPage: true });
+    await pedido.locator("select").selectOption("aprovado");
+    await pedido.getByLabel("Resposta para quem pediu").fill("Entra na próxima semana.");
+    await pedido.getByRole("button", { name: "Salvar" }).click();
+    await pedido.getByText("Salvo.").waitFor();
+    await reviewer.close();
+    await page.reload();
+    await page.getByTestId("meus-pedidos").getByText(/Aprovado/).waitFor();
+    await page.getByTestId("meus-pedidos").getByText("Resposta: Entra na próxima semana.").waitFor();
+    await page.screenshot({ path: `${OUT}/77-novo-drill-pedido.png`, fullPage: true });
+    log("pedido de drill: jogadora envia com print, admin aprova e responde");
     await page.goto(`${BASE_URL}/plano`);
     await page.getByRole("heading", { name: /Plano/i }).first().waitFor();
     assert.equal(await page.getByTestId("acrescentar-drill-plano").count(), 0, "jogadora não mexe nos drills do plano");

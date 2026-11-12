@@ -102,6 +102,7 @@ conteúdo compartilhado para o cache e marcação de `content_version`.
 | `0005_ranking.sql` | Índice `attempts (created_at)` e RPC `monthly_ranking` (ranking mensal) |
 | `0006_pools_nameless_underdogz.sql` | Pools Nameless e Underdogz |
 | `0007_ranking_mesa_final.sql` | `monthly_ranking` passa a contar os drills especiais; fica fora só a tag `fora-do-ranking` |
+| `0008_pedidos_drill.sql` | Tabelas `drill_requests` e `drill_request_images` (pedidos de drill com prints) e RLS |
 
 Regras para migrações novas: numeração sequencial, idempotentes (`if not exists`, blocos `do $$`),
 nunca editar uma migração já aplicada, e cobrir permissões novas em `supabase/tests/rls_test.sql`.
