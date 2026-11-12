@@ -1047,7 +1047,32 @@ async function main() {
     const teoAttempt = await fetch(`${API_URL}/rest/v1/attempts`, {
       method: "POST",
       headers: adminHeaders,
-      body: JSON.stringify([{ user_id: teo.id, drill_id: "rfi-30bb-vanilla-todas", strategy_id: "e2e-teste", correct: true, data: {} }]),
+      body: JSON.stringify([
+        {
+          user_id: teo.id,
+          drill_id: "rfi-30bb-vanilla-todas",
+          strategy_id: "e2e-teste",
+          correct: true,
+          data: {
+            drillId: "rfi-30bb-vanilla-todas",
+            strategyId: "e2e-teste",
+            strategyName: "RFI BTN",
+            situation: "RFI",
+            street: "preflop",
+            heroPosition: "BTN",
+            stackLabel: "30bb",
+            ratioLabel: null,
+            tags: [],
+            hand: "AKs",
+            heroCards: ["Ah", "Kh"],
+            board: [],
+            chosenActionId: "raise",
+            correctActionId: "raise",
+            correct: true,
+            createdAt: new Date().toISOString(),
+          },
+        },
+      ]),
     });
     assert.ok(teoAttempt.ok, `tentativa do usuário de teste: ${teoAttempt.status}`);
     await page.goto(`${BASE_URL}/ranking`);
