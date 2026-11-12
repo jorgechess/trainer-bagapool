@@ -97,7 +97,7 @@ function Chips({ amount }: { amount: number }) {
   return (
     <>
       <span className="h-[1.1em] w-[1.1em] rounded-full border-2 border-dashed border-white bg-sky-600" />
-      <span className="font-semibold text-white">{amount.toLocaleString("pt-BR")}</span>
+      <span className="font-semibold text-white">{oneDecimal(amount)}</span>
     </>
   );
 }
@@ -356,7 +356,7 @@ export function PokerTable({
           <SeatView
             key={seat.position}
             seat={seat}
-            stack={remaining ? `${remaining[seat.position]!.toLocaleString("pt-BR")}bb` : stack}
+            stack={remaining ? `${remaining[seat.position]!.toLocaleString("pt-BR", { maximumFractionDigits: 1 })}bb` : stack}
             heroCards={heroCards}
             shape={shape}
             raiseLabel={raiseLabel}
@@ -439,4 +439,10 @@ function FinalTableFelt({ inset, site }: { inset: string; site?: string | null }
       </div>
     </div>
   );
+}
+
+/** Fichas apostadas com uma casa decimal, cortando o resto (1,86 → 1,8; 0,5 fica 0,5). */
+function oneDecimal(value: number): string {
+  const cut = Math.floor(value * 10 + 1e-9) / 10;
+  return cut.toLocaleString("pt-BR", { maximumFractionDigits: 1 });
 }
