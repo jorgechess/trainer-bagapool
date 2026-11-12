@@ -36,7 +36,7 @@ function Feedback({ result }: { result: ActionResult | null }) {
 
 function PoolSelect({ pools, value, onChange }: { pools: Pool[]; value: string; onChange: (v: string) => void }) {
   return (
-    <select className="input" value={value} onChange={(e) => onChange(e.target.value)}>
+    <select className="input h-[38px]" value={value} onChange={(e) => onChange(e.target.value)}>
       <option value="">Sem pool</option>
       {pools.map((p) => (
         <option key={p.id} value={p.id}>
@@ -49,7 +49,7 @@ function PoolSelect({ pools, value, onChange }: { pools: Pool[]; value: string; 
 
 function RoleSelect({ value, onChange }: { value: Role; onChange: (v: Role) => void }) {
   return (
-    <select className="input" value={value} onChange={(e) => onChange(e.target.value as Role)}>
+    <select className="input h-[38px]" value={value} onChange={(e) => onChange(e.target.value as Role)}>
       {ROLES.map((r) => (
         <option key={r} value={r}>
           {ROLE_LABELS[r]}
