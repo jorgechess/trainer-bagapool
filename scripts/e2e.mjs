@@ -1044,6 +1044,7 @@ async function main() {
     assert.equal(await form.getByTestId("usuario-teste").locator("input").isChecked(), false, "marca volta desmarcada");
     await page.reload();
     await page.locator(".card").filter({ has: page.locator("input[value='teo_teste']") }).getByTestId("selo-teste").waitFor();
+    await shot(page, "jogadores-usuario-teste");
     const teoAttempt = await fetch(`${API_URL}/rest/v1/attempts`, {
       method: "POST",
       headers: adminHeaders,

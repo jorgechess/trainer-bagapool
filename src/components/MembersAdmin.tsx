@@ -206,14 +206,10 @@ function MemberRow({ profile, pools, isMe, isAdmin }: { profile: Profile; pools:
               autoCapitalize="none"
               spellCheck={false}
             />
-            <PoolChip pool={pools.find((p) => p.id === profile.poolId) ?? null} compact />
+            <span className="shrink-0 whitespace-nowrap">
+              <PoolChip pool={pools.find((p) => p.id === profile.poolId) ?? null} compact />
+            </span>
           </div>
-          {profile.mustChangePassword && <p className="mt-1 text-xs text-amber-400">Ainda com senha provisória</p>}
-          {profile.isTest && (
-            <p className="mt-1 text-xs font-semibold text-sky-400" data-testid="selo-teste">
-              Usuário de teste
-            </p>
-          )}
         </div>
         {isAdmin ? (
           <>
@@ -237,7 +233,20 @@ function MemberRow({ profile, pools, isMe, isAdmin }: { profile: Profile; pools:
           Ativo
         </label>
       </div>
-      {isAdmin && !isMe && <TestUserCheckbox checked={isTest} onChange={setIsTest} />}
+      {/* Avisos e marca de teste numa linha própria, para não desalinhar os campos acima */}
+      {(profile.mustChangePassword || profile.isTest || (isAdmin && !isMe)) && (
+        <div className="flex flex-wrap items-center gap-x-4 gap-y-1">
+          {isAdmin && !isMe && <TestUserCheckbox checked={isTest} onChange={setIsTest} />}
+          {profile.isTest && (
+            <span className="rounded bg-sky-500/15 px-2 py-0.5 text-xs font-semibold text-sky-400" data-testid="selo-teste">
+              Usuário de teste
+            </span>
+          )}
+          {profile.mustChangePassword && (
+            <span className="rounded bg-amber-500/15 px-2 py-0.5 text-xs text-amber-400">Ainda com senha provisória</span>
+          )}
+        </div>
+      )}
       <div className="flex flex-wrap items-center gap-2">
         <button className="btn-primary px-3 py-1.5" onClick={save} disabled={!dirty || pending}>
           Salvar
