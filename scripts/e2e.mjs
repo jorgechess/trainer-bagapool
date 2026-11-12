@@ -849,7 +849,7 @@ async function main() {
     assert.equal(await page.getByRole("group", { name: "Stack" }).count(), 0, "Mesa Final: sem filtro de stack");
     await page.getByRole("group", { name: "Mãos da sessão" }).waitFor();
     const brief = page.getByTestId("enunciado-especial");
-    await brief.getByText(/Bounty Hunters (Sunday Hyper Special|Deepstack Turbo) \$54|Daily Legends Predator|One Shot MAIN/).waitFor();
+    await brief.getByText(/Bounty Hunters (Sunday Hyper Special|Deepstack Turbo) \$54|Daily Legends Predator|One Shot MAIN|Bounty Builder \$22/).waitFor();
     await brief.getByText(/restantes/).waitFor();
     
     assert.equal(await page.getByTestId("feltro").first().getAttribute("data-feltro"), "roxo", "feltro roxo na Mesa Final");

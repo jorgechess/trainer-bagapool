@@ -902,3 +902,29 @@ test("Spots Vanilla (Q7 no SB) e Mesa Final (QJs e JTs) do One Shot ¥660", asyn
   assert.equal(map.get("van-os660-5l-bb-vs-btn-shove")!.range.JTs, "call");
   assert.equal(tableState(map.get("van-os660-5l-btn-shove")!, 1).seats.length, 5);
 });
+
+test("Mesa Final: Bounty Builder $22 da PokerStars (KJo no UTG e 86o no BB)", async () => {
+  const { validateDrill } = await import("../drill");
+  const { tableState } = await import("../table");
+  const { payLadder } = await import("../payjumps");
+  const ft = parseImportBundle(load("maos-rodadores.json"), DEFAULT_LEGEND);
+  assert.deepEqual(ft.errors, []);
+  const map = new Map(ft.strategies.map((s) => [s.id, s]));
+  assert.deepEqual(validateDrill(ft.drills[0], map), []);
+  const utg = map.get("pko-bb22-14l-utg")!;
+  assert.equal(utg.range.KJo, "shove");
+  assert.equal(utg.range.AA, "rfi-hrc-2bb");
+  assert.deepEqual(tableState(utg, 1).seats.map((s) => s.position), ["UTG", "MP", "HJ", "CO", "BTN", "SB", "BB"]);
+  assert.equal(map.get("pko-bb22-11l-hj-shove")!.range.K9o, "shove");
+  assert.equal(map.get("pko-bb22-11l-hj-shove")!.range["22"] ?? "fold", "fold");
+  assert.equal(map.get("pko-bb22-11l-sb-vs-hj")!.range.J3s, "call");
+  const bb = map.get("pko-bb22-11l-bb-vs-hj-sb")!;
+  assert.equal(bb.range["86o"] ?? "fold", "fold");
+  assert.equal(bb.range.T9s, "call");
+  const seats = tableState(bb, 1).seats;
+  assert.equal(seats.length, 5);
+  assert.equal(seats.find((s) => s.position === "SB")!.status, "called");
+  // 11 restantes: 11º garantido, próximo degrau é o 10º (mesmo prêmio)
+  const ladder = payLadder(bb.special!.payouts!, 11);
+  assert.equal(ladder.guaranteed?.place, 11);
+});
