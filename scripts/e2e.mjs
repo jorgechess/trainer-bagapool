@@ -655,6 +655,8 @@ async function main() {
       await page.getByTestId("hero-cards").waitFor();
       await page.locator("[data-testid=actions]").getByRole("button", { name: "Limp" }).click();
       await page.getByRole("button", { name: /Continuar/ }).click();
+      // Espera a tela seguinte (segunda decisão ou mão nova) antes de olhar
+      await page.getByText(/decisão 2 de 2|decisão 1 de/).first().waitFor({ timeout: 4000 }).catch(() => {});
       if (await page.getByText(/decisão 2 de 2/).count()) {
         segundaDecisao = true;
         await page.getByText(/^(All-in|ISO) · |^All-in$/).first().waitFor();
