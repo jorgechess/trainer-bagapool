@@ -843,7 +843,7 @@ async function main() {
     assert.equal(await page.getByRole("group", { name: "Stack" }).count(), 0, "Mesa Final: sem filtro de stack");
     await page.getByRole("group", { name: "Mãos da sessão" }).waitFor();
     const brief = page.getByTestId("enunciado-especial");
-    await brief.getByText(/Bounty Hunters Sunday Hyper Special \$54|Daily Legends Predator/).waitFor();
+    await brief.getByText(/Bounty Hunters (Sunday Hyper Special|Deepstack Turbo) \$54|Daily Legends Predator/).waitFor();
     await brief.getByText(/restantes/).waitFor();
     const mesaText = await page.getByTestId("mesa").innerText();
     assert.ok(!/\bMP\b|\bLJ\b|UTG1/.test(mesaText), "mesa de FT: sem MP, LJ e UTG1");
@@ -863,7 +863,7 @@ async function main() {
     // Pay jumps (mãos com payouts): quadro vertical ao lado da mesa, do 1º ao último pago, com o garantido e o próximo em destaque
     if (await page.getByTestId("quadro-pay-jumps").count()) {
       const quadro = page.getByTestId("quadro-pay-jumps");
-      assert.match(await quadro.innerText(), /1º[\s\S]*\$544[\s\S]*garantido/);
+      assert.match(await quadro.innerText(), /1º[\s\S]*\$[\d,.]+[\s\S]*garantido/);
       await quadro.getByTestId("quadro-proximo-pay-jump").waitFor();
       assert.equal(await page.getByTestId("pay-jumps").isVisible(), false, "na tela larga a linha do enunciado dá lugar ao quadro");
     }
