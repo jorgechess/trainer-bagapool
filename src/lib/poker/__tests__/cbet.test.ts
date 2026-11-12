@@ -241,6 +241,9 @@ test("BB vs Cbet flop: guide vs EP mão a mão nos boards da planilha", async ()
   assert.equal(vc("6c6d", "AsTh8s"), "vc-fold");
   // duas pontas também continua (52 no 764: 3 ou 8); gutshot sozinho não
   assert.equal(vc("5c2c", "7d6s4d"), "vc-call");
+  // HMM (Q76 two-tone): duplo BD nuts só com o A do naipe do board
+  assert.equal(vsCbetAnswer(c("AdTc"), c("Qd7d6c"))?.category, "AXo/KXo com duplo BD nuts");
+  assert.notEqual(vsCbetAnswer(c("Ac4d"), c("Qd7d6c"))?.category, "AXo/KXo com duplo BD nuts");
   assert.equal(vc("9h3c", "AhKdJc"), "vc-fold");
   assert.equal(vsCbetAnswer(c("Jh7h"), c("AhKdJc"))?.category, "2nd e 3rd pair (Kx, Jx)");
   assert.equal(VS_CBET_BOARDS.length, 28);

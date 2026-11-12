@@ -42,6 +42,8 @@ export interface VsCbetFeatures {
   gutshot: boolean;
   /** Backdoor de flush com o herói. */
   bdFlush: boolean;
+  /** Backdoor de flush nuts: a carta do herói no naipe do backdoor é a maior que falta nele (o A, ou o K com o A no board). */
+  bdNuts: boolean;
   bdStraight: boolean;
   /** Tem carta no naipe que aparece 2+ vezes no board (o "naipe" da planilha). */
   hasBoardSuit: boolean;
@@ -105,6 +107,14 @@ export function vsCbetFeatures(hero: readonly Card[], flop: readonly Card[]): Vs
   const oesd = !straight && heroHelps && outs >= 2;
   const gutshot = !straight && heroHelps && outs === 1;
   const bdFlush = !flush && !flushDraw && hero.some((c) => suitCount(cardSuit(c)) === 3);
+  const bdNuts = hero.some((c) => {
+    const suit = cardSuit(c);
+    if (suitCount(suit) !== 3 || flush || flushDraw) return false;
+    const seen = new Set([...hero, ...board].filter((x) => cardSuit(x) === suit).map((x) => v(cardRank(x))));
+    let top = 14;
+    while (top > 2 && seen.has(top) && top !== v(cardRank(c))) top--;
+    return v(cardRank(c)) === top;
+  });
   let bdStraight = false;
   const rs = withAce(all);
   const heroRs = withAce(hv);
@@ -135,6 +145,7 @@ export function vsCbetFeatures(hero: readonly Card[], flop: readonly Card[]): Vs
     oesd,
     gutshot,
     bdFlush,
+    bdNuts,
     bdStraight,
     hasBoardSuit: mainSuit !== null && hero.some((c) => cardSuit(c) === mainSuit),
   };
@@ -242,7 +253,7 @@ export const VS_CBET_BOARDS: VsCbetBoard[] = [
       ["2 pontas", (f) => f.oesd, C],
       ["Broca suited", (f) => f.gutshot && f.suited, C],
       ["Broca off (inclusive AJ e AT)", (f) => f.gutshot, R],
-      ["A-low off com BD nuts", (f) => f.hi === 14 && f.lo <= 7 && !f.suited && f.bdFlush && f.suitCards.length === 0 && f.hasBoardSuit, R],
+      ["A-low off com BD nuts", (f) => f.hi === 14 && f.lo <= 7 && !f.suited && f.bdNuts, R],
     ],
   },
   {
@@ -270,7 +281,7 @@ export const VS_CBET_BOARDS: VsCbetBoard[] = [
       ["2 pontas", (f) => f.oesd, C],
       ["Piores brocas (95, 84, 43)", (f) => f.gutshot && is("95", "84", "43")(f), R],
       ["Melhores brocas", (f) => f.gutshot, C],
-      ["AXo/KXo com duplo BD nuts", (f) => !f.suited && f.hi >= 13 && dbd(f) && f.hasBoardSuit, R],
+      ["AXo/KXo com duplo BD nuts", (f) => !f.suited && f.hi >= 13 && dbd(f) && f.bdNuts, R],
       ["Broadway off com duplo BD", (f) => !f.suited && broadways(f) && dbd(f), C],
     ],
   },
