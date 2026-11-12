@@ -1079,7 +1079,7 @@ async function main() {
     await page.getByTestId("ranking-voce").waitFor();
     assert.equal(await page.getByText("Teo Teste").count(), 0, "usuário de teste fora do ranking (nem no a caminho)");
     await page.goto(`${BASE_URL}/desempenho?visao=jogador&jogador=${teo.id}`);
-    await page.getByText("Teo Teste").first().waitFor();
+    await page.getByText("Teo Teste", { exact: true }).waitFor();
     await shot(page, "usuario-teste-admin");
     log("admin cadastra usuário de teste: fora do ranking e visível para o admin");
 
@@ -1176,7 +1176,7 @@ async function main() {
     assert.equal(await page.getByText("Teo Teste").count(), 0, "jogadora não vê o usuário de teste da própria pool");
     assert.equal(await page.getByText("Caio Coach").count(), 0, "jogadora não vê quem é de fora da pool");
     await page.goto(`${BASE_URL}/desempenho?visao=jogador&jogador=${teo.id}`);
-    await page.getByText("Olá, Ana").or(page.getByText("Ana Jogadora")).first().waitFor();
+    await page.getByText("Ana Jogadora", { exact: true }).waitFor();
     assert.equal(await page.getByText("Teo Teste").count(), 0, "link direto para o usuário de teste cai no próprio desempenho");
     await page.goto(`${BASE_URL}/desempenho`);
     // Jogadora vê o desempenho da própria pool (e só dela)
