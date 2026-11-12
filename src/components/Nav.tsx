@@ -29,7 +29,7 @@ export function Nav({ name, pool, canManageContent, canManageMembers }: NavProps
     { href: "/atalhos", label: "Atalhos" },
     ...(canManageContent
       ? [
-          { href: "/estrategias", label: "Estratégias" },
+          // Estratégias fica fora do menu por enquanto (a página continua em /estrategias)
           { href: "/legenda", label: "Legenda" },
           { href: "/admin/standards", label: "Standards" },
         ]
