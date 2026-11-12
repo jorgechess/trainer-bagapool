@@ -877,21 +877,26 @@ test("PKO Spots e Mesa Final: mãos do SB (Q3o), HJ com K8s e HJ com AQo na FT",
   assert.deepEqual(["UTG1", "MP", "LJ"].map((p) => positionLabel(p as "MP", ftHj.special)), ["EP", "MP1", "MP2"]);
 });
 
-test("Spots Vanilla: One Shot ¥660 com Q7 no SB, QJs no SB vs CO e JTs no BB vs all-in do BTN", async () => {
+test("Spots Vanilla (Q7 no SB) e Mesa Final (QJs e JTs) do One Shot ¥660", async () => {
   const { validateDrill } = await import("../drill");
   const { drillSection } = await import("../sections");
   const { tableState } = await import("../table");
-  const r = parseImportBundle(load("spots-vanilla.json"), DEFAULT_LEGEND);
-  assert.deepEqual(r.errors, []);
-  const map = new Map(r.strategies.map((s) => [s.id, s]));
-  assert.deepEqual(validateDrill(r.drills[0], map), []);
-  assert.equal(drillSection(r.drills[0], map), "especiais");
-  assert.equal(r.drills[0].name, "Spots Vanilla");
+  const van = parseImportBundle(load("spots-vanilla.json"), DEFAULT_LEGEND);
+  const ft = parseImportBundle(load("maos-rodadores.json"), DEFAULT_LEGEND);
+  assert.deepEqual([van.errors, ft.errors], [[], []]);
+  const map = new Map([...van.strategies, ...ft.strategies].map((s) => [s.id, s]));
+  assert.deepEqual(validateDrill(van.drills[0], map), []);
+  assert.deepEqual(validateDrill(ft.drills[0], map), []);
+  assert.equal(drillSection(van.drills[0], map), "especiais");
+  assert.equal(van.strategies.length, 3, "Spots Vanilla fica só com a mão do Q7");
   const sb = map.get("van-os660-9l-sb")!;
   assert.equal(sb.range.Q7o ?? "fold", "fold");
   assert.equal(sb.range.A2o, "shove");
   assert.deepEqual(tableState(sb, 1).seats.map((s) => s.position), ["CO", "BTN", "SB", "BB"]);
   assert.equal(map.get("van-os660-9l-bb-vs-shove")!.range["44"], "call");
+  // QJs e JTs foram para a Mesa Final
+  const ftIds = new Set(ft.strategies.map((s) => s.id));
+  for (const id of ["van-os660-7l-co-rfi", "van-os660-7l-sb-vs-co", "van-os660-5l-btn-shove", "van-os660-5l-bb-vs-btn-shove"]) assert.ok(ftIds.has(id), id);
   assert.equal(map.get("van-os660-7l-sb-vs-co")!.range.QJs ?? "fold", "fold");
   assert.equal(tableState(map.get("van-os660-7l-sb-vs-co")!, 1).seats.length, 7);
   assert.equal(map.get("van-os660-5l-bb-vs-btn-shove")!.range.JTs, "call");
