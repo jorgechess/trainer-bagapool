@@ -926,5 +926,5 @@ test("Mesa Final: Bounty Builder $22 da PokerStars (KJo no UTG e 86o no BB)", as
   assert.equal(seats.find((s) => s.position === "SB")!.status, "called");
   // 11 restantes: 11º garantido, próximo degrau é o 10º (mesmo prêmio)
   const ladder = payLadder(bb.special!.payouts!, 11);
-  assert.equal(ladder.guaranteed?.place, 11);
+  assert.equal(ladder?.guaranteed?.place, 11);
 });
