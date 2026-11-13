@@ -172,7 +172,7 @@ const both = (min: number, max: number) => (f: VsCbetFeatures) => f.hi <= max &&
 const broadways = (f: VsCbetFeatures) => f.lo >= 10 && !f.pocket;
 const strong: Rule = ["Dois pares ou melhor", (f) => f.strong, R];
 
-/** Os 28 boards da aba "vs EP" (o ST MMM foi para os spots de lead), com as regras de cada um em ordem (a primeira que bate decide; o resto é X/F). */
+/** Os 29 boards da aba "vs EP", com as regras de cada um em ordem (a primeira que bate decide; o resto é X/F). */
 export const VS_CBET_BOARDS: VsCbetBoard[] = [
   {
     cards: ["As", "Th", "8s"],
@@ -411,7 +411,20 @@ export const VS_CBET_BOARDS: VsCbetBoard[] = [
       ["Equidades diretas", (f) => f.oesd || f.gutshot, C],
     ],
   },
-  // ST MMM (987) saiu: é spot de lead do BB (BB Leads), não de enfrentar cbet
+  // ST MMM (987): o lead do BB é só em MLL e LLL, então o MMM fica aqui (vs cbet)
+  {
+    cards: ["9s", "8d", "7d"],
+    label: "ST MMM",
+    rules: [
+      strong,
+      ["Duas cartas entre J e 5", both(5, 11), R],
+      ["Pares do board sem redraw", (f) => f.pairedWith !== null, C],
+      ["OESD/GS com BD e low card suited (J3s, T2s)", (f) => (f.oesd || f.gutshot) && f.bdFlush && f.suited && f.lo <= 5, R],
+      ["Equidades diretas", draw, C],
+      ["Low pockets com BD", (f) => f.pocket && f.bdFlush, R],
+      ["A-low off com BD", (f) => f.hi === 14 && f.lo <= 5 && !f.suited && f.bdFlush, R],
+    ],
+  },
   {
     cards: ["7d", "6s", "4d"],
     label: "ST MML",

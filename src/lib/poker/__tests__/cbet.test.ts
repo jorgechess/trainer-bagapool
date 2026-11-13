@@ -246,8 +246,12 @@ test("BB vs Cbet flop: guide vs EP mão a mão nos boards da planilha", async ()
   assert.notEqual(vsCbetAnswer(c("Ac4d"), c("Qd7d6c"))?.category, "AXo/KXo com duplo BD nuts");
   assert.equal(vc("9h3c", "AhKdJc"), "vc-fold");
   assert.equal(vsCbetAnswer(c("Jh7h"), c("AhKdJc"))?.category, "2nd e 3rd pair (Kx, Jx)");
-  assert.equal(VS_CBET_BOARDS.length, 28);
-  assert.ok(!VS_CBET_BOARDS.some((b) => b.label === "ST MMM"), "987 é spot de lead");
+  assert.equal(VS_CBET_BOARDS.length, 29);
+  // ST MMM (987) volta: o lead do BB é só em MLL e LLL
+  assert.equal(findVsCbetBoard(c("9s8d7d"))?.label, "ST MMM");
+  assert.equal(vc("JhTc", "9s8d7d"), "vc-raise", "sequência");
+  assert.equal(vc("9h4c", "9s8d7d"), "vc-call", "par do board sem redraw");
+  assert.equal(vc("Kh2c", "9s8d7d"), "vc-fold", "air sem draw");
   // naipes trocados mantendo a estrutura acham o mesmo board
   assert.equal(findVsCbetBoard(c("AhTd8h"))?.label, "AHM");
   assert.equal(findVsCbetBoard(c("AhTh8d")), null, "outra estrutura de naipes não é o mesmo board");
