@@ -903,14 +903,16 @@ test("Spots Vanilla (Q7 no SB) e Mesa Final (QJs e JTs) do One Shot ¥660", asyn
   assert.equal(tableState(map.get("van-os660-5l-btn-shove")!, 1).seats.length, 5);
 });
 
-test("Mesa Final: Bounty Builder $22 da PokerStars (KJo no UTG e 86o no BB)", async () => {
+test("PKO Spots: Bounty Builder $22 da PokerStars (KJo no UTG e 86o no BB), fora da Mesa Final", async () => {
   const { validateDrill } = await import("../drill");
   const { tableState } = await import("../table");
   const { payLadder } = await import("../payjumps");
+  const pko = parseImportBundle(load("pko-spots.json"), DEFAULT_LEGEND);
   const ft = parseImportBundle(load("maos-rodadores.json"), DEFAULT_LEGEND);
-  assert.deepEqual(ft.errors, []);
-  const map = new Map(ft.strategies.map((s) => [s.id, s]));
-  assert.deepEqual(validateDrill(ft.drills[0], map), []);
+  assert.deepEqual([pko.errors, ft.errors], [[], []]);
+  const map = new Map(pko.strategies.map((s) => [s.id, s]));
+  assert.deepEqual(validateDrill(pko.drills[0], map), []);
+  assert.ok(!ft.strategies.some((s) => s.id.startsWith("pko-bb22")), "não é mesa final");
   const utg = map.get("pko-bb22-14l-utg")!;
   assert.equal(utg.range.KJo, "shove");
   assert.equal(utg.range.AA, "rfi-hrc-2bb");

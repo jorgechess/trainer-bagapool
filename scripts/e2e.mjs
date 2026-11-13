@@ -849,7 +849,7 @@ async function main() {
     assert.equal(await page.getByRole("group", { name: "Stack" }).count(), 0, "Mesa Final: sem filtro de stack");
     await page.getByRole("group", { name: "Mãos da sessão" }).waitFor();
     const brief = page.getByTestId("enunciado-especial");
-    await brief.getByText(/Bounty Hunters (Sunday Hyper Special|Deepstack Turbo) \$54|Daily Legends Predator|One Shot MAIN|Bounty Builder \$22/).waitFor();
+    await brief.getByText(/Bounty Hunters (Sunday Hyper Special|Deepstack Turbo) \$54|Daily Legends Predator|One Shot MAIN/).waitFor();
     await brief.getByText(/restantes/).waitFor();
     
     assert.equal(await page.getByTestId("feltro").first().getAttribute("data-feltro"), "roxo", "feltro roxo na Mesa Final");
@@ -897,12 +897,19 @@ async function main() {
     await page.goto(`${BASE_URL}/drills`);
     await page.getByTestId("secao-especiais").getByText("PKO Spots").waitFor();
     await page.goto(`${BASE_URL}/drills/pko-spots/treinar`);
-    await page.getByTestId("enunciado-especial").getByText(/Bounty Hunters Deepstack Turbo \$(21\.60|54)/).waitFor();
+    const briefPko = page.getByTestId("enunciado-especial");
+    await briefPko.getByText(/Bounty Hunters Deepstack Turbo \$(21\.60|54)|Bounty Builder \$22/).waitFor();
     const mesaPko = await page.getByTestId("mesa").innerText();
-    assert.match(mesaPko, /\bEP\b/, "lugar EP como no HRC");
-    assert.ok(!/UTG1|\bLJ\b/.test(mesaPko), "mesa 8-max sem UTG1 e LJ");
-    assert.equal(await page.getByTestId("mesa").getByTestId("bounty-tag").count(), 8, "bounty nos 8 lugares");
-    await page.getByTestId("marca-site").locator("img[src='/sites/ggpoker.png']").waitFor();
+    const seatsPko = await page.getByTestId("mesa").getByTestId("bounty-tag").count();
+    if (/Bounty Hunters/.test(await briefPko.innerText())) {
+      assert.match(mesaPko, /\bEP\b/, "lugar EP como no HRC");
+      assert.ok(!/UTG1|\bLJ\b/.test(mesaPko), "mesa 8-max sem UTG1 e LJ");
+      assert.equal(seatsPko, 8, "bounty nos 8 lugares");
+      await page.getByTestId("marca-site").locator("img[src='/sites/ggpoker.png']").waitFor();
+    } else {
+      assert.ok(seatsPko >= 5, "bounty em cada lugar");
+      await page.getByTestId("marca-site").locator("img[src='/sites/pokerstars.png']").waitFor();
+    }
     await shot(page, "treino-pko-spots");
     log("PKO Spots: Bounty Hunters Deepstack perto da bolha, mesa 8-max com EP");
 

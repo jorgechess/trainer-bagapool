@@ -6,6 +6,13 @@
       "color": "#f4511e",
       "kind": "raise",
       "sizing": "2bb"
+    },
+    {
+      "id": "raise-hrc-13-85bb",
+      "label": "Raise 13,85bb",
+      "color": "#8e24aa",
+      "kind": "raise",
+      "sizing": "13.85bb"
     }
   ],
   "strategies": [
@@ -1693,6 +1700,1041 @@
         "call": "AA",
         "shove": "55"
       }
+    },
+    {
+      "id": "pko-bb22-14l-utg",
+      "name": "Bounty Builder $22 · UTG first in com 13,3bb (14 left)",
+      "description": "Mão rodada no HRC: 14 restantes, mesa com 7. Você é o primeiro a agir no UTG com 13,3bb; o MP tem só 1,1bb.",
+      "street": "preflop",
+      "situation": "PKO · ITM",
+      "heroPosition": "UTG",
+      "villainPosition": null,
+      "stack": {
+        "min": 13.3,
+        "max": 13.3
+      },
+      "ratio": null,
+      "bubble": null,
+      "tags": [
+        "especial",
+        "pko-spots"
+      ],
+      "actionIds": [
+        "fold",
+        "rfi-hrc-2bb",
+        "shove"
+      ],
+      "defaultActionId": "fold",
+      "tablePot": 2.62,
+      "special": {
+        "caseId": "bb22-14left-utg-kj",
+        "tournament": {
+          "name": "Bounty Builder $22, $8K Gtd",
+          "logo": null,
+          "site": "PokerStars",
+          "format": "PKO · Progressive KO",
+          "buyIn": "$22",
+          "playersLeft": 14,
+          "entrants": 472,
+          "itm": 79,
+          "blinds": "2.500/5.000",
+          "ante": 0.16,
+          "averageStack": 33.7
+        },
+        "players": 7,
+        "stacks": {
+          "UTG": 13.3,
+          "MP": 1.1,
+          "HJ": 25.3,
+          "CO": 11.5,
+          "BTN": 21.1,
+          "SB": 52.2,
+          "BB": 53.8
+        },
+        "bounties": {
+          "UTG": "$13.75",
+          "MP": "$36.25",
+          "HJ": "$35.63",
+          "CO": "$57.03",
+          "BTN": "$10",
+          "SB": "$64.22",
+          "BB": "$29.53"
+        },
+        "riskPremium": {
+          "positions": [
+            "UTG",
+            "MP",
+            "HJ",
+            "CO",
+            "BTN",
+            "SB",
+            "BB"
+          ],
+          "cells": [
+            [
+              null,
+              {
+                "factor": 0.21,
+                "premium": -32.3
+              },
+              {
+                "factor": 1.07,
+                "premium": 5.9
+              },
+              {
+                "factor": 0.73,
+                "premium": -7.7
+              },
+              {
+                "factor": 1.26,
+                "premium": 5.8
+              },
+              {
+                "factor": 1.3,
+                "premium": 6.5
+              },
+              {
+                "factor": 1.3,
+                "premium": 6.5
+              }
+            ],
+            [
+              {
+                "factor": 1.07,
+                "premium": 1.6
+              },
+              null,
+              {
+                "factor": 1.07,
+                "premium": 1.7
+              },
+              {
+                "factor": 1.06,
+                "premium": 1.6
+              },
+              {
+                "factor": 1.07,
+                "premium": 1.7
+              },
+              {
+                "factor": 1.07,
+                "premium": 1.8
+              },
+              {
+                "factor": 1.07,
+                "premium": 1.8
+              }
+            ],
+            [
+              {
+                "factor": 0.99,
+                "premium": -0.3
+              },
+              {
+                "factor": 0.2,
+                "premium": -33.7
+              },
+              null,
+              {
+                "factor": 0.67,
+                "premium": -10.0
+              },
+              {
+                "factor": 1.15,
+                "premium": 3.6
+              },
+              {
+                "factor": 1.38,
+                "premium": 8.0
+              },
+              {
+                "factor": 1.38,
+                "premium": 8.1
+              }
+            ],
+            [
+              {
+                "factor": 1.24,
+                "premium": 5.3
+              },
+              {
+                "factor": 0.22,
+                "premium": -32.0
+              },
+              {
+                "factor": 1.26,
+                "premium": 5.7
+              },
+              null,
+              {
+                "factor": 1.25,
+                "premium": 5.6
+              },
+              {
+                "factor": 1.28,
+                "premium": 6.2
+              },
+              {
+                "factor": 1.28,
+                "premium": 6.2
+              }
+            ],
+            [
+              {
+                "factor": 1.0,
+                "premium": 0.1
+              },
+              {
+                "factor": 0.2,
+                "premium": -33.3
+              },
+              {
+                "factor": 1.32,
+                "premium": 6.8
+              },
+              {
+                "factor": 0.68,
+                "premium": -9.5
+              },
+              null,
+              {
+                "factor": 1.35,
+                "premium": 7.5
+              },
+              {
+                "factor": 1.36,
+                "premium": 7.6
+              }
+            ],
+            [
+              {
+                "factor": 0.93,
+                "premium": -1.9
+              },
+              {
+                "factor": 0.17,
+                "premium": -35.4
+              },
+              {
+                "factor": 0.95,
+                "premium": -1.2
+              },
+              {
+                "factor": 0.61,
+                "premium": -12.2
+              },
+              {
+                "factor": 1.05,
+                "premium": 1.2
+              },
+              null,
+              {
+                "factor": 1.52,
+                "premium": 10.3
+              }
+            ],
+            [
+              {
+                "factor": 0.93,
+                "premium": -1.9
+              },
+              {
+                "factor": 0.17,
+                "premium": -35.5
+              },
+              {
+                "factor": 0.95,
+                "premium": -1.3
+              },
+              {
+                "factor": 0.6,
+                "premium": -12.3
+              },
+              {
+                "factor": 1.05,
+                "premium": 1.2
+              },
+              {
+                "factor": 1.23,
+                "premium": 5.2
+              },
+              null
+            ]
+          ]
+        },
+        "payouts": [
+          {
+            "place": "1º",
+            "prize": "$724.19"
+          },
+          {
+            "place": "2º",
+            "prize": "$723.81"
+          },
+          {
+            "place": "3º",
+            "prize": "$436.86"
+          },
+          {
+            "place": "4º",
+            "prize": "$314.79"
+          },
+          {
+            "place": "5º",
+            "prize": "$226.83"
+          },
+          {
+            "place": "6º",
+            "prize": "$163.45"
+          },
+          {
+            "place": "7º",
+            "prize": "$117.78"
+          },
+          {
+            "place": "8º",
+            "prize": "$84.87"
+          },
+          {
+            "place": "9º",
+            "prize": "$71.62"
+          },
+          {
+            "place": "10º",
+            "prize": "$60.43"
+          },
+          {
+            "place": "11º",
+            "prize": "$60.43"
+          },
+          {
+            "place": "12º",
+            "prize": "$51.00"
+          },
+          {
+            "place": "13º",
+            "prize": "$51.00"
+          },
+          {
+            "place": "14º",
+            "prize": "$43.03"
+          }
+        ],
+        "source": "Rodado no HRC pelos rodadores do time",
+        "note": "Na mão real você estava no UTG com K♣J♦. O HRC vai de all-in com KJo (100%): com 13,3bb e o MP com 1,1bb, o open de 2bb fica para AA, KK, QQ, AKs e mãos como ATs, A2s, Q9s, QJo, KTo, T9s e A8o."
+      },
+      "range": {
+        "rfi-hrc-2bb": "AA, AKs, ATs, A2s, KK, QQ, Q9s, QJo, JTs, KTo, T9s, A8o, A7o",
+        "shove": "AQs, AJs, A9s, A8s, A7s, A6s, A5s, A4s, A3s, AKo, KQs, KJs, KTs, K9s, AQo, KQo, QJs, QTs, AJo, KJo, JJ, ATo, TT, A9o, 99, 88, 77, 66, 55, 44"
+      },
+      "alsoCorrect": {
+        "rfi-hrc-2bb": "A9s, A9o, 66",
+        "shove": "JTs, A8o",
+        "fold": "A7o"
+      }
+    },
+    {
+      "id": "pko-bb22-11l-hj-shove",
+      "name": "Bounty Builder $22 · HJ first in com 5,6bb (11 left)",
+      "description": "Mão rodada no HRC: 11 restantes, mesa com 5. Você está no HJ com 5,6bb e é o primeiro a agir.",
+      "street": "preflop",
+      "situation": "PKO · ITM",
+      "heroPosition": "HJ",
+      "villainPosition": null,
+      "stack": {
+        "min": 5.6,
+        "max": 5.6
+      },
+      "ratio": null,
+      "bubble": null,
+      "tags": [
+        "especial",
+        "pko-spots"
+      ],
+      "actionIds": [
+        "fold",
+        "rfi-hrc-2bb",
+        "shove"
+      ],
+      "defaultActionId": "fold",
+      "tablePot": 2.25,
+      "special": {
+        "caseId": "bb22-11left-bb-86",
+        "tournament": {
+          "name": "Bounty Builder $22, $8K Gtd",
+          "logo": null,
+          "site": "PokerStars",
+          "format": "PKO · Progressive KO",
+          "buyIn": "$22",
+          "playersLeft": 11,
+          "entrants": 472,
+          "itm": 79,
+          "blinds": "3.000/6.000",
+          "ante": 0.15,
+          "averageStack": 35.7
+        },
+        "players": 5,
+        "stacks": {
+          "HJ": 5.6,
+          "CO": 19.8,
+          "BTN": 65.3,
+          "SB": 44.0,
+          "BB": 14.0
+        },
+        "bounties": {
+          "HJ": "$35.63",
+          "CO": "$10",
+          "BTN": "$92.73",
+          "SB": "$47.66",
+          "BB": "$13.75"
+        },
+        "riskPremium": {
+          "positions": [
+            "HJ",
+            "CO",
+            "BTN",
+            "SB",
+            "BB"
+          ],
+          "cells": [
+            [
+              null,
+              {
+                "factor": 1.09,
+                "premium": 2.1
+              },
+              {
+                "factor": 1.12,
+                "premium": 2.7
+              },
+              {
+                "factor": 1.11,
+                "premium": 2.6
+              },
+              {
+                "factor": 1.08,
+                "premium": 2.0
+              }
+            ],
+            [
+              {
+                "factor": 0.62,
+                "premium": -11.8
+              },
+              null,
+              {
+                "factor": 1.34,
+                "premium": 7.2
+              },
+              {
+                "factor": 1.31,
+                "premium": 6.8
+              },
+              {
+                "factor": 1.04,
+                "premium": 1.1
+              }
+            ],
+            [
+              {
+                "factor": 0.54,
+                "premium": -15.1
+              },
+              {
+                "factor": 1.03,
+                "premium": 0.7
+              },
+              null,
+              {
+                "factor": 1.12,
+                "premium": 2.8
+              },
+              {
+                "factor": 0.94,
+                "premium": -1.6
+              }
+            ],
+            [
+              {
+                "factor": 0.56,
+                "premium": -13.9
+              },
+              {
+                "factor": 1.07,
+                "premium": 1.8
+              },
+              {
+                "factor": 1.54,
+                "premium": 10.6
+              },
+              null,
+              {
+                "factor": 0.97,
+                "premium": -0.8
+              }
+            ],
+            [
+              {
+                "factor": 0.64,
+                "premium": -11.1
+              },
+              {
+                "factor": 1.2,
+                "premium": 4.6
+              },
+              {
+                "factor": 1.26,
+                "premium": 5.8
+              },
+              {
+                "factor": 1.24,
+                "premium": 5.4
+              },
+              null
+            ]
+          ]
+        },
+        "payouts": [
+          {
+            "place": "1º",
+            "prize": "$724.19"
+          },
+          {
+            "place": "2º",
+            "prize": "$723.81"
+          },
+          {
+            "place": "3º",
+            "prize": "$436.86"
+          },
+          {
+            "place": "4º",
+            "prize": "$314.79"
+          },
+          {
+            "place": "5º",
+            "prize": "$226.83"
+          },
+          {
+            "place": "6º",
+            "prize": "$163.45"
+          },
+          {
+            "place": "7º",
+            "prize": "$117.78"
+          },
+          {
+            "place": "8º",
+            "prize": "$84.87"
+          },
+          {
+            "place": "9º",
+            "prize": "$71.62"
+          },
+          {
+            "place": "10º",
+            "prize": "$60.43"
+          },
+          {
+            "place": "11º",
+            "prize": "$60.43"
+          },
+          {
+            "place": "12º",
+            "prize": "$51.00"
+          },
+          {
+            "place": "13º",
+            "prize": "$51.00"
+          },
+          {
+            "place": "14º",
+            "prize": "$43.03"
+          }
+        ],
+        "source": "Rodado no HRC pelos rodadores do time",
+        "note": "Na mão real o HJ foi all-in com 5,6bb, o SB pagou e você largou 8♥6♣ no BB. Com 5,6bb o HJ não abre 2bb: é all-in ou fold (todo Ax suited, A4o+, K7s+, K9o+, Q9s+, QTo+, JTs e 33+)."
+      },
+      "range": {
+        "shove": "AA, AKs, AQs, AJs, ATs, A9s, A8s, A7s, A6s, A5s, A4s, A3s, A2s, AKo, KK, KQs, KJs, KTs, K9s, K8s, K7s, AQo, KQo, QQ, QJs, QTs, Q9s, AJo, KJo, QJo, JJ, JTs, ATo, KTo, QTo, TT, A9o, K9o, 99, A8o, 88, A7o, 77, A6o, 66, A5o, 55, A4o, 44, 33"
+      },
+      "alsoCorrect": {
+        "fold": "K9o"
+      }
+    },
+    {
+      "id": "pko-bb22-11l-sb-vs-hj",
+      "name": "Bounty Builder $22 · SB vs all-in do HJ (11 left)",
+      "description": "Mão rodada no HRC: 11 restantes. O HJ foi all-in com 5,6bb, CO e BTN largaram e você está no SB com 44bb; o BB tem 14bb.",
+      "street": "preflop",
+      "situation": "PKO · ITM",
+      "heroPosition": "SB",
+      "villainPosition": "HJ",
+      "stack": {
+        "min": 44.0,
+        "max": 44.0
+      },
+      "ratio": null,
+      "bubble": null,
+      "tags": [
+        "especial",
+        "pko-spots"
+      ],
+      "actionIds": [
+        "fold",
+        "call",
+        "raise-hrc-13-85bb"
+      ],
+      "defaultActionId": "fold",
+      "tablePot": 7.7,
+      "tableSizes": {
+        "open": 5.45
+      },
+      "villainLabel": "All-in",
+      "special": {
+        "caseId": "bb22-11left-bb-86",
+        "tournament": {
+          "name": "Bounty Builder $22, $8K Gtd",
+          "logo": null,
+          "site": "PokerStars",
+          "format": "PKO · Progressive KO",
+          "buyIn": "$22",
+          "playersLeft": 11,
+          "entrants": 472,
+          "itm": 79,
+          "blinds": "3.000/6.000",
+          "ante": 0.15,
+          "averageStack": 35.7
+        },
+        "players": 5,
+        "stacks": {
+          "HJ": 5.6,
+          "CO": 19.8,
+          "BTN": 65.3,
+          "SB": 44.0,
+          "BB": 14.0
+        },
+        "bounties": {
+          "HJ": "$35.63",
+          "CO": "$10",
+          "BTN": "$92.73",
+          "SB": "$47.66",
+          "BB": "$13.75"
+        },
+        "riskPremium": {
+          "positions": [
+            "HJ",
+            "CO",
+            "BTN",
+            "SB",
+            "BB"
+          ],
+          "cells": [
+            [
+              null,
+              {
+                "factor": 1.09,
+                "premium": 2.1
+              },
+              {
+                "factor": 1.12,
+                "premium": 2.7
+              },
+              {
+                "factor": 1.11,
+                "premium": 2.6
+              },
+              {
+                "factor": 1.08,
+                "premium": 2.0
+              }
+            ],
+            [
+              {
+                "factor": 0.62,
+                "premium": -11.8
+              },
+              null,
+              {
+                "factor": 1.34,
+                "premium": 7.2
+              },
+              {
+                "factor": 1.31,
+                "premium": 6.8
+              },
+              {
+                "factor": 1.04,
+                "premium": 1.1
+              }
+            ],
+            [
+              {
+                "factor": 0.54,
+                "premium": -15.1
+              },
+              {
+                "factor": 1.03,
+                "premium": 0.7
+              },
+              null,
+              {
+                "factor": 1.12,
+                "premium": 2.8
+              },
+              {
+                "factor": 0.94,
+                "premium": -1.6
+              }
+            ],
+            [
+              {
+                "factor": 0.56,
+                "premium": -13.9
+              },
+              {
+                "factor": 1.07,
+                "premium": 1.8
+              },
+              {
+                "factor": 1.54,
+                "premium": 10.6
+              },
+              null,
+              {
+                "factor": 0.97,
+                "premium": -0.8
+              }
+            ],
+            [
+              {
+                "factor": 0.64,
+                "premium": -11.1
+              },
+              {
+                "factor": 1.2,
+                "premium": 4.6
+              },
+              {
+                "factor": 1.26,
+                "premium": 5.8
+              },
+              {
+                "factor": 1.24,
+                "premium": 5.4
+              },
+              null
+            ]
+          ]
+        },
+        "payouts": [
+          {
+            "place": "1º",
+            "prize": "$724.19"
+          },
+          {
+            "place": "2º",
+            "prize": "$723.81"
+          },
+          {
+            "place": "3º",
+            "prize": "$436.86"
+          },
+          {
+            "place": "4º",
+            "prize": "$314.79"
+          },
+          {
+            "place": "5º",
+            "prize": "$226.83"
+          },
+          {
+            "place": "6º",
+            "prize": "$163.45"
+          },
+          {
+            "place": "7º",
+            "prize": "$117.78"
+          },
+          {
+            "place": "8º",
+            "prize": "$84.87"
+          },
+          {
+            "place": "9º",
+            "prize": "$71.62"
+          },
+          {
+            "place": "10º",
+            "prize": "$60.43"
+          },
+          {
+            "place": "11º",
+            "prize": "$60.43"
+          },
+          {
+            "place": "12º",
+            "prize": "$51.00"
+          },
+          {
+            "place": "13º",
+            "prize": "$51.00"
+          },
+          {
+            "place": "14º",
+            "prize": "$43.03"
+          }
+        ],
+        "source": "Rodado no HRC pelos rodadores do time",
+        "note": "Na mão real o HJ foi all-in com 5,6bb, o SB pagou e você largou 8♥6♣ no BB. No SB, o HRC isola com raise de 13,85bb (cobre o BB) com mais da metade das mãos; o call fica só para J3s e mistos com AA, KK."
+      },
+      "range": {
+        "raise-hrc-13-85bb": "AA, AKs, AQs, AJs, ATs, A9s, A8s, A7s, A6s, A5s, A4s, A3s, A2s, AKo, KK, KQs, KJs, KTs, K9s, K8s, K7s, K6s, K5s, K4s, K3s, K2s, AQo, KQo, QQ, QJs, QTs, Q9s, Q8s, Q7s, Q6s, Q5s, Q4s, Q3s, Q2s, AJo, KJo, QJo, JJ, JTs, J9s, J8s, J7s, J6s, J5s, J4s, ATo, KTo, QTo, JTo, TT, T9s, T8s, T7s, T6s, T5s, A9o, K9o, Q9o, J9o, T9o, 99, 98s, 97s, 96s, 95s, A8o, K8o, Q8o, J8o, T8o, 98o, 88, 87s, 86s, 85s, 84s, A7o, K7o, 97o, 87o, 77, 76s, 75s, 74s, A6o, K6o, 76o, 66, 65s, 64s, 63s, A5o, K5o, 55, 54s, 53s, A4o, 44, 43s, A3o, 33, A2o, 22",
+        "call": "J3s"
+      },
+      "alsoCorrect": {
+        "call": "AA, KK, J6s, J2s, 63s",
+        "raise-hrc-13-85bb": "J3s"
+      }
+    },
+    {
+      "id": "pko-bb22-11l-bb-vs-hj-sb",
+      "name": "Bounty Builder $22 · BB vs all-in do HJ + call do SB (11 left)",
+      "description": "Mão rodada no HRC: 11 restantes. O HJ foi all-in com 5,6bb, o SB pagou e você está no BB com 14bb.",
+      "street": "preflop",
+      "situation": "PKO · ITM",
+      "heroPosition": "BB",
+      "villainPosition": "HJ",
+      "stack": {
+        "min": 14.0,
+        "max": 14.0
+      },
+      "ratio": null,
+      "bubble": null,
+      "tags": [
+        "especial",
+        "pko-spots"
+      ],
+      "actionIds": [
+        "fold",
+        "call",
+        "shove"
+      ],
+      "defaultActionId": "fold",
+      "tablePot": 12.65,
+      "tableSizes": {
+        "open": 5.45
+      },
+      "villainLabel": "All-in",
+      "callers": [
+        "SB"
+      ],
+      "special": {
+        "caseId": "bb22-11left-bb-86",
+        "tournament": {
+          "name": "Bounty Builder $22, $8K Gtd",
+          "logo": null,
+          "site": "PokerStars",
+          "format": "PKO · Progressive KO",
+          "buyIn": "$22",
+          "playersLeft": 11,
+          "entrants": 472,
+          "itm": 79,
+          "blinds": "3.000/6.000",
+          "ante": 0.15,
+          "averageStack": 35.7
+        },
+        "players": 5,
+        "stacks": {
+          "HJ": 5.6,
+          "CO": 19.8,
+          "BTN": 65.3,
+          "SB": 44.0,
+          "BB": 14.0
+        },
+        "bounties": {
+          "HJ": "$35.63",
+          "CO": "$10",
+          "BTN": "$92.73",
+          "SB": "$47.66",
+          "BB": "$13.75"
+        },
+        "riskPremium": {
+          "positions": [
+            "HJ",
+            "CO",
+            "BTN",
+            "SB",
+            "BB"
+          ],
+          "cells": [
+            [
+              null,
+              {
+                "factor": 1.09,
+                "premium": 2.1
+              },
+              {
+                "factor": 1.12,
+                "premium": 2.7
+              },
+              {
+                "factor": 1.11,
+                "premium": 2.6
+              },
+              {
+                "factor": 1.08,
+                "premium": 2.0
+              }
+            ],
+            [
+              {
+                "factor": 0.62,
+                "premium": -11.8
+              },
+              null,
+              {
+                "factor": 1.34,
+                "premium": 7.2
+              },
+              {
+                "factor": 1.31,
+                "premium": 6.8
+              },
+              {
+                "factor": 1.04,
+                "premium": 1.1
+              }
+            ],
+            [
+              {
+                "factor": 0.54,
+                "premium": -15.1
+              },
+              {
+                "factor": 1.03,
+                "premium": 0.7
+              },
+              null,
+              {
+                "factor": 1.12,
+                "premium": 2.8
+              },
+              {
+                "factor": 0.94,
+                "premium": -1.6
+              }
+            ],
+            [
+              {
+                "factor": 0.56,
+                "premium": -13.9
+              },
+              {
+                "factor": 1.07,
+                "premium": 1.8
+              },
+              {
+                "factor": 1.54,
+                "premium": 10.6
+              },
+              null,
+              {
+                "factor": 0.97,
+                "premium": -0.8
+              }
+            ],
+            [
+              {
+                "factor": 0.64,
+                "premium": -11.1
+              },
+              {
+                "factor": 1.2,
+                "premium": 4.6
+              },
+              {
+                "factor": 1.26,
+                "premium": 5.8
+              },
+              {
+                "factor": 1.24,
+                "premium": 5.4
+              },
+              null
+            ]
+          ]
+        },
+        "payouts": [
+          {
+            "place": "1º",
+            "prize": "$724.19"
+          },
+          {
+            "place": "2º",
+            "prize": "$723.81"
+          },
+          {
+            "place": "3º",
+            "prize": "$436.86"
+          },
+          {
+            "place": "4º",
+            "prize": "$314.79"
+          },
+          {
+            "place": "5º",
+            "prize": "$226.83"
+          },
+          {
+            "place": "6º",
+            "prize": "$163.45"
+          },
+          {
+            "place": "7º",
+            "prize": "$117.78"
+          },
+          {
+            "place": "8º",
+            "prize": "$84.87"
+          },
+          {
+            "place": "9º",
+            "prize": "$71.62"
+          },
+          {
+            "place": "10º",
+            "prize": "$60.43"
+          },
+          {
+            "place": "11º",
+            "prize": "$60.43"
+          },
+          {
+            "place": "12º",
+            "prize": "$51.00"
+          },
+          {
+            "place": "13º",
+            "prize": "$51.00"
+          },
+          {
+            "place": "14º",
+            "prize": "$43.03"
+          }
+        ],
+        "source": "Rodado no HRC pelos rodadores do time",
+        "note": "Na mão real o HJ foi all-in com 5,6bb, o SB pagou e você largou 8♥6♣ no BB. O HRC larga 86o: com o SB na mão, o BB vai de all-in para isolar (Ax suited, A5o+, K7s+, KTo+, Q9s+, QJo, JTs e 44+) e só paga Q8s, J9s e T9s."
+      },
+      "range": {
+        "shove": "AA, AKs, AQs, AJs, ATs, A9s, A8s, A7s, A6s, A5s, A4s, A3s, A2s, AKo, KK, KQs, KJs, KTs, K9s, K8s, K7s, AQo, KQo, QQ, QJs, QTs, Q9s, AJo, KJo, QJo, JJ, JTs, ATo, KTo, TT, A9o, 99, A8o, 88, A7o, 77, A6o, 66, A5o, 55, 44",
+        "call": "Q8s, J9s, T9s"
+      },
+      "alsoCorrect": {
+        "fold": "Q8s, J9s, T9s",
+        "call": "JTs, 44",
+        "shove": "J9s"
+      }
     }
   ],
   "drills": [
@@ -1715,6 +2757,18 @@
         ],
         [
           "pko-bhds54-hj-vs-utg"
+        ],
+        [
+          "pko-bb22-14l-utg"
+        ],
+        [
+          "pko-bb22-11l-hj-shove"
+        ],
+        [
+          "pko-bb22-11l-sb-vs-hj"
+        ],
+        [
+          "pko-bb22-11l-bb-vs-hj-sb"
         ]
       ],
       "sampling": "fronteira",
