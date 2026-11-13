@@ -206,7 +206,7 @@ export const CARGAS: Carga[] = [
   {
     id: "bb-vs-cbet-flop",
     name: "BB vs Cbet Flop",
-    description: "Posflop Defense: BB 30bb vs HJ contra cbet de size baixo no flop (X/C, X/R 3x, X/F) pela guide do time.",
+    description: "Posflop Defense: BB 30bb vs UTG1 (EP) contra cbet de size baixo no flop (X/C, X/R 3x, X/F) pela guide do time.",
     requires: ["defesa-vanilla-deep"],
     bundle: bbVsCbetFlop,
   },

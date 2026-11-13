@@ -1,5 +1,5 @@
 /**
- * BB vs Cbet flop (Posflop Defense): guide do time "Guide BB vs cbet flop", aba vs EP (usada vs HJ 30bb).
+ * BB vs Cbet flop (Posflop Defense): guide do time "Guide BB vs cbet flop", aba vs EP (usada vs UTG1 30bb; vs LP terá estratégia própria).
  * Para cada board de exemplo da planilha, a mão do BB cai em X/C, X/R (size 3x) ou X/F contra o cbet de size baixo.
  * Os naipes do board são sorteados mantendo a estrutura (rainbow, two-tone, monotone), então as regras falam de
  * "naipe do board" e não de um naipe fixo.

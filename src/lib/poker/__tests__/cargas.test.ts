@@ -622,7 +622,7 @@ test("carga BB Probes: turn, probe + barrel no river, seção Posflop Defense", 
   assert.deepEqual([...answers.get("river-3s")!], ["bet-67"]);
 });
 
-test("carga BB vs Cbet flop: boards da guide, mãos do call vs HJ", async () => {
+test("carga BB vs Cbet flop: boards da guide, mãos do call vs UTG1", async () => {
   const { drillSection } = await import("../sections");
   const { dealQuestion, validateDrill } = await import("../drill");
   const { seededRng } = await import("../rng");
@@ -639,7 +639,7 @@ test("carga BB vs Cbet flop: boards da guide, mãos do call vs HJ", async () => 
   for (let i = 0; i < 300; i++) {
     const q = dealQuestion(drill, map, result.legend ?? DEFAULT_LEGEND, rng);
     assert.ok(findVsCbetBoard(q.steps[0].board), "flop é um board da planilha");
-    assert.equal(map.get("bb-def-30bb-vs-hj")!.range[q.hand], "call");
+    assert.equal(map.get("bb-def-30bb-vs-utg1")!.range[q.hand], "call");
     seen.add(q.steps[0].correctActionId);
   }
   assert.deepEqual([...seen].sort(), ["vc-call", "vc-fold", "vc-raise"]);
@@ -683,7 +683,7 @@ test("stacks no pós-flop descontam o que já foi pro pote (30bb no BB vira 27,9
   const t = tableState(s, 1234);
   assert.equal(t.remaining!.BB, 27.9, "30bb − 2bb do open defendido − 0,12bb de ante");
   const villain = t.villainStart!;
-  assert.equal(t.remaining!.HJ, Math.round((villain - 2.12 - 1.86) * 10) / 10, "vilão: open de 2bb + ante + cbet de 1,86bb (33% de 5,58) na frente");
+  assert.equal(t.remaining!.UTG1, Math.round((villain - 2.12 - 1.86) * 10) / 10, "vilão: open de 2bb + ante + cbet de 1,86bb (33% de 5,58) na frente");
   const bwbb = parseImportBundle(load("bw-bb.json"), DEFAULT_LEGEND);
   const pos = parseImportBundle(load("bw-bb-pos.json"), DEFAULT_LEGEND, bwbb.strategies);
   const river = pos.strategies.find((x) => x.id === "bw-bb-pos-iso-river")!;
