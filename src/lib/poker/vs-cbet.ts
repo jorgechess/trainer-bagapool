@@ -172,7 +172,7 @@ const both = (min: number, max: number) => (f: VsCbetFeatures) => f.hi <= max &&
 const broadways = (f: VsCbetFeatures) => f.lo >= 10 && !f.pocket;
 const strong: Rule = ["Dois pares ou melhor", (f) => f.strong, R];
 
-/** Os 29 boards da aba "vs EP", com as regras de cada um em ordem (a primeira que bate decide; o resto é X/F). */
+/** Os 28 boards da aba "vs EP" (o ST MMM foi para os spots de lead), com as regras de cada um em ordem (a primeira que bate decide; o resto é X/F). */
 export const VS_CBET_BOARDS: VsCbetBoard[] = [
   {
     cards: ["As", "Th", "8s"],
