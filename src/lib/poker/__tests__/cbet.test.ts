@@ -252,6 +252,21 @@ test("BB vs Cbet flop: guide vs EP mão a mão nos boards da planilha", async ()
   assert.equal(vc("JhTc", "9s8d7d"), "vc-raise", "sequência");
   assert.equal(vc("9h4c", "9s8d7d"), "vc-call", "par do board sem redraw");
   assert.equal(vc("Kh2c", "9s8d7d"), "vc-fold", "air sem draw");
+  // Pockets (range vs UTG1 tem 77–TT): entre as cartas do board paga; abaixo de tudo só com broca
+  assert.equal(vc("TcTd", "AhKdJc"), "vc-call", "TT no AKJ: broca");
+  assert.equal(vc("TcTd", "AsQd5h"), "vc-call", "TT no AQ5: 3rd pair");
+  assert.equal(vc("TcTd", "KsQd8s"), "vc-call", "TT no KQ8: 3rd pair");
+  assert.equal(vc("TcTh", "7d6s4d"), "vc-raise", "TT no 764: overpair");
+  assert.equal(vc("7c7d", "AsTh8s"), "vc-fold", "77 abaixo de tudo no AT8 sem broca");
+  // A-high
+  assert.equal(vc("AcQh", "KdKs3d"), "vc-call", "AQo no KK3: melhor A-high");
+  assert.equal(vc("Ad9c", "KdKs3d"), "vc-call", "Ax off com o A do naipe do board");
+  assert.equal(vc("Ac9h", "KdKs3d"), "vc-fold", "Ax off sem o A do naipe");
+  assert.equal(vc("AcJh", "8s7h3d"), "vc-call", "873: continua com bastante Ax");
+  assert.equal(vc("Ac5h", "8s7h3c"), "vc-fold", "873: A-low off larga");
+  assert.equal(vc("AdQc", "9s8d7d"), "vc-call", "987: AQ com backdoor");
+  assert.equal(vc("AhQc", "9s8d7d"), "vc-fold", "987: AQ sem backdoor");
+  assert.equal(vc("AhQc", "7s3s2s"), "vc-call", "732 monotone: AQ como A-high");
   // naipes trocados mantendo a estrutura acham o mesmo board
   assert.equal(findVsCbetBoard(c("AhTd8h"))?.label, "AHM");
   assert.equal(findVsCbetBoard(c("AhTh8d")), null, "outra estrutura de naipes não é o mesmo board");
@@ -271,7 +286,7 @@ test("BB vs Cbet flop: guide vs EP mão a mão nos boards da planilha", async ()
   assert.equal(vc("KdQc", "As9h3d"), "vc-fold");
   // K♠T♦3♥
   assert.equal(vc("QdJc", "KsTd3h"), "vc-raise"); // broadways
-  assert.equal(vc("8d8c", "KsTd3h"), "vc-fold"); // pocket médio
+  assert.equal(vc("8d8c", "KsTd3h"), "vc-call"); // pocket entre T e 3: joga como 3rd pair
   assert.equal(vc("4d4c", "KsTd3h"), "vc-raise"); // 55-
   // 7♠3♥2♦
   assert.equal(vc("Jd3c", "7s3h2d"), "vc-call"); // 3rd pair GK

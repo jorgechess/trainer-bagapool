@@ -348,6 +348,7 @@ export const VS_CBET_BOARDS: VsCbetBoard[] = [
       ["Broca / 2 pontas", (f) => f.oesd || f.gutshot, C],
       ["Duplo BD", dbd, R],
       ["Repping AA e A8 (ATo, K9s)", is("AT", "K9"), R],
+      ["A-high (todo Ax suited e A9o+)", (f) => f.hi === 14 && (f.suited || f.lo >= 9), C],
     ],
   },
   {
@@ -422,6 +423,7 @@ export const VS_CBET_BOARDS: VsCbetBoard[] = [
       ["OESD/GS com BD e low card suited (J3s, T2s)", (f) => (f.oesd || f.gutshot) && f.bdFlush && f.suited && f.lo <= 5, R],
       ["Equidades diretas", draw, C],
       ["Low pockets com BD", (f) => f.pocket && f.bdFlush, R],
+      ["AQ com backdoor de flush", (f) => is("AQ")(f) && f.bdFlush, C],
       ["A-low off com BD", (f) => f.hi === 14 && f.lo <= 5 && !f.suited && f.bdFlush, R],
     ],
   },
@@ -431,6 +433,7 @@ export const VS_CBET_BOARDS: VsCbetBoard[] = [
     rules: [
       strong,
       ["Duas cartas entre 8 e 3", both(3, 8), R],
+      ["Overpair", (f) => f.pocketSpot === "over", R],
       ["KQ/AJ+", is("KQ", "AK", "AQ", "AJ"), C],
       ["3rd pair kicker 9+", (f) => f.pairedWith !== null && f.kicker! >= 9, C],
       ["Broca pra cima", (f) => f.gutshot && f.hi >= 8, C],
@@ -451,7 +454,15 @@ export const VS_CBET_BOARDS: VsCbetBoard[] = [
   {
     cards: ["Kd", "Ks", "3d"],
     label: "DB HHL",
-    rules: [strong, ["Pockets e pares", anyPair, R], ["Equidades diretas", draw, R], ["Duplos BD", dbd, R]],
+    rules: [
+      strong,
+      ["Pockets e pares", anyPair, R],
+      ["Equidades diretas", draw, R],
+      ["Melhor A-high (AQ)", is("AQ"), C],
+      ["Duplos BD", dbd, R],
+      // O A do naipe do board (A♦ em K♦K♠3♦) é o backdoor de flush nuts
+      ["Ax off com backdoor de flush do A", (f) => f.hi === 14 && !f.suited && f.bdNuts, C],
+    ],
   },
   {
     cards: ["Qs", "7h", "7d"],
@@ -554,6 +565,7 @@ export const VS_CBET_BOARDS: VsCbetBoard[] = [
       ["Flush draw de broadway", (f) => f.flushDraw && broadways(f), C],
       ["Flush draw off", (f) => f.flushDraw, R],
       ["Broadway off com naipe", (f) => broadways(f) && f.hasBoardSuit, C],
+      ["AQ como A-high", is("AQ"), C],
     ],
   },
 ];
@@ -599,6 +611,9 @@ export function vsCbetAnswer(hero: readonly Card[], flop: readonly Card[]): VsCb
   if (!board) return null;
   const f = vsCbetFeatures(hero, flop);
   for (const [category, test, action] of board.rules) if (test(f)) return { action, category, board };
+  // Pockets (regra geral): entre as cartas do board joga como 2nd/3rd pair e paga; abaixo de tudo só paga com broca/2 pontas
+  if (f.pocketSpot === "between") return { action: "vc-call", category: "Pocket entre as cartas do board (2nd/3rd pair)", board };
+  if (f.pocketSpot === "under" && (f.gutshot || f.oesd)) return { action: "vc-call", category: "Pocket com broca", board };
   // Regra geral (todos os boards): sem par, só continua com draw direto (flush draw ou sequência de duas pontas).
   // Gutshot sozinho e backdoor sozinho são fold, a não ser que a regra do board fale deles (as regras do guide vêm antes)
   if (f.pairedWith === null && !f.pocket && (f.flushDraw || f.oesd)) {
