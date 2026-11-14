@@ -45,14 +45,23 @@ export default async function PerformancePage({
   ]);
   const period: Period = params.periodo && params.periodo in PERIODS ? (params.periodo as Period) : "mes";
   const drillById = new Map(drills.map((d) => [d.id, d]));
-  // Admin, coach e mentor veem todas as pools (as que mentoram primeiro); o jogador vê a própria pool
+  // Admin, coach e mentor veem todas as pools: a própria primeiro, depois as que mentora. O jogador vê a própria pool.
+  const poolRank = (id: string) => (id === viewer.poolId ? 0 : mentored.includes(id) ? 1 : 2);
   const poolOptions = canPools
-    ? [...pools].sort((a, b) => Number(mentored.includes(b.id)) - Number(mentored.includes(a.id)))
+    ? [...pools].sort((a, b) => poolRank(a.id) - poolRank(b.id))
     : pools.filter((p) => p.id === viewer.poolId);
   const hasPools = poolOptions.length > 0;
   const view =
-    hasPools && (params.visao === "pools" || (!params.visao && !params.jogador && mentored.length > 0)) ? "pools" : "jogador";
-  const selectedPool = poolOptions.find((p) => p.id === params.pool) ?? poolOptions[0];
+    hasPools &&
+    (params.visao === "pools" || (!params.visao && !params.jogador && (viewer.role === "mentor" || mentored.length > 0)))
+      ? "pools"
+      : "jogador";
+  // Filtro de pools: nenhuma marcada = todas; dá para marcar uma ou mais (?pool=a,b)
+  const chosen = new Set((params.pool ?? "").split(",").filter(Boolean));
+  const picked = poolOptions.filter((p) => chosen.has(p.id));
+  const shownPools = picked.length ? picked : poolOptions;
+  const poolsHref = (ids: string[]) =>
+    `/desempenho?visao=pools&periodo=${period}${ids.length ? `&pool=${ids.join(",")}` : ""}`;
 
   const header = (
     <div className="flex flex-wrap items-end justify-between gap-3">
@@ -98,48 +107,69 @@ export default async function PerformancePage({
     </div>
   );
 
-  if (view === "pools" && selectedPool) {
+  if (view === "pools" && shownPools.length) {
     // Usuários de teste não entram no resumo da pool
-    const members = profiles.filter((p) => p.active && !p.isTest && p.poolId === selectedPool.id);
+    const membersOf = (poolId: string) => profiles.filter((p) => p.active && !p.isTest && p.poolId === poolId);
     const attemptsByUser = await getAttemptsByUser(
-      members.map((p) => p.id),
+      shownPools.flatMap((pool) => membersOf(pool.id).map((p) => p.id)),
       sinceFor(period),
     );
-    const summary = poolSummary(selectedPool.id, members, attemptsByUser);
+    const pickedIds = picked.map((p) => p.id);
     return (
       <div className="space-y-6">
         {header}
         <form className="card flex flex-wrap items-end gap-3" method="get">
           <input type="hidden" name="visao" value="pools" />
-          <input type="hidden" name="pool" value={selectedPool.id} />
+          {pickedIds.length > 0 && <input type="hidden" name="pool" value={pickedIds.join(",")} />}
           {periodSelect}
           <noscript>
             <button className="btn-secondary">Ver</button>
           </noscript>
         </form>
         {poolOptions.length > 1 && (
-          <nav className="flex flex-wrap gap-2" aria-label="Pool" data-testid="seletor-pool">
-            {poolOptions.map((p) => (
-              <Link
-                key={p.id}
-                href={`/desempenho?visao=pools&pool=${p.id}&periodo=${period}`}
-                aria-current={p.id === selectedPool.id ? "page" : undefined}
-                className={`rounded-lg border p-1 transition ${
-                  p.id === selectedPool.id ? "border-baga-red bg-baga-red/10" : "border-transparent opacity-70 hover:opacity-100"
-                }`}
-              >
-                <PoolChip pool={p} />
-              </Link>
-            ))}
+          <nav className="flex flex-wrap items-center gap-2" aria-label="Pools" data-testid="seletor-pool">
+            <Link
+              href={poolsHref([])}
+              aria-pressed={pickedIds.length === 0}
+              data-testid="pools-todas"
+              className={`rounded-lg border px-3 py-1.5 text-xs font-semibold transition ${
+                pickedIds.length === 0 ? "border-baga-red bg-baga-red/10 text-white" : "border-zinc-700 text-zinc-400 hover:text-white"
+              }`}
+            >
+              Todas
+            </Link>
+            {poolOptions.map((p) => {
+              const on = pickedIds.includes(p.id);
+              // Clicar marca ou desmarca a pool; as outras marcadas continuam
+              const next = on ? pickedIds.filter((id) => id !== p.id) : [...pickedIds, p.id];
+              return (
+                <Link
+                  key={p.id}
+                  href={poolsHref(poolOptions.filter((o) => next.includes(o.id)).map((o) => o.id))}
+                  aria-pressed={on}
+                  className={`rounded-lg border p-1 transition ${
+                    on ? "border-baga-red bg-baga-red/10" : "border-transparent opacity-70 hover:opacity-100"
+                  }`}
+                >
+                  <PoolChip pool={p} />
+                </Link>
+              );
+            })}
           </nav>
         )}
         {canPools && <MentoredPoolsEditor pools={pools} selected={mentored} />}
-        <PoolSection
-          summary={summary}
-          pool={selectedPool}
-          drillName={(id) => drillById.get(id)?.name ?? "Drill arquivado"}
-          period={period}
-        />
+        {shownPools.map((pool) => {
+          const members = membersOf(pool.id);
+          return (
+            <PoolSection
+              key={pool.id}
+              summary={poolSummary(pool.id, members, attemptsByUser)}
+              pool={pool}
+              drillName={(id) => drillById.get(id)?.name ?? "Drill arquivado"}
+              period={period}
+            />
+          );
+        })}
       </div>
     );
   }

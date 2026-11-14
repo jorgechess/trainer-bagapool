@@ -1151,8 +1151,28 @@ async function main() {
     await page.waitForURL(/visao=jogador&jogador=/);
     await page.getByText("Nenhum treino neste período.").or(page.getByTestId("drill-report").first()).first().waitFor();
     // Mentor vê todas as pools, não só as que mentora
-    await page.goto(`${BASE_URL}/desempenho?visao=pools`);
-    assert.ok((await page.getByTestId("seletor-pool").getByRole("link").count()) >= 2, "mentora escolhe entre todas as pools");
+    await page.goto(`${BASE_URL}/desempenho`);
+    const poolSecs = page.getByTestId("pool-desempenho");
+    await poolSecs.first().waitFor();
+    const allPools = await poolSecs.count();
+    assert.ok(allPools >= 2, "mentora vê todas as pools por padrão");
+    assert.match(await poolSecs.first().innerText(), /Pool A/, "a pool da mentora vem primeiro");
+    assert.equal(await page.getByTestId("pools-todas").getAttribute("aria-pressed"), "true", "filtro desmarcado por padrão");
+    // Filtro: marca uma pool, depois mais uma, depois volta para todas
+    const poolLinks = page.getByTestId("seletor-pool").locator("a[aria-pressed]:not([data-testid=pools-todas])");
+    await poolLinks.nth(0).click();
+    await page.waitForURL(/pool=[^,&]+(&|$)/);
+    await poolSecs.first().waitFor();
+    assert.equal(await poolSecs.count(), 1, "uma pool marcada");
+    await poolLinks.nth(1).click();
+    await page.waitForURL(/pool=[^&]+,[^&]+/);
+    await poolSecs.nth(1).waitFor();
+    assert.equal(await poolSecs.count(), 2, "duas pools marcadas");
+    await shot(page, "desempenho-duas-pools");
+    await page.getByTestId("pools-todas").click();
+    await page.waitForURL((u) => !u.search.includes("pool="));
+    await poolSecs.nth(allPools - 1).waitFor();
+    assert.equal(await poolSecs.count(), allPools, "Todas volta a mostrar todas");
     log("mentora escolhe as pools que mentora, vê todas as pools e abre um jogador pelo desempenho da pool");
     await page.goto(`${BASE_URL}/plano`);
     await page.getByTestId("acrescentar-drill-plano").waitFor();
