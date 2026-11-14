@@ -21,6 +21,7 @@ export default async function AppLayout({ children }: { children: React.ReactNod
         pool={pool ? { name: pool.name, color: pool.color, logo: pool.logo } : null}
         canManageContent={canManageContent(profile.role)}
         canManageMembers={canManagePlayers(profile)}
+        isAdmin={profile.role === "admin"}
       />
       <MainContainer>{children}</MainContainer>
     </div>

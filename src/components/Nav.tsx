@@ -13,9 +13,11 @@ interface NavProps {
   pool: PoolLook | null;
   canManageContent: boolean;
   canManageMembers: boolean;
+  /** Só o admin vê a Legenda. */
+  isAdmin: boolean;
 }
 
-export function Nav({ name, pool, canManageContent, canManageMembers }: NavProps) {
+export function Nav({ name, pool, canManageContent, canManageMembers, isAdmin }: NavProps) {
   const pathname = usePathname();
   const router = useRouter();
   const [open, setOpen] = useState(false);
@@ -27,13 +29,9 @@ export function Nav({ name, pool, canManageContent, canManageMembers }: NavProps
     { href: "/ranking", label: "Ranking" },
     { href: "/plano", label: "Plano do mês" },
     { href: "/atalhos", label: "Atalhos" },
-    ...(canManageContent
-      ? [
-          // Estratégias fica fora do menu por enquanto (a página continua em /estrategias)
-          { href: "/legenda", label: "Legenda" },
-          { href: "/admin/standards", label: "Standards" },
-        ]
-      : []),
+    // Estratégias fica fora do menu por enquanto (a página continua em /estrategias)
+    ...(isAdmin ? [{ href: "/legenda", label: "Legenda" }] : []),
+    ...(canManageContent ? [{ href: "/admin/standards", label: "Standards" }] : []),
     ...(canManageMembers ? [{ href: "/admin/jogadores", label: "Jogadores" }] : []),
   ];
 

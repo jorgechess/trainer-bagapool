@@ -1,8 +1,9 @@
 import { LegendEditor } from "@/components/LegendEditor";
-import { getLegend, requireContentManager } from "@/lib/data";
+import { getLegend, requireAdmin } from "@/lib/data";
 
 export default async function LegendPage() {
-  await requireContentManager();
+  // Só o admin mexe nas cores da legenda
+  await requireAdmin();
   const legend = await getLegend();
   return (
     <div className="space-y-6">

@@ -2,13 +2,13 @@
 
 import { revalidatePath } from "next/cache";
 import { contentChanged } from "@/lib/content";
-import { listStrategies, requireContentManager } from "@/lib/data";
+import { listStrategies, requireAdmin } from "@/lib/data";
 import type { ActionResult } from "@/lib/format";
 import { type Legend, validateLegend } from "@/lib/poker/legend";
 import { createClient } from "@/lib/supabase/server";
 
 export async function saveLegend(legend: Legend): Promise<ActionResult> {
-  const profile = await requireContentManager();
+  const profile = await requireAdmin();
   if (!Array.isArray(legend)) return { ok: false, error: "Dados inválidos." };
   const clean: Legend = legend.map((a) => ({
     id: String(a.id).trim(),

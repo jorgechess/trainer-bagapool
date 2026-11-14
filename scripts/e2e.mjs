@@ -1177,6 +1177,10 @@ async function main() {
     await page.goto(`${BASE_URL}/plano`);
     await page.getByTestId("acrescentar-drill-plano").waitFor();
     log("mentora pode mexer nos drills do próprio plano (warmup)");
+    assert.equal(await page.getByRole("link", { name: "Legenda", exact: true }).count(), 0, "Legenda só para o admin");
+    await page.goto(`${BASE_URL}/legenda`);
+    await page.waitForURL(`${BASE_URL}/`);
+    log("mentora não vê nem abre a Legenda");
 
     // 12. Jogadora entra pelo nick com a senha provisória, troca, e não acessa telas de gestão
     await page.getByRole("button", { name: "Sair" }).click();
