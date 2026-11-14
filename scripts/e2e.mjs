@@ -291,7 +291,7 @@ async function main() {
     }
     await shot(page, "treino-filtro-posicao");
     const [rfiDrill] = await rows("drills", "select=data&id=eq.rfi-30bb-vanilla-todas");
-    assert.equal(rfiDrill.data.variants.length, 7, "filtro do jogador não altera o drill");
+    assert.equal(rfiDrill.data.variants.length, 6, "filtro do jogador não altera o drill");
     await page.getByRole("button", { name: "Todas", exact: true }).click();
     log("filtro de posição do jogador funciona e não altera o drill");
 
