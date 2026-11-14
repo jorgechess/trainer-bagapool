@@ -464,7 +464,7 @@ async function main() {
     // PKO: etiquetas de bounty em todos os lugares e aviso de cobertura
     await page.goto(`${BASE_URL}/drills/rfi-50bb-pko-cobrindo/treinar`);
     await page.getByTestId("hero-cards").waitFor();
-    assert.equal(await page.getByTestId("bounty-tag").count(), 9, "bounty em todos os 9 lugares");
+    assert.equal(await page.getByTestId("bounty-tag").count(), 8, "bounty em todos os 8 lugares (8-max)");
     assert.equal(await page.getByTestId("bounty-tag").first().innerText(), "$10.00");
     await page.getByTestId("pko-coverage").getByText("PKO COBRINDO").waitFor();
     await page.getByText(/\(você\)/).locator("xpath=..").getByText(/^60bb$/).waitFor();
