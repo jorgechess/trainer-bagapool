@@ -114,8 +114,9 @@ async function main() {
     log("admin entra e vê o início");
 
     // 4. Cargas do repositório entram sozinhas no banco; o exemplo (2 estratégias) é inserido direto
-    assert.ok((await countRows("strategies")) > 1000, "mais de 1000 estratégias: a leitura precisa de páginas");
-    assert.equal(await countRows("strategies", "&id=like.rfi-mlr-*"), 168, "cargas importadas no primeiro acesso");
+    assert.ok((await countRows("strategies")) > 900, "cargas com quase 1000 estratégias (a leitura usa páginas)");
+    assert.equal(await countRows("strategies", "&id=like.rfi-mlr-*"), 144, "cargas importadas no primeiro acesso (8-max, sem UTG1)");
+    assert.equal(await countRows("strategies", "&id=like.*utg1*"), 0, "spots do UTG1 apagados");
     assert.ok(await countRows("drills", "&id=eq.defesa-bb-pko-short"), "drills das cargas cadastrados");
     {
       const exemplo = JSON.parse(execSync("npx tsx scripts/e2e-exemplo.ts", { encoding: "utf8" }));
@@ -526,8 +527,8 @@ async function main() {
     await page.getByRole("group", { name: "Mãos da sessão" }).getByRole("button", { name: /padrão/ }).click();
     log("tela de drills com seções recolhíveis e mãos por sessão");
 
-    // Max Late Reg Vanilla: 168 estratégias; a mesa mostra players left (proporção ou bolha)
-    assert.equal(await countRows("strategies", "&id=like.rfi-mlr-*"), 168);
+    // Max Late Reg Vanilla: 144 estratégias (8-max); a mesa mostra players left (proporção ou bolha)
+    assert.equal(await countRows("strategies", "&id=like.rfi-mlr-*"), 144);
     await page.goto(`${BASE_URL}/drills/rfi-max-late-reg-vanilla/treinar`);
     await page.getByTestId("hero-cards").waitFor();
     assert.equal(await page.getByLabel("Avançar sozinho quando acertar").isChecked(), false, "avançar sozinho vem desligado");
