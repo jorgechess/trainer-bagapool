@@ -1,6 +1,6 @@
 import "server-only";
 import { createHash } from "node:crypto";
-import { CARGAS } from "@/lib/cargas";
+import { CARGAS, RETIRED_STRATEGY_IDS } from "@/lib/cargas";
 import { DEFAULT_LEGEND, type Legend } from "@/lib/poker/legend";
 import { parseImportBundle } from "@/lib/poker/importer";
 import type { Strategy } from "@/lib/poker/strategy";
@@ -8,7 +8,9 @@ import { createAdminClient } from "@/lib/supabase/admin";
 import { invalidateContent } from "@/lib/content";
 
 /** Versão das cargas do repositório: muda sempre que algum range, drill ou legenda muda. */
-const VERSION = createHash("sha1").update(JSON.stringify(CARGAS.map((c) => c.bundle))).digest("hex");
+const VERSION = createHash("sha1")
+  .update(JSON.stringify([CARGAS.map((c) => c.bundle), RETIRED_STRATEGY_IDS]))
+  .digest("hex");
 const VERSION_KEY = "cargas_version";
 const CHUNK = 200;
 
@@ -71,6 +73,11 @@ async function run() {
       }
       if (result.replacedDrillIds.length)
         await db.from("drills").update({ active: false }).in("id", result.replacedDrillIds);
+    }
+    // Estratégias aposentadas (ex.: spots do UTG1 na mesa 8-max). As tentativas antigas continuam no histórico.
+    for (let i = 0; i < RETIRED_STRATEGY_IDS.length; i += CHUNK) {
+      const { error } = await db.from("strategies").delete().in("id", RETIRED_STRATEGY_IDS.slice(i, i + CHUNK));
+      if (error) throw new Error(`estratégias aposentadas: ${error.message}`);
     }
     if (legendChanged) await db.from("settings").upsert({ key: "legend", value: legend, updated_at: now });
     await db.from("settings").upsert({ key: VERSION_KEY, value: VERSION, updated_at: now });

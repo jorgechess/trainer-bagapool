@@ -6,7 +6,8 @@ import { cbetFlop, rfiBtn } from "./fixtures";
 test("RFI do BTN: quem age antes foldou, blinds esperam com as fichas", () => {
   const seats = tableSeats(rfiBtn);
   const by = Object.fromEntries(seats.map((s) => [s.position, s]));
-  for (const p of ["UTG", "UTG1", "MP", "LJ", "HJ", "CO"]) assert.equal(by[p].status, "folded", p);
+  for (const p of ["UTG", "MP", "LJ", "HJ", "CO"]) assert.equal(by[p].status, "folded", p);
+  assert.equal(by.UTG1, undefined, "mesa 8-max: sem UTG1");
   assert.equal(by.BTN.status, "hero");
   assert.equal(by.BTN.isButton, true);
   assert.equal(by.BTN.offset, 0);

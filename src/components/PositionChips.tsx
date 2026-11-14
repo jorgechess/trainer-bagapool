@@ -33,7 +33,8 @@ export function PositionChips({ available, selected, onChange, label = "Hero", a
           Todas
         </button>
       )}
-      {POSITIONS.map((position) => {
+      {/* O UTG1 só existe nas mesas dos drills especiais */}
+      {POSITIONS.filter((p) => p !== "UTG1" || available.includes(p)).map((position) => {
         const enabled = available.includes(position);
         const on = enabled && selected.includes(position);
         return (

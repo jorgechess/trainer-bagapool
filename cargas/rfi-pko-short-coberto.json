@@ -35,40 +35,6 @@
       }
     },
     {
-      "id": "rfi-pko-short-coberto-10bb-utg1",
-      "name": "RFI UTG1 10bb PKO short COBERTO",
-      "description": "RFI PKO short stack, herói coberto (RP -4%): você com 10bb.",
-      "street": "preflop",
-      "situation": "RFI",
-      "heroPosition": "UTG1",
-      "stack": {
-        "min": 10,
-        "max": 10
-      },
-      "ratio": null,
-      "bubble": null,
-      "tags": [
-        "rfi",
-        "short-stack",
-        "pko",
-        "coberto"
-      ],
-      "actionIds": [
-        "fold",
-        "rfi",
-        "shove"
-      ],
-      "defaultActionId": "fold",
-      "pko": {
-        "coverage": "coberto",
-        "heroStack": 10
-      },
-      "randomStacks": true,
-      "range": {
-        "shove": "AA, AKs, AQs, AJs, ATs, A9s, AKo, KK, KQs, KJs, AQo, KQo, QQ, AJo, JJ, ATo, TT, 99, 88, 77, 66"
-      }
-    },
-    {
       "id": "rfi-pko-short-coberto-10bb-mp",
       "name": "RFI MP 10bb PKO short COBERTO",
       "description": "RFI PKO short stack, herói coberto (RP -4%): você com 10bb.",
@@ -247,41 +213,6 @@
       "street": "preflop",
       "situation": "RFI",
       "heroPosition": "UTG",
-      "stack": {
-        "min": 15,
-        "max": 15
-      },
-      "ratio": null,
-      "bubble": null,
-      "tags": [
-        "rfi",
-        "short-stack",
-        "pko",
-        "coberto"
-      ],
-      "actionIds": [
-        "fold",
-        "rfi",
-        "shove"
-      ],
-      "defaultActionId": "fold",
-      "pko": {
-        "coverage": "coberto",
-        "heroStack": 15
-      },
-      "randomStacks": true,
-      "range": {
-        "shove": "AA, AKs, AQs, AJs, ATs, AKo, KK, KQs, AQo, QQ, AJo, JJ, TT, 99, 88, 77",
-        "rfi": "A9s, KJs, KTs, KQo, QJs, ATo"
-      }
-    },
-    {
-      "id": "rfi-pko-short-coberto-15bb-utg1",
-      "name": "RFI UTG1 15bb PKO short COBERTO",
-      "description": "RFI PKO short stack, herói coberto (RP -4%): você com 15bb.",
-      "street": "preflop",
-      "situation": "RFI",
-      "heroPosition": "UTG1",
       "stack": {
         "min": 15,
         "max": 15
@@ -520,40 +451,6 @@
       }
     },
     {
-      "id": "rfi-pko-short-coberto-20bb-utg1",
-      "name": "RFI UTG1 20bb PKO short COBERTO",
-      "description": "RFI PKO short stack, herói coberto (RP -4%): você com 20bb.",
-      "street": "preflop",
-      "situation": "RFI",
-      "heroPosition": "UTG1",
-      "stack": {
-        "min": 20,
-        "max": 20
-      },
-      "ratio": null,
-      "bubble": null,
-      "tags": [
-        "rfi",
-        "short-stack",
-        "pko",
-        "coberto"
-      ],
-      "actionIds": [
-        "fold",
-        "rfi",
-        "shove"
-      ],
-      "defaultActionId": "fold",
-      "pko": {
-        "coverage": "coberto",
-        "heroStack": 20
-      },
-      "randomStacks": true,
-      "range": {
-        "rfi": "AA, AKs, AQs, AJs, ATs, A9s, A8s, A7s, A5s, AKo, KK, KQs, KJs, KTs, AQo, KQo, QQ, QJs, QTs, AJo, JJ, JTs, ATo, TT, 99, 88, 77, 66"
-      }
-    },
-    {
       "id": "rfi-pko-short-coberto-20bb-mp",
       "name": "RFI MP 20bb PKO short COBERTO",
       "description": "RFI PKO short stack, herói coberto (RP -4%): você com 20bb.",
@@ -743,9 +640,6 @@
           "rfi-pko-short-coberto-10bb-utg"
         ],
         [
-          "rfi-pko-short-coberto-10bb-utg1"
-        ],
-        [
           "rfi-pko-short-coberto-10bb-mp"
         ],
         [
@@ -764,9 +658,6 @@
           "rfi-pko-short-coberto-15bb-utg"
         ],
         [
-          "rfi-pko-short-coberto-15bb-utg1"
-        ],
-        [
           "rfi-pko-short-coberto-15bb-mp"
         ],
         [
@@ -783,9 +674,6 @@
         ],
         [
           "rfi-pko-short-coberto-20bb-utg"
-        ],
-        [
-          "rfi-pko-short-coberto-20bb-utg1"
         ],
         [
           "rfi-pko-short-coberto-20bb-mp"

@@ -28,33 +28,6 @@
       }
     },
     {
-      "id": "rfi-30bb-vanilla-utg1",
-      "name": "RFI UTG1 30bb vanilla",
-      "description": "RFI mid stack vanilla (sem ajuste de ICM).",
-      "street": "preflop",
-      "situation": "RFI",
-      "heroPosition": "UTG1",
-      "stack": {
-        "min": 30,
-        "max": 30
-      },
-      "ratio": null,
-      "bubble": null,
-      "tags": [
-        "rfi",
-        "mid-stack",
-        "vanilla"
-      ],
-      "actionIds": [
-        "fold",
-        "rfi"
-      ],
-      "defaultActionId": "fold",
-      "range": {
-        "rfi": "AA, AKs, AQs, AJs, ATs, A9s, A8s, A7s, A6s, A5s, A4s, A3s, AKo, KK, KQs, KJs, KTs, K9s, K8s, K7s, AQo, KQo, QQ, QJs, QTs, Q9s, AJo, KJo, JJ, JTs, J9s, ATo, TT, T9s, 99, 88, 77, 66, 55"
-      }
-    },
-    {
       "id": "rfi-30bb-vanilla-mp",
       "name": "RFI MP 30bb vanilla",
       "description": "RFI mid stack vanilla (sem ajuste de ICM).",
@@ -198,9 +171,6 @@
       "variants": [
         [
           "rfi-30bb-vanilla-utg"
-        ],
-        [
-          "rfi-30bb-vanilla-utg1"
         ],
         [
           "rfi-30bb-vanilla-mp"

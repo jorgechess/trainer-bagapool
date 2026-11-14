@@ -22,13 +22,13 @@
   ],
   "strategies": [
     {
-      "id": "bb-vs-cbet-flop-vs-utg1",
-      "name": "BB vs Cbet flop vs UTG1",
-      "description": "SRP 30bb: o UTG1 abriu, você pagou do BB, deu check e o UTG1 fez cbet de size baixo (33%). Responda fold, call ou raise 3x pela guide vs EP.",
+      "id": "bb-vs-cbet-flop-vs-utg",
+      "name": "BB vs Cbet flop vs UTG",
+      "description": "SRP 30bb: o UTG abriu, você pagou do BB, deu check e o UTG fez cbet de size baixo (33%). Responda fold, call ou raise 3x pela guide vs EP.",
       "street": "flop",
       "situation": "vs Cbet flop",
       "heroPosition": "BB",
-      "villainPosition": "UTG1",
+      "villainPosition": "UTG",
       "stack": {
         "min": 30,
         "max": 30
@@ -56,15 +56,15 @@
         "table": "bb-vs-cbet"
       },
       "dealFrom": {
-        "strategy": "bb-def-30bb-vs-utg1",
+        "strategy": "bb-def-30bb-vs-utg",
         "actionIds": [
           "call"
         ]
       },
       "invested": 2.12,
       "history": [
-        "UTG1 raise 2bb · BB call",
-        "BB X · UTG1 B33"
+        "UTG raise 2bb · BB call",
+        "BB X · UTG B33"
       ]
     }
   ],
@@ -72,10 +72,10 @@
     {
       "id": "bb-vs-cbet-flop",
       "name": "BB vs Cbet Flop",
-      "description": "Defesa do BB 30bb vs UTG1 contra o cbet de size baixo no flop, nos 29 boards da guide do time (vs EP): X/C, X/R 3x ou X/F conforme a mão.",
+      "description": "Defesa do BB 30bb vs UTG contra o cbet de size baixo no flop, nos 29 boards da guide do time (vs EP): X/C, X/R 3x ou X/F conforme a mão.",
       "variants": [
         [
-          "bb-vs-cbet-flop-vs-utg1"
+          "bb-vs-cbet-flop-vs-utg"
         ]
       ],
       "sampling": "uniforme",

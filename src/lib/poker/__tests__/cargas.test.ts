@@ -18,8 +18,8 @@ test("carga RFI 30bb vanilla: válida e com as porcentagens do print do time", (
     return rangeBreakdown(s.range, s.defaultActionId).find((b) => b.actionId === "rfi")!.percent;
   };
   assert.deepEqual(
-    ["UTG", "UTG1", "MP", "LJ", "HJ", "CO", "BTN"].map(percent),
-    [16.9, 16.9, 25.8, 25.8, 31.7, 45.1, 67.4],
+    ["UTG", "MP", "LJ", "HJ", "CO", "BTN"].map(percent),
+    [16.9, 25.8, 25.8, 31.7, 45.1, 67.4],
   );
   // ranges acumulados: cada posição abre tudo que a anterior abre
   const order = ["UTG", "MP", "HJ", "CO", "BTN"].map((p) => result.strategies.find((x) => x.heroPosition === p)!);
@@ -33,15 +33,15 @@ test("carga RFI 30bb vanilla: válida e com as porcentagens do print do time", (
   assert.equal(btn.range["K2o"], "rfi");
   assert.equal(btn.range["Q2o"], undefined);
   assert.equal(btn.range["72o"], undefined);
-  assert.equal(result.drills[0].variants?.length, 7);
+  assert.equal(result.drills[0].variants?.length, 6);
 });
 
 test("carga vs 3-bet 30bb vanilla: válida, coerente com o open e com as porcentagens dos prints", () => {
   const rfi = parseImportBundle(load("rfi-30bb-vanilla.json"), DEFAULT_LEGEND);
   const result = parseImportBundle(load("vs3bet-30bb-vanilla.json"), DEFAULT_LEGEND, rfi.strategies);
   assert.deepEqual(result.errors, []);
-  assert.equal(result.strategies.length, 35);
-  assert.equal(result.drills[0].variants?.length, 35);
+  assert.equal(result.strategies.length, 27);
+  assert.equal(result.drills[0].variants?.length, 27);
   const pct = (hero: string, villain: string, action: string) => {
     const s = result.strategies.find((x) => x.heroPosition === hero && x.villainPosition === villain)!;
     return rangeBreakdown(s.range, s.defaultActionId).find((b) => b.actionId === action)?.percent ?? 0;
@@ -56,8 +56,6 @@ test("carga vs 3-bet 30bb vanilla: válida, coerente com o open e com as porcent
     ["CO", "BTN", "call", 0.9],
     ["HJ", "CO", "shove", 8.1],
     ["LJ", "HJ", "shove", 3.5],
-    ["UTG", "UTG1", "shove", 2.6],
-    ["UTG", "UTG1", "call", 0.8],
     ["UTG", "BB", "call", 2.4],
   ];
   for (const [hero, villain, action, value] of expected)
@@ -101,8 +99,8 @@ test("carga vs 3-bet 50bb PKO coberto: válida, coerente com o open coberto e co
   assert.deepEqual(result.errors, []);
   assert.deepEqual(result.legend?.map((a) => a.id), [...semQuatro.map((a) => a.id), "4bet"]);
   assert.equal(parseImportBundle(bundle, DEFAULT_LEGEND, rfi.strategies).legend, null, "legenda já tem 4-bet: nada muda");
-  assert.equal(result.strategies.length, 35);
-  assert.equal(result.drills[0].variants?.length, 35);
+  assert.equal(result.strategies.length, 27);
+  assert.equal(result.drills[0].variants?.length, 27);
 
   const find = (hero: string, villain: string) =>
     result.strategies.find((x) => x.heroPosition === hero && x.villainPosition === villain)!;
@@ -119,8 +117,6 @@ test("carga vs 3-bet 50bb PKO coberto: válida, coerente com o open coberto e co
     return (combos / 1326) * 100;
   };
   const expected: [string, string, string, number][] = [
-    ["UTG", "UTG1", "call", 4.3],
-    ["UTG", "UTG1", "shove", 4.15],
     ["UTG", "HJ", "4bet", 0.98],
     ["UTG", "CO", "4bet", 1.81],
     ["UTG", "BTN", "4bet", 1.73],
@@ -145,8 +141,7 @@ test("carga vs 3-bet 50bb PKO coberto: válida, coerente com o open coberto e co
     for (const [hand, action] of Object.entries(s.range))
       if (action !== "fold") assert.equal(open.range[hand], "rfi", `${s.name}: ${hand} fora do open`);
   }
-  // Conferências pontuais: AA misto call/all-in vs UTG1; AA misto 4-bet/call vs CO
-  assert.deepEqual([find("UTG", "UTG1").range["AA"], find("UTG", "UTG1").alsoCorrect?.["AA"]].sort(), ["call", "shove"]);
+  // Conferência pontual: AA misto 4-bet/call vs CO
   assert.deepEqual([find("UTG", "CO").range["AA"], find("UTG", "CO").alsoCorrect?.["AA"]].sort(), ["4bet", "call"]);
   assert.equal(find("BTN", "SB").range["22"], "shove");
   assert.equal(find("BTN", "BB").range["22"], undefined);
@@ -167,12 +162,10 @@ test("carga vs 3-bet 50bb PKO cobrindo: válida, coerente com o open cobrindo e 
   const rfi = parseImportBundle(load("rfi-50bb-pko-cobrindo.json"), DEFAULT_LEGEND);
   const result = parseImportBundle(load("vs3bet-50bb-pko-cobrindo.json"), DEFAULT_LEGEND, rfi.strategies);
   assert.deepEqual(result.errors, []);
-  assert.equal(result.strategies.length, 35);
+  assert.equal(result.strategies.length, 27);
   const find = (hero: string, villain: string) =>
     result.strategies.find((x) => x.heroPosition === hero && x.villainPosition === villain)!;
   const expected: [string, string, string, number][] = [
-    ["UTG", "UTG1", "call", 11.09],
-    ["UTG", "UTG1", "shove", 2.34],
     ["UTG", "LJ", "4bet", 1.89],
     ["UTG", "HJ", "call", 12.07],
     ["UTG", "CO", "shove", 3.54],
@@ -208,8 +201,8 @@ test("carga vs 3-bet 50bb PKO cobrindo: válida, coerente com o open cobrindo e 
 test("carga RFI Max Late Reg Vanilla: 22 prints do Discord, com as porcentagens das legendas", () => {
   const result = parseImportBundle(load("rfi-max-late-reg-vanilla.json"), DEFAULT_LEGEND);
   assert.deepEqual(result.errors, []);
-  assert.equal(result.strategies.length, 168);
-  assert.equal(result.drills[0].variants?.length, 168);
+  assert.equal(result.strategies.length, 144);
+  assert.equal(result.drills[0].variants?.length, 144);
   const get = (ctx: string, stack: number, pos: string) => result.strategies.find((s) => s.id === `rfi-mlr-${ctx}-${stack}bb-${pos}`)!;
   const pct = (ctx: string, stack: number, pos: string, action: string) => printPercent(get(ctx, stack, pos), action);
   const expected: [string, number, string, number][] = [
@@ -219,7 +212,6 @@ test("carga RFI Max Late Reg Vanilla: 22 prints do Discord, com as porcentagens 
     ["3p1", 6, "btn", 70.14],
     ["2p1", 2, "co", 54.45],
     ["2p1", 4, "btn", 55.05],
-    ["2p1", 6, "utg1", 18.4],
     ["1e5p1", 2, "lj", 40.72],
     ["1e5p1", 4, "mp", 28.51],
     ["1e5p1", 6, "btn", 57.16],
@@ -280,12 +272,12 @@ test("carga Vs Resteal Max Late Reg Vanilla: 3 ranges do print em 13 spots", () 
 test("carga RFI PKO Short coberto: 10, 15 e 20bb com as porcentagens das legendas", () => {
   const result = parseImportBundle(load("rfi-pko-short-coberto.json"), DEFAULT_LEGEND);
   assert.deepEqual(result.errors, []);
-  assert.equal(result.strategies.length, 21);
+  assert.equal(result.strategies.length, 18);
   const pct = (stack: number, pos: string, action: string) =>
     printPercent(result.strategies.find((s) => s.id === `rfi-pko-short-coberto-${stack}bb-${pos}`)!, action);
   const expected: [number, string, string, number][] = [
     [10, "utg", "shove", 10.71], [10, "lj", "shove", 12.37], [10, "hj", "shove", 16.74], [10, "co", "shove", 20.66], [10, "co", "rfi", 2.26], [10, "btn", "shove", 29.71], [10, "btn", "rfi", 3.62],
-    [15, "utg1", "shove", 7.84], [15, "utg", "rfi", 3.02], [15, "mp", "shove", 9.8], [15, "hj", "rfi", 4.22], [15, "co", "rfi", 7.54], [15, "btn", "shove", 17.95], [15, "btn", "rfi", 15.23],
+    [15, "utg", "rfi", 3.02], [15, "mp", "shove", 9.8], [15, "hj", "rfi", 4.22], [15, "co", "rfi", 7.54], [15, "btn", "shove", 17.95], [15, "btn", "rfi", 15.23],
     [20, "utg", "rfi", 12.82], [20, "mp", "shove", 4.37], [20, "hj", "shove", 6.03], [20, "co", "shove", 3.77], [20, "co", "rfi", 23.23], [20, "btn", "rfi", 33.79],
   ];
   for (const [stack, pos, action, value] of expected) {
@@ -298,7 +290,7 @@ test("carga RFI PKO Short coberto: 10, 15 e 20bb com as porcentagens das legenda
 test("carga Defesa Vanilla Deep (20 e 30bb): porcentagens exatas das legendas, substitui os drills antigos", () => {
   const result = parseImportBundle(load("defesa-vanilla-deep.json"), DEFAULT_LEGEND);
   assert.deepEqual(result.errors, []);
-  assert.equal(result.strategies.length, 14);
+  assert.equal(result.strategies.length, 12);
   assert.equal(result.drills.length, 1);
   assert.deepEqual(result.replacedDrillIds, ["defesa-bb-20bb", "defesa-bb-30bb"]);
   assert.deepEqual(result.legend?.slice(-2).map((a) => a.id), ["3bet-call", "3bet-fold"]);
@@ -328,7 +320,7 @@ test("carga Defesa Vanilla Deep (20 e 30bb): porcentagens exatas das legendas, s
 test("carga Defesa BB PKO Deep: 30/50bb cobrindo/coberto com as porcentagens exatas das legendas", () => {
   const result = parseImportBundle(load("defesa-bb-pko-deep.json"), DEFAULT_LEGEND);
   assert.deepEqual(result.errors, []);
-  assert.equal(result.strategies.length, 28);
+  assert.equal(result.strategies.length, 24);
   const rows: [number, string, string, Record<string, number>][] = [
     [30, "cobrindo", "UTG", { call: 66.21, shove: 0, "3bet-call": 3.02, "3bet-fold": 3.62 }],
     [30, "cobrindo", "BTN", { call: 68.48, shove: 7.24, "3bet-call": 6.18, "3bet-fold": 7.24 }],
@@ -349,7 +341,7 @@ test("carga Defesa BB PKO Deep: 30/50bb cobrindo/coberto com as porcentagens exa
 test("carga Defesa BB Vanilla MLR: linear vs polar, com as porcentagens das legendas", () => {
   const result = parseImportBundle(load("defesa-bb-vanilla-mlr.json"), DEFAULT_LEGEND);
   assert.deepEqual(result.errors, []);
-  assert.equal(result.strategies.length, 350);
+  assert.equal(result.strategies.length, 300);
   const get = (ctx: string, stack: number, v: string, ot: string) =>
     result.strategies.find((s) => s.id === `bb-def-mlr-${ctx}-${stack}bb-vs-${v}-${ot}`)!;
   // Contra linear: all-in = azul + rosa; call = verde + amarelo. Contra polar: all-in = azul; call = verde.
@@ -375,7 +367,7 @@ test("carga Call em Shoves do BB MLR: porcentagens exatas dos prints e vilão co
   const { tableState } = await import("../table");
   const result = parseImportBundle(load("call-shove-bb-mlr.json"), DEFAULT_LEGEND);
   assert.deepEqual(result.errors, []);
-  assert.equal(result.strategies.length, 175);
+  assert.equal(result.strategies.length, 150);
   const pct = (ctx: string, stack: number, v: string) =>
     rangeBreakdown(result.strategies.find((s) => s.id === `call-shove-bb-mlr-${ctx}-${stack}bb-vs-${v}`)!.range, "fold").find((b) => b.actionId === "call")?.percent ?? 0;
   const expected: [string, number, string, number][] = [
@@ -395,7 +387,7 @@ test("carga Call em Shoves do BB MLR: porcentagens exatas dos prints e vilão co
 test("carga Defesa BB PKO Short: porcentagens das legendas", () => {
   const result = parseImportBundle(load("defesa-bb-pko-short.json"), DEFAULT_LEGEND);
   assert.deepEqual(result.errors, []);
-  assert.equal(result.strategies.length, 56);
+  assert.equal(result.strategies.length, 48);
   const get = (ctx: string, stack: number, v: string) => result.strategies.find((s) => s.id === `bb-def-pko-short-${ctx}-${stack}bb-vs-${v}`)!;
   const rows: [string, number, string, string, number][] = [
     ["3p1", 10, "utg", "shove", 11.76], ["3p1", 10, "btn", "call", 70.29], ["bng", 10, "btn", "call", 35.44],
@@ -413,11 +405,11 @@ test("carga Defesa BB Vanilla Multiway: porcentagens exatas e callers na mesa", 
   const { tableSeats, knownPot } = await import("../table");
   const result = parseImportBundle(load("defesa-bb-vanilla-multiway.json"), DEFAULT_LEGEND);
   assert.deepEqual(result.errors, []);
-  assert.equal(result.strategies.length, 24);
+  assert.equal(result.strategies.length, 20);
   const get = (id: string) => result.strategies.find((s) => s.id === `bb-def-mw-1e5p1-${id}`)!;
   const rows: [string, string, number][] = [
     ["3way-vs-utg-btn", "call", 40.42], ["3way-vs-mp-sb", "squeeze-call", 3.77], ["3way-vs-hj-btn", "shove", 4.52],
-    ["3way-vs-btn-sb", "shove", 12.37], ["4way-vs-utg1-co-btn", "call", 30.32], ["4way-vs-co-btn-sb", "call", 56.26],
+    ["3way-vs-btn-sb", "shove", 12.37], ["4way-vs-co-btn-sb", "call", 56.26],
     ["4way-vs-lj-btn-sb", "squeeze-fold", 3.62],
   ];
   for (const [id, action, value] of rows) assert.ok(Math.abs(printPercent(get(id), action) - value) < 0.01, `${id} ${action}`);
@@ -622,7 +614,7 @@ test("carga BB Probes: turn, probe + barrel no river, seção Posflop Defense", 
   assert.deepEqual([...answers.get("river-3s")!], ["bet-67"]);
 });
 
-test("carga BB vs Cbet flop: boards da guide, mãos do call vs UTG1", async () => {
+test("carga BB vs Cbet flop: boards da guide, mãos do call vs UTG", async () => {
   const { drillSection } = await import("../sections");
   const { dealQuestion, validateDrill } = await import("../drill");
   const { seededRng } = await import("../rng");
@@ -639,7 +631,7 @@ test("carga BB vs Cbet flop: boards da guide, mãos do call vs UTG1", async () =
   for (let i = 0; i < 300; i++) {
     const q = dealQuestion(drill, map, result.legend ?? DEFAULT_LEGEND, rng);
     assert.ok(findVsCbetBoard(q.steps[0].board), "flop é um board da planilha");
-    assert.equal(map.get("bb-def-30bb-vs-utg1")!.range[q.hand], "call");
+    assert.equal(map.get("bb-def-30bb-vs-utg")!.range[q.hand], "call");
     seen.add(q.steps[0].correctActionId);
   }
   assert.deepEqual([...seen].sort(), ["vc-call", "vc-fold", "vc-raise"]);
@@ -683,7 +675,7 @@ test("stacks no pós-flop descontam o que já foi pro pote (30bb no BB vira 27,9
   const t = tableState(s, 1234);
   assert.equal(t.remaining!.BB, 27.9, "30bb − 2bb do open defendido − 0,12bb de ante");
   const villain = t.villainStart!;
-  assert.equal(t.remaining!.UTG1, Math.round((villain - 2.12 - 1.86) * 10) / 10, "vilão: open de 2bb + ante + cbet de 1,86bb (33% de 5,58) na frente");
+  assert.equal(t.remaining!.UTG, Math.round((villain - 2.12 - 1.86) * 10) / 10, "vilão: open de 2bb + ante + cbet de 1,86bb (33% de 5,58) na frente");
   const bwbb = parseImportBundle(load("bw-bb.json"), DEFAULT_LEGEND);
   const pos = parseImportBundle(load("bw-bb-pos.json"), DEFAULT_LEGEND, bwbb.strategies);
   const river = pos.strategies.find((x) => x.id === "bw-bb-pos-iso-river")!;
@@ -929,4 +921,20 @@ test("PKO Spots: Bounty Builder $22 da PokerStars (KJo no UTG e 86o no BB), fora
   // 11 restantes: 11º garantido, próximo degrau é o 10º (mesmo prêmio)
   const ladder = payLadder(bb.special!.payouts!, 11);
   assert.equal(ladder?.guaranteed?.place, 11);
+});
+
+test("mesa 8-max: fora dos especiais não há UTG1, e as estratégias aposentadas saíram das cargas", async () => {
+  const { CARGAS, RETIRED_STRATEGY_IDS } = await import("../../cargas");
+  const { tablePositions } = await import("../strategy");
+  const ids = new Set<string>();
+  for (const carga of CARGAS) {
+    const result = parseImportBundle(carga.bundle, DEFAULT_LEGEND);
+    for (const s of result.strategies) {
+      ids.add(s.id);
+      if (s.special) continue;
+      assert.ok(s.heroPosition !== "UTG1" && s.villainPosition !== "UTG1", `${s.id} ainda usa UTG1`);
+      assert.deepEqual(tablePositions(s), ["UTG", "MP", "LJ", "HJ", "CO", "BTN", "SB", "BB"], s.id);
+    }
+  }
+  for (const id of RETIRED_STRATEGY_IDS) assert.ok(!ids.has(id), `${id} ainda está numa carga`);
 });

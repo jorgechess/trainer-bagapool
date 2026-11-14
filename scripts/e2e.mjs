@@ -428,7 +428,8 @@ async function main() {
     await page.goto(`${BASE_URL}/drills/novo/manual`);
     await page.locator("input").first().fill("RFI 30bb CO e BTN");
     await page.locator("select").filter({ hasText: "Escolha o spot" }).selectOption({ label: "RFI · 30bb (pré-flop)" });
-    for (const pos of ["UTG", "UTG1", "MP", "LJ", "HJ"]) await page.getByRole("button", { name: pos, exact: true }).click();
+    assert.equal(await page.getByRole("button", { name: "UTG1", exact: true }).count(), 0, "mesa 8-max: sem UTG1");
+    for (const pos of ["UTG", "MP", "LJ", "HJ"]) await page.getByRole("button", { name: pos, exact: true }).click();
     await shot(page, "novo-drill-posicoes");
     await page.getByRole("button", { name: "Salvar drill" }).click();
     await page.waitForURL(`${BASE_URL}/drills`);

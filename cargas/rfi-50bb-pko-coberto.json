@@ -34,39 +34,6 @@
       }
     },
     {
-      "id": "rfi-50bb-pko-coberto-utg1",
-      "name": "RFI UTG1 50bb PKO COBERTO",
-      "description": "RFI mid stack em PKO, herói coberto: você com 50bb, vilões com 60bb (50bb efetivos).",
-      "street": "preflop",
-      "situation": "RFI",
-      "heroPosition": "UTG1",
-      "stack": {
-        "min": 50,
-        "max": 50
-      },
-      "ratio": null,
-      "bubble": null,
-      "tags": [
-        "rfi",
-        "mid-stack",
-        "pko",
-        "coberto"
-      ],
-      "actionIds": [
-        "fold",
-        "rfi"
-      ],
-      "defaultActionId": "fold",
-      "pko": {
-        "coverage": "coberto",
-        "heroStack": 50,
-        "villainStack": 60
-      },
-      "range": {
-        "rfi": "AA, AKs, AQs, AJs, ATs, A9s, A8s, A7s, A6s, A5s, A4s, A3s, AKo, KK, KQs, KJs, KTs, AQo, KQo, QQ, QJs, QTs, AJo, JJ, JTs, TT, T9s, 99, 88, 77, 66, 55"
-      }
-    },
-    {
       "id": "rfi-50bb-pko-coberto-mp",
       "name": "RFI MP 50bb PKO COBERTO",
       "description": "RFI mid stack em PKO, herói coberto: você com 50bb, vilões com 60bb (50bb efetivos).",
@@ -240,9 +207,6 @@
       "variants": [
         [
           "rfi-50bb-pko-coberto-utg"
-        ],
-        [
-          "rfi-50bb-pko-coberto-utg1"
         ],
         [
           "rfi-50bb-pko-coberto-mp"

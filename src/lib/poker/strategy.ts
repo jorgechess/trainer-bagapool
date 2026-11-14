@@ -190,10 +190,14 @@ export interface SpecialSpot {
 /** Lugares de uma mesa 6-max, na ordem da ação. */
 export const SIX_MAX: readonly Position[] = ["UTG", "HJ", "CO", "BTN", "SB", "BB"];
 
-/** Lugares da mesa desta estratégia. */
+/** Mesa padrão do time nos drills (8-max): sem o UTG1. */
+export const EIGHT_MAX: readonly Position[] = POSITIONS.filter((p) => p !== "UTG1");
+
+/** Lugares da mesa desta estratégia: 8-max sem o UTG1 nos drills; os especiais seguem a mesa da mão. */
 export function tablePositions(strategy: Pick<Strategy, "special">): readonly Position[] {
   const players = strategy.special?.players;
-  if (!players || players > 8) return POSITIONS;
+  if (!players) return EIGHT_MAX;
+  if (players > 8) return POSITIONS;
   if (players === 8) return POSITIONS.filter((p) => p !== "LJ");
   if (players === 7) return POSITIONS.filter((p) => p !== "LJ" && p !== "UTG1");
   return SIX_MAX.slice(SIX_MAX.length - Math.max(2, players));
